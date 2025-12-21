@@ -93,6 +93,10 @@ website:
         contents:
           - href: unit-0/session-0-1-slides.qmd
             text: "Session 0.1: Course Overview & Causal Foundations"
+          - href: unit-0/session-0-2-slides.qmd
+            text: "Session 0.2: Reproducible Research & Setup"
+          - href: unit-0/session-0-3-slides.qmd
+            text: "Session 0.3: Potential Outcomes & DAGs"
           - href: labs/lab-0-setup.qmd
             text: "Lab 0: Environment Setup"
           - href: unit-0/unit-0-foundations-1.qmd

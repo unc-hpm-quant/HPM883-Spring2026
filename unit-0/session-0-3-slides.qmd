@@ -1,0 +1,606 @@
+---
+title: "Session 0.3: Potential Outcomes & Structural Causal Models"
+subtitle: "HPM 883: Advanced Quantitative Methods"
+author: "Sean Sylvia"
+date: "January 14, 2026"
+format:
+  revealjs:
+    theme: default
+    slide-number: true
+    transition: fade
+    progress: true
+    chalkboard: true
+    smaller: false
+    scrollable: true
+    footer: "HPM 883 | Session 0.3"
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Today's Agenda {.center}
+
+1. Deep dive into potential outcomes
+2. Counterfactual reasoning
+3. Directed Acyclic Graphs (DAGs)
+4. d-Separation and identification
+5. Confounding vs. selection bias
+
+::: {.notes}
+This is conceptual and mathematical. Heavy on notation but essential for everything that follows.
+:::
+
+---
+
+## The Fundamental Problem of Causal Inference
+
+### Patient i receives treatment
+
+| | Treated (Z=1) | Control (Z=0) |
+|---|:---:|:---:|
+| **Observed** | $Y_i(1)$ | ? |
+| **Counterfactual** | ? | $Y_i(0)$ |
+
+::: {.fragment}
+### The Problem
+
+We can never observe both $Y_i(1)$ and $Y_i(0)$ for the same unit.
+
+Individual treatment effect $\tau_i = Y_i(1) - Y_i(0)$ is **unobservable**.
+:::
+
+---
+
+## Potential Outcomes Notation
+
+### Definition
+
+For each unit $i$:
+
+- $Y_i(1)$ = outcome if treated (potential outcome under treatment)
+- $Y_i(0)$ = outcome if control (potential outcome under control)
+- $Z_i$ = treatment indicator (1 = treated, 0 = control)
+
+::: {.fragment}
+### Observed Outcome
+
+$$Y_i = Z_i \cdot Y_i(1) + (1 - Z_i) \cdot Y_i(0)$$
+
+We only see *one* potential outcome for each unit.
+:::
+
+---
+
+## Treatment Effects
+
+### Individual Treatment Effect (ITE)
+
+$$\tau_i = Y_i(1) - Y_i(0)$$
+
+**Unobservable** — would need to see same unit in both states
+
+::: {.fragment}
+### Average Treatment Effect (ATE)
+
+$$\tau_{ATE} = E[Y_i(1) - Y_i(0)] = E[Y_i(1)] - E[Y_i(0)]$$
+
+**Observable** — with the right design
+:::
+
+::: {.fragment}
+### Other Estimands
+
+- **ATT**: $E[Y(1) - Y(0) | Z = 1]$
+- **ATU**: $E[Y(1) - Y(0) | Z = 0]$
+- **CATE**: $E[Y(1) - Y(0) | X = x]$
+:::
+
+---
+
+## The Selection Problem
+
+### Naive Comparison
+
+$$\hat{\tau}_{naive} = E[Y | Z=1] - E[Y | Z=0]$$
+
+::: {.fragment}
+### Decomposition
+
+$$
+\begin{aligned}
+E[Y | Z=1] - E[Y | Z=0] &= \underbrace{E[Y(1) | Z=1] - E[Y(0) | Z=1]}_{\text{ATT}} \\
+&+ \underbrace{E[Y(0) | Z=1] - E[Y(0) | Z=0]}_{\text{Selection Bias}}
+\end{aligned}
+$$
+:::
+
+::: {.callout-warning}
+## Key Insight
+Naive comparison = Treatment effect + Selection bias
+
+Without randomization, we can't separate them.
+:::
+
+---
+
+## Randomization Solves Selection
+
+### Under Randomization
+
+$$Z \perp\!\!\!\perp \{Y(0), Y(1)\}$$
+
+Treatment is **independent** of potential outcomes.
+
+::: {.fragment}
+### Consequence
+
+$$
+\begin{aligned}
+E[Y(0) | Z=1] &= E[Y(0) | Z=0] = E[Y(0)] \\
+E[Y(1) | Z=1] &= E[Y(1) | Z=0] = E[Y(1)]
+\end{aligned}
+$$
+
+Selection bias = 0!
+:::
+
+---
+
+## The Identification Assumption
+
+### Unconfoundedness (Ignorability)
+
+$$\{Y(0), Y(1)\} \perp\!\!\!\perp Z | X$$
+
+Given covariates $X$, treatment is as-if random.
+
+::: {.fragment}
+### What This Means
+
+- All confounders are measured
+- No unmeasured common causes
+- Allows causal interpretation in observational data
+- **Strong and untestable assumption**
+:::
+
+---
+
+## Stability Assumption (SUTVA)
+
+### Stable Unit Treatment Value Assumption
+
+Two components:
+
+1. **No interference**: $Y_i$ depends only on $Z_i$, not $Z_j$ for $j \neq i$
+
+2. **No hidden versions**: Treatment is well-defined
+
+::: {.fragment}
+### When SUTVA Fails
+
+- **Interference**: Vaccines (herd immunity)
+- **Hidden versions**: "Job training" means many things
+- **Spillovers**: Treated patients share rooms with controls
+:::
+
+---
+
+## Directed Acyclic Graphs (DAGs)
+
+### A Visual Language for Causal Assumptions
+
+```{mermaid}
+%%| fig-alt: "Simple DAG showing Z causes Y with arrow from Z to Y"
+flowchart LR
+    Z["Treatment<br>(Z)"] --> Y["Outcome<br>(Y)"]
+```
+
+**Notation:**
+- Nodes = Variables
+- Arrows = Direct causal effects
+- Missing arrows = No direct effect
+
+---
+
+## DAG Elements
+
+### Confounding
+
+```{mermaid}
+%%| fig-alt: "DAG showing confounder X causing both Z and Y, creating spurious association"
+flowchart TB
+    X["Confounder<br>(X)"] --> Z["Treatment<br>(Z)"]
+    X --> Y["Outcome<br>(Y)"]
+    Z --> Y
+```
+
+$X$ creates **spurious association** between $Z$ and $Y$
+
+::: {.fragment}
+### Solution
+
+Adjust for $X$ (conditioning, regression, matching, weighting)
+:::
+
+---
+
+## Mediator
+
+```{mermaid}
+%%| fig-alt: "DAG showing Z causes M which causes Y, with M as mediator"
+flowchart LR
+    Z["Treatment<br>(Z)"] --> M["Mediator<br>(M)"]
+    M --> Y["Outcome<br>(Y)"]
+```
+
+$M$ is on the causal pathway from $Z$ to $Y$
+
+::: {.callout-warning}
+## Do NOT Adjust for Mediators
+Adjusting for $M$ blocks the causal effect you're trying to estimate!
+:::
+
+---
+
+## Collider
+
+```{mermaid}
+%%| fig-alt: "DAG showing Z and Y both causing C, making C a collider"
+flowchart TB
+    Z["Treatment<br>(Z)"] --> C["Collider<br>(C)"]
+    Y["Outcome<br>(Y)"] --> C
+```
+
+$C$ is caused by both $Z$ and $Y$
+
+::: {.callout-danger}
+## Collider Bias
+Adjusting for $C$ **creates** spurious association between $Z$ and $Y$!
+
+Classic mistake in observational studies.
+:::
+
+---
+
+## d-Separation
+
+### Rules for Reading DAGs
+
+A path is **blocked** if it contains:
+
+1. A chain $A \rightarrow B \rightarrow C$ and we condition on $B$
+2. A fork $A \leftarrow B \rightarrow C$ and we condition on $B$
+3. A collider $A \rightarrow B \leftarrow C$ and we **don't** condition on $B$
+
+::: {.fragment}
+### Two Variables are d-Separated
+
+If **all paths** between them are blocked.
+
+d-Separated variables are **conditionally independent**.
+:::
+
+---
+
+## Example: Complex DAG
+
+```{mermaid}
+%%| fig-alt: "Complex DAG with confounder U, treatment Z, mediator M, and outcome Y"
+flowchart TB
+    U["Unobserved<br>Confounder"] --> Z["Treatment"]
+    U --> Y["Outcome"]
+    Z --> M["Mediator"]
+    Z --> Y
+    M --> Y
+    X["Observed<br>Covariate"] --> Z
+    X --> Y
+```
+
+::: {.fragment}
+### Analysis
+
+- **Confounding path**: $Z \leftarrow U \rightarrow Y$ (blocked by conditioning on $U$, but $U$ unobserved!)
+- **Adjustment set**: Must include $X$; cannot adjust for unobserved $U$
+- **Problem**: Causal effect not identified without more assumptions
+:::
+
+---
+
+## Confounding vs. Selection Bias
+
+### Confounding
+
+```{mermaid}
+%%| fig-alt: "Confounding: X causes both Z and Y"
+flowchart TB
+    X --> Z
+    X --> Y
+    Z --> Y
+```
+
+A common cause creates spurious association
+
+::: {.fragment}
+### Selection Bias (Collider)
+
+```{mermaid}
+%%| fig-alt: "Selection bias: conditioning on S which is caused by Z and Y"
+flowchart TB
+    Z --> S["Selection"]
+    Y --> S
+    Z --> Y
+```
+
+Conditioning on a common effect creates spurious association
+:::
+
+---
+
+## Example: Selection Bias
+
+### "Hospital patients who receive treatment X have worse outcomes"
+
+```{mermaid}
+%%| fig-alt: "Selection bias from hospital admission collider"
+flowchart TB
+    D["Disease<br>Severity"] --> H["Hospital<br>Admission"]
+    D --> Y["Outcome"]
+    T["Treatment"] --> H
+    T --> Y
+```
+
+::: {.fragment}
+### The Problem
+
+By studying only hospital patients, we **condition on admission** (a collider).
+
+This creates spurious negative association between treatment and outcomes.
+:::
+
+---
+
+## Structural Causal Models (SCMs)
+
+### Beyond DAGs: The Math
+
+An SCM specifies:
+
+1. **Endogenous variables**: $V = \{Y, Z, X, ...\}$
+2. **Exogenous variables**: $U = \{U_Y, U_Z, ...\}$
+3. **Structural equations**: $Y = f_Y(pa(Y), U_Y)$
+
+::: {.fragment}
+### Example
+
+$$
+\begin{aligned}
+X &= U_X \\
+Z &= g(X) + U_Z \\
+Y &= \beta Z + \gamma X + U_Y
+\end{aligned}
+$$
+:::
+
+---
+
+## Interventions in SCMs
+
+### The do() Operator
+
+$P(Y | do(Z=1))$ ≠ $P(Y | Z=1)$
+
+**do(Z=1)**: Set $Z=1$ by intervention, breaking all arrows into $Z$
+
+**Z=1**: Observe that $Z=1$, preserving all relationships
+
+::: {.fragment}
+### Graphically
+
+```{mermaid}
+%%| fig-alt: "After do(Z=1), arrows into Z are removed"
+flowchart TB
+    X -.-> Z
+    X --> Y
+    Z --> Y
+
+    style Z fill:#f9f,stroke:#333
+```
+
+$do(Z=1)$ removes all arrows into $Z$
+:::
+
+---
+
+## The Adjustment Formula
+
+### Backdoor Criterion
+
+If $X$ blocks all backdoor paths from $Z$ to $Y$:
+
+$$P(Y | do(Z)) = \sum_x P(Y | Z, X=x) P(X=x)$$
+
+::: {.fragment}
+### In Practice
+
+1. Draw DAG
+2. Find adjustment set (backdoor criterion)
+3. Condition on adjustment set
+4. Estimate effect (regression, matching, weighting)
+:::
+
+---
+
+## Code Example: Simulating Confounding
+
+```{r}
+#| echo: true
+#| code-fold: false
+
+library(tidyverse)
+set.seed(883)
+
+n <- 1000
+
+# Generate data with confounding
+df <- tibble(
+  X = rnorm(n),                    # Confounder
+  Z = rbinom(n, 1, plogis(0.5*X)), # Treatment depends on X
+  Y0 = 2 + 1*X + rnorm(n),         # Potential outcome under control
+  Y1 = Y0 + 0.5,                   # True effect = 0.5
+  Y = ifelse(Z == 1, Y1, Y0)       # Observed outcome
+)
+```
+
+---
+
+## Naive vs. Adjusted Estimate
+
+```{r}
+#| echo: true
+
+library(estimatr)
+
+# Naive estimate (biased)
+naive <- lm_robust(Y ~ Z, data = df)
+
+# Adjusted estimate (unbiased)
+adjusted <- lm_robust(Y ~ Z + X, data = df)
+
+tribble(
+  ~Estimator, ~Estimate, ~SE, ~True,
+  "Naive", coef(naive)["Z"], naive$std.error["Z"], 0.5,
+  "Adjusted", coef(adjusted)["Z"], adjusted$std.error["Z"], 0.5
+)
+```
+
+::: {.fragment}
+**Lesson**: Adjusting for confounders removes bias!
+:::
+
+---
+
+## Visualizing Confounding
+
+```{r}
+#| echo: true
+#| fig-height: 4
+
+ggplot(df, aes(x = X, y = Y, color = factor(Z))) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(title = "Confounding: Treated units have higher X",
+       color = "Treatment") +
+  theme_minimal()
+```
+
+---
+
+## DAG Tools in R
+
+### Using ggdag
+
+```{r}
+#| echo: true
+#| fig-height: 4
+
+library(ggdag)
+
+dag <- dagify(
+  Y ~ Z + X,
+  Z ~ X,
+  exposure = "Z",
+  outcome = "Y"
+)
+
+ggdag_adjustment_set(dag) + theme_dag()
+```
+
+---
+
+## Key Assumptions Summary
+
+| Assumption | Meaning | Testable? |
+|------------|---------|-----------|
+| SUTVA | No interference, well-defined treatment | Partially |
+| Unconfoundedness | No unmeasured confounders | No |
+| Positivity | All units have chance of treatment | Yes |
+| Consistency | Potential outcome = observed if treated | No |
+
+::: {.callout-important}
+## Critical Insight
+Causal inference requires **assumptions**. These assumptions are often untestable. Be explicit about what you're assuming.
+:::
+
+---
+
+## Practical Guidelines
+
+### When Drawing DAGs
+
+1. Include all common causes you can think of
+2. Ask domain experts
+3. Be explicit about what's unobserved
+4. Don't include mediators unless studying mechanisms
+5. Check for colliders before conditioning
+
+### When Making Assumptions
+
+1. State them clearly
+2. Justify them substantively
+3. Test robustness to violations
+4. Be honest about limitations
+
+---
+
+## Connection to Course
+
+### This Foundation Enables:
+
+| Unit | Method | Key Assumption |
+|------|--------|----------------|
+| 1 | RCTs | Randomization |
+| 2 | DML | Unconfoundedness + correct functional form |
+| 3 | Causal Forests | Unconfoundedness |
+| 5 | Observational ML | Strong ignorability |
+| 6 | DiD | Parallel trends |
+
+**Everything builds on potential outcomes and DAGs!**
+
+---
+
+## Key Takeaways
+
+1. **Potential outcomes** define causal effects as contrasts between possible worlds
+
+2. **Selection bias** arises when treatment is related to outcomes
+
+3. **DAGs** visualize causal assumptions and guide identification
+
+4. **d-Separation** tells us what we must adjust for (and what we must not!)
+
+5. **SCMs** formalize interventions with the do() operator
+
+---
+
+## For Next Time
+
+### Session 1.1: Randomization & Design-Based Inference
+
+**Readings:**
+- Chernozhukov Ch 3
+- Lin (2013) on regression adjustment
+
+**Note:** No class Monday (MLK Day). Lab 0 due before Session 1.1.
+
+---
+
+## Questions? {.center}
+
+Office Hours: Wednesday 2-4pm
+
+Slack: #hpm883-help
+
+::: {.notes}
+This is dense material. Expect questions. Encourage students to come to office hours if confused about DAGs.
+:::

@@ -1,0 +1,477 @@
+---
+title: "Session 0.2: Reproducible Research & Computing Setup"
+subtitle: "HPM 883: Advanced Quantitative Methods"
+author: "Sean Sylvia"
+date: "January 12, 2026"
+format:
+  revealjs:
+    theme: default
+    slide-number: true
+    transition: fade
+    progress: true
+    chalkboard: true
+    smaller: false
+    scrollable: true
+    footer: "HPM 883 | Session 0.2"
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Today's Agenda {.center}
+
+1. Reproducible research principles
+2. Computing environment setup
+3. Introduction to DeclareDesign
+4. Simulating your first RCT
+5. Lab 0 overview
+
+::: {.notes}
+This is a hands-on session. Have your laptops ready. We'll be coding together.
+:::
+
+---
+
+## Why Reproducibility Matters
+
+::: {.columns}
+::: {.column width="50%"}
+### The Reproducibility Crisis
+
+- 70%+ of researchers have failed to reproduce another's work
+- 50%+ have failed to reproduce their *own* work
+- Retractions increasing exponentially
+
+:::
+
+::: {.column width="50%"}
+### Our Solution
+
+- Version control (Git)
+- Package management (renv)
+- Pipeline automation (targets)
+- Literate programming (Quarto)
+
+:::
+:::
+
+::: {.callout-important}
+## Course Requirement
+All submitted work must be reproducible. If we can't run your code, we can't grade it.
+:::
+
+---
+
+## The Reproducibility Stack
+
+```{mermaid}
+%%| fig-alt: "Four layers of reproducibility: Quarto (reports) on top, targets (pipeline), renv (packages), Git (version control) at bottom"
+flowchart TB
+    subgraph L4["Literate Programming"]
+        Q["Quarto: Code + Narrative"]
+    end
+
+    subgraph L3["Pipeline"]
+        T["targets: Automated workflow"]
+    end
+
+    subgraph L2["Environment"]
+        R["renv: Package versions"]
+    end
+
+    subgraph L1["Version Control"]
+        G["Git: Track changes"]
+    end
+
+    L4 --> L3
+    L3 --> L2
+    L2 --> L1
+```
+
+---
+
+## Git & GitHub
+
+### Why Version Control?
+
+- **Track changes**: See exactly what changed when
+- **Collaborate**: Multiple people, same codebase
+- **Backup**: Your work lives in the cloud
+- **Submission**: GitHub Classroom for assignments
+
+::: {.fragment}
+### Basic Workflow
+
+```bash
+git clone <repo-url>    # Copy repo to local
+git add .               # Stage changes
+git commit -m "message" # Save snapshot
+git push                # Upload to GitHub
+```
+:::
+
+---
+
+## Package Management with renv
+
+### The Problem
+
+```r
+# Works on your machine...
+install.packages("dplyr")  # Version 1.1.4
+
+# Breaks on mine...
+# I have dplyr 0.8.3
+```
+
+::: {.fragment}
+### The Solution: renv
+
+```r
+# First time setup (already done in templates)
+renv::init()
+
+# Restore packages (you run this)
+renv::restore()
+
+# After adding packages
+renv::snapshot()
+```
+:::
+
+---
+
+## Pipeline Automation with targets
+
+### Why targets?
+
+- Only re-run what changed
+- Document dependencies automatically
+- Scale to complex analyses
+
+::: {.fragment}
+### Basic Structure
+
+```r
+# _targets.R
+list(
+  tar_target(raw_data, read_csv("data/raw.csv")),
+  tar_target(clean_data, clean_fn(raw_data)),
+  tar_target(model, fit_model(clean_data)),
+  tar_target(results, summarize(model))
+)
+```
+:::
+
+::: {.callout-tip}
+We'll use targets for the capstone project. Labs use simpler structure.
+:::
+
+---
+
+## Literate Programming with Quarto
+
+### Code + Narrative = Reproducible Report
+
+```{.markdown}
+## Methods
+
+We estimate the treatment effect using:
+
+`​``{r}
+model <- lm_robust(outcome ~ treatment, data = df)
+`​``
+
+The estimated effect is `r coef(model)[2]`.
+```
+
+::: {.fragment}
+**Output:** A document where code, results, and interpretation live together.
+:::
+
+---
+
+## Your Computing Environment
+
+### Three Tiers
+
+| Tier | Platform | When |
+|------|----------|------|
+| In-Class | Posit Cloud | Today, lectures |
+| Projects | Positron/RStudio + GitHub | Labs, capstone |
+| Submission | GitHub Classroom | All graded work |
+
+::: {.callout-note}
+## Setup Guide
+See [Student Setup Guide](../Resources/setup-guide.qmd) for detailed installation instructions.
+:::
+
+---
+
+## Live Demo: Posit Cloud
+
+Let's walk through:
+
+1. Log into posit.cloud
+2. Join HPM 883 workspace
+3. Open today's project
+4. Run `renv::restore()`
+5. Verify packages load
+
+::: {.notes}
+Walk through the demo slowly. Pause for questions. This is where students often get stuck.
+:::
+
+---
+
+## Introduction to DeclareDesign
+
+### A Grammar for Research Design
+
+DeclareDesign provides a unified framework:
+
+- **Model (M)**: Data generating process
+- **Inquiry (I)**: What we want to learn
+- **Data Strategy (D)**: How we collect data
+- **Answer Strategy (A)**: How we estimate
+
+```r
+design <- declare_model(...) +
+          declare_inquiry(...) +
+          declare_sampling(...) +
+          declare_assignment(...) +
+          declare_estimator(...)
+```
+
+---
+
+## The MIDA Framework
+
+```{mermaid}
+%%| fig-alt: "MIDA framework showing Model, Inquiry, Data Strategy, and Answer Strategy as connected components"
+flowchart LR
+    M["Model<br>(DGP)"] --> I["Inquiry<br>(Estimand)"]
+    I --> D["Data Strategy<br>(Sampling, Assignment)"]
+    D --> A["Answer Strategy<br>(Estimator)"]
+    A --> |"Diagnosis"| M
+```
+
+::: {.fragment}
+### Key Insight
+
+Design declaration **before** data collection forces clear thinking about:
+
+- What we're trying to learn (estimand)
+- What assumptions we're making (model)
+- How we'll analyze the data (estimator)
+:::
+
+---
+
+## Example: Simple RCT
+
+```{r}
+#| echo: true
+#| code-fold: false
+
+library(DeclareDesign)
+library(tidyverse)
+
+# Declare the design
+simple_rct <- declare_model(
+  N = 100,
+  U = rnorm(N),
+  potential_outcomes(Y ~ 0.5 * Z + U)
+) +
+declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0)) +
+declare_assignment(Z = complete_ra(N)) +
+declare_measurement(Y = reveal_outcomes(Y ~ Z)) +
+declare_estimator(Y ~ Z, .method = lm_robust)
+```
+
+---
+
+## Running the Design
+
+```{r}
+#| echo: true
+
+# Run once
+run_design(simple_rct) |>
+  select(inquiry, estimand, estimate, std.error) |>
+  head(1)
+```
+
+::: {.fragment}
+### What just happened?
+
+1. Generated 100 units with potential outcomes
+2. Randomly assigned to treatment
+3. Revealed observed outcomes
+4. Estimated ATE with robust SEs
+:::
+
+---
+
+## Diagnosing the Design
+
+```{r}
+#| echo: true
+#| cache: true
+
+# Simulate 500 runs
+diagnosis <- diagnose_design(simple_rct, sims = 500)
+```
+
+```{r}
+#| echo: true
+diagnosis |>
+  reshape_diagnosis() |>
+  select(Bias, RMSE, Power, Coverage)
+```
+
+---
+
+## Interpretation
+
+| Metric | Value | Target |
+|--------|-------|--------|
+| **Bias** | ~0 | Near 0 |
+| **RMSE** | ~0.20 | Low |
+| **Power** | ~0.60 | ≥ 0.80 |
+| **Coverage** | ~0.95 | 0.95 |
+
+::: {.fragment}
+### Problem: Underpowered!
+
+With N=100 and true effect of 0.5, we only have ~60% power.
+
+**Solutions:**
+- Increase sample size
+- Block on predictive covariates
+- Use CUPED/regression adjustment
+:::
+
+---
+
+## Your Turn: Modify the Design
+
+Try changing:
+
+1. `N = 200` — What happens to power?
+2. `potential_outcomes(Y ~ 0.3 * Z + U)` — Smaller effect?
+3. `complete_ra(N, prob = 0.3)` — Unequal allocation?
+
+```r
+# Template
+my_design <- declare_model(
+  N = ???,
+  U = rnorm(N),
+  potential_outcomes(Y ~ ??? * Z + U)
+) +
+declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0)) +
+declare_assignment(Z = complete_ra(N, prob = ???)) +
+declare_measurement(Y = reveal_outcomes(Y ~ Z)) +
+declare_estimator(Y ~ Z, .method = lm_robust)
+```
+
+---
+
+## Lab 0: Environment Setup
+
+### Objectives
+
+Verify your computing environment works:
+
+1. Clone repo from GitHub Classroom
+2. Restore packages with renv
+3. Load and summarize data
+4. Run a simple regression
+5. Render to HTML and push to GitHub
+
+::: {.callout-important}
+## Due Date
+**Friday, January 17** (before Session 0.3)
+:::
+
+---
+
+## Lab 0 Walkthrough
+
+### Step 1: Accept Assignment
+
+1. Click GitHub Classroom link (in Slack)
+2. Accept assignment → creates your repo
+
+### Step 2: Clone Locally
+
+```bash
+git clone git@github.com:unc-hpm-quant/lab-0-yourusername.git
+```
+
+### Step 3: Open & Restore
+
+1. Open `.Rproj` in Positron
+2. Run `renv::restore()` in console
+
+---
+
+## Getting Help
+
+### When Stuck
+
+1. **Slack #hpm883-help** — Quick questions
+2. **Office Hours** — Wednesday 2-4pm
+3. **Email** — For private concerns
+
+### Troubleshooting Guide
+
+See [Computing Page](../computing.qmd#troubleshooting) for common issues.
+
+::: {.callout-tip}
+## Pro Tip
+Google error messages. Stack Overflow has solved most R problems.
+:::
+
+---
+
+## Key Takeaways
+
+1. **Reproducibility** is non-negotiable — renv + Git + Quarto
+
+2. **DeclareDesign** lets us simulate designs *before* collecting data
+
+3. **Diagnose before you analyze** — Power, bias, coverage
+
+4. **Lab 0** verifies your setup works — Do it early!
+
+---
+
+## For Next Time
+
+### Session 0.3: Potential Outcomes & DAGs
+
+**Readings:**
+- Chernozhukov Ch 2 (finish)
+- Hernán & Robins Ch 1-2
+
+**Prepare:**
+- Complete Lab 0
+- Bring questions about setup
+
+::: {.notes}
+Emphasize that Lab 0 must be done before Session 0.3. We won't spend class time on setup issues.
+:::
+
+---
+
+## Questions? {.center}
+
+Office Hours: Wednesday 2-4pm
+
+Slack: #hpm883-help
+
+::: {.notes}
+Open floor for questions. This is usually when students reveal confusion about setup.
+:::
