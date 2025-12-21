@@ -1,0 +1,577 @@
+---
+title: "Session 0.1: Course Overview & Causal Inference Foundations"
+subtitle: "HPM 883: Advanced Quantitative Methods"
+author: "Sean Sylvia"
+date: "January 7, 2026"
+format:
+  revealjs:
+    theme: default
+    slide-number: true
+    transition: fade
+    progress: true
+    chalkboard: true
+    smaller: false
+    scrollable: true
+    footer: "HPM 883 | Session 0.1"
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Welcome to HPM 883 {.center}
+
+**Advanced Quantitative Methods for Health Policy and Management**
+
+Spring 2026
+
+::: {.notes}
+Welcome students. This is the third course in the quantitative methods sequence. We're going to explore cutting-edge methods at the intersection of causal inference and machine learning.
+:::
+
+---
+
+## Course Philosophy
+
+::: {.columns}
+::: {.column width="50%"}
+### What This Course Is
+
+- **Applied focus**: Real health policy problems
+- **Modern methods**: Causal ML, not just regression
+- **Reproducible research**: Code that others can run
+- **AI-assisted analysis**: Learning to work *with* AI tools
+:::
+
+::: {.column width="50%"}
+### What This Course Is Not
+
+- A statistics refresher (prerequisite: HPM 881-882)
+- Pure machine learning for prediction
+- Theory without application
+- AI doing your thinking for you
+:::
+:::
+
+::: {.notes}
+Set expectations early. This is an advanced course that builds on prior quantitative training. We'll use modern methods but always with a focus on causal questions that matter for health policy.
+:::
+
+---
+
+## The Central Question
+
+> When does a health intervention **cause** an outcome to change?
+
+. . .
+
+This is fundamentally different from:
+
+- "Are intervention and outcome **associated**?"
+- "Can we **predict** outcomes from interventions?"
+
+::: {.callout-important}
+## Key Insight
+Prediction ≠ Causation. A model that predicts well may tell us nothing about what happens when we intervene.
+:::
+
+---
+
+## The Three-Layer Causal Inference Stack
+
+```{mermaid}
+%%| fig-alt: "Three-layer stack showing Identification at bottom, Estimation in middle, and Decision at top, with arrows flowing upward"
+flowchart TB
+    subgraph Layer3["Layer 3: DECISION"]
+        D1["What should we do?"]
+        D2["Policy learning"]
+        D3["Optimal treatment rules"]
+    end
+
+    subgraph Layer2["Layer 2: ESTIMATION"]
+        E1["How do we estimate effects?"]
+        E2["Double ML, Causal Forests"]
+        E3["Doubly-robust methods"]
+    end
+
+    subgraph Layer1["Layer 1: IDENTIFICATION"]
+        I1["What assumptions justify causal claims?"]
+        I2["RCTs, Natural experiments"]
+        I3["DAGs, Potential outcomes"]
+    end
+
+    Layer1 --> Layer2
+    Layer2 --> Layer3
+
+    style Layer1 fill:#e6f3ff
+    style Layer2 fill:#fff2e6
+    style Layer3 fill:#e6ffe6
+```
+
+::: {.notes}
+This three-layer stack is the organizing framework for the entire course. Every method we learn fits somewhere in this stack. Identification comes first—you must know *what* you're estimating before worrying about *how* to estimate it.
+:::
+
+---
+
+## Layer 1: Identification
+
+**The Question**: Under what assumptions can we interpret an estimate as causal?
+
+::: {.columns}
+::: {.column width="50%"}
+### Tools
+- Potential outcomes framework
+- Directed Acyclic Graphs (DAGs)
+- Identification strategies
+:::
+
+::: {.column width="50%"}
+### Course Coverage
+- Unit 0: Foundations
+- Unit 1: Experimental design
+- Unit 5-6: Observational strategies
+:::
+:::
+
+::: {.callout-note}
+## Identification First
+No amount of sophisticated estimation can rescue a study with flawed identification.
+:::
+
+---
+
+## Layer 2: Estimation
+
+**The Question**: Given valid identification, how do we estimate effects efficiently?
+
+::: {.columns}
+::: {.column width="50%"}
+### Tools
+- Double/Debiased ML
+- Doubly-robust estimation
+- Causal forests
+- Influence functions
+:::
+
+::: {.column width="50%"}
+### Course Coverage
+- Unit 2: DR & DML
+- Unit 3: Heterogeneous effects
+- Units 5-6: Advanced methods
+:::
+:::
+
+::: {.callout-tip}
+## Modern Estimation
+ML methods excel at high-dimensional nuisance estimation while preserving valid inference on causal parameters.
+:::
+
+---
+
+## Layer 3: Decision
+
+**The Question**: Given estimated effects, what action should we take?
+
+::: {.columns}
+::: {.column width="50%"}
+### Tools
+- Policy learning
+- Treatment rules
+- Off-policy evaluation
+:::
+
+::: {.column width="50%"}
+### Course Coverage
+- Unit 4: Policy learning
+- Unit 8: Capstone projects
+:::
+:::
+
+::: {.callout-warning}
+## Decision Under Uncertainty
+Optimal decisions depend not just on average effects, but on heterogeneity and constraints.
+:::
+
+---
+
+## Why "AI in the Loop"?
+
+::: {.columns}
+::: {.column width="60%"}
+### Human-Driven, AI-Assisted
+
+1. **You** specify the causal question
+2. **You** choose the identification strategy
+3. **AI** assists with implementation
+4. **You** evaluate and interpret results
+5. **You** make the decision
+
+This is **"AI in the Loop"** — not "Human in the Loop"
+:::
+
+::: {.column width="40%"}
+### Why It Matters
+
+- AI can't choose your research question
+- AI can hallucinate methods
+- AI doesn't know your context
+- AI can't defend your work
+- **You are responsible**
+:::
+:::
+
+::: {.notes}
+This distinction is crucial. Many people talk about "human in the loop" for AI systems. In research, we flip this: the human drives the process, AI assists. You maintain control and responsibility.
+:::
+
+---
+
+## AI in Causal Analysis: Do's and Don'ts
+
+::: {.columns}
+::: {.column width="50%"}
+### ✅ Good Uses of AI
+
+- Code implementation
+- Debugging syntax errors
+- Explaining methods
+- Generating simulations
+- Formatting output
+:::
+
+::: {.column width="50%"}
+### ❌ Risky Uses of AI
+
+- Choosing identification strategy
+- Interpreting results for you
+- Making causal claims
+- Selecting variables
+- "Just run an analysis"
+:::
+:::
+
+::: {.callout-important}
+## Course Policy
+You may use AI tools, but you are responsible for all submitted work. You must understand and be able to explain every line of code and every claim.
+:::
+
+---
+
+## Potential Outcomes Framework
+
+### The Fundamental Setup
+
+For each unit $i$:
+
+- $Y_i(1)$: Outcome if unit receives treatment
+- $Y_i(0)$: Outcome if unit receives control
+- $D_i$: Treatment indicator (1 = treated, 0 = control)
+
+. . .
+
+### The Individual Treatment Effect
+
+$$\tau_i = Y_i(1) - Y_i(0)$$
+
+The causal effect for unit $i$ is the difference between what would happen under treatment versus control.
+
+::: {.notes}
+This notation will be used throughout the course. Get comfortable with it. Y(1) is the potential outcome under treatment, Y(0) under control. These are counterfactual outcomes—we can only ever observe one for each unit.
+:::
+
+---
+
+## The Fundamental Problem of Causal Inference
+
+::: {.callout-warning}
+## The Problem
+We can never observe both $Y_i(1)$ and $Y_i(0)$ for the same unit.
+:::
+
+| Unit | $Y_i(1)$ | $Y_i(0)$ | $\tau_i$ |
+|------|----------|----------|----------|
+| 1    | 8        | ?        | ?        |
+| 2    | ?        | 5        | ?        |
+| 3    | 7        | ?        | ?        |
+| 4    | ?        | 6        | ?        |
+
+. . .
+
+**Solution**: Randomization allows us to estimate *average* effects by comparing groups.
+
+---
+
+## Average Treatment Effect (ATE)
+
+### Definition
+
+$$\text{ATE} = E[Y(1) - Y(0)] = E[Y(1)] - E[Y(0)]$$
+
+The average causal effect across the population.
+
+. . .
+
+### Under Random Assignment
+
+$$\text{ATE} = E[Y | D=1] - E[Y | D=0]$$
+
+Why? Because randomization ensures:
+
+$$E[Y(1) | D=1] = E[Y(1)] \quad \text{and} \quad E[Y(0) | D=0] = E[Y(0)]$$
+
+::: {.notes}
+This is the magic of randomization. It breaks the link between treatment assignment and potential outcomes, allowing us to estimate average causal effects by comparing means.
+:::
+
+---
+
+## Beyond Average Effects: CATE
+
+### Conditional Average Treatment Effect
+
+$$\text{CATE}(x) = E[Y(1) - Y(0) | X = x]$$
+
+The average effect for units with characteristics $X = x$.
+
+. . .
+
+### Why It Matters for Health Policy
+
+- **Personalized medicine**: Who benefits most from treatment?
+- **Resource allocation**: Where should we target interventions?
+- **Equity**: Do effects differ across populations?
+
+::: {.callout-note}
+## Course Focus
+Units 3-4 focus on estimating heterogeneous effects using causal forests and policy learning.
+:::
+
+---
+
+## Introduction to Causal Graphs (DAGs)
+
+### Directed Acyclic Graphs
+
+Visual representations of causal relationships:
+
+```{mermaid}
+%%| fig-alt: "Simple DAG showing Treatment D pointing to Outcome Y, with Confounder X pointing to both D and Y"
+flowchart LR
+    X["Confounder<br/>X"] --> D["Treatment<br/>D"]
+    X --> Y["Outcome<br/>Y"]
+    D --> Y
+
+    style X fill:#ffcccc
+    style D fill:#cce5ff
+    style Y fill:#ccffcc
+```
+
+- **Nodes**: Variables
+- **Arrows**: Direct causal effects
+- **Paths**: Chains of causal relationships
+
+::: {.notes}
+DAGs are powerful tools for reasoning about identification. We'll use them throughout the course to think about what we need to control for and what we should not control for.
+:::
+
+---
+
+## Why DAGs Matter
+
+### Confounding
+
+```{mermaid}
+%%| fig-alt: "DAG showing socioeconomic status (SES) as a confounder affecting both healthcare access and health outcomes"
+flowchart LR
+    SES["Socioeconomic<br/>Status"] --> Access["Healthcare<br/>Access"]
+    SES --> Health["Health<br/>Outcomes"]
+    Access --> Health
+
+    style SES fill:#ffcccc
+```
+
+SES confounds the relationship between access and health.
+
+. . .
+
+**Without adjustment**: Association ≠ Causation
+
+**With adjustment for SES**: We can isolate the causal effect of access
+
+---
+
+## Course Structure Overview
+
+| Unit | Topic | Weeks |
+|------|-------|-------|
+| 0 | Foundations | 1 |
+| 1 | Experimental Design | 2-3 |
+| 2 | DR & DML | 4-6 |
+| 3 | HTE & Causal Forests | 7-8 |
+| 4 | Policy Learning | 9 |
+| 5 | Observational ML | 10 |
+| 6 | DiD & Synthetic Controls | 11 |
+| 7 | Advanced Topics | 12 |
+| 8 | Capstone | 13-14 |
+
+---
+
+## Primary Textbooks (Both FREE!)
+
+::: {.columns}
+::: {.column width="50%"}
+### Chernozhukov et al. (2025)
+*Applied Causal Inference Powered by ML and AI*
+
+[causalml-book.org](https://causalml-book.org/)
+
+- Practitioner-focused
+- Python + R code
+- Industry examples
+:::
+
+::: {.column width="50%"}
+### Wager (2024)
+*Causal Inference: A Statistical Learning Approach*
+
+[Stanford PDF](http://web.stanford.edu/~swager/causal_inf_book.pdf)
+
+- Theoretical foundations
+- Math-forward
+- Research orientation
+:::
+:::
+
+::: {.callout-tip}
+## Reading Strategy
+Use Chernozhukov for implementation, Wager for deeper understanding of the theory.
+:::
+
+---
+
+## Methods Preview
+
+### What You'll Learn
+
+::: {.columns}
+::: {.column width="33%"}
+#### Estimation
+- Double ML
+- AIPW
+- Influence functions
+:::
+
+::: {.column width="33%"}
+#### Heterogeneity
+- Causal forests
+- Meta-learners
+- CATE estimation
+:::
+
+::: {.column width="33%"}
+#### Policy
+- Policy trees
+- Off-policy evaluation
+- Treatment rules
+:::
+:::
+
+. . .
+
+### R Packages
+
+`DoubleML` | `grf` | `policytree` | `did` | `Synth` | `DeclareDesign`
+
+---
+
+## Assessment Structure
+
+| Component | Weight | Description |
+|-----------|--------|-------------|
+| Labs | 30% | 4 required labs (Labs 0-4) |
+| Design Memos | 20% | 2 memos (experimental + DML) |
+| Capstone | 45% | PAP, replication, or comparison |
+| Peer Review | 5% | Review one peer's capstone |
+
+::: {.callout-note}
+## Labs 5-7
+Optional labs available for extra credit and deeper exploration.
+:::
+
+---
+
+## This Week's Goals
+
+### By End of Unit 0 (Week 1)
+
+1. ✅ Understand the three-layer causal inference stack
+2. 📐 Apply potential outcomes framework
+3. 📊 Construct and interpret basic DAGs
+4. 💻 Set up reproducible R environment
+5. 🔬 Simulate basic RCT and estimate ATE
+
+---
+
+## Next Session: Session 0.2 (Jan 12)
+
+### Reproducible Research Setup (Remote)
+
+- R environment with `renv`
+- Workflow automation with `targets`
+- Introduction to `DeclareDesign`
+- Simulating RCT data in R
+
+::: {.callout-important}
+## Preparation
+Install R and RStudio before Session 0.2. Instructions in syllabus.
+:::
+
+---
+
+## For Thursday (Session 0.3)
+
+### Reading Assignment
+
+**Required:**
+
+- Chernozhukov Ch. 1 (Introduction) — ~15 pages
+- Chernozhukov Ch. 2 (Causal Models) — ~20 pages
+- Hernán & Robins Ch. 1-2 — ~18 pages
+
+**Optional (if needed):**
+
+- Brady Neal Ch. 1-2 (ML-first perspective)
+- R for Data Science Ch. 1-5 (R refresher)
+
+---
+
+## Questions? {.center}
+
+::: {.callout-tip}
+## Office Hours
+Schedule and location in syllabus.
+:::
+
+::: {.callout-note}
+## Communication
+- **Slack**: Quick questions, discussion
+- **Canvas**: Submissions, announcements
+- **Email**: Scheduling, administrative
+:::
+
+---
+
+## Summary
+
+::: {.incremental}
+1. **Three-layer stack**: Identification → Estimation → Decision
+2. **AI in the Loop**: Human-driven, AI-assisted analysis
+3. **Potential outcomes**: $Y(1)$, $Y(0)$, and the fundamental problem
+4. **DAGs**: Visual tools for causal reasoning
+5. **This course**: Modern causal ML for health policy
+:::
+
+::: {.notes}
+Recap the key points. Next session we'll get hands-on with R setup and start simulating data.
+:::

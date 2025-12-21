@@ -1,108 +1,337 @@
 ---
 title: "Computing"
 author: "Sean Sylvia"
-date: "2025-01-11"
-format: 
-    html:
-        code-block-style: "default"
-        code-block-line-numbers: true
-        code-block-background: true
-draft: false
+date: "2026-01-13"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
 ---
 
-# Class Computing Guide and Tips
+# Computing Environment
 
-This page is a guide for "best practices" for writing code and working with data. It is a work in progress, so please let Sean or the TA know if you have any suggestions for improvement.
+HPM 883 uses a three-tier computing environment designed to minimize setup friction while teaching reproducible research workflows.
 
-::: {.callout-note appearance="simple" style="color: #002D72"}
-This is meant as a general quide. For specific instructions on completing labs and assignments, please refer to the lab and assignment instructions.
+::: {.callout-tip}
+## Quick Links
+
+- [Student Setup Guide](Resources/setup-guide.qmd) — Complete installation instructions
+- [Lab 0: Environment Verification](labs/lab-0-setup.qmd) — Verify your setup works
+- [Troubleshooting](#troubleshooting) — Common problems and solutions
 :::
 
-## Useful Guides
+---
 
--   [IPA Data Science, Engineering, and Technology Handbook](https://povertyaction.github.io/ipa-data-tech-handbook/index.html)
--   [Coding for Economists](https://aeturrell.github.io/coding-for-economists/intro.html)
+## Three-Tier Architecture
 
-## Computer Setup
+| Tier | Platform | When to Use | Cost |
+|------|----------|-------------|------|
+| **In-Class** | [Posit Cloud](https://posit.cloud) | Lectures, code-alongs, live demos | $5/month |
+| **Projects** | Local (Positron) + GitHub | Labs, capstone, independent work | Free |
+| **Submission** | GitHub Classroom | All graded assignments | Free |
 
-### Using a Package Manager
+### Tier 1: Posit Cloud (In-Class)
 
-A package manager helps to standardize how you install and update software on your computer. Generally, you want to use a package manager to install any programs that are used globally on your computer. By “globally”, we mean that it is a program that is used across many projects and computing environments.
+For in-class exercises, we use **Posit Cloud** — a browser-based R environment with zero setup.
 
-#### Windows
+**Benefits:**
 
-If using a Windows computer with Windows 10 or later, use the Windows Package Manager, [winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/).
+- Works on any computer with a browser
+- Pre-configured with all required packages
+- Instructor can see your work in real-time
 
-Example:
+**Cost:** $5/month (Student plan) — [Sign up here](https://posit.cloud/plans)
 
-``` bash
-# Install a single program (e.g. GitHub for command line)
-winget install GitHub.cli
-```
+**How it works:**
 
-#### macOS
+1. Log into Posit Cloud
+2. Join the HPM 883 course workspace (link provided in class)
+3. Open the assignment project
+4. Code along with the instructor
 
-If using a macOS computer, use Homebrew.
+### Tier 2: Local Development (Projects)
 
-Example:
+For labs and the capstone project, you'll work locally using **Positron** (recommended) or RStudio.
 
-``` bash
-# Install a single program (e.g. GitHub for command line)
-brew install gh
-```
+**Why local development?**
 
-### Installing R
+- Faster performance
+- Built-in AI assistance (Positron)
+- Learn real-world reproducible workflow
+- Works offline
 
-``` bash
-# Windows Install r
+**Template Repositories:**
+
+| Template | Purpose | Link |
+|----------|---------|------|
+| Lab Template | Weekly lab assignments | [hpm883-lab-template](https://github.com/unc-hpm-quant/hpm883-lab-template) |
+| Capstone Template | Semester project | [hpm883-capstone-template](https://github.com/unc-hpm-quant/hpm883-capstone-template) |
+
+### Tier 3: GitHub Classroom (Submission)
+
+All graded work is submitted via **GitHub Classroom**.
+
+**Workflow:**
+
+1. Click the assignment link (provided on course website)
+2. Accept the assignment → creates your personal repo
+3. Clone to your computer
+4. Complete the work
+5. Commit and push to GitHub
+6. GitHub Classroom records your submission time
+
+---
+
+## Required Software
+
+### R (version 4.3+)
+
+R is our primary analysis language.
+
+**Windows:**
+
+```bash
 winget install --id R-project.R
+```
 
-# macOS Install R
+**macOS:**
+
+```bash
 brew install --cask r
 ```
 
-## Git and GitHub
+### Positron (Recommended IDE)
 
-## Using R
+[Positron](https://positron.posit.co/) is Posit's new IDE with built-in AI assistance.
 
-Scared of R? Not to worry! You'll pick it up as we go - I promise! During class we will go through code slowly at first and spend some time explaining what each line of code does. You'll be R literate in no time!
+| Feature | Positron | RStudio |
+|---------|----------|---------|
+| Built-in AI assistant | ✓ | ✗ |
+| Active development | ✓ | Maintenance only |
+| VS Code extensions | ✓ | Limited |
+| Price | Free | Free |
 
-If you do want to learn a bit of R on your own, here are some excellent resources:
+**Download:** [positron.posit.co](https://positron.posit.co/)
 
--   [R for Data Science](https://r4ds.had.co.nz/) by Hadley Wickham
+**Alternative:** [RStudio Desktop](https://posit.co/download/rstudio-desktop/) if you prefer.
 
-### R for Stata users
+### Git
 
-**Nope, you cannot turn in assignments in Stata, sorry!** {{< fa face-smile>}} Why? It's not just that it's much harder to run the class when we're using different software (it is!), but there are several reasons that I strongly believe it is best for you to become comfortable with R:
+Version control for all assignments.
 
--   R is FREEEEE
--   R has an open source ecosystem. This means
-    -   Immediate access to cutting-edge statistical methods through community contributions
-    -   Extensive library of packages for specialized analyses
-    -   Integration capabilities with other tools like Git, Python, and database systems
--   R is just better for advanced data analysis
-    -   Ability to handle multiple datasets simultaneously
-    -   Superior graphical capabilities
-    -   Better tools for web scraping, JSON parsing, and database querying
--   In industry, evidence that [R has 5x greater demand than Stata](https://www.r-bloggers.com/2022/10/data-science-software-popularity-update/) on the job market
+**Windows:**
 
-::: callout-tip
-## Learning Strategy
+```bash
+winget install Git.Git
+```
 
-Rather than directly mapping Stata commands to R, it's more effective to first understand R's fundamental concepts and then gradually build up to specific tasks like data management and regression models.
+**macOS:**
+
+```bash
+brew install git
+```
+
+**Configure:**
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "your.email@unc.edu"
+```
+
+### Quarto
+
+Publishing system for labs and reports. Usually bundled with Positron/RStudio.
+
+**Verify installation:**
+
+```bash
+quarto --version
+```
+
+**If not installed:** [quarto.org/docs/get-started](https://quarto.org/docs/get-started/)
+
+---
+
+## Workflow by Assignment Type
+
+### In-Class Code-Alongs
+
+**Platform:** Posit Cloud
+
+1. Log into Posit Cloud
+2. Open the class project
+3. Follow along with instructor
+4. No submission needed
+
+### Labs (Weekly)
+
+**Platform:** Local + GitHub Classroom
+
+1. Accept assignment via GitHub Classroom link
+2. Clone to local machine:
+
+```bash
+git clone git@github.com:unc-hpm-quant/lab-X-yourusername.git
+```
+
+3. Open `.Rproj` file in Positron/RStudio
+4. Restore packages: `renv::restore()`
+5. Complete the lab in `analysis.qmd`
+6. Render to HTML
+7. Commit and push:
+
+```bash
+git add .
+git commit -m "Complete Lab X"
+git push
+```
+
+### Capstone Project
+
+**Platform:** Local + GitHub Classroom
+
+Same workflow as labs, but uses the capstone template with:
+
+- `_targets.R` — Analysis pipeline
+- `analysis/01-pap.qmd` — Pre-analysis plan
+- `analysis/02-analysis.qmd` — Main analysis
+- `analysis/03-results.qmd` — Results summary
+
+---
+
+## Key R Packages
+
+These packages are pre-installed in all course templates:
+
+### Core
+
+| Package | Purpose |
+|---------|---------|
+| `tidyverse` | Data manipulation and visualization |
+| `estimatr` | Robust standard errors |
+| `gt` | Publication-quality tables |
+| `knitr` | Document rendering |
+
+### Causal Inference
+
+| Package | Purpose |
+|---------|---------|
+| `DoubleML` | Double/Debiased Machine Learning |
+| `grf` | Generalized Random Forests (causal forests) |
+| `policytree` | Policy learning and decision trees |
+| `did` | Difference-in-Differences |
+| `Synth` | Synthetic Control Method |
+
+### Experimental Design
+
+| Package | Purpose |
+|---------|---------|
+| `DeclareDesign` | Research design declaration |
+| `fabricatr` | Data simulation |
+| `randomizr` | Randomization |
+
+---
+
+## Reproducibility with renv
+
+All course projects use [renv](https://rstudio.github.io/renv/) for package management.
+
+**First time opening a project:**
+
+```r
+renv::restore()
+```
+
+This installs the exact package versions used to create the project.
+
+**If you add new packages:**
+
+```r
+install.packages("new_package")
+renv::snapshot()
+```
+
+---
+
+## Troubleshooting {#troubleshooting}
+
+### Package Installation Fails
+
+```r
+# Delete cached packages and retry
+unlink("renv/library", recursive = TRUE)
+renv::restore()
+```
+
+### Git Push Rejected
+
+```bash
+# Pull remote changes first
+git pull --rebase
+git push
+```
+
+### Quarto Render Fails
+
+1. Check YAML header for syntax errors
+2. Look for unmatched brackets or quotes
+3. Run chunks one-by-one to find the error
+
+### Posit Cloud Running Slow
+
+1. Close unused projects
+2. Increase RAM: Project Settings → Resources → RAM
+3. Clear old outputs: delete `_freeze/` folder
+
+### GitHub Authentication Issues
+
+```bash
+# Regenerate SSH key
+ssh-keygen -t ed25519 -C "your.email@unc.edu"
+# Add to GitHub: Settings → SSH Keys → New
+```
+
+---
+
+## Getting Help
+
+1. **Slack #hpm883-help** — Quick questions, classmates can help
+2. **Office Hours** — See [course schedule](index.qmd)
+3. **GitHub Issues** — For persistent technical problems
+
+::: {.callout-note}
+## Lab 0
+
+Complete [Lab 0](labs/lab-0-setup.qmd) during Week 1 to verify your environment is correctly configured. If you encounter issues, bring them to office hours.
 :::
 
-Here are some excellent tools for Stata people to learn R:
+---
 
--   [Stata2R Website](https://stata2r.github.io/)
--   [World Bank DIME R for Advanced Stata Users Workshop](https://osf.io/nj6bf/)
+## Additional Resources
 
-## IDEs
+### Learning R
 
-### The RStudio IDE
+- [R for Data Science](https://r4ds.had.co.nz/) — Comprehensive introduction
+- [Stata2R](https://stata2r.github.io/) — For Stata users transitioning to R
+- [Coding for Economists](https://aeturrell.github.io/coding-for-economists/) — Practical coding guide
 
-### Visual Studio Code (VSCode)
+### Git and GitHub
 
-## Literate Programming and Quarto
+- [Happy Git with R](https://happygitwithr.com/) — Complete guide
+- [Git Cheat Sheet](https://education.github.com/git-cheat-sheet-education.pdf) — Quick reference
 
-## Bibliography
+### Quarto
+
+- [Quarto Documentation](https://quarto.org/docs/guide/) — Official guide
+- [Quarto for R Users](https://quarto.org/docs/computations/r.html) — R-specific features
+
+### Positron
+
+- [Positron Documentation](https://positron.posit.co/docs) — IDE guide
+- [Migrating from RStudio](https://positron.posit.co/migrate-rstudio-compare.html) — Comparison
+
+### Best Practices
+
+- [IPA Data Handbook](https://povertyaction.github.io/ipa-data-tech-handbook/) — Research data management
+- [The Turing Way](https://the-turing-way.netlify.app/) — Reproducible research guide

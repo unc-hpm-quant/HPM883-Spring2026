@@ -1,0 +1,282 @@
+---
+title: "Lab 0: Environment Setup & Verification"
+author: "[Your Name]"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: false
+execute:
+  echo: true
+  warning: true
+  message: true
+---
+
+## Overview
+
+**Objective:** Verify that your computing environment is correctly configured for HPM 883.
+
+**Due Date:** End of Week 1 (Friday, January 17, 2026)
+
+**Points:** 25 (Pass/Fail on each component)
+
+::: {.callout-note}
+## What This Lab Tests
+
+This lab verifies that you can:
+
+1. Clone a repository from GitHub
+2. Restore R packages with `renv`
+3. Load and manipulate data
+4. Run a basic regression
+5. Render Quarto to HTML and submit via GitHub
+:::
+
+---
+
+## Part 1: Environment Check (5 points)
+
+First, let's verify your R environment is working correctly.
+
+### 1.1 R Version
+
+Run the following code chunk. You should see R version 4.3.0 or higher.
+
+```{r}
+#| label: r-version
+
+R.version.string
+```
+
+**Your R version:** [Write your version here]
+
+### 1.2 Working Directory
+
+Confirm you're in the correct project directory:
+
+```{r}
+#| label: working-dir
+
+getwd()
+```
+
+### 1.3 Load Required Packages
+
+These packages should load without errors after running `renv::restore()`:
+```{r}
+#| label: load-packages
+
+library(tidyverse)
+library(estimatr)
+library(gt)
+```
+
+::: {.callout-tip}
+## Troubleshooting
+
+If packages fail to load:
+
+1. Run `renv::restore()` in the console
+2. If that fails, delete `renv/library/` folder and try again
+3. Still stuck? Come to office hours!
+:::
+
+---
+
+## Part 2: Data Loading (5 points)
+
+### 2.1 Load the Sample Data
+
+```{r}
+#| label: load-data
+
+# Load the sample dataset
+data <- read_csv("data/sample_data.csv")
+```
+
+### 2.2 Explore the Data
+
+```{r}
+#| label: glimpse-data
+
+# View data structure
+glimpse(data)
+```
+
+### 2.3 Summary Statistics
+
+```{r}
+#| label: summary-stats
+
+# Basic summary
+summary(data)
+```
+
+**Question:** How many observations are in the dataset? How many are treated vs. control?
+
+**Your answer:** [Write your answer here]
+
+---
+
+## Part 3: Basic Analysis (5 points)
+
+### 3.1 Estimate Treatment Effect
+
+We'll estimate the effect of `treatment` on `outcome` using OLS with robust standard errors:
+
+```{r}
+#| label: basic-model
+
+# Fit model with robust SEs
+model <- lm_robust(outcome ~ treatment, data = data)
+
+# View results
+tidy(model)
+```
+
+### 3.2 Interpret Results
+
+**Question:** What is the estimated treatment effect? Is it statistically significant at the 5% level?
+
+**Your answer:** [Write your answer here]
+
+### 3.3 Add Covariates
+
+Now estimate the model controlling for baseline:
+
+```{r}
+#| label: model-covariates
+
+# Model with covariate
+model_adj <- lm_robust(outcome ~ treatment + baseline, data = data)
+
+# View results
+tidy(model_adj)
+```
+
+**Question:** How does the treatment effect estimate change when you add baseline as a covariate? Why might this happen?
+
+**Your answer:** [Write your answer here]
+
+---
+
+## Part 4: Visualization (5 points)
+
+### 4.1 Treatment Effect Plot
+
+Create a boxplot comparing outcomes by treatment status:
+
+```{r}
+#| label: boxplot
+#| fig-cap: "Outcome by Treatment Status"
+#| fig-alt: "Boxplot showing outcome distribution for treatment and control groups"
+
+ggplot(data, aes(x = factor(treatment), y = outcome, fill = factor(treatment))) +
+geom_boxplot(alpha = 0.7) +
+  scale_fill_manual(values = c("0" = "#4BACC6", "1" = "#9BBB59"),
+                    labels = c("Control", "Treatment")) +
+  labs(
+    title = "Treatment Effect on Outcome",
+    x = "Treatment Status",
+    y = "Outcome",
+    fill = "Group"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+### 4.2 Scatter Plot with Regression Line
+
+```{r}
+#| label: scatter
+#| fig-cap: "Baseline vs Outcome by Treatment"
+#| fig-alt: "Scatter plot showing relationship between baseline and outcome, colored by treatment"
+
+ggplot(data, aes(x = baseline, y = outcome, color = factor(treatment))) +
+  geom_point(alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", se = TRUE) +
+  scale_color_manual(values = c("0" = "#4BACC6", "1" = "#9BBB59"),
+                     labels = c("Control", "Treatment")) +
+  labs(
+    title = "Baseline vs Outcome by Treatment Status",
+    x = "Baseline Value",
+    y = "Outcome",
+    color = "Group"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+---
+
+## Part 5: Render & Submit (5 points)
+
+### 5.1 Render to HTML
+
+Click the "Render" button in Positron/RStudio (or run `quarto render lab-0-setup.qmd` in terminal).
+
+Verify that:
+
+- [ ] The HTML file is created in the same directory
+- [ ] All code chunks executed without errors
+- [ ] All figures appear correctly
+
+### 5.2 Commit and Push
+
+In the terminal:
+
+```bash
+git add .
+git commit -m "Complete Lab 0 - Environment Setup"
+git push
+```
+
+Or use the Git pane in your IDE:
+
+1. Stage all changes
+2. Write commit message: "Complete Lab 0 - Environment Setup"
+3. Commit
+4. Push
+
+### 5.3 Verify Submission
+
+Go to your GitHub repository and confirm:
+
+- [ ] Your latest commit appears
+- [ ] The rendered HTML file is present
+- [ ] The commit timestamp is before the deadline
+
+---
+
+## Session Info
+
+Always include session info at the end of your analysis for reproducibility:
+
+```{r}
+#| label: session-info
+
+sessionInfo()
+```
+
+---
+
+## Submission Checklist
+
+Before submitting, verify:
+
+- [ ] All code chunks run without errors
+- [ ] All questions have written answers
+- [ ] HTML renders correctly
+- [ ] Changes are committed and pushed to GitHub
+- [ ] Submission is before the deadline
+
+::: {.callout-important}
+## Getting Help
+
+If you encounter issues:
+
+1. Check the troubleshooting guide on the course website
+2. Post in Slack #hpm883-help
+3. Attend office hours (see course schedule)
+:::

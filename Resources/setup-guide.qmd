@@ -1,0 +1,288 @@
+---
+title: "Student Setup Guide"
+author: "HPM 883"
+date: "2026-01-13"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+---
+
+# HPM 883 Computing Setup Guide
+
+This guide walks you through setting up your computing environment for HPM 883. Complete these steps **before the first class** or during the first week.
+
+::: {.callout-important}
+## Required Software
+
+You need to install:
+
+1. **R** (version 4.3 or higher)
+2. **Positron** (recommended) or RStudio
+3. **Git** and a GitHub account
+4. **Posit Cloud** account ($5/month)
+5. **Quarto** (usually bundled with Positron/RStudio)
+:::
+
+---
+
+## Step 1: Install R
+
+### Windows
+
+Open PowerShell and run:
+
+```bash
+winget install --id R-project.R
+```
+
+Or download from [CRAN](https://cran.r-project.org/bin/windows/base/).
+
+### macOS
+
+Open Terminal and run:
+
+```bash
+brew install --cask r
+```
+
+Or download from [CRAN](https://cran.r-project.org/bin/macosx/).
+
+### Verify Installation
+
+Open a terminal and type:
+
+```bash
+R --version
+```
+
+You should see R version 4.3.0 or higher.
+
+---
+
+## Step 2: Install Positron (Recommended IDE)
+
+**Positron** is Posit's new IDE with built-in AI assistance. It's free and actively developed.
+
+### Download
+
+1. Go to [positron.posit.co](https://positron.posit.co/)
+2. Download the installer for your operating system
+3. Run the installer
+
+### Why Positron?
+
+| Feature | Positron | RStudio |
+|---------|----------|---------|
+| Built-in AI assistant | ✓ Yes | No |
+| VS Code extensions | ✓ 1000s | Limited |
+| Active development | ✓ Very active | Maintenance only |
+| Python support | First-class | Secondary |
+| Price | Free | Free |
+
+### Alternative: RStudio
+
+If you prefer RStudio, download from [posit.co/download/rstudio-desktop](https://posit.co/download/rstudio-desktop/).
+
+---
+
+## Step 3: Install Git and Create GitHub Account
+
+### Install Git
+
+**Windows:**
+
+```bash
+winget install Git.Git
+```
+
+**macOS:**
+
+```bash
+brew install git
+```
+
+### Configure Git
+
+Open a terminal and run (use your actual name and email):
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "your.email@unc.edu"
+```
+
+### Create GitHub Account
+
+1. Go to [github.com](https://github.com/)
+2. Sign up with your UNC email (you get free Pro features as a student)
+3. Verify your email address
+
+### Connect Git to GitHub
+
+Generate an SSH key (recommended):
+
+```bash
+ssh-keygen -t ed25519 -C "your.email@unc.edu"
+```
+
+Press Enter to accept defaults. Then add to GitHub:
+
+1. Copy your public key: `cat ~/.ssh/id_ed25519.pub`
+2. Go to GitHub → Settings → SSH and GPG keys → New SSH key
+3. Paste and save
+
+### Verify Connection
+
+```bash
+ssh -T git@github.com
+```
+
+You should see: "Hi username! You've successfully authenticated..."
+
+---
+
+## Step 4: Set Up Posit Cloud
+
+Posit Cloud provides a browser-based R environment for in-class exercises.
+
+### Create Account
+
+1. Go to [posit.cloud](https://posit.cloud/)
+2. Sign up with your UNC email
+3. Subscribe to the **Student plan** ($5/month)
+
+::: {.callout-note}
+## Course Requirement
+
+The $5/month Posit Cloud subscription is a required course cost. This gives you:
+
+- 75 project hours/month (plenty for class)
+- 4 GB RAM per project
+- Up to 20 projects
+:::
+
+### Join Course Workspace
+
+After enrollment, you'll receive a link to join the HPM 883 course workspace. This gives you access to pre-configured projects for in-class exercises.
+
+---
+
+## Step 5: Install Quarto
+
+Quarto is the publishing system we use for labs and the capstone project.
+
+### Check if Already Installed
+
+Positron and recent RStudio versions include Quarto. Check:
+
+```bash
+quarto --version
+```
+
+If not found, download from [quarto.org/docs/get-started](https://quarto.org/docs/get-started/).
+
+---
+
+## Step 6: Accept GitHub Classroom Assignment
+
+Once the semester starts, you'll receive GitHub Classroom assignment links.
+
+### How It Works
+
+1. Click the assignment link (e.g., `https://classroom.github.com/a/xyz123`)
+2. Authorize GitHub Classroom (first time only)
+3. Accept the assignment → This creates your personal repository
+4. Clone to your computer:
+
+```bash
+git clone git@github.com:unc-hpm-quant/lab-0-yourusername.git
+```
+
+5. Open the `.Rproj` file in Positron/RStudio
+
+### First Time Setup (renv)
+
+When you first open a project, restore packages:
+
+```r
+renv::restore()
+```
+
+This installs all required packages in the correct versions.
+
+---
+
+## Workflow Summary
+
+### In-Class Exercises (Posit Cloud)
+
+1. Log into Posit Cloud
+2. Open the class project
+3. Follow along with the instructor
+4. No submission needed (formative)
+
+### Labs & Assignments (Local + GitHub)
+
+1. Accept GitHub Classroom assignment
+2. Clone to local machine
+3. Open in Positron/RStudio
+4. Run `renv::restore()` (first time)
+5. Complete the assignment
+6. Render to HTML
+7. Commit and push to GitHub
+8. Verify submission on GitHub
+
+### Capstone Project
+
+Same as labs, but uses the extended capstone template with:
+
+- `targets` pipeline
+- Pre-analysis plan
+- Multi-file structure
+
+---
+
+## Troubleshooting
+
+### Common Issues
+
+| Problem | Solution |
+|---------|----------|
+| `renv::restore()` fails | Delete `renv/library/`, restart R, try again |
+| Package not found | Run `renv::install("package_name")` |
+| Git push rejected | Run `git pull` first, then push |
+| Quarto render fails | Check YAML header syntax |
+| GitHub auth fails | Regenerate SSH key, re-add to GitHub |
+| Posit Cloud slow | Increase project RAM in settings |
+
+### Getting Help
+
+1. **Slack #hpm883-help** — Post questions, classmates can help
+2. **Office Hours** — See course schedule
+3. **GitHub Issues** — For persistent technical problems
+
+---
+
+## Verification Checklist
+
+Before the first class, verify:
+
+- [ ] R installed (version 4.3+)
+- [ ] Positron or RStudio installed
+- [ ] Git installed and configured
+- [ ] GitHub account created
+- [ ] SSH key added to GitHub
+- [ ] Posit Cloud account with Student plan
+- [ ] Quarto installed
+
+**Complete Lab 0 during Week 1 to verify everything works together.**
+
+---
+
+## Additional Resources
+
+- [Happy Git with R](https://happygitwithr.com/) — Comprehensive Git + R guide
+- [R for Data Science](https://r4ds.had.co.nz/) — Learn R basics
+- [Quarto Documentation](https://quarto.org/docs/guide/) — Quarto reference
+- [Positron Documentation](https://positron.posit.co/docs) — IDE guide
