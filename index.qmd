@@ -1,0 +1,76 @@
+---
+title: "Course Schedule"
+execute: 
+  freeze: false
+editor_options: 
+  chunk_output_type: console
+---
+
+This page contains the schedule, topics, content and assigments for the semester.
+
+::: callout-tip
+## Note
+
+This schedule will be updated as the semester progresses.
+:::
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+library(googlesheets4)
+library(gt)
+library(tidyverse)
+gs4_deauth()
+d <- read_sheet("https://docs.google.com/spreadsheets/d/1XpkFUr6AfkO-w0mqtXZbBUIA_lxVNsePaWCtRMDuE0U/edit?usp=sharing", sheet = "Schedule")
+prepare_cutoff_date <- as.Date("2025-05-20")
+```
+
+```{r}
+#| echo: false
+#| column: screen-inset-right
+d %>% 
+  mutate(
+    date = as.Date(date),
+    week = ifelse(is.na(week), "", week)
+  ) %>%
+  gt() %>%
+  text_transform(cells_body(columns = c(prepare)),
+    fn = function(x) {
+      ifelse(is.na(x), fontawesome::fa("book", fill_opacity = 0.1),
+        glue::glue("<a href = {x}>{fontawesome::fa('book')}</a>")
+      )
+    }
+  ) %>%
+  text_transform(cells_body(columns = c(class)),
+    fn = function(x) {
+      ifelse(is.na(x), fontawesome::fa("laptop", fill_opacity = 0.1),
+        glue::glue("<a href = {x}>{fontawesome::fa('laptop')}</a>")
+      )
+    }
+  ) %>% 
+  text_transform(cells_body(columns = c(lab)),
+    fn = function(x) {
+      ifelse(is.na(x), fontawesome::fa("users-rectangle", fill_opacity = 0.1),
+        glue::glue("<a href = {x}>{fontawesome::fa('users-rectangle')}</a>")
+      )
+    }
+  ) %>%
+      text_transform(cells_body(columns = c(lab_sa)),
+    fn = function(x) {
+      ifelse(is.na(x), fontawesome::fa("users", fill_opacity = 0.1),
+        glue::glue("<a href = {x}>{fontawesome::fa('users')}</a>")
+      )
+    }
+  ) %>%
+  fmt_date(date, date_style = 9) %>%
+  sub_missing(columns = c(date, session, unit, topic, due), missing_text = "") %>%
+  cols_align(
+    align = "center", 
+    columns = c(week, dow, prepare, class, lab, lab_sa)
+    ) %>%
+  cols_align(
+    align = "left", 
+    columns = c(date, session, unit, topic, due)
+    )  
+```

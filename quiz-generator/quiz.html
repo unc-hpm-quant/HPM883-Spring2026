@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HPM 883 Random Question Generator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  
+  <div id="quiz-app-container"></div>
+
+  <!-- Load questions from external file -->
+  <script src="questions.js"></script>
+  
+  <script>
+    // App state
+    let currentQuestions = [];
+    let userAnswers = {};
+    let questionsToShow = 3;
+    let showResults = false;
+    let flaggedQuestions = JSON.parse(localStorage.getItem('flaggedQuestions') || '{}');
+    
+    // DOM elements
+    const container = document.getElementById('quiz-app-container');
+
+    // Generate random questions with diversity of question types
+    function generateRandomQuestions() {
+      // Reset state
+      userAnswers = {};
+      showResults = false;
+      
+      // Group questions by type
+      const questionsByType = {};
+      for (const question of questionsDatabase) {
+        if (!questionsByType[question.type]) {
+          questionsByType[question.type] = [];
+        }
+        questionsByType[question.type].push(question);
+      }
+      
+      // Shuffle each type group
+      const typeKeys = Object.keys(questionsByType);
+      typeKeys.forEach(type => {
+        questionsByType[type].sort(() => 0.5 - Math.random());
+      });
+      
+      // Strategy to ensure diversity: take one from each type first, then fill remaining slots randomly
+      currentQuestions = [];
+      
+      // First, try to include at least one question from each type
+      const usedTypes = new Set();
+      // Shuffle the type keys to randomize which types are selected first
+      const shuffledTypes = [...typeKeys].sort(() => 0.5 - Math.random());
+      
+      for (const type of shuffledTypes) {
+        if (currentQuestions.length < questionsToShow && questionsByType[type].length > 0) {
+          currentQuestions.push(questionsByType[type].shift());
+          usedTypes.add(type);
+        }
+        
+        // If we've reached our target number of questions, stop adding
+        if (currentQuestions.length >= questionsToShow) {
+          break;
+        }
+      }
+      
+      // If we still need more questions, randomly select from remaining questions
+      if (currentQuestions.length < questionsToShow) {
+        // Create a pool of all remaining questions
+        const remainingQuestions = [];
+        for (const type of typeKeys) {
+          remainingQuestions.push(...questionsByType[type]);
+        }
+        
+        // Shuffle and take as many as needed
+        remainingQuestions.sort(() => 0.5 - Math.random());
+        const additionalCount = Math.min(questionsToShow - currentQuestions.length, remainingQuestions.length);
+        currentQuestions = [...currentQuestions, ...remainingQuestions.slice(0, additionalCount)];
+      }
+      
+      // Final shuffle to avoid any patterns (e.g., first question always being the same type)
+      currentQuestions.sort(() => 0.5 - Math.random());
+      
+      // Render the quiz
+      renderQuiz();
+    }
+    
+    // Handle option selection
+    function handleOptionSelect(questionId, option) {
+      userAnswers[questionId] = option;
+      renderQuiz();
+    }
+    
+    // Handle short answer input
+    function handleShortAnswerChange(questionId, text) {
+      userAnswers[questionId] = text;
+    }
+    
+    // Submit quiz
+    function handleSubmit(e) {
+      if (e) e.preventDefault();
+      showResults = true;
+      renderQuiz();
+      
+      // Log to make sure this is working
+      console.log('Quiz submitted successfully');
+    }
+    
+    // Start a new quiz
+    function handleNewQuiz() {
+      generateRandomQuestions();
+    }
+    
+    // Check if all questions have been answered
+    function allQuestionsAnswered() {
+      // More forgiving check - just ensure there's something in the answers
+      return currentQuestions.length > 0 && Object.keys(userAnswers).length > 0;
+    }
+    
+    // Calculate score
+    function calculateScore() {
+      let correctAnswers = 0;
+      
+      currentQuestions.forEach(question => {
+        if (question.type === QUESTION_TYPES.MULTIPLE_CHOICE) {
+          if (userAnswers[question.id] === question.correctAnswer) {
+            correctAnswers++;
+          }
+        } else if (question.type === QUESTION_TYPES.SHORT_ANSWER ||
+                  question.type === QUESTION_TYPES.CODE_EXPLANATION ||
+                  question.type === QUESTION_TYPES.CODE_CORRECTION ||
+                  question.type === QUESTION_TYPES.RESEARCH_DESIGN_CRITIQUE ||
+                  question.type === QUESTION_TYPES.STUDY_VIGNETTE_CRITIQUE ||
+                  question.type === QUESTION_TYPES.COUNTERFACTUAL_REASONING ||
+                  question.type === QUESTION_TYPES.STATISTICAL_INTERPRETATION ||
+                  question.type === QUESTION_TYPES.METHOD_SELECTION) {
+          // For all text-based answers, we'll use a simple matching approach
+          // More sophisticated grading would require server-side processing
+          const userAnswer = (userAnswers[question.id] || '').toLowerCase().trim();
+          const correctAnswer = question.correctAnswer.toLowerCase();
+          
+          // Consider answer correct if:
+          // 1. It contains key elements of the correct answer or
+          // 2. It's substantial in length (likely a thoughtful answer)
+          const keyPhrases = question.keyPhrases || [];
+          const containsKeyPhrases = keyPhrases.some(phrase => 
+            userAnswer.includes(phrase.toLowerCase())
+          );
+          
+          if (userAnswer && 
+              (correctAnswer.includes(userAnswer) || 
+               userAnswer.includes(correctAnswer) ||
+               containsKeyPhrases ||
+               userAnswer.length > 50)) {
+            correctAnswers++;
+          }
+        }
+      });
+      
+      return {
+        correct: correctAnswers,
+        total: currentQuestions.length,
+        percentage: Math.round((correctAnswers / currentQuestions.length) * 100)
+      };
+    }
+    
+    // Render the quiz UI
+    function renderQuiz() {
+      // Clear the container
+      container.innerHTML = '';
+      
+      // Create the quiz title
+      const title = document.createElement('h2');
+      title.className = 'quiz-title';
+      title.textContent = 'HPM 883 Random Question Generator';
+      container.appendChild(title);
+      
+      if (!showResults) {
+        // Settings section
+        const settingsDiv = document.createElement('div');
+        settingsDiv.className = 'quiz-settings';
+        
+        const settingsLabel = document.createElement('label');
+        settingsLabel.className = 'settings-label';
+        settingsLabel.textContent = 'Number of Questions: ';
+        
+        const select = document.createElement('select');
+        select.className = 'settings-select';
+        select.value = questionsToShow;
+        select.addEventListener('change', (e) => {
+          questionsToShow = parseInt(e.target.value);
+          generateRandomQuestions();
+        });
+        
+        [3, 5].forEach(num => {
+          const option = document.createElement('option');
+          option.value = num;
+          option.textContent = `${num} Questions`;
+          if (num === questionsToShow) {
+            option.selected = true;
+          }
+          select.appendChild(option);
+        });
+        
+        settingsLabel.appendChild(select);
+        settingsDiv.appendChild(settingsLabel);
+        
+        // Add admin button (hidden in plain sight)
+        const adminButton = document.createElement('button');
+        adminButton.textContent = '⚙️';
+        adminButton.title = 'Admin Settings';
+        adminButton.className = 'admin-button';
+        adminButton.addEventListener('click', viewFlaggedQuestions);
+        settingsDiv.appendChild(adminButton);
+        
+        container.appendChild(settingsDiv);
+        
+        // Questions container
+        const questionsContainer = document.createElement('div');
+        questionsContainer.className = 'questions-container';
+        
+        // Add questions
+        currentQuestions.forEach((question, index) => {
+          const questionCard = document.createElement('div');
+          questionCard.className = 'question-card';
+          
+          const questionHeader = document.createElement('div');
+          questionHeader.className = 'question-header';
+          
+          const questionTitle = document.createElement('h3');
+          questionTitle.className = 'question-text';
+          questionTitle.textContent = `Question ${index + 1}: ${question.question}`;
+          questionHeader.appendChild(questionTitle);
+          
+          // Add flag button
+          const flagButton = document.createElement('button');
+          flagButton.className = 'flag-button';
+          flagButton.innerHTML = '⚑ Flag';
+          flagButton.title = 'Flag this question if you think there is an issue';
+          flagButton.dataset.questionId = question.id;
+          flagButton.addEventListener('click', (e) => handleQuestionFlag(e, question.id, question.question));
+          questionHeader.appendChild(flagButton);
+          
+          questionCard.appendChild(questionHeader);
+          
+          if (question.type === QUESTION_TYPES.MULTIPLE_CHOICE) {
+            const optionsContainer = document.createElement('div');
+            optionsContainer.className = 'options-container';
+            
+            question.options.forEach((option, optIndex) => {
+              const optionItem = document.createElement('div');
+              optionItem.className = 'option-item';
+              
+              const input = document.createElement('input');
+              input.type = 'radio';
+              input.id = `q${question.id}-opt${optIndex}`;
+              input.name = `question-${question.id}`;
+              input.value = option;
+              input.className = 'option-input';
+              if (userAnswers[question.id] === option) {
+                input.checked = true;
+              }
+              input.addEventListener('change', () => handleOptionSelect(question.id, option));
+              
+              const label = document.createElement('label');
+              label.htmlFor = `q${question.id}-opt${optIndex}`;
+              label.className = 'option-label';
+              label.textContent = option;
+              
+              optionItem.appendChild(input);
+              optionItem.appendChild(label);
+              optionsContainer.appendChild(optionItem);
+            });
+            
+            questionCard.appendChild(optionsContainer);
+          } else if ([QUESTION_TYPES.CODE_EXPLANATION, 
+                    QUESTION_TYPES.CODE_CORRECTION, 
+                    QUESTION_TYPES.RESEARCH_DESIGN_CRITIQUE, 
+                    QUESTION_TYPES.STUDY_VIGNETTE_CRITIQUE,
+                    QUESTION_TYPES.COUNTERFACTUAL_REASONING,
+                    QUESTION_TYPES.STATISTICAL_INTERPRETATION,
+                    QUESTION_TYPES.METHOD_SELECTION].includes(question.type)) {
+            // For all advanced question types that need special formatting
+            const contentContainer = document.createElement('div');
+            contentContainer.className = 'content-container';
+            
+            // If there's a code snippet or special content to display
+            if (question.content) {
+              const contentBox = document.createElement('pre');
+              contentBox.className = 'content-box';
+              contentBox.textContent = question.content;
+              contentContainer.appendChild(contentBox);
+            }
+            
+            // If there are images
+            if (question.images && question.images.length > 0) {
+              question.images.forEach(imgSrc => {
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                img.className = 'question-image';
+                img.style.maxWidth = '100%';
+                contentContainer.appendChild(img);
+              });
+            }
+            
+            questionCard.appendChild(contentContainer);
+            
+            // All these question types use a textarea for answers
+            const answerContainer = document.createElement('div');
+            answerContainer.className = 'short-answer-container';
+            
+            const textarea = document.createElement('textarea');
+            textarea.className = 'short-answer-input';
+            textarea.placeholder = 'Type your answer here...';
+            textarea.rows = 6;
+            textarea.value = userAnswers[question.id] || '';
+            textarea.addEventListener('input', (e) => handleShortAnswerChange(question.id, e.target.value));
+            
+            answerContainer.appendChild(textarea);
+            questionCard.appendChild(answerContainer);
+          } else {
+            const shortAnswerContainer = document.createElement('div');
+            shortAnswerContainer.className = 'short-answer-container';
+            
+            const textarea = document.createElement('textarea');
+            textarea.className = 'short-answer-input';
+            textarea.placeholder = 'Type your answer here...';
+            textarea.rows = 3;
+            textarea.value = userAnswers[question.id] || '';
+            textarea.addEventListener('input', (e) => handleShortAnswerChange(question.id, e.target.value));
+            
+            shortAnswerContainer.appendChild(textarea);
+            questionCard.appendChild(shortAnswerContainer);
+          }
+          
+          questionsContainer.appendChild(questionCard);
+        });
+        
+        container.appendChild(questionsContainer);
+        
+        // Submit button
+        const buttonContainer = document.createElement('div');
+        buttonContainer.className = 'button-container';
+        
+        const submitButton = document.createElement('button');
+        submitButton.textContent = 'Submit Quiz';
+        submitButton.className = 'submit-button';
+        // Don't disable the button - let users submit whenever they want
+        submitButton.addEventListener('click', handleSubmit);
+        
+        buttonContainer.appendChild(submitButton);
+        container.appendChild(buttonContainer);
+      } else {
+        // Results view
+        const resultsContainer = document.createElement('div');
+        resultsContainer.className = 'results-container';
+        
+        // Results header
+        const resultsHeader = document.createElement('div');
+        resultsHeader.className = 'results-header';
+        
+        const resultsTitle = document.createElement('h3');
+        resultsTitle.className = 'results-title';
+        resultsTitle.textContent = 'Your Results';
+        resultsHeader.appendChild(resultsTitle);
+        
+        // Score display
+        const score = calculateScore();
+        const scoreDisplay = document.createElement('div');
+        scoreDisplay.className = 'score-display';
+        
+        const scoreText = document.createElement('p');
+        scoreText.className = 'score-text';
+        scoreText.textContent = `You scored: ${score.correct} out of ${score.total} (${score.percentage}%)`;
+        
+        scoreDisplay.appendChild(scoreText);
+        resultsHeader.appendChild(scoreDisplay);
+        resultsContainer.appendChild(resultsHeader);
+        
+        // Results details
+        const resultsDetails = document.createElement('div');
+        resultsDetails.className = 'results-details';
+        
+        currentQuestions.forEach((question, index) => {
+          // Determine if answer was correct
+          let isCorrect = false;
+          if (question.type === QUESTION_TYPES.MULTIPLE_CHOICE) {
+            isCorrect = userAnswers[question.id] === question.correctAnswer;
+          } else if (question.type === QUESTION_TYPES.SHORT_ANSWER ||
+                     question.type === QUESTION_TYPES.CODE_EXPLANATION ||
+                     question.type === QUESTION_TYPES.CODE_CORRECTION ||
+                     question.type === QUESTION_TYPES.RESEARCH_DESIGN_CRITIQUE ||
+                     question.type === QUESTION_TYPES.STUDY_VIGNETTE_CRITIQUE ||
+                     question.type === QUESTION_TYPES.COUNTERFACTUAL_REASONING ||
+                     question.type === QUESTION_TYPES.STATISTICAL_INTERPRETATION ||
+                     question.type === QUESTION_TYPES.METHOD_SELECTION) {
+            const userAnswer = (userAnswers[question.id] || '').toLowerCase().trim();
+            const correctAnswer = question.correctAnswer.toLowerCase();
+            const keyPhrases = question.keyPhrases || [];
+            const containsKeyPhrases = keyPhrases.some(phrase => 
+              userAnswer.includes(phrase.toLowerCase())
+            );
+            
+            isCorrect = userAnswer && 
+              (correctAnswer.includes(userAnswer) || 
+               userAnswer.includes(correctAnswer) ||
+               containsKeyPhrases ||
+               userAnswer.length > 50);
+          }
+          
+          const resultCard = document.createElement('div');
+          resultCard.className = isCorrect ? 'result-card correct' : 'result-card incorrect';
+          
+          // Create a header div to hold question text and flag button
+          const questionHeader = document.createElement('div');
+          questionHeader.className = 'question-header';
+          
+          const questionText = document.createElement('h3');
+          questionText.className = 'question-text';
+          questionText.textContent = `Question ${index + 1}: ${question.question}`;
+          questionHeader.appendChild(questionText);
+          
+          // Add flag button on results page
+          const flagButton = document.createElement('button');
+          flagButton.className = 'flag-button';
+          flagButton.innerHTML = flaggedQuestions[question.id] ? '⚑ Flagged' : '⚑ Flag';
+          if (flaggedQuestions[question.id]) {
+            flagButton.classList.add('flagged');
+          }
+          flagButton.dataset.questionId = question.id;
+          flagButton.addEventListener('click', (e) => handleQuestionFlag(e, question.id, question.question));
+          questionHeader.appendChild(flagButton);
+          
+          resultCard.appendChild(questionHeader);
+          
+          const answerComparison = document.createElement('div');
+          answerComparison.className = 'answer-comparison';
+          
+          if (question.type === QUESTION_TYPES.MULTIPLE_CHOICE) {
+            const userAnswerP = document.createElement('p');
+            userAnswerP.className = 'user-answer';
+            userAnswerP.textContent = `Your answer: ${userAnswers[question.id] || '(No answer provided)'}`;
+            
+            const correctAnswerP = document.createElement('p');
+            correctAnswerP.className = 'correct-answer';
+            correctAnswerP.textContent = `Correct answer: ${question.correctAnswer}`;
+            
+            answerComparison.appendChild(userAnswerP);
+            answerComparison.appendChild(correctAnswerP);
+          } else {
+            const userAnswerDiv = document.createElement('div');
+            userAnswerDiv.className = 'user-answer';
+            
+            const userAnswerLabel = document.createElement('p');
+            userAnswerLabel.className = 'answer-label';
+            userAnswerLabel.textContent = 'Your answer:';
+            userAnswerDiv.appendChild(userAnswerLabel);
+            
+            const userAnswerText = document.createElement('p');
+            userAnswerText.className = 'answer-text';
+            userAnswerText.textContent = userAnswers[question.id] || '(No answer provided)';
+            userAnswerDiv.appendChild(userAnswerText);
+            
+            const correctAnswerDiv = document.createElement('div');
+            correctAnswerDiv.className = 'correct-answer';
+            
+            const correctAnswerLabel = document.createElement('p');
+            correctAnswerLabel.className = 'answer-label';
+            correctAnswerLabel.textContent = 'Correct answer:';
+            correctAnswerDiv.appendChild(correctAnswerLabel);
+            
+            const correctAnswerText = document.createElement('p');
+            correctAnswerText.className = 'answer-text';
+            correctAnswerText.textContent = question.correctAnswer;
+            correctAnswerDiv.appendChild(correctAnswerText);
+            
+            answerComparison.appendChild(userAnswerDiv);
+            answerComparison.appendChild(correctAnswerDiv);
+          }
+          
+          resultCard.appendChild(answerComparison);
+          
+          const explanation = document.createElement('div');
+          explanation.className = 'explanation';
+          
+          const explanationLabel = document.createElement('p');
+          explanationLabel.className = 'explanation-label';
+          explanationLabel.textContent = 'Explanation:';
+          explanation.appendChild(explanationLabel);
+          
+          const explanationText = document.createElement('p');
+          explanationText.className = 'explanation-text';
+          explanationText.textContent = question.explanation;
+          explanation.appendChild(explanationText);
+          
+          resultCard.appendChild(explanation);
+          resultsDetails.appendChild(resultCard);
+        });
+        
+        resultsContainer.appendChild(resultsDetails);
+        
+        // New Quiz button
+        const buttonContainer = document.createElement('div');
+        buttonContainer.className = 'button-container';
+        
+        const newQuizButton = document.createElement('button');
+        newQuizButton.textContent = 'Generate New Quiz';
+        newQuizButton.className = 'new-quiz-button';
+        newQuizButton.addEventListener('click', handleNewQuiz);
+        
+        buttonContainer.appendChild(newQuizButton);
+        resultsContainer.appendChild(buttonContainer);
+        
+        container.appendChild(resultsContainer);
+      }
+    }
+    
+    // Initialize the quiz
+    document.addEventListener('DOMContentLoaded', function() {
+      generateRandomQuestions();
+    });
+    
+    // Check if document is already loaded
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      generateRandomQuestions();
+    }
+
+    // Handle question flag
+    function handleQuestionFlag(e, questionId, questionText) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const button = e.target;
+      const isFlagged = button.classList.contains('flagged');
+      
+      if (isFlagged) {
+        // Remove flag
+        button.classList.remove('flagged');
+        button.innerHTML = '⚑ Flag';
+        delete flaggedQuestions[questionId];
+      } else {
+        // Add flag
+        button.classList.add('flagged');
+        button.innerHTML = '⚑ Flagged';
+        
+        // Capture feedback from student
+        const feedback = prompt('Please describe the issue with this question:', '');
+        
+        // Store flagged question
+        flaggedQuestions[questionId] = {
+          questionId,
+          questionText, 
+          flaggedAt: new Date().toISOString(),
+          feedback: feedback || 'No feedback provided'
+        };
+      }
+      
+      // Store in localStorage
+      localStorage.setItem('flaggedQuestions', JSON.stringify(flaggedQuestions));
+      
+      // Refresh the quiz to update all flag buttons
+      renderQuiz();
+    }
+    
+    // View flagged questions (admin only)
+    function viewFlaggedQuestions() {
+      const adminPassword = prompt('Enter admin password:');
+      
+      // Simple password protection (in a real app, use proper authentication)
+      if (adminPassword !== 'admin123') {
+        alert('Incorrect password');
+        return;
+      }
+      
+      container.innerHTML = '';
+      
+      // Create admin view
+      const adminView = document.createElement('div');
+      adminView.className = 'admin-view';
+      
+      // Header
+      const header = document.createElement('div');
+      header.className = 'admin-header';
+      
+      const title = document.createElement('h2');
+      title.textContent = 'Flagged Questions Admin View';
+      
+      const backButton = document.createElement('button');
+      backButton.textContent = 'Back to Quiz';
+      backButton.className = 'quiz-button';
+      backButton.addEventListener('click', renderQuiz);
+      
+      const exportButton = document.createElement('button');
+      exportButton.textContent = 'Export CSV';
+      exportButton.className = 'quiz-button';
+      exportButton.addEventListener('click', exportFlaggedQuestions);
+      
+      header.appendChild(title);
+      header.appendChild(backButton);
+      header.appendChild(exportButton);
+      adminView.appendChild(header);
+      
+      // Flagged questions list
+      const flaggedList = document.createElement('div');
+      flaggedList.className = 'flagged-list';
+      
+      if (Object.keys(flaggedQuestions).length === 0) {
+        const noFlags = document.createElement('p');
+        noFlags.textContent = 'No questions have been flagged.';
+        flaggedList.appendChild(noFlags);
+      } else {
+        // Table of flagged questions
+        const table = document.createElement('table');
+        table.className = 'flagged-table';
+        
+        // Table header
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        ['ID', 'Question', 'Flagged At', 'Feedback', 'Actions'].forEach(text => {
+          const th = document.createElement('th');
+          th.textContent = text;
+          headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+        
+        // Table body
+        const tbody = document.createElement('tbody');
+        
+        Object.values(flaggedQuestions).forEach(flag => {
+          const row = document.createElement('tr');
+          
+          // ID cell
+          const idCell = document.createElement('td');
+          idCell.textContent = flag.questionId;
+          row.appendChild(idCell);
+          
+          // Question cell
+          const questionCell = document.createElement('td');
+          questionCell.textContent = flag.questionText.length > 100 
+            ? flag.questionText.substring(0, 100) + '...' 
+            : flag.questionText;
+          questionCell.title = flag.questionText;
+          row.appendChild(questionCell);
+          
+          // Date cell
+          const dateCell = document.createElement('td');
+          dateCell.textContent = new Date(flag.flaggedAt).toLocaleString();
+          row.appendChild(dateCell);
+          
+          // Feedback cell
+          const feedbackCell = document.createElement('td');
+          feedbackCell.textContent = flag.feedback;
+          row.appendChild(feedbackCell);
+          
+          // Actions cell
+          const actionsCell = document.createElement('td');
+          const resolveButton = document.createElement('button');
+          resolveButton.textContent = 'Resolve';
+          resolveButton.className = 'resolve-button';
+          resolveButton.addEventListener('click', () => {
+            delete flaggedQuestions[flag.questionId];
+            localStorage.setItem('flaggedQuestions', JSON.stringify(flaggedQuestions));
+            row.remove();
+            if (Object.keys(flaggedQuestions).length === 0) {
+              tbody.innerHTML = '<tr><td colspan="5">No questions have been flagged.</td></tr>';
+            }
+          });
+          actionsCell.appendChild(resolveButton);
+          row.appendChild(actionsCell);
+          
+          tbody.appendChild(row);
+        });
+        
+        table.appendChild(tbody);
+        flaggedList.appendChild(table);
+      }
+      
+      adminView.appendChild(flaggedList);
+      container.appendChild(adminView);
+    }
+    
+    // Export flagged questions to CSV
+    function exportFlaggedQuestions() {
+      if (Object.keys(flaggedQuestions).length === 0) {
+        alert('No flagged questions to export.');
+        return;
+      }
+      
+      // Create CSV content
+      const headers = ['Question ID', 'Question Text', 'Flagged At', 'Feedback'];
+      let csvContent = headers.join(',') + '\n';
+      
+      Object.values(flaggedQuestions).forEach(flag => {
+        // Clean text for CSV (escape quotes and remove newlines)
+        const cleanQuestion = `"${flag.questionText.replace(/"/g, '""').replace(/\n/g, ' ')}"`;  
+        const cleanFeedback = `"${flag.feedback.replace(/"/g, '""').replace(/\n/g, ' ')}"`;  
+        
+        const row = [
+          flag.questionId,
+          cleanQuestion,
+          flag.flaggedAt,
+          cleanFeedback
+        ];
+        
+        csvContent += row.join(',') + '\n';
+      });
+      
+      // Create download link
+      const encodedUri = encodeURI('data:text/csv;charset=utf-8,' + csvContent);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', `flagged_questions_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      
+      // Download file
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>

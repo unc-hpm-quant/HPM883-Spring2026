@@ -1,0 +1,27 @@
+---
+title: "Unit 5: Threats to Validity"
+draft: false
+---
+
+## Overview
+
+In this unit, we will discuss the threats to validity in experimental settings. We will also discuss how to address these threats in design, implementation, and analysis. 
+
+## Readings
+
+### Required
+- [JPAL:Data Analysis for Social Science](https://www.povertyactionlab.org/resource/data-analysis)
+- [EGAP Methods Guide on LATE](https://egap.org/resource/10-things-to-know-about-the-local-average-treatment-effect/)
+
+### Optional
+- [Imbens & Wooldridge (2007) Lecture 5 on LATE](https://www2.nber.org/WNE/lect_5_late_fig.pdf)
+- 
+
+
+## Lecture
+
+-   [Lecture 5.0 Slides](/unit-5/lec-5-0-slides.qmd)
+
+## Labs
+
+- [Lab 5: Peer PAP Review](/labs/lab-5-PeerPAPReview.qmd)

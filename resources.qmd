@@ -1,0 +1,69 @@
+---
+title: "Useful Reference Materials"
+execute: 
+  freeze: false
+editor_options: 
+  chunk_output_type: console
+---
+
+## Key Texts
+
+List, John. *Experimental Economics: Theory and Practice*, 2025. (Link available soon)
+
+Chernozhukov, Victor, Christian Hansen, Nathan Kallus, Martin Spindler, and Vasilis Syrgkanis. [***Applied Causal Inference Powered by ML and AI***](https://causalml-book.org/), 2024.
+
+Wager, Stefan. [***Causal Inference: A Statistical Learning Approach***](https://web.stanford.edu/~swager/causal_inf_book.pdf), 2024.
+
+James, Gareth, Daniela Witten, Trevor Hastie, and Robert Tibshirani. [***An Introduction to Statistical Learning: With Applications in R***](https://doi.org/10.1007/978-1-0716-1418-1). Springer Texts in Statistics. New York, NY: Springer US, 2021. 
+
+## R Tutorials
+
+Paradis, Emmanuel. [***R for Beginners***](https://cran.r-project.org/doc/contrib/Paradis-rdebuts_en.pdf), 2005.
+
+Wickham, Hadley, and Mine Çetinkaya-Rundel. [***R for Data Science***](https://r4ds.hadley.nz/), 2nd ed. 2023.
+
+[***R "Cheat Sheet" Compilation***](https://www.usu.edu/math/amlc/files/r-studio-reference-sheets-compilation.pdf).
+
+[***The R Graph Gallery***](https://r-graph-gallery.com/)
+
+## Websites
+
+[Field Experiments Website](http://www.fieldexperiments.com/)\
+Papers in economic field experiments.
+
+[Abdul Latif Jameel Poverty Action Lab (JPAL)](https://www.povertyactionlab.org/)\
+A global research center based at MIT's Economics Department that works to reduce poverty through rigorous scientific evidence and policy implementation
+
+-   JPAL maintains an excellent [site](https://www.povertyactionlab.org/research-resources) with resources for randomized evaluations and more
+
+[Stanford Social Impact Lab](https://www.gsb.stanford.edu/faculty-research/labs-initiatives/sil)
+
+[Melissa Dell's EconDL Website](https://econdl.github.io/)
+
+-   EconDL is a comprehensive resource detailing applications of Deep Learning in Economics. This is a companion website to the paper [Deep Learning for Economists](https://www.aeaweb.org/articles?id=10.1257/jel.20241733) and aims to be a go-to resource for economists and other social scientists for applying tools provided by deep learning in their research.
+
+## Data
+
+-   [Stanford GSB Social Impact Lab Experiment Data](https://github.com/gsbDBI/ExperimentData)
+
+-   [MIMIC-IV (Medical Information Mart for Intensive Care IV)](https://mimic.mit.edu/)
+
+    MIMIC-IV is an updated version of the MIMIC database, containing comprehensive de-identified electronic health records from patients admitted to Beth Israel Deaconess Medical Center in Boston, MA from 2008 to 2019. This freely accessible dataset includes data from over 257,000 distinct patients, yielding approximately 524,000 admission records.
+
+    **Key Features and Structure**
+
+    MIMIC-IV adopts a modular approach to data organization, highlighting data provenance and facilitating both individual and combined use of different data sources. The database is organized into three main modules:
+
+    -   **hosp**: Contains hospital-wide data including admission/discharge/transfer records, laboratory values, microbiology cultures, medication orders, and administrative data from billing practices
+
+    -   **icu**: Comprises data documented at the ICU bedside, including intravenous infusions, patient outputs, charted observations, and documentation of ongoing procedures
+
+    -   **note**: Contains discharge summaries, radiology reports, and other clinical notes in free-text format
+
+    -   [Detailed Description](https://www.nature.com/articles/s41597-022-01899-x)
+
+    -   [MIMIC Code Repository](https://github.com/MIT-LCP/mimic-code)
+
+-   [Papers With Code](https://paperswithcode.com/datasets)
+
+    Papers with Code is a free and open resource platform dedicated to making machine learning research more accessible by connecting research papers with their code implementations.
