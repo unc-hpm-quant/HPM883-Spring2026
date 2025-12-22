@@ -183,7 +183,7 @@ We estimate the treatment effect using:
 model <- lm_robust(outcome ~ treatment, data = df)
 `​``
 
-The estimated effect is `r coef(model)[2]`.
+The estimated effect is 0.42.
 ```
 
 ::: {.fragment}

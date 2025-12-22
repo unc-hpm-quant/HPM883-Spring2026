@@ -1,76 +1,102 @@
 ---
-title: "Course Schedule"
-execute: 
-  freeze: false
-editor_options: 
-  chunk_output_type: console
+title: "HPM 883: Advanced Quantitative Methods"
+subtitle: "Spring 2026 | UNC Gillings School of Global Public Health"
 ---
 
-This page contains the schedule, topics, content and assigments for the semester.
+::: {.grid}
 
-::: callout-tip
-## Note
+::: {.g-col-12 .g-col-md-8}
 
-This schedule will be updated as the semester progresses.
+## Welcome
+
+HPM 883 is an advanced graduate-level course designed to equip PhD students in Health Policy and Management with sophisticated quantitative research skills. This course is the third installment in the quantitative methods sequence, building on foundations from HPM 881 and HPM 882.
+
+**Focus Areas:**
+
+- Experimental design and randomization inference
+- Double/Debiased Machine Learning (DML)
+- Heterogeneous treatment effects and causal forests
+- Policy learning and optimal treatment rules
+- Modern causal inference methods (DiD, synthetic controls)
+
+### Course Details
+
+| | |
+|---|---|
+| **Instructor** | Sean Sylvia |
+| **Meeting Time** | Mon/Wed 11:15am - 12:30pm |
+| **Location** | Rosenau 228 / Zoom (hybrid) |
+| **Office Hours** | Wed 2:00-4:00pm |
+| **Credits** | 3 |
+
 :::
 
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-library(googlesheets4)
-library(gt)
-library(tidyverse)
-gs4_deauth()
-d <- read_sheet("https://docs.google.com/spreadsheets/d/1XpkFUr6AfkO-w0mqtXZbBUIA_lxVNsePaWCtRMDuE0U/edit?usp=sharing", sheet = "Schedule")
-prepare_cutoff_date <- as.Date("2025-05-20")
-```
+::: {.g-col-12 .g-col-md-4}
 
-```{r}
-#| echo: false
-#| column: screen-inset-right
-d %>% 
-  mutate(
-    date = as.Date(date),
-    week = ifelse(is.na(week), "", week)
-  ) %>%
-  gt() %>%
-  text_transform(cells_body(columns = c(prepare)),
-    fn = function(x) {
-      ifelse(is.na(x), fontawesome::fa("book", fill_opacity = 0.1),
-        glue::glue("<a href = {x}>{fontawesome::fa('book')}</a>")
-      )
-    }
-  ) %>%
-  text_transform(cells_body(columns = c(class)),
-    fn = function(x) {
-      ifelse(is.na(x), fontawesome::fa("laptop", fill_opacity = 0.1),
-        glue::glue("<a href = {x}>{fontawesome::fa('laptop')}</a>")
-      )
-    }
-  ) %>% 
-  text_transform(cells_body(columns = c(lab)),
-    fn = function(x) {
-      ifelse(is.na(x), fontawesome::fa("users-rectangle", fill_opacity = 0.1),
-        glue::glue("<a href = {x}>{fontawesome::fa('users-rectangle')}</a>")
-      )
-    }
-  ) %>%
-      text_transform(cells_body(columns = c(lab_sa)),
-    fn = function(x) {
-      ifelse(is.na(x), fontawesome::fa("users", fill_opacity = 0.1),
-        glue::glue("<a href = {x}>{fontawesome::fa('users')}</a>")
-      )
-    }
-  ) %>%
-  fmt_date(date, date_style = 9) %>%
-  sub_missing(columns = c(date, session, unit, topic, due), missing_text = "") %>%
-  cols_align(
-    align = "center", 
-    columns = c(week, dow, prepare, class, lab, lab_sa)
-    ) %>%
-  cols_align(
-    align = "left", 
-    columns = c(date, session, unit, topic, due)
-    )  
-```
+### Quick Links
+
+- [Schedule](schedule.qmd)
+- [Syllabus](course-syllabus.qmd)
+- [Computing Setup](computing.qmd)
+- [Lab 0: Environment Setup](labs/lab-0-setup.qmd)
+
+### Resources
+
+- [GitHub Classroom](https://classroom.github.com/classrooms/128099677-hpm-883-spring-2026)
+- [GitHub Organization](https://github.com/unc-hpm-quant)
+- [Slack Workspace](https://hpm883.slack.com)
+- [Posit Cloud](https://posit.cloud)
+- [Canvas](https://canvas.unc.edu)
+
+### Textbooks (Free)
+
+- [Chernozhukov et al. (2025)](https://causalml-book.org/)
+- [Wager (2024)](http://web.stanford.edu/~swager/causal_inf_book.pdf)
+
+:::
+
+:::
+
+---
+
+## Announcements
+
+::: {.callout-note}
+## Week 1: January 7-14, 2026
+
+Welcome to HPM 883! Please complete the following before our first class:
+
+1. Review the [syllabus](course-syllabus.qmd)
+2. Complete [computing setup](computing.qmd)
+3. Join the Slack workspace (link in Canvas)
+4. [Accept Lab 0 on GitHub Classroom](https://classroom.github.com/a/PMGz700B) — due Jan 19
+:::
+
+---
+
+## Course Units
+
+| Unit | Topic | Weeks |
+|------|-------|-------|
+| **0** | Foundations: Potential Outcomes & DAGs | 1 |
+| **1** | Experimental Design | 2-3 |
+| **2** | Double/Debiased ML & Doubly-Robust Estimation | 4-6 |
+| **3** | Heterogeneous Treatment Effects & Causal Forests | 7-8 |
+| **4** | Policy Learning | 9 |
+| **5** | Observational Causal ML | 10 |
+| **6** | DiD & Synthetic Controls | 11 |
+| **7** | Advanced Topics | 12 |
+| **8** | Integration & Capstone | 13-14 |
+
+---
+
+## Assessment Overview
+
+| Component | Weight |
+|-----------|--------|
+| Problem Sets | 30% |
+| Design Memos (2) | 20% |
+| Capstone Project | 40% |
+| Peer Review | 10% |
+
+See [Syllabus](course-syllabus.qmd) for full details.

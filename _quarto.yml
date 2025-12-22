@@ -70,101 +70,64 @@ website:
     search: true
     collapse-level: 1
     contents:
-      - index.qmd
+      - href: index.qmd
+        text: "Home"
+      - href: schedule.qmd
+        text: "Schedule"
       - section: "Course Information"
         contents:
-          - href: course-overview.qmd
-            text: "Overview"
           - href: course-syllabus.qmd
             text: "Syllabus"
-          - href: instructors.qmd
-            text: "Instructors"
-          - href: course-communication.qmd
-            text: "Communication"
-      - section: "Semester Project"
+          - href: computing.qmd
+            text: "Computing"
+          - href: Resources/setup-guide.qmd
+            text: "Setup Guide"
+      - section: "Capstone Project"
         contents:
           - href: project.qmd
             text: "Project Description"
           - href: template-protocol.qmd
-            text: "Template Protocol"
-          - href: ex-simulate.qmd
-            text: "Data Simulation Example"
+            text: "PAP Template"
       - section: "Unit 0: Foundations"
         contents:
           - href: unit-0/session-0-1-slides.qmd
-            text: "Session 0.1: Course Overview & Causal Foundations"
+            text: "Session 0.1: Course Overview"
           - href: unit-0/session-0-2-slides.qmd
-            text: "Session 0.2: Reproducible Research & Setup"
+            text: "Session 0.2: Reproducible Research"
           - href: unit-0/session-0-3-slides.qmd
             text: "Session 0.3: Potential Outcomes & DAGs"
           - href: labs/lab-0-setup.qmd
             text: "Lab 0: Environment Setup"
-          - href: unit-0/unit-0-foundations-1.qmd
-            text: "Unit 0.0: Introduction (Legacy)"
-          - href: unit-0/unit-0-foundations-2.qmd
-            text: "Unit 0.1: A Field Experiment (Legacy)"
-          - href: unit-0/unit-0-foundations-3.qmd
-            text: "Unit 0.2: Computing (Legacy)"
-      - section: "Unit 1: Internal Validity"
+      - text: "Unit 1: Experimental Design"
         contents:
-          - href: unit-1/unit-1-internal-1.qmd
-            text: "Unit 1.0: Internal Validity"
-          - href: labs/lab-1-InternalValidityPO.qmd
-            text: "Lab 1: The Hospital of Uncertain Outcomes"
-          - href: unit-1/unit-1-internal-2.qmd
-            text: "Unit 1.1: Statistical Conclusion Validity"
-          - href: labs/lab-2-Power.qmd
-            text: "Lab 2: Power by Simulation"
-      - section: "Unit 2: Design of Experiments"
+          - text: "Coming Soon — Week 2-3"
+      - text: "Unit 2: DR & DML"
         contents:
-          - href: unit-2/unit-2-design-1.qmd
-            text: "Unit 2.1: Optimal Experimental Design"
-          - href: unit-2/unit-2-design-2.qmd
-            text: "Unit 2.2: How to Randomize"
-          - href: labs/lab-3-design.qmd
-            text: "Lab 3: Experiment Design"
-      - section: "Unit 3: Supervised Learning"
+          - text: "Coming Soon — Week 4-6"
+      - text: "Unit 3: HTE & Causal Forests"
         contents:
-          - href: unit-3/unit-3-ml.qmd
-            text: "Unit 3: Supervised Learning"
-          - href: unit-3/lec-3-3-slides.qmd
-            text: "Lecture Slides: Unit 3.3: Tree-based Methods"
-      - section: "Unit 4: Mechanisms"
+          - text: "Coming Soon — Week 7-8"
+      - text: "Unit 4: Policy Learning"
         contents:
-          - href: unit-4/unit-4.qmd
-            text: "Unit 4: Mechanisms"
-          - href: unit-4/lec-4-1-slides.qmd
-            text: "Lecture Slides: Unit 4.1: Estimating Average Treatment Effects"
-          - href: unit-4/lec-4-2-slides.qmd
-            text: "Lecture Slides: Unit 4.2: Heterogeneous Treatment Effects & Moderation"
-      - section: "Unit 5: Threats to Validity"
+          - text: "Coming Soon — Week 9"
+      - text: "Unit 5: Observational ML"
         contents:
-          - href: unit-5/unit-5.qmd
-            text: "Unit 5: Threats to Validity"
-          - href: unit-5/lec-5-0-slides.qmd
-            text: "Lecture Slides: Unit 5.0: Threats to Validity"
-          - href: labs/lab-5-PeerPAPReview.qmd
-            text: "Lab 5: Peer PAP Review"
-      - section: "Unit 6: Generalizability & Scalability"
+          - text: "Coming Soon — Week 10"
+      - text: "Unit 6: DiD & Synthetic Controls"
         contents:
-          - href: unit-6/unit-6.qmd
-            text: "Unit 6: Generalizability & Scalability"
-          - href: unit-6/lec-6-1-slides.qmd
-            text: "Lecture Slides: Unit 6.1: Generating and Applying Scalable Insights"
+          - text: "Coming Soon — Week 11"
+      - text: "Unit 7: Advanced Topics"
+        contents:
+          - text: "Coming Soon — Week 12"
+      - text: "Unit 8: Capstone"
+        contents:
+          - text: "Coming Soon — Week 13-14"
       - section: "Resources"
         contents:
           - href: resources.qmd
-            text: "Useful Reference Materials"
-          - href: computing.qmd
-            text: "Computing"
-          - href: Resources/setup-guide.qmd
-            text: "Student Setup Guide"
+            text: "Reference Materials"
           - href: templates.qmd
             text: "Templates"
-          - href: unit-2/shiny-oed-app.qmd
-            text: "Optimal Experiment Design App"
-          - href: quiz-generator/index.qmd
-            text: "Random Question Generator"
 
 
   page-footer:

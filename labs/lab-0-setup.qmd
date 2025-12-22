@@ -17,7 +17,15 @@ execute:
 
 **Objective:** Verify that your computing environment is correctly configured for HPM 883.
 
-**Due Date:** End of Week 1 (Friday, January 17, 2026)
+**Due Date:** End of Week 1 (Sunday, January 19, 2026)
+
+::: {.callout-important}
+## Accept the Assignment
+
+**[Click here to accept Lab 0 on GitHub Classroom](https://classroom.github.com/a/PMGz700B)**
+
+This will create your personal repository for this lab.
+:::
 
 **Points:** 25 (Pass/Fail on each component)
 
