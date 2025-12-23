@@ -36,96 +36,120 @@ subtitle: "HPM 883 Spring 2026"
 
 ---
 
-### Week 2: Experimental Design I (Jan 19-21)
+### Week 2: Statistical Conclusion Validity (Jan 19-21)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
 | 4 | Mon Jan 19 | **NO CLASS — MLK Day** | — |
-| 5 | Wed Jan 21 | Randomization & Design-Based Inference | In-Person |
+| 5 | Wed Jan 21 | Statistical Conclusion Validity & Power | In-Person |
+
+**Key Concepts:** Type I/II errors, power analysis, effect size considerations, multiple testing, power by simulation
 
 **Due:** Lab 0
 
 ---
 
-### Week 3: Experimental Design II (Jan 26-28)
+### Week 3: Optimal Design & ML Foundations (Jan 26-28)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 6 | Mon Jan 26 | Experimental Design with DeclareDesign | Remote |
-| 7 | Wed Jan 28 | Variance Reduction & Regression Adjustment | In-Person |
+| 6 | Mon Jan 26 | Optimal Experimental Design & MIDA Framework | In-Person |
+| 7 | Wed Jan 28 | ML Foundations for Causal Inference | In-Person |
 
-**Lab 1 assigned:** Experimental Design with DeclareDesign (due Feb 2)
+**Session 6 Key Concepts:** Model-Inquiry-Data-Answer (MIDA), blocking, stratification, variance reduction (CUPED, Lin regression), cluster randomization
+
+**Session 7 Key Concepts:** Prediction vs. estimation (Y-hard vs. β-hard), bias-variance tradeoff, cross-validation, regularization (Lasso/Ridge), tree-based methods
+
+**Preparation for Session 7 (Required):**
+- Watch: Jann Spiess videos (~90 min total)
+  - [Applied ML: An Introduction](https://www.youtube.com/watch?v=G5qrBvOmzes)
+  - [Applied ML: Secret Sauce](https://www.youtube.com/watch?v=Qs6JmdNoT-Y)
+  - [Applied ML: Prediction vs Estimation](https://www.youtube.com/watch?v=e2Nmlk0cbrY)
+- Read: ISLR Chapter 2 (Statistical Learning), Chapter 5 (Cross-Validation)
+
+**Lab 1 assigned:** Experimental Design & Power (due Feb 2)
 
 ---
 
-### Week 4: Influence Functions & Guest Lecture (Feb 2-4)
+### Week 4: ML Workbook & Guest Lecture (Feb 2-4)
 
-*Instructor out of town*
+*Instructor out of town — Unit 2 begins*
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 8 | Mon Feb 2 | Influence Functions Self-Study | Async |
+| 8 | Mon Feb 2 | Self-Guided ML Workbook | Async |
 | 9 | Wed Feb 4 | **Guest Lecture:** Tara Templin (Stanford) | Remote |
+
+**Session 8:** Interactive workbook covering ML concepts for causal inference. Complete exercises on cross-validation, regularization, and tree-based methods. Focus on ML as a tool for nuisance estimation in DML.
 
 **Due:** Lab 1
 **Design Memo 1 assigned** (due Feb 16)
 
 ---
 
-### Week 5: Neyman Orthogonality (Feb 9-11)
+### Week 5: Influence Functions & Neyman Orthogonality (Feb 9-11)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
 | 10 | Mon Feb 9 | **NO CLASS — Well-Being Day** | — |
-| 11 | Wed Feb 11 | Neyman Orthogonality & Cross-Fitting | In-Person |
+| 11 | Wed Feb 11 | Influence Functions & Neyman Orthogonality | In-Person |
+
+**Key Concepts:** Influence functions, efficient influence function (EIF), Neyman orthogonality, cross-fitting, why ML + orthogonal scores = valid inference
 
 ---
 
-### Week 6: Double ML & Doubly-Robust Estimators (Feb 16-18)
+### Week 6: Double/Debiased Machine Learning (Feb 16-18)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 12 | Mon Feb 16 | Double/Debiased Machine Learning | Remote |
-| 13 | Wed Feb 18 | Doubly-Robust Estimation (AIPW, TMLE) | In-Person |
+| 12 | Mon Feb 16 | DML Theory: Partialling Out & Cross-Fitting | In-Person |
+| 13 | Wed Feb 18 | DML Implementation with DoubleML | Remote |
+
+**Key Concepts:** Partialling out, cross-fitting, sample splitting, nuisance estimation, DoubleML package
 
 **Due:** Design Memo 1
-**Lab 2 assigned:** Double ML and DR Estimators (due Feb 23)
+**Lab 2 assigned:** Double ML Implementation (due Feb 23)
 
 ---
 
-### Week 7: Causal Forests & Meta-Learners (Feb 23-25)
+### Week 7: Doubly-Robust Estimation (Feb 23-25)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 14 | Mon Feb 23 | Causal Random Forests | In-Person |
-| 15 | Wed Feb 25 | Causal Forests Implementation | Remote |
+| 14 | Mon Feb 23 | Doubly-Robust Estimation: AIPW & TMLE | In-Person |
+| 15 | Wed Feb 25 | DR Estimation Lab | Remote |
+
+**Key Concepts:** AIPW, TMLE, semiparametric efficiency, robustness to model misspecification
 
 **Due:** Lab 2
 **Design Memo 2 assigned** (due Mar 9)
-**Lab 3 assigned:** Causal Forests and Meta-Learners (due Mar 11)
 
 ---
 
-### Week 8: CATE Calibration & Meta-Learners (Mar 2-4)
+### Week 8: Causal Forests (Mar 2-4)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 16 | Mon Mar 2 | Meta-Learners for HTE | In-Person |
-| 17 | Wed Mar 4 | CATE Calibration & Meta-Learners Lab | Remote |
+| 16 | Mon Mar 2 | Causal Random Forests & Honest Inference | In-Person |
+| 17 | Wed Mar 4 | Causal Forests Implementation | Remote |
 
-**Due:** Design Memo 2 (Mar 9)
+**Key Concepts:** Honest splitting, local centering, variance estimation, grf package
+
+**Lab 3 assigned:** Causal Forests (due Mar 11)
 
 ---
 
-### Week 9: Policy Learning (Mar 9-11)
+### Week 9: Heterogeneous Treatment Effects (Mar 9-11)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 18 | Mon Mar 9 | From CATE to Treatment Policy | In-Person |
-| 19 | Wed Mar 11 | Policy Learning & Off-Policy Evaluation Lab | Remote |
+| 18 | Mon Mar 9 | Meta-Learners for HTE | In-Person |
+| 19 | Wed Mar 11 | CATE Calibration & Meta-Learners Lab | Remote |
 
-**Due:** Lab 3
-**Lab 4 assigned:** Policy Learning and OPE (due Mar 25)
+**Key Concepts:** T-learner, S-learner, X-learner, R-learner, DR-learner, CATE calibration, targeting policies
+
+**Due:** Lab 3, Design Memo 2
+**Lab 4 assigned:** Meta-Learners and CATE (due Mar 25)
 
 ---
 
@@ -135,41 +159,55 @@ subtitle: "HPM 883 Spring 2026"
 
 ---
 
-### Week 10: Observational Causal ML (Mar 23-25)
+### Week 10: Policy Learning (Mar 23-25)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 20 | Mon Mar 23 | Causal Inference in Observational Studies | In-Person |
-| 21 | Wed Mar 25 | Observational Causal ML Lab | Remote |
+| 20 | Mon Mar 23 | From CATE to Treatment Policy | In-Person |
+| 21 | Wed Mar 25 | Policy Learning & Off-Policy Evaluation | Remote |
+
+**Key Concepts:** Policy trees, optimal treatment rules, off-policy evaluation, budget constraints, policytree package
 
 **Due:** Lab 4
-**Lab 5 assigned:** Observational Causal ML (optional, due Apr 8)
+**Lab 5 assigned:** Policy Learning (due Apr 8)
 
 ---
 
-### Week 11: DiD and Synthetic Controls (Mar 30 - Apr 1)
+### Week 11: ML for Quasi-Experimental Methods (Mar 30 - Apr 1)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 22 | Mon Mar 30 | Modern Difference-in-Differences | In-Person |
-| 23 | Wed Apr 1 | DiD and Synthetic Control Lab | Remote |
+| 22 | Mon Mar 30 | ML-Enhanced Observational Causal Inference | In-Person |
+| 23 | Wed Apr 1 | ML for DiD & Synthetic Controls | Remote |
 
-**Lab 6 assigned:** DiD and Synthetic Control (optional, due Apr 15)
+**Key Concepts:** ML propensity scores, double-robust weighting, balancing weights, sensitivity analysis, ML-augmented DiD, synthetic control with regularization
+
+**Prerequisites:** Assumes familiarity with basic quasi-experimental methods (DiD, IV, RDD) from prior coursework. See [Causal Inference: The Mixtape](https://mixtape.scunning.com/) for review.
 
 *Note: April 2 is Well-Being Day (Thursday) — No impact on M/W schedule*
 
+**Lab 6 assigned:** ML for Quasi-Experimental Methods (optional, due Apr 15)
+
 ---
 
-### Week 12: Advanced Topics (Apr 6-8)
+### Week 12: Applied Causal ML & Integration (Apr 6-8)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 24 | Mon Apr 6 | Advanced Topics Survey | In-Person |
-| 25 | Wed Apr 8 | Advanced Topics Application Lab | Remote |
+| 24 | Mon Apr 6 | Sensitivity Analysis & Robustness | In-Person |
+| 25 | Wed Apr 8 | Causal ML Integration & Frontiers | Remote |
 
-**Due:** Lab 5 (optional)
+**Session 24 Key Concepts:** Sensitivity analysis for unobserved confounding (E-values, Rosenbaum bounds), robustness checks across estimators, choosing the right method
+
+**Session 25 Key Concepts:** End-to-end causal ML workflow, reporting best practices, **Frontiers: Adaptive Experimentation** (bandits, Thompson sampling, contextual bandits, targeted treatment assignment)
+
+**Frontiers Reading (Optional):**
+- [Susan Athey NBER 2024 Methods Lecture](https://www.nber.org/research/videos/2024-methods-lecture-susan-athey-analysis-and-design-multi-armed-bandit-experiments-and-policy) on bandits and policy learning
+- [Stanford SIL Adaptive Experimentation](https://www.gsb.stanford.edu/faculty-research/labs-initiatives/sil/research/methods/adaptive-iterative-experimentation)
+
+**Due:** Lab 5
 **Capstone Proposal assigned** (due Apr 13)
-**Lab 7 assigned:** Advanced Topic Exploration (optional, due Apr 20)
+**Lab 7 assigned:** Causal ML Workflow (optional, due Apr 20)
 
 ---
 
@@ -213,12 +251,12 @@ subtitle: "HPM 883 Spring 2026"
 | Deliverable | Due Date | Weight |
 |-------------|----------|--------|
 | Lab 0: Reproducible Research Setup | Jan 19 | 5% |
-| Lab 1: Experimental Design | Feb 2 | 5% |
+| Lab 1: Experimental Design & Power | Feb 2 | 5% |
 | Design Memo 1: Experimental Design Plan | Feb 16 | 10% |
-| Lab 2: Double ML and DR Estimators | Feb 23 | 5% |
+| Lab 2: Double ML Implementation | Feb 23 | 5% |
 | Design Memo 2: DML Analysis Plan | Mar 9 | 10% |
-| Lab 3: Causal Forests and Meta-Learners | Mar 11 | 5% |
-| Lab 4: Policy Learning and OPE | Mar 25 | 5% |
+| Lab 3: Causal Forests | Mar 11 | 5% |
+| Lab 4: Meta-Learners and CATE | Mar 25 | 5% |
 | Capstone Proposal | Apr 13 | (part of capstone) |
 | Peer Review Report | Apr 22 | 5% |
 | Capstone Project Package | May 1 | 45% |
@@ -227,9 +265,9 @@ subtitle: "HPM 883 Spring 2026"
 
 | Deliverable | Due Date |
 |-------------|----------|
-| Lab 5: Observational Causal ML | Apr 8 |
-| Lab 6: DiD and Synthetic Control | Apr 15 |
-| Lab 7: Advanced Topics | Apr 20 |
+| Lab 5: Policy Learning | Apr 8 |
+| Lab 6: ML for Quasi-Experimental Methods | Apr 15 |
+| Lab 7: Causal ML Workflow | Apr 20 |
 
 ---
 
