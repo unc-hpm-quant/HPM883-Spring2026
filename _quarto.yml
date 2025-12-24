@@ -6,6 +6,9 @@ project:
 
 format:
   html:
+    theme:
+      light: [cosmo, style/hpm883.scss]
+      dark: [cosmo, style/hpm883-dark.scss]
     filters:
       - shinylive
     mainfont: "Times New Roman"
@@ -135,10 +138,7 @@ website:
     left: "&copy; Copyright 2025-2026, Sean Sylvia"
     background: "#F5F5F5"
 
-theme:
-  light: [cosmo, style/hpm883.scss]
-  dark: [cosmo, style/hpm883-dark.scss]
-linkcolor:: "#5D737E"
+linkcolor: "#5D737E"
 toc: true
 code-copy: hover
 code-link: true
