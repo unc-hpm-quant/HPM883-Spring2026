@@ -1,44 +1,79 @@
 ---
 title: "Unit 0: Foundations"
-subtitle: "Class 1"
+subtitle: "Session 0.1: Course Overview & Causal Inference Foundations"
+date: "January 7, 2026"
 ---
 
-## Unit Overview
+## Session Overview
 
-This unit will provide a foundation for the rest of the course. It will cover the following topics:
+Welcome to HPM 883! This session introduces the course structure, philosophy, and foundational concepts in causal inference that will underpin the entire semester.
 
-1.  Why experiments and ML for Causal Inference
-2.  Course structure and tools
-3.  A field experiment in health services research
-4.  Computing for Reproducible Research
+**Format:** In-Person (Rosenau 228)
+
+**Learning Objectives:**
+
+1.  Understand the course structure, expectations, and deliverables
+2.  Distinguish between prediction and causal inference tasks
+3.  Introduce the "three-layer stack" for causal inference
+4.  Preview the role of machine learning in modern causal inference
 
 ------------------------------------------------------------------------
 
-## Class 1: Course Introduction
+## Preparation
 
-### Preparation
+### Required Readings
 
--   Read: [Harrison and List (2004)](https://drive.google.com/file/d/1tEGiMTNIGaC4L1b3fhRjV0at5QUew5To/view?usp=drive_link)
-    -   Perusall Link: [Harrison and List (2004)](https://app.perusall.com/courses/hpm-883/harrison-and-list-2004-field-experiments?assignmentId=YNZGZyGAPDg9kiTDh&part=1)
+**Chernozhukov et al. (2025)** — *Applied Causal Inference Powered by ML and AI*
 
-::: callout-tip
-## Perusall
+-   **Chapter 1:** Introduction to Causal Inference (\~15 pages)
+    -   [Online PDF](https://causalml-book.org/assets/chapters/CausalML_chap_1.pdf)
+    -   Focus: Three-layer stack, identification vs. prediction
 
-Perusall is a free online platform that allows you to collaboratively annotate content with your classmates. Here is a link to the Perusall page for this course: [HPM 883](https://app.perusall.com/join/sylvia-zxtwh). If needed, the class enrollment code is SYLVIA-ZXTWH.\
-\
-Although it is a good way to engage with your classmates around the material, it is not required that you comment on Perusall. If you wish, you can just download the readings directly.
-:::
+**Hernán & Robins (2020)** — *Causal Inference: What If*
 
--   [ACI Chapters 0 and 2](https://causalml-book.org/)
+-   **Chapter 1:** A Definition of Causal Effect (\~10 pages)
+-   **Chapter 2:** Randomized Experiments (\~8 pages)
+    -   [Online Book](https://miguelhernan.org/whatifbook)
+    -   Focus: Potential outcomes, randomization
 
-### In Class
+### Recommended
 
--   [Lecture slides](lec-0.qmd)
+-   Pearl (2009) — "Causal inference in statistics: An overview" *Statistics Surveys*
+-   Browse the [course website](/) to familiarize yourself with structure
 
-### Lab/Homework
+**Estimated Reading Time:** 45-60 minutes
 
--   10-15 min [Introductory Class Survey](https://unc.az1.qualtrics.com/jfe/form/SV_07iqDZtdRC5PIJE) (Due Jan 15)
+------------------------------------------------------------------------
 
-### Additional Materials
+## In Class
 
-##
+-   [Lecture Slides](session-0-1-slides.qmd)
+
+**Topics Covered:**
+
+1.  Course philosophy: Applied focus, modern methods, reproducible research
+2.  Why experiments + ML for health policy research?
+3.  The causal inference landscape: identification, estimation, inference
+4.  Preview of semester: Design → DML → HTE → Policy Learning
+5.  Working with AI assistants in analysis
+
+------------------------------------------------------------------------
+
+## After Class
+
+### Complete by January 15
+
+-   [Introductory Class Survey](https://unc.az1.qualtrics.com/jfe/form/SV_07iqDZtdRC5PIJE) (10-15 min)
+
+### Next Session
+
+-   Session 0.2 (Jan 12): Reproducible Research Setup — **Remote via Zoom**
+-   Complete computing setup before class (see Session 0.2 preparation)
+
+------------------------------------------------------------------------
+
+## Additional Resources
+
+-   [Course Syllabus](/syllabus.qmd)
+-   [Causal ML Book](https://causalml-book.org/) — Primary textbook (free)
+-   [Wager (2024) Textbook](https://web.stanford.edu/~swager/causal_inf_book.pdf) — Secondary reference (free)

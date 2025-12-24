@@ -1,0 +1,296 @@
+---
+title: "Code-Along X.Y: [TOPIC]"
+subtitle: "Unit X: [UNIT TITLE]"
+author: "Sean Sylvia"
+date: "[DATE]"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+    code-tools: true
+    embed-resources: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Overview
+
+**Learning Objective:** [What students will be able to do after completing this code-along]
+
+**Method:** [Brief description of the method/technique being demonstrated]
+
+**Packages Used:**
+
+```{r}
+#| label: setup
+#| message: false
+
+library(tidyverse)
+# library([additional packages])
+
+# Set seed for reproducibility
+set.seed(42)
+```
+
+---
+
+## 1. Concept Illustration
+
+### What Does This Method Do?
+
+[2-3 paragraphs explaining the concept, intuition, and when to use it]
+
+### Key Assumptions
+
+1. **[Assumption 1]:** [Description and why it matters]
+2. **[Assumption 2]:** [Description and why it matters]
+3. **[Assumption 3]:** [Description and why it matters]
+
+### Visual Intuition
+
+```{r}
+#| label: concept-viz
+#| fig-cap: "[Caption describing what this visualization shows]"
+#| fig-alt: "[Alt text for accessibility]"
+
+# Visualization code
+```
+
+---
+
+## 2. Success Case: When It Works
+
+### Setup: Ideal Conditions
+
+[Description of the data generating process where all assumptions are satisfied]
+
+```{r}
+#| label: success-dgp
+
+# Generate data where assumptions hold
+n <- 1000
+
+# Data generating process
+# df_success <- tibble(
+#   x = ...,
+#   y = ...
+# )
+```
+
+### Apply the Method
+
+```{r}
+#| label: success-analysis
+
+# Apply method to ideal data
+# result_success <- method(...)
+```
+
+### Verify It Works
+
+```{r}
+#| label: success-verify
+
+# Show that method recovers true parameters
+# Compare estimate to truth
+```
+
+::: {.callout-tip}
+## Why It Works
+[Explain why the method succeeds under these conditions]
+:::
+
+---
+
+## 3. Failure Case: When It Breaks
+
+### Setup: Assumption Violation
+
+[Description of how we're violating one or more key assumptions]
+
+```{r}
+#| label: failure-dgp
+
+# Generate data where assumptions are violated
+# df_failure <- tibble(
+#   x = ...,
+#   y = ...
+# )
+```
+
+### Apply the Method Anyway
+
+```{r}
+#| label: failure-analysis
+
+# Apply same method to problematic data
+# result_failure <- method(...)
+```
+
+### See the Breakdown
+
+```{r}
+#| label: failure-verify
+
+# Show that method fails to recover true parameters
+# Visualize the bias or other problems
+```
+
+::: {.callout-warning}
+## Why It Fails
+[Explain the specific assumption violation and its consequences]
+:::
+
+### Diagnosing the Problem
+
+```{r}
+#| label: diagnosis
+
+# Diagnostic checks that would reveal the problem
+```
+
+---
+
+## 4. Step-by-Step Analysis
+
+Now let's work through a complete analysis from start to finish.
+
+### 4.1 Data Preparation
+
+```{r}
+#| label: step-data
+
+# Load/prepare data
+# data <- read_csv("data/example.csv")
+```
+
+### 4.2 Exploratory Analysis
+
+```{r}
+#| label: step-explore
+
+# Summary statistics
+# Visualizations
+```
+
+### 4.3 Model Specification
+
+```{r}
+#| label: step-model
+
+# Specify and fit model
+```
+
+### 4.4 Results
+
+```{r}
+#| label: step-results
+
+# Extract and display results
+```
+### 4.5 Interpretation
+
+[Guide students through interpreting the output]
+
+- **Point estimate:** [Interpretation]
+- **Confidence interval:** [Interpretation]
+- **Practical significance:** [Interpretation]
+
+---
+
+## 5. Exercises
+
+### Exercise 1: [TITLE]
+
+[Exercise description]
+
+```{r}
+#| label: exercise-1
+#| eval: false
+
+# Starter code
+# YOUR CODE HERE
+```
+
+::: {.callout-note collapse="true"}
+## Hint
+[Hint for students who are stuck]
+:::
+
+### Exercise 2: [TITLE]
+
+[Exercise description]
+
+```{r}
+#| label: exercise-2
+#| eval: false
+
+# Starter code
+# YOUR CODE HERE
+```
+
+---
+
+## 6. AI Guidance Notes
+
+::: {.callout-important}
+## Using AI Assistants for This Topic
+:::
+
+### When AI Helps
+
+- [Scenario where AI assistance is valuable]
+- [Type of question to ask AI]
+
+### When to Be Careful
+
+- [Common AI mistake or hallucination for this topic]
+- [Signs that AI output may be wrong]
+
+### Verification Checklist
+
+Before trusting AI-generated code for [TOPIC]:
+
+- [ ] [Check 1]
+- [ ] [Check 2]
+- [ ] [Check 3]
+
+### Example Prompt
+
+> "[Example of a good prompt to use with an AI assistant for this topic]"
+
+---
+
+## Summary
+
+**Key Takeaways:**
+
+1. [Takeaway 1]
+2. [Takeaway 2]
+3. [Takeaway 3]
+
+**Common Pitfalls:**
+
+- [Pitfall 1]
+- [Pitfall 2]
+
+**Next Steps:** [What comes next in the course sequence]
+
+---
+
+## Resources
+
+### Required Reading
+
+- [Primary textbook reference]
+
+### Further Reading
+
+- [Additional resource]
+
+### R Documentation
+
+- `?[function_name]` — [Brief description]

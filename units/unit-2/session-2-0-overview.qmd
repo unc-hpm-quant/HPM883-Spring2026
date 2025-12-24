@@ -1,0 +1,217 @@
+---
+title: "Session 2.0: Machine Learning Foundations for Causal Inference"
+subtitle: "Just-in-Time ML Refresher"
+author: "Sean Sylvia"
+date: "2026-01-27"
+format: html
+draft: false
+---
+
+## Overview
+
+This session provides a targeted refresher on supervised machine learning concepts essential for the remainder of the course. Rather than a comprehensive ML treatment, we focus on **ML as a tool for causal inference**—specifically, using ML to estimate "nuisance functions" in Double ML and doubly-robust estimation.
+
+**Key Framing:** In causal ML, we don't care about ML predictions for their own sake. We use ML to estimate intermediate quantities (propensity scores, outcome regressions) that help us recover causal effects. This reframes ML from "what predicts Y?" to "what helps us estimate τ?"
+
+## Learning Objectives
+
+By the end of this session, you will:
+
+1. **Distinguish** prediction problems from estimation problems (Y-hard vs. β-hard tasks)
+2. **Explain** the bias-variance tradeoff and its implications for ML
+3. **Apply** cross-validation for tuning and model selection
+4. **Describe** regularization (Lasso, Ridge) and tree-based methods (Random Forests, XGBoost)
+5. **Recognize** why ML is valuable for nuisance estimation in causal inference
+6. **Connect** ML tools to their roles in DML and doubly-robust estimation
+
+## Why This Session?
+
+This course assumes basic familiarity with ML concepts. However, many students come from traditional econometrics backgrounds where:
+
+- Focus is on coefficient interpretation (β-hat), not prediction (Y-hat)
+- Model selection often relies on theory rather than data-driven tuning
+- Cross-validation and regularization may be unfamiliar
+- Tree-based methods are rarely used
+
+This session bridges that gap by:
+
+1. **Reframing** ML as a toolkit for causal inference
+2. **Introducing** the key concepts you'll use throughout the course
+3. **Connecting** ML methods to their specific roles in DML (estimating nuisance functions)
+
+## Key Concepts
+
+### 1. Prediction vs. Estimation
+
+| Dimension | Prediction (Y-hard) | Estimation (β-hard) |
+|-----------|---------------------|---------------------|
+| Goal | Minimize out-of-sample error | Recover structural parameters |
+| Focus | $\hat{Y}$ | $\hat{\beta}$ |
+| Validation | Cross-validation | Consistency, unbiasedness |
+| Interpretation | Doesn't matter | Critical |
+| Examples | Risk scores, targeting | Causal effects, elasticities |
+
+**Key insight:** ML excels at prediction but doesn't directly give us causal parameters. In DML, we use ML's predictive power to estimate nuisance functions, then recover causal effects through orthogonal estimation.
+
+### 2. Bias-Variance Tradeoff
+
+$$\text{MSE} = \text{Bias}^2 + \text{Variance}$$
+
+- **High bias:** Model too simple, misses true structure (underfitting)
+- **High variance:** Model too complex, fits noise (overfitting)
+- **Sweet spot:** Regularization controls complexity to minimize out-of-sample error
+
+### 3. Cross-Validation
+
+K-fold cross-validation:
+
+1. Split data into K folds
+2. Train on K-1 folds, evaluate on held-out fold
+3. Rotate and average performance
+4. Select hyperparameters minimizing CV error
+
+**Critical for DML:** Cross-fitting (sample splitting) prevents overfitting bias when ML estimates appear in causal estimators.
+
+### 4. Regularization
+
+**Lasso (L1):** $\min \sum(y - X\beta)^2 + \lambda\sum|\beta_j|$
+
+- Shrinks coefficients toward zero
+- Performs variable selection (some $\beta_j = 0$)
+- Good for sparse models
+
+**Ridge (L2):** $\min \sum(y - X\beta)^2 + \lambda\sum\beta_j^2$
+
+- Shrinks all coefficients (no exact zeros)
+- Good when many predictors are relevant
+
+**Elastic Net:** Combines L1 and L2 penalties
+
+### 5. Tree-Based Methods
+
+**Decision Trees:**
+- Recursively partition predictor space
+- Interpretable but high variance
+
+**Random Forests:**
+- Ensemble of trees on bootstrap samples
+- Random feature subsets at each split
+- Low variance, good performance
+
+**Gradient Boosting (XGBoost):**
+- Sequential trees that correct previous errors
+- Often highest accuracy with proper tuning
+
+### 6. ML for Nuisance Estimation
+
+In DML and doubly-robust estimation, we estimate two nuisance functions:
+
+1. **Propensity score:** $e(X) = P(D=1|X)$ — probability of treatment given covariates
+2. **Outcome regression:** $\mu(d, X) = E[Y|D=d, X]$ — expected outcome given treatment and covariates
+
+**Why ML helps:**
+- High-dimensional covariates (many potential confounders)
+- Unknown functional forms (nonlinear relationships)
+- Need good predictions, not interpretable coefficients
+- Cross-fitting prevents overfitting bias from leaking into causal estimates
+
+## Session Structure
+
+### Part 1: Prediction vs. Estimation (15 min)
+- The Y-hat vs. β-hat distinction
+- When ML is sufficient vs. when we need causal methods
+- Why ML alone can't answer causal questions
+
+### Part 2: ML Fundamentals (25 min)
+- Bias-variance tradeoff
+- Cross-validation and hyperparameter tuning
+- Regularization (Lasso, Ridge, Elastic Net)
+
+### Part 3: Tree-Based Methods (20 min)
+- Decision trees and overfitting
+- Random forests as variance reduction
+- Gradient boosting overview
+
+### Part 4: ML as a Tool for Causal Inference (15 min)
+- Nuisance functions in DML
+- Why prediction accuracy matters for causal estimates
+- Cross-fitting and sample splitting
+- Preview: How DML uses ML predictions
+
+## Preparation
+
+### Required Viewing
+Before class, watch these Jann Spiess videos (total ~90 min):
+
+1. [Applied Machine Learning - An Introduction](https://www.youtube.com/watch?v=G5qrBvOmzes) (30 min)
+   - [Slides](https://drive.google.com/file/d/1WACyrmUdlEZ-FI9ekC9ggo7m-pYUD7id/view?usp=sharing)
+
+2. [Applied ML: Secret Sauce](https://www.youtube.com/watch?v=Qs6JmdNoT-Y) (30 min)
+   - [Slides](https://drive.google.com/file/d/1qaiJOStmAOVnBubteuQDu56Or0cC3V_Q/view)
+
+3. [Applied ML: Prediction vs Estimation](https://www.youtube.com/watch?v=e2Nmlk0cbrY) (30 min)
+   - [Slides](https://drive.google.com/file/d/1x1NbOqgZpMegBSq-jpJPYQjaZiioh4Ix/view)
+
+### Required Reading
+- **ISLR Chapter 2:** Statistical Learning Overview
+- **ISLR Chapter 5:** Cross-Validation
+
+### Optional Reading
+- **ISLR Chapter 6:** Linear Model Selection and Regularization (Lasso, Ridge)
+- **ISLR Chapter 8:** Tree-Based Methods
+- **Mullainathan & Spiess (2017):** "Machine Learning: An Applied Econometric Approach," *JEP*
+
+## Connection to Course Arc
+
+This session sets up the key insight for the rest of the course:
+
+**Traditional econometrics:**
+```
+Data → Regression → β-hat → Causal interpretation
+```
+
+**Causal ML approach:**
+```
+Data → ML (nuisance estimation) → Orthogonal score → τ-hat → Causal interpretation
+```
+
+By using ML to estimate nuisance functions with high predictive accuracy, and then constructing estimators that are robust to small errors in those predictions (via Neyman orthogonality), we get the best of both worlds: ML's flexibility for prediction + valid causal inference.
+
+## R Packages to Know
+
+You'll use these packages throughout the course:
+
+| Package | Purpose |
+|---------|---------|
+| `glmnet` | Lasso, Ridge, Elastic Net |
+| `ranger` | Fast Random Forests |
+| `xgboost` | Gradient Boosting |
+| `caret` / `tidymodels` | Unified ML workflow |
+| `DoubleML` | Double Machine Learning |
+| `grf` | Generalized Random Forests (causal forests) |
+
+## Key Takeaways
+
+1. **ML ≠ Causation.** ML predicts Y; we need additional structure for causal effects.
+2. **Cross-validation is essential.** It's how we tune models and prevent overfitting.
+3. **Regularization controls complexity.** Lasso for sparse models, Ridge for dense, Elastic Net for both.
+4. **Ensembles reduce variance.** Random forests and boosting often outperform single models.
+5. **In causal ML, ML serves causality.** We use ML's predictive power to estimate nuisance functions, then recover causal effects through orthogonal estimation.
+
+## Next Up
+
+**Session 2.1: Influence Functions & Orthogonal Scores**
+
+Now that you understand ML as a prediction tool, we'll see how to use it inside causal estimators without introducing bias—the key insight of Double Machine Learning.
+
+---
+
+## Additional Resources
+
+### Remedial Resources (If ML is completely new)
+- [StatQuest: Machine Learning Fundamentals](https://www.youtube.com/playlist?list=PLblh5JKOoLUICTaGLRoHQDuF_7q2GfuJF)
+- [3Blue1Brown: Neural Networks](https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi) (for intuition)
+
+### Advanced Resources (For deeper understanding)
+- **Hastie, Tibshirani, Friedman (2009):** *The Elements of Statistical Learning* (free PDF)
+- **Susan Athey (2019):** "Machine Learning and Economics" [video](https://www.youtube.com/watch?v=Z0ZcsxI-HTs)

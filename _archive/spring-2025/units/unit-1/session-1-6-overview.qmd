@@ -1,0 +1,121 @@
+---
+title: "Unit 1: Experimental Design"
+subtitle: "Session 6: Optimal Experimental Design & MIDA Framework"
+date: "January 26, 2026"
+---
+
+## Session Overview
+
+This session covers advanced experimental design concepts: the MIDA (Model-Inquiry-Data-Answer) framework for thinking systematically about research design, blocking and stratification, variance reduction techniques (CUPED), and cluster randomization.
+
+**Format:** In-Person (Rosenau 228)
+
+**Learning Objectives:**
+
+1. Apply the MIDA framework to design research
+2. Implement blocking and stratification for variance reduction
+3. Understand CUPED and pre-treatment covariate adjustment
+4. Design cluster-randomized experiments
+5. Balance practical constraints with statistical optimality
+
+---
+
+## Preparation
+
+### Required Readings
+
+**Duflo, Glennerster, & Kremer (2007)** — "Using Randomization in Development Economics"
+
+- *Handbook of Development Economics*, Vol 4, 3895-3962
+- Focus: Sections on design, randomization procedures, power (skim methodology sections)
+
+**Bruhn & McKenzie (2009)** — "In Pursuit of Balance: Randomization in Practice"
+
+- *Journal of Development Economics*, 89(2), 200-217
+- Practical guidance on stratification and re-randomization
+
+### Recommended
+
+- List, Suskind, & Tan (2023) — "Field Experiments in Health Economics" *Handbook of Field Experiments*
+- McKenzie (2012) — "Beyond baseline and follow-up: The case for more T" *JDE*
+
+**Estimated Reading Time:** 70-90 minutes
+
+---
+
+## In Class
+
+- Lecture Slides (TBD)
+
+**Topics Covered:**
+
+1. **MIDA Framework**
+   - Model: What's the data generating process?
+   - Inquiry: What's the estimand?
+   - Data strategy: How do we collect data?
+   - Answer strategy: How do we estimate?
+
+2. **Blocking & Stratification**
+   - When blocking helps (and when it doesn't)
+   - Covariate-adaptive randomization
+   - Re-randomization for balance
+
+3. **Variance Reduction Techniques**
+   - CUPED (Controlled-Experiment Using Pre-Experiment Data)
+   - Difference-in-differences within experiments
+   - Multiple follow-up waves
+
+4. **Cluster Randomization**
+   - When to cluster (ethical, practical reasons)
+   - Design effects and ICC
+   - Power for cluster RCTs
+
+**Discussion:**
+
+- Design a cluster RCT for a health intervention
+- Trade-offs: More clusters vs. more units per cluster
+
+---
+
+## After Class
+
+### Problem Set 1 Assigned
+
+**Problem Set 1: Experimental Design & Power**
+
+- Design and diagnose an RCT using DeclareDesign
+- Compare blocked vs. simple randomization
+- Power analysis by simulation
+- Due: **February 2**
+
+See [Problem Set 1](/problem-sets/pset-1-design.qmd)
+
+### Next Session
+
+- **Session 7 (Jan 28):** ML Foundations for Causal Inference
+- **Required preparation:** Watch Jann Spiess videos (~90 min)
+- **Required reading:** ISLR Chapters 2, 5
+
+---
+
+## Additional Resources
+
+### MIDA Framework
+
+- [DeclareDesign: MIDA Introduction](https://declaredesign.org/getting-started/)
+- Blair et al. (2019) — "Declaring and Diagnosing Research Designs"
+
+### Variance Reduction
+
+- Deng et al. (2013) — "Improving the Sensitivity of Online Controlled Experiments" (CUPED)
+- [Microsoft Experimentation Platform](https://www.microsoft.com/en-us/research/project/experimentation-platform/)
+
+### Cluster RCTs
+
+- Hayes & Moulton (2017) — *Cluster Randomised Trials* (textbook)
+- Hemming et al. (2017) — "Stepped wedge cluster randomised trials"
+
+### R Packages
+
+- [`randomizr`](https://declaredesign.org/r/randomizr/) — Randomization procedures
+- [`clusterPower`](https://cran.r-project.org/package=clusterPower) — Power for cluster designs

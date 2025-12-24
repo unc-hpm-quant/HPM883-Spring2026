@@ -585,13 +585,13 @@ Causal inference requires **assumptions**. These assumptions are often untestabl
 
 ## For Next Time
 
-### Session 1.1: Randomization & Design-Based Inference
+### Session 1.1: Statistical Conclusion Validity & Power (Wed Jan 21)
 
 **Readings:**
 - Chernozhukov Ch 3
-- Lin (2013) on regression adjustment
+- Gelman & Carlin (2014) on power analysis
 
-**Note:** No class Monday (MLK Day). Lab 0 due before Session 1.1.
+**Note:** No class Monday (MLK Day). Lab 0 due Sunday, January 19.
 
 ---
 

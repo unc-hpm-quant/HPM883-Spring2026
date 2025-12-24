@@ -1,0 +1,65 @@
+---
+title: "Unit X: [UNIT TITLE]"
+subtitle: "HPM 883 — Advanced Quantitative Methods"
+---
+
+## Overview
+
+[1-2 paragraph overview of the unit's focus and importance in the course sequence]
+
+## Learning Objectives
+
+By the end of this unit, students will be able to:
+
+1. [Objective 1 — conceptual understanding]
+2. [Objective 2 — methodological skill]
+3. [Objective 3 — practical application]
+4. [Objective 4 — critical evaluation]
+
+## Sessions
+
+| Session | Topic | Type | Materials |
+|---------|-------|------|-----------|
+| X.1 | [Topic] | Lecture | [slides](session-X-1-slides.qmd) |
+| X.2 | [Topic] | Code-Along | [notebook](code-along-X-2.qmd) |
+| X.3 | [Topic] | Lecture + Discussion | [slides](session-X-3-slides.qmd) |
+
+## Required Readings
+
+### Primary (Required)
+
+- Chernozhukov et al. (2025), Chapter [N]: "[Title]"
+- Wager (2024), Chapter [N]: "[Title]"
+
+### Supplementary (Recommended)
+
+- [Author] ([Year]). "[Title]." *[Journal/Book]*. [Link]
+
+## Key Concepts
+
+- **[Concept 1]:** [Brief definition]
+- **[Concept 2]:** [Brief definition]
+- **[Concept 3]:** [Brief definition]
+
+## R Packages
+
+```r
+# Core packages for this unit
+library([package1])
+library([package2])
+```
+
+## Assessment
+
+- **Lab [N]:** [Lab title] — Due [Date]
+- **Participation:** In-class discussion and code exercises
+
+## Connection to Course Arc
+
+**Previous:** Unit [X-1] — [How this unit builds on prior content]
+
+**Next:** Unit [X+1] — [How this unit prepares for subsequent content]
+
+---
+
+*Last updated: {{< meta date >}}*

@@ -1,0 +1,687 @@
+---
+title: "Machine Learning Foundations for Causal Inference"
+subtitle: "Session 2.0: Just-in-Time ML Refresher"
+author: "Sean Sylvia"
+date: "2026-01-27"
+format:
+  revealjs:
+    theme: [default, ../../style/gillings.scss]
+    slide-number: true
+    chalkboard: true
+    transition: fade
+    progress: true
+    incremental: false
+    toc: false
+    scrollable: false
+    smaller: false
+    footer: "HPM 883 | Session 2.0: ML Foundations"
+    logo: ../../assets/gillings-logo.png
+    title-slide-attributes:
+      data-background-gradient: "linear-gradient(135deg, #13294B 0%, #4B9CD3 100%)"
+---
+
+# Learning Objectives
+
+## By the end of this session, you will...
+
+1. **Distinguish** prediction problems from estimation problems
+2. **Explain** the bias-variance tradeoff and cross-validation
+3. **Describe** regularization methods (Lasso, Ridge) and tree-based methods
+4. **Recognize** why ML is valuable for nuisance estimation in causal inference
+5. **Connect** ML tools to their roles in DML
+
+::: notes
+Frame this as a targeted refresher, not comprehensive ML course.
+Key question: "Why do we need ML in causal inference?"
+:::
+
+---
+
+# Part 1: Prediction vs. Estimation
+
+## The Two Tasks of Data Science
+
+:::: {.columns}
+
+::: {.column width="50%"}
+### Prediction (Y-hard)
+
+**Goal:** Best guess of Y for new X
+
+- Minimize out-of-sample error
+- Don't care about coefficients
+- Cross-validation for tuning
+
+**Examples:**
+- Hospital readmission risk
+- Credit default prediction
+- Image classification
+:::
+
+::: {.column width="50%"}
+### Estimation (β-hard)
+
+**Goal:** Recover structural parameters
+
+- Identify causal effects
+- Coefficients are interpretable
+- Need identifying assumptions
+
+**Examples:**
+- Treatment effect of a drug
+- Price elasticity
+- Returns to education
+:::
+
+::::
+
+::: notes
+This distinction is fundamental. ML excels at Y-hard; we need more for β-hard.
+:::
+
+---
+
+## Why Can't ML Solve Causal Questions?
+
+::: {.callout-warning}
+## The Fundamental Problem
+ML learns correlations in data. Correlation ≠ Causation.
+:::
+
+::: fragment
+**Example:** A model predicting hospital costs might find:
+
+- Patients with higher costs have more medications
+- Prediction: "More meds → higher costs"
+
+But causally, medications might *reduce* costs by preventing complications!
+:::
+
+::: fragment
+**ML sees:** $\text{Corr}(Meds, Costs) > 0$
+
+**Reality:** $\text{Causal Effect}(Meds \to Costs) < 0$ (possibly)
+:::
+
+---
+
+## The Prediction-Causation Gap
+
+```{mermaid}
+%%| fig-width: 10
+flowchart LR
+    subgraph ML["ML Prediction"]
+        X[Features X] --> M[ML Model] --> Y["Ŷ (prediction)"]
+    end
+
+    subgraph CI["Causal Inference"]
+        D[Treatment D] --> E[Causal Effect τ] --> O[Outcome Y]
+        C[Confounders X] --> D
+        C --> O
+    end
+
+    style ML fill:#e3f2fd,stroke:#1976d2
+    style CI fill:#fff3e0,stroke:#f57c00
+```
+
+::: fragment
+**Key insight:** ML can estimate the relationships in the causal graph, but can't identify the causal effect without additional structure.
+:::
+
+---
+
+## When ML Is Enough
+
+ML *is* sufficient for pure prediction tasks:
+
+::: incremental
+- **Risk stratification:** Which patients are high-risk?
+- **Resource targeting:** Who should receive an intervention?
+- **Screening:** Which cases need human review?
+- **Forecasting:** What will demand be next month?
+:::
+
+::: fragment
+::: {.callout-tip}
+## The Question Test
+If "Why?" doesn't matter, only "What will happen?", ML may be enough.
+:::
+:::
+
+---
+
+## When We Need Causal Methods
+
+We need causal inference when:
+
+::: incremental
+- **Counterfactuals matter:** What *would* happen under intervention?
+- **Policy evaluation:** What's the effect of a policy change?
+- **Attribution:** Did the treatment cause the outcome?
+- **Mechanism design:** How to optimize intervention assignment?
+:::
+
+::: fragment
+**Good news:** ML can *help* with causal inference—as a tool for nuisance estimation.
+:::
+
+---
+
+# Part 2: ML Fundamentals
+
+## The Bias-Variance Tradeoff
+
+$$\text{Expected MSE} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}$$
+
+:::: {.columns}
+
+::: {.column width="50%"}
+**Bias (Underfitting)**
+
+- Model too simple
+- Misses true structure
+- Systematic errors
+
+*Example:* Linear model for nonlinear data
+:::
+
+::: {.column width="50%"}
+**Variance (Overfitting)**
+
+- Model too complex
+- Fits noise in training data
+- Unstable across samples
+
+*Example:* Deep tree memorizing data
+:::
+
+::::
+
+---
+
+## Visualizing the Tradeoff
+
+```{r}
+#| echo: false
+#| fig-width: 10
+#| fig-height: 5
+#| fig-alt: "Bias-variance tradeoff showing optimal model complexity. As complexity increases, bias decreases but variance increases. Total error is minimized at an intermediate complexity level."
+
+library(ggplot2)
+library(dplyr)
+
+# Create data
+complexity <- seq(0.1, 10, by = 0.1)
+bias_sq <- 15 * exp(-0.5 * complexity)
+variance <- 0.5 * complexity^1.5
+total <- bias_sq + variance + 2
+
+df <- data.frame(
+  complexity = rep(complexity, 3),
+  error = c(bias_sq, variance, total),
+  type = rep(c("Bias²", "Variance", "Total Error"), each = length(complexity))
+)
+
+ggplot(df, aes(x = complexity, y = error, color = type, linetype = type)) +
+  geom_line(linewidth = 1.5) +
+  geom_vline(xintercept = 3.5, linetype = "dashed", color = "#767676") +
+  annotate("text", x = 3.7, y = 12, label = "Optimal\nComplexity", hjust = 0, size = 4) +
+  scale_color_manual(values = c("Bias²" = "#4B9CD3", "Variance" = "#F0B323", "Total Error" = "#13294B")) +
+  scale_linetype_manual(values = c("Bias²" = "solid", "Variance" = "solid", "Total Error" = "dashed")) +
+  labs(
+    x = "Model Complexity",
+    y = "Error",
+    color = NULL,
+    linetype = NULL
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    legend.position = "top",
+    panel.grid.minor = element_blank()
+  )
+```
+
+---
+
+## Cross-Validation: Finding the Sweet Spot
+
+**K-fold cross-validation:**
+
+```{mermaid}
+%%| fig-width: 10
+flowchart LR
+    subgraph "Fold 1"
+        T1[Train: 2-5] --> V1[Valid: 1]
+    end
+    subgraph "Fold 2"
+        T2[Train: 1,3-5] --> V2[Valid: 2]
+    end
+    subgraph "..."
+        T3[...] --> V3[...]
+    end
+    subgraph "Fold 5"
+        T5[Train: 1-4] --> V5[Valid: 5]
+    end
+
+    V1 & V2 & V3 & V5 --> Avg[Average Error]
+```
+
+::: fragment
+**Purpose:** Estimate out-of-sample performance for:
+1. Model selection (which algorithm?)
+2. Hyperparameter tuning (which λ?)
+3. Performance estimation (how good is the model?)
+:::
+
+---
+
+## Why Cross-Validation Matters for DML
+
+::: {.callout-important}
+## Cross-Fitting in DML
+In Double ML, we use **cross-fitting** (sample splitting) to prevent overfitting bias from contaminating causal estimates.
+:::
+
+::: fragment
+Without cross-fitting:
+- ML models overfit to training data
+- This bias leaks into causal estimates
+- Standard errors are invalid
+
+With cross-fitting:
+- Predictions made on held-out samples
+- No overfitting bias in causal estimates
+- Valid inference
+:::
+
+---
+
+## Regularization: Controlling Complexity
+
+**Problem:** With many predictors, OLS overfits (high variance).
+
+**Solution:** Add a penalty that shrinks coefficients.
+
+::: fragment
+**Lasso (L1 penalty):**
+$$\min_\beta \sum_{i=1}^n (y_i - X_i\beta)^2 + \lambda \sum_{j=1}^p |\beta_j|$$
+
+- Shrinks some coefficients to exactly zero
+- Performs variable selection
+:::
+
+::: fragment
+**Ridge (L2 penalty):**
+$$\min_\beta \sum_{i=1}^n (y_i - X_i\beta)^2 + \lambda \sum_{j=1}^p \beta_j^2$$
+
+- Shrinks all coefficients (no exact zeros)
+- Good when all predictors contribute
+:::
+
+---
+
+## Lasso: Geometric Intuition
+
+:::: {.columns}
+
+::: {.column width="45%"}
+The diamond-shaped constraint region creates corners where some $\beta_j = 0$.
+
+**Result:** Automatic variable selection
+
+**Choosing λ:** Cross-validation!
+
+- Small λ: Less shrinkage, more variance
+- Large λ: More shrinkage, more bias
+:::
+
+::: {.column width="55%"}
+```{r}
+#| echo: false
+#| fig-width: 5
+#| fig-height: 5
+#| fig-alt: "Lasso constraint region (diamond) intersecting with RSS contours. The solution occurs at a corner where beta_1 = 0."
+
+library(ggplot2)
+
+# Create Lasso diamond
+t <- seq(0, 2*pi, length.out = 100)
+diamond <- data.frame(
+  x = cos(t) * abs(cos(t)) / (abs(cos(t)) + abs(sin(t))),
+  y = sin(t) * abs(sin(t)) / (abs(cos(t)) + abs(sin(t)))
+)
+
+# Create RSS contours (ellipses centered at true beta)
+beta_true <- c(0.8, 0.3)
+theta <- seq(0, 2*pi, length.out = 100)
+
+ggplot() +
+  # RSS contours
+  geom_path(data = data.frame(
+    x = beta_true[1] + 0.3*cos(theta),
+    y = beta_true[2] + 0.5*sin(theta)
+  ), aes(x, y), color = "#4B9CD3", linewidth = 0.8) +
+  geom_path(data = data.frame(
+    x = beta_true[1] + 0.5*cos(theta),
+    y = beta_true[2] + 0.8*sin(theta)
+  ), aes(x, y), color = "#4B9CD3", linewidth = 0.8) +
+  geom_path(data = data.frame(
+    x = beta_true[1] + 0.7*cos(theta),
+    y = beta_true[2] + 1.1*sin(theta)
+  ), aes(x, y), color = "#4B9CD3", linewidth = 0.8) +
+  # Lasso constraint
+  geom_polygon(data = diamond, aes(x, y), fill = "#F0B323", alpha = 0.3, color = "#F0B323", linewidth = 1.5) +
+  # Solution point
+  geom_point(aes(x = 0, y = 0.85), color = "#C4122F", size = 4) +
+  annotate("text", x = 0.15, y = 0.85, label = "Lasso\nsolution", hjust = 0, size = 3.5) +
+  geom_point(aes(x = beta_true[1], y = beta_true[2]), color = "#13294B", size = 3) +
+  annotate("text", x = beta_true[1] + 0.1, y = beta_true[2], label = "OLS", hjust = 0, size = 3.5) +
+  # Axes
+  geom_hline(yintercept = 0, color = "gray50", linewidth = 0.5) +
+  geom_vline(xintercept = 0, color = "gray50", linewidth = 0.5) +
+  coord_fixed(xlim = c(-1.2, 1.2), ylim = c(-1.2, 1.2)) +
+  labs(x = expression(beta[1]), y = expression(beta[2])) +
+  theme_minimal(base_size = 14)
+```
+:::
+
+::::
+
+---
+
+# Part 3: Tree-Based Methods
+
+## Decision Trees: Intuition
+
+Trees recursively partition the predictor space:
+
+:::: {.columns}
+
+::: {.column width="40%"}
+```{mermaid}
+flowchart TD
+    A[Age > 60?] --> |Yes| B[High Risk]
+    A --> |No| C[Income > 50K?]
+    C --> |Yes| D[Low Risk]
+    C --> |No| E[Medium Risk]
+
+    classDef high fill:#f8cecc,stroke:#333
+    classDef low fill:#d5e8d4,stroke:#333
+    classDef med fill:#fff2cc,stroke:#333
+
+    class B high
+    class D low
+    class E med
+```
+:::
+
+::: {.column width="60%"}
+**Advantages:**
+- No functional form assumptions
+- Automatic interactions
+- Highly interpretable
+
+**Disadvantages:**
+- High variance (unstable)
+- Overfit easily if unpruned
+- Limited accuracy alone
+:::
+
+::::
+
+---
+
+## Random Forests: Wisdom of Crowds
+
+**Problem:** Single trees have high variance.
+
+**Solution:** Average many trees!
+
+::: incremental
+1. **Bootstrap:** Draw B samples with replacement
+2. **Random subsets:** At each split, consider only m predictors
+3. **Aggregate:** Average predictions (regression) or vote (classification)
+:::
+
+::: fragment
+::: {.callout-tip}
+## Why It Works
+Averaging many uncorrelated high-variance estimators reduces variance without increasing bias.
+:::
+:::
+
+---
+
+## Gradient Boosting (XGBoost)
+
+**Different philosophy:** Build trees sequentially, each correcting previous errors.
+
+```{mermaid}
+%%| fig-width: 10
+flowchart LR
+    Y[Y] --> T1[Tree 1]
+    T1 --> R1[Residuals]
+    R1 --> T2[Tree 2]
+    T2 --> R2[Residuals]
+    R2 --> T3[Tree 3]
+    T3 --> dots[...]
+    dots --> Final["Final: Σ Trees"]
+```
+
+::: fragment
+**Tuning parameters:**
+- **Number of trees** (B): More = better fit, but can overfit
+- **Learning rate** (λ): Smaller = more robust, needs more trees
+- **Tree depth**: Usually shallow (3-6)
+:::
+
+---
+
+## Random Forest vs. XGBoost
+
+| Aspect | Random Forest | XGBoost |
+|--------|---------------|---------|
+| Trees | Independent (parallel) | Sequential |
+| Strategy | Average out errors | Correct errors |
+| Overfitting | Less prone | More careful tuning needed |
+| Tuning | Easier | More hyperparameters |
+| Performance | Very good | Often best (if tuned well) |
+
+::: fragment
+**In practice:** Both are excellent for nuisance estimation in DML.
+:::
+
+---
+
+# Part 4: ML as a Tool for Causal Inference
+
+## The DML Insight
+
+In causal inference, we want to estimate $\tau$ (treatment effect).
+
+Traditional approach struggles when:
+- Many confounders (high-dimensional X)
+- Unknown functional forms
+- Regularization introduces bias in $\hat{\tau}$
+
+::: fragment
+::: {.callout-note}
+## The Double ML Solution
+Use ML to estimate **nuisance functions**, not the treatment effect directly.
+Then use orthogonal scores to recover $\hat{\tau}$ without regularization bias.
+:::
+:::
+
+---
+
+## Nuisance Functions in DML
+
+:::: {.columns}
+
+::: {.column width="50%"}
+### Propensity Score
+$$e(X) = P(D=1|X)$$
+
+- Probability of treatment given X
+- Estimated by ML (logistic, forest, etc.)
+- Used for weighting or adjustment
+:::
+
+::: {.column width="50%"}
+### Outcome Regression
+$$\mu(d, X) = E[Y|D=d, X]$$
+
+- Expected outcome given D and X
+- Estimated by ML (any method)
+- Used for imputation or adjustment
+:::
+
+::::
+
+::: fragment
+**Key:** We don't interpret these functions—we just need good predictions!
+:::
+
+---
+
+## Why ML Helps Causal Inference
+
+```{mermaid}
+%%| fig-width: 12
+flowchart LR
+    subgraph "Traditional"
+        D1[Data] --> R1[Parametric\nRegression] --> B1["τ̂ (possibly biased)"]
+    end
+
+    subgraph "Double ML"
+        D2[Data] --> ML[ML\nNuisance Est.]
+        ML --> e["ê(X)"]
+        ML --> mu["μ̂(X)"]
+        e --> OS[Orthogonal\nScore]
+        mu --> OS
+        OS --> B2["τ̂ (root-n consistent)"]
+    end
+
+    style Traditional fill:#fff3e0
+    style B1 fill:#f8cecc
+    style B2 fill:#d5e8d4
+```
+
+---
+
+## The Magic: Cross-Fitting
+
+::: {.callout-important}
+## Why Cross-Fitting?
+ML predictions overfit to training data. If we use these predictions to estimate $\tau$, overfitting bias leaks through.
+:::
+
+::: fragment
+**Solution:** Cross-fitting
+
+1. Split data into K folds
+2. For each fold k: train ML on other folds, predict on fold k
+3. All predictions are out-of-sample → no overfitting bias
+:::
+
+::: fragment
+This is the "secret sauce" that makes ML + causal inference work!
+:::
+
+---
+
+## R Packages You'll Use
+
+```r
+# ML for nuisance estimation
+library(glmnet)     # Lasso, Ridge, Elastic Net
+library(ranger)     # Random Forests (fast)
+library(xgboost)    # Gradient Boosting
+
+# Causal ML
+library(DoubleML)   # Double Machine Learning
+library(grf)        # Causal Forests, Generalized RF
+
+# Workflow
+library(tidymodels) # Unified ML interface
+library(caret)      # Alternative workflow
+```
+
+---
+
+## Preview: DML in Action
+
+```r
+# Coming in Session 2.1!
+library(DoubleML)
+
+# Specify ML learners for nuisance estimation
+ml_g <- lrn("regr.ranger")    # Outcome regression: random forest
+ml_m <- lrn("classif.ranger") # Propensity score: random forest
+
+# Create DML data object
+dml_data <- DoubleMLData$new(data, y_col = "outcome",
+                              d_col = "treatment", x_cols = covariates)
+
+# Estimate treatment effect
+dml_plr <- DoubleMLPLR$new(dml_data, ml_g, ml_m)
+dml_plr$fit()
+dml_plr$summary()
+```
+
+---
+
+# Key Takeaways
+
+## Summary
+
+1. **Prediction ≠ Causation.** ML predicts Y; causal inference requires more.
+
+2. **Bias-variance tradeoff.** Regularization and cross-validation find the sweet spot.
+
+3. **Lasso & Ridge.** Control complexity via coefficient shrinkage.
+
+4. **Ensembles reduce variance.** Random forests and boosting outperform single models.
+
+5. **In DML, ML serves causality.** Use ML's predictive power for nuisance estimation, then recover causal effects through orthogonal estimation.
+
+---
+
+## For Next Time
+
+### Session 2.1: Influence Functions & Orthogonal Scores
+
+**Preparation:**
+- Read: Chernozhukov Ch. 4 (Orthogonal Moments)
+- Read: Kennedy (2016) tutorial on influence functions
+
+**Key question:** How do we construct estimators that are robust to small errors in ML predictions?
+
+---
+
+## Questions? {.center}
+
+::: {.r-fit-text}
+Office Hours: Wednesdays 2-4pm, McGavran-Greenberg 2101E
+
+Email: ssylvia@unc.edu
+:::
+
+---
+
+# Appendix {visibility="uncounted"}
+
+## Additional Resources
+
+**Remedial:**
+- StatQuest ML playlist
+- ISLR online course (free)
+
+**Advanced:**
+- Elements of Statistical Learning (ESL)
+- Athey & Imbens (2019) survey
+
+## References
+
+::: {#refs}
+:::

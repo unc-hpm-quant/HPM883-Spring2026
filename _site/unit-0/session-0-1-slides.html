@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
+
+  <meta name="author" content="Sean Sylvia">
+  <meta name="dcterms.date" content="2026-01-07">
+  <title>HPM 883 - Spring 2026 – Session 0.1: Course Overview &amp; Causal Inference Foundations</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-5f66212b01f094180b8d10b5b9960144.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+  <script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+  <link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Session 0.1: Course Overview &amp; Causal Inference Foundations</h1>
+  <p class="subtitle">HPM 883: Advanced Quantitative Methods</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Sean Sylvia 
+</div>
+</div>
+</div>
+
+  <p class="date">2026-01-07</p>
+</section><section id="TOC">
+<nav role="doc-toc"> 
+<h2 id="toc-title">Table of contents</h2>
+<ul>
+<li><a href="#/welcome-to-hpm-883" id="/toc-welcome-to-hpm-883">Welcome to HPM 883</a></li>
+<li><a href="#/course-philosophy" id="/toc-course-philosophy">Course Philosophy</a></li>
+<li><a href="#/the-central-question" id="/toc-the-central-question">The Central Question</a></li>
+<li><a href="#/the-three-layer-causal-inference-stack" id="/toc-the-three-layer-causal-inference-stack">The Three-Layer Causal Inference Stack</a></li>
+<li><a href="#/layer-1-identification" id="/toc-layer-1-identification">Layer 1: Identification</a></li>
+<li><a href="#/layer-2-estimation" id="/toc-layer-2-estimation">Layer 2: Estimation</a></li>
+<li><a href="#/layer-3-decision" id="/toc-layer-3-decision">Layer 3: Decision</a></li>
+<li><a href="#/why-ai-in-the-loop" id="/toc-why-ai-in-the-loop">Why “AI in the Loop”?</a></li>
+<li><a href="#/ai-in-causal-analysis-dos-and-donts" id="/toc-ai-in-causal-analysis-dos-and-donts">AI in Causal Analysis: Do’s and Don’ts</a></li>
+<li><a href="#/potential-outcomes-framework" id="/toc-potential-outcomes-framework">Potential Outcomes Framework</a>
+<ul>
+<li><a href="#/the-fundamental-setup" id="/toc-the-fundamental-setup">The Fundamental Setup</a></li>
+<li><a href="#/the-individual-treatment-effect" id="/toc-the-individual-treatment-effect">The Individual Treatment Effect</a></li>
+</ul></li>
+<li><a href="#/the-fundamental-problem-of-causal-inference" id="/toc-the-fundamental-problem-of-causal-inference">The Fundamental Problem of Causal Inference</a></li>
+<li><a href="#/average-treatment-effect-ate" id="/toc-average-treatment-effect-ate">Average Treatment Effect (ATE)</a>
+<ul>
+<li><a href="#/definition" id="/toc-definition">Definition</a></li>
+<li><a href="#/under-random-assignment" id="/toc-under-random-assignment">Under Random Assignment</a></li>
+</ul></li>
+<li><a href="#/beyond-average-effects-cate" id="/toc-beyond-average-effects-cate">Beyond Average Effects: CATE</a>
+<ul>
+<li><a href="#/conditional-average-treatment-effect" id="/toc-conditional-average-treatment-effect">Conditional Average Treatment Effect</a></li>
+<li><a href="#/why-it-matters-for-health-policy" id="/toc-why-it-matters-for-health-policy">Why It Matters for Health Policy</a></li>
+</ul></li>
+<li><a href="#/introduction-to-causal-graphs-dags" id="/toc-introduction-to-causal-graphs-dags">Introduction to Causal Graphs (DAGs)</a>
+<ul>
+<li><a href="#/directed-acyclic-graphs" id="/toc-directed-acyclic-graphs">Directed Acyclic Graphs</a></li>
+</ul></li>
+<li><a href="#/why-dags-matter" id="/toc-why-dags-matter">Why DAGs Matter</a>
+<ul>
+<li><a href="#/confounding" id="/toc-confounding">Confounding</a></li>
+</ul></li>
+<li><a href="#/course-structure-overview" id="/toc-course-structure-overview">Course Structure Overview</a></li>
+<li><a href="#/primary-textbooks-both-free" id="/toc-primary-textbooks-both-free">Primary Textbooks (Both FREE!)</a></li>
+<li><a href="#/methods-preview" id="/toc-methods-preview">Methods Preview</a>
+<ul>
+<li><a href="#/what-youll-learn" id="/toc-what-youll-learn">What You’ll Learn</a></li>
+<li><a href="#/r-packages" id="/toc-r-packages">R Packages</a></li>
+</ul></li>
+<li><a href="#/assessment-structure" id="/toc-assessment-structure">Assessment Structure</a></li>
+<li><a href="#/this-weeks-goals" id="/toc-this-weeks-goals">This Week’s Goals</a>
+<ul>
+<li><a href="#/by-end-of-unit-0-week-1" id="/toc-by-end-of-unit-0-week-1">By End of Unit 0 (Week 1)</a></li>
+</ul></li>
+<li><a href="#/next-session-session-0.2-jan-12" id="/toc-next-session-session-0.2-jan-12">Next Session: Session 0.2 (Jan 12)</a>
+<ul>
+<li><a href="#/reproducible-research-setup-remote" id="/toc-reproducible-research-setup-remote">Reproducible Research Setup (Remote)</a></li>
+</ul></li>
+<li><a href="#/for-thursday-session-0.3" id="/toc-for-thursday-session-0.3">For Thursday (Session 0.3)</a>
+<ul>
+<li><a href="#/reading-assignment" id="/toc-reading-assignment">Reading Assignment</a></li>
+</ul></li>
+<li><a href="#/questions" id="/toc-questions">Questions?</a></li>
+<li><a href="#/summary" id="/toc-summary">Summary</a></li>
+</ul>
+</nav>
+</section>
+<section id="welcome-to-hpm-883" class="slide level2 center">
+<h2>Welcome to HPM 883</h2>
+<p><strong>Advanced Quantitative Methods for Health Policy and Management</strong></p>
+<p>Spring 2026</p>
+<aside class="notes">
+<p>Welcome students. This is the third course in the quantitative methods sequence. We’re going to explore cutting-edge methods at the intersection of causal inference and machine learning.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="course-philosophy" class="slide level2">
+<h2>Course Philosophy</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="what-this-course-is">What This Course Is</h3>
+<ul>
+<li><strong>Applied focus</strong>: Real health policy problems</li>
+<li><strong>Modern methods</strong>: Causal ML, not just regression</li>
+<li><strong>Reproducible research</strong>: Code that others can run</li>
+<li><strong>AI-assisted analysis</strong>: Learning to work <em>with</em> AI tools</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<h3 id="what-this-course-is-not">What This Course Is Not</h3>
+<ul>
+<li>A statistics refresher (prerequisite: HPM 881-882)</li>
+<li>Pure machine learning for prediction</li>
+<li>Theory without application</li>
+<li>AI doing your thinking for you</li>
+</ul>
+</div></div>
+<aside class="notes">
+<p>Set expectations early. This is an advanced course that builds on prior quantitative training. We’ll use modern methods but always with a focus on causal questions that matter for health policy.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-central-question" class="slide level2">
+<h2>The Central Question</h2>
+<blockquote>
+<p>When does a health intervention <strong>cause</strong> an outcome to change?</p>
+</blockquote>
+<div class="fragment">
+<p>This is fundamentally different from:</p>
+<ul>
+<li>“Are intervention and outcome <strong>associated</strong>?”</li>
+<li>“Can we <strong>predict</strong> outcomes from interventions?”</li>
+</ul>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Key Insight</strong></p>
+</div>
+<div class="callout-content">
+<p>Prediction ≠ Causation. A model that predicts well may tell us nothing about what happens when we intervene.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-three-layer-causal-inference-stack" class="slide level2">
+<h2>The Three-Layer Causal Inference Stack</h2>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a></a>flowchart TB</span>
+<span id="cb1-2"><a></a>    subgraph Layer3["Layer 3: DECISION"]</span>
+<span id="cb1-3"><a></a>        D1["What should we do?"]</span>
+<span id="cb1-4"><a></a>        D2["Policy learning"]</span>
+<span id="cb1-5"><a></a>        D3["Optimal treatment rules"]</span>
+<span id="cb1-6"><a></a>    end</span>
+<span id="cb1-7"><a></a></span>
+<span id="cb1-8"><a></a>    subgraph Layer2["Layer 2: ESTIMATION"]</span>
+<span id="cb1-9"><a></a>        E1["How do we estimate effects?"]</span>
+<span id="cb1-10"><a></a>        E2["Double ML, Causal Forests"]</span>
+<span id="cb1-11"><a></a>        E3["Doubly-robust methods"]</span>
+<span id="cb1-12"><a></a>    end</span>
+<span id="cb1-13"><a></a></span>
+<span id="cb1-14"><a></a>    subgraph Layer1["Layer 1: IDENTIFICATION"]</span>
+<span id="cb1-15"><a></a>        I1["What assumptions justify causal claims?"]</span>
+<span id="cb1-16"><a></a>        I2["RCTs, Natural experiments"]</span>
+<span id="cb1-17"><a></a>        I3["DAGs, Potential outcomes"]</span>
+<span id="cb1-18"><a></a>    end</span>
+<span id="cb1-19"><a></a></span>
+<span id="cb1-20"><a></a>    Layer1 --&gt; Layer2</span>
+<span id="cb1-21"><a></a>    Layer2 --&gt; Layer3</span>
+<span id="cb1-22"><a></a></span>
+<span id="cb1-23"><a></a>    style Layer1 fill:#e6f3ff</span>
+<span id="cb1-24"><a></a>    style Layer2 fill:#fff2e6</span>
+<span id="cb1-25"><a></a>    style Layer3 fill:#e6ffe6</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TB
+    subgraph Layer3["Layer 3: DECISION"]
+        D1["What should we do?"]
+        D2["Policy learning"]
+        D3["Optimal treatment rules"]
+    end
+
+    subgraph Layer2["Layer 2: ESTIMATION"]
+        E1["How do we estimate effects?"]
+        E2["Double ML, Causal Forests"]
+        E3["Doubly-robust methods"]
+    end
+
+    subgraph Layer1["Layer 1: IDENTIFICATION"]
+        I1["What assumptions justify causal claims?"]
+        I2["RCTs, Natural experiments"]
+        I3["DAGs, Potential outcomes"]
+    end
+
+    Layer1 --&gt; Layer2
+    Layer2 --&gt; Layer3
+
+    style Layer1 fill:#e6f3ff
+    style Layer2 fill:#fff2e6
+    style Layer3 fill:#e6ffe6
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>This three-layer stack is the organizing framework for the entire course. Every method we learn fits somewhere in this stack. Identification comes first—you must know <em>what</em> you’re estimating before worrying about <em>how</em> to estimate it.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="layer-1-identification" class="slide level2">
+<h2>Layer 1: Identification</h2>
+<p><strong>The Question</strong>: Under what assumptions can we interpret an estimate as causal?</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="tools">Tools</h3>
+<ul>
+<li>Potential outcomes framework</li>
+<li>Directed Acyclic Graphs (DAGs)</li>
+<li>Identification strategies</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<h3 id="course-coverage">Course Coverage</h3>
+<ul>
+<li>Unit 0: Foundations</li>
+<li>Unit 1: Experimental design</li>
+<li>Unit 5-6: Observational strategies</li>
+</ul>
+</div></div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Identification First</strong></p>
+</div>
+<div class="callout-content">
+<p>No amount of sophisticated estimation can rescue a study with flawed identification.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="layer-2-estimation" class="slide level2">
+<h2>Layer 2: Estimation</h2>
+<p><strong>The Question</strong>: Given valid identification, how do we estimate effects efficiently?</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="tools-1">Tools</h3>
+<ul>
+<li>Double/Debiased ML</li>
+<li>Doubly-robust estimation</li>
+<li>Causal forests</li>
+<li>Influence functions</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<h3 id="course-coverage-1">Course Coverage</h3>
+<ul>
+<li>Unit 2: DR &amp; DML</li>
+<li>Unit 3: Heterogeneous effects</li>
+<li>Units 5-6: Advanced methods</li>
+</ul>
+</div></div>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Modern Estimation</strong></p>
+</div>
+<div class="callout-content">
+<p>ML methods excel at high-dimensional nuisance estimation while preserving valid inference on causal parameters.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="layer-3-decision" class="slide level2">
+<h2>Layer 3: Decision</h2>
+<p><strong>The Question</strong>: Given estimated effects, what action should we take?</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="tools-2">Tools</h3>
+<ul>
+<li>Policy learning</li>
+<li>Treatment rules</li>
+<li>Off-policy evaluation</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<h3 id="course-coverage-2">Course Coverage</h3>
+<ul>
+<li>Unit 4: Policy learning</li>
+<li>Unit 8: Capstone projects</li>
+</ul>
+</div></div>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Decision Under Uncertainty</strong></p>
+</div>
+<div class="callout-content">
+<p>Optimal decisions depend not just on average effects, but on heterogeneity and constraints.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="why-ai-in-the-loop" class="slide level2 scrollable">
+<h2>Why “AI in the Loop”?</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<h3 id="human-driven-ai-assisted">Human-Driven, AI-Assisted</h3>
+<ol type="1">
+<li><strong>You</strong> specify the causal question</li>
+<li><strong>You</strong> choose the identification strategy</li>
+<li><strong>AI</strong> assists with implementation</li>
+<li><strong>You</strong> evaluate and interpret results</li>
+<li><strong>You</strong> make the decision</li>
+</ol>
+<p>This is <strong>“AI in the Loop”</strong> — not “Human in the Loop”</p>
+</div><div class="column" style="width:40%;">
+<h3 id="why-it-matters">Why It Matters</h3>
+<ul>
+<li>AI can’t choose your research question</li>
+<li>AI can hallucinate methods</li>
+<li>AI doesn’t know your context</li>
+<li>AI can’t defend your work</li>
+<li><strong>You are responsible</strong></li>
+</ul>
+</div></div>
+<aside class="notes">
+<p>This distinction is crucial. Many people talk about “human in the loop” for AI systems. In research, we flip this: the human drives the process, AI assists. You maintain control and responsibility.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ai-in-causal-analysis-dos-and-donts" class="slide level2">
+<h2>AI in Causal Analysis: Do’s and Don’ts</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="good-uses-of-ai">✅ Good Uses of AI</h3>
+<ul>
+<li>Code implementation</li>
+<li>Debugging syntax errors</li>
+<li>Explaining methods</li>
+<li>Generating simulations</li>
+<li>Formatting output</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<h3 id="risky-uses-of-ai">❌ Risky Uses of AI</h3>
+<ul>
+<li>Choosing identification strategy</li>
+<li>Interpreting results for you</li>
+<li>Making causal claims</li>
+<li>Selecting variables</li>
+<li>“Just run an analysis”</li>
+</ul>
+</div></div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Course Policy</strong></p>
+</div>
+<div class="callout-content">
+<p>You may use AI tools, but you are responsible for all submitted work. You must understand and be able to explain every line of code and every claim.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="potential-outcomes-framework" class="slide level2">
+<h2>Potential Outcomes Framework</h2>
+<h3 id="the-fundamental-setup">The Fundamental Setup</h3>
+<p>For each unit <span class="math inline">\(i\)</span>:</p>
+<ul>
+<li><span class="math inline">\(Y_i(1)\)</span>: Outcome if unit receives treatment</li>
+<li><span class="math inline">\(Y_i(0)\)</span>: Outcome if unit receives control</li>
+<li><span class="math inline">\(D_i\)</span>: Treatment indicator (1 = treated, 0 = control)</li>
+</ul>
+<p>. . .</p>
+<h3 id="the-individual-treatment-effect">The Individual Treatment Effect</h3>
+<p><span class="math display">\[\tau_i = Y_i(1) - Y_i(0)\]</span></p>
+<p>The causal effect for unit <span class="math inline">\(i\)</span> is the difference between what would happen under treatment versus control.</p>
+<aside class="notes">
+<p>This notation will be used throughout the course. Get comfortable with it. Y(1) is the potential outcome under treatment, Y(0) under control. These are counterfactual outcomes—we can only ever observe one for each unit.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-fundamental-problem-of-causal-inference" class="slide level2">
+<h2>The Fundamental Problem of Causal Inference</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>The Problem</strong></p>
+</div>
+<div class="callout-content">
+<p>We can never observe both <span class="math inline">\(Y_i(1)\)</span> and <span class="math inline">\(Y_i(0)\)</span> for the same unit.</p>
+</div>
+</div>
+</div>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Unit</th>
+<th><span class="math inline">\(Y_i(1)\)</span></th>
+<th><span class="math inline">\(Y_i(0)\)</span></th>
+<th><span class="math inline">\(\tau_i\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>8</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>?</td>
+<td>5</td>
+<td>?</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>7</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>?</td>
+<td>6</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p><strong>Solution</strong>: Randomization allows us to estimate <em>average</em> effects by comparing groups.</p>
+</div>
+</section>
+<section id="average-treatment-effect-ate" class="slide level2">
+<h2>Average Treatment Effect (ATE)</h2>
+<h3 id="definition">Definition</h3>
+<p><span class="math display">\[\text{ATE} = E[Y(1) - Y(0)] = E[Y(1)] - E[Y(0)]\]</span></p>
+<p>The average causal effect across the population.</p>
+<p>. . .</p>
+<h3 id="under-random-assignment">Under Random Assignment</h3>
+<p><span class="math display">\[\text{ATE} = E[Y | D=1] - E[Y | D=0]\]</span></p>
+<p>Why? Because randomization ensures:</p>
+<p><span class="math display">\[E[Y(1) | D=1] = E[Y(1)] \quad \text{and} \quad E[Y(0) | D=0] = E[Y(0)]\]</span></p>
+<aside class="notes">
+<p>This is the magic of randomization. It breaks the link between treatment assignment and potential outcomes, allowing us to estimate average causal effects by comparing means.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="beyond-average-effects-cate" class="slide level2">
+<h2>Beyond Average Effects: CATE</h2>
+<h3 id="conditional-average-treatment-effect">Conditional Average Treatment Effect</h3>
+<p><span class="math display">\[\text{CATE}(x) = E[Y(1) - Y(0) | X = x]\]</span></p>
+<p>The average effect for units with characteristics <span class="math inline">\(X = x\)</span>.</p>
+<p>. . .</p>
+<h3 id="why-it-matters-for-health-policy">Why It Matters for Health Policy</h3>
+<ul>
+<li><strong>Personalized medicine</strong>: Who benefits most from treatment?</li>
+<li><strong>Resource allocation</strong>: Where should we target interventions?</li>
+<li><strong>Equity</strong>: Do effects differ across populations?</li>
+</ul>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Course Focus</strong></p>
+</div>
+<div class="callout-content">
+<p>Units 3-4 focus on estimating heterogeneous effects using causal forests and policy learning.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="introduction-to-causal-graphs-dags" class="slide level2">
+<h2>Introduction to Causal Graphs (DAGs)</h2>
+<h3 id="directed-acyclic-graphs">Directed Acyclic Graphs</h3>
+<p>Visual representations of causal relationships:</p>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a></a>flowchart LR</span>
+<span id="cb2-2"><a></a>    X["Confounder&lt;br/&gt;X"] --&gt; D["Treatment&lt;br/&gt;D"]</span>
+<span id="cb2-3"><a></a>    X --&gt; Y["Outcome&lt;br/&gt;Y"]</span>
+<span id="cb2-4"><a></a>    D --&gt; Y</span>
+<span id="cb2-5"><a></a></span>
+<span id="cb2-6"><a></a>    style X fill:#ffcccc</span>
+<span id="cb2-7"><a></a>    style D fill:#cce5ff</span>
+<span id="cb2-8"><a></a>    style Y fill:#ccffcc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    X["Confounder&lt;br/&gt;X"] --&gt; D["Treatment&lt;br/&gt;D"]
+    X --&gt; Y["Outcome&lt;br/&gt;Y"]
+    D --&gt; Y
+
+    style X fill:#ffcccc
+    style D fill:#cce5ff
+    style Y fill:#ccffcc
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>Nodes</strong>: Variables</li>
+<li><strong>Arrows</strong>: Direct causal effects</li>
+<li><strong>Paths</strong>: Chains of causal relationships</li>
+</ul>
+<aside class="notes">
+<p>DAGs are powerful tools for reasoning about identification. We’ll use them throughout the course to think about what we need to control for and what we should not control for.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="why-dags-matter" class="slide level2">
+<h2>Why DAGs Matter</h2>
+<h3 id="confounding">Confounding</h3>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb3-1"><a></a>flowchart LR</span>
+<span id="cb3-2"><a></a>    SES["Socioeconomic&lt;br/&gt;Status"] --&gt; Access["Healthcare&lt;br/&gt;Access"]</span>
+<span id="cb3-3"><a></a>    SES --&gt; Health["Health&lt;br/&gt;Outcomes"]</span>
+<span id="cb3-4"><a></a>    Access --&gt; Health</span>
+<span id="cb3-5"><a></a></span>
+<span id="cb3-6"><a></a>    style SES fill:#ffcccc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    SES["Socioeconomic&lt;br/&gt;Status"] --&gt; Access["Healthcare&lt;br/&gt;Access"]
+    SES --&gt; Health["Health&lt;br/&gt;Outcomes"]
+    Access --&gt; Health
+
+    style SES fill:#ffcccc
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>SES confounds the relationship between access and health.</p>
+<p>. . .</p>
+<p><strong>Without adjustment</strong>: Association ≠ Causation</p>
+<p><strong>With adjustment for SES</strong>: We can isolate the causal effect of access</p>
+</section>
+<section id="course-structure-overview" class="slide level2">
+<h2>Course Structure Overview</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Unit</th>
+<th>Topic</th>
+<th>Weeks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>Foundations</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>Experimental Design</td>
+<td>2-3</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>DR &amp; DML</td>
+<td>4-6</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>HTE &amp; Causal Forests</td>
+<td>7-8</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>Policy Learning</td>
+<td>9</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>Observational ML</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>DiD &amp; Synthetic Controls</td>
+<td>11</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>Advanced Topics</td>
+<td>12</td>
+</tr>
+<tr class="odd">
+<td>8</td>
+<td>Capstone</td>
+<td>13-14</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="primary-textbooks-both-free" class="slide level2">
+<h2>Primary Textbooks (Both FREE!)</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="chernozhukov-et-al.-2025">Chernozhukov et al.&nbsp;(2025)</h3>
+<p><em>Applied Causal Inference Powered by ML and AI</em></p>
+<p><a href="https://causalml-book.org/">causalml-book.org</a></p>
+<ul>
+<li>Practitioner-focused</li>
+<li>Python + R code</li>
+<li>Industry examples</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<h3 id="wager-2024">Wager (2024)</h3>
+<p><em>Causal Inference: A Statistical Learning Approach</em></p>
+<p><a href="http://web.stanford.edu/~swager/causal_inf_book.pdf">Stanford PDF</a></p>
+<ul>
+<li>Theoretical foundations</li>
+<li>Math-forward</li>
+<li>Research orientation</li>
+</ul>
+</div></div>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Reading Strategy</strong></p>
+</div>
+<div class="callout-content">
+<p>Use Chernozhukov for implementation, Wager for deeper understanding of the theory.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="methods-preview" class="slide level2">
+<h2>Methods Preview</h2>
+<h3 id="what-youll-learn">What You’ll Learn</h3>
+<div class="columns">
+<div class="column" style="width:33%;">
+<h4 id="estimation">Estimation</h4>
+<ul>
+<li>Double ML</li>
+<li>AIPW</li>
+<li>Influence functions</li>
+</ul>
+</div><div class="column" style="width:33%;">
+<h4 id="heterogeneity">Heterogeneity</h4>
+<ul>
+<li>Causal forests</li>
+<li>Meta-learners</li>
+<li>CATE estimation</li>
+</ul>
+</div><div class="column" style="width:33%;">
+<h4 id="policy">Policy</h4>
+<ul>
+<li>Policy trees</li>
+<li>Off-policy evaluation</li>
+<li>Treatment rules</li>
+</ul>
+</div></div>
+<p>. . .</p>
+<h3 id="r-packages">R Packages</h3>
+<p><code>DoubleML</code> | <code>grf</code> | <code>policytree</code> | <code>did</code> | <code>Synth</code> | <code>DeclareDesign</code></p>
+</section>
+<section id="assessment-structure" class="slide level2">
+<h2>Assessment Structure</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Weight</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Labs</td>
+<td>30%</td>
+<td>4 required labs (Labs 0-4)</td>
+</tr>
+<tr class="even">
+<td>Design Memos</td>
+<td>20%</td>
+<td>2 memos (experimental + DML)</td>
+</tr>
+<tr class="odd">
+<td>Capstone</td>
+<td>45%</td>
+<td>PAP, replication, or comparison</td>
+</tr>
+<tr class="even">
+<td>Peer Review</td>
+<td>5%</td>
+<td>Review one peer’s capstone</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Labs 5-7</strong></p>
+</div>
+<div class="callout-content">
+<p>Optional labs available for extra credit and deeper exploration.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="this-weeks-goals" class="slide level2 scrollable">
+<h2>This Week’s Goals</h2>
+<h3 id="by-end-of-unit-0-week-1">By End of Unit 0 (Week 1)</h3>
+<ol type="1">
+<li>✅ Understand the three-layer causal inference stack</li>
+<li>📐 Apply potential outcomes framework</li>
+<li>📊 Construct and interpret basic DAGs</li>
+<li>💻 Set up reproducible R environment</li>
+<li>🔬 Simulate basic RCT and estimate ATE</li>
+</ol>
+</section>
+<section id="next-session-session-0.2-jan-12" class="slide level2">
+<h2>Next Session: Session 0.2 (Jan 12)</h2>
+<h3 id="reproducible-research-setup-remote">Reproducible Research Setup (Remote)</h3>
+<ul>
+<li>R environment with <code>renv</code></li>
+<li>Workflow automation with <code>targets</code></li>
+<li>Introduction to <code>DeclareDesign</code></li>
+<li>Simulating RCT data in R</li>
+</ul>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Preparation</strong></p>
+</div>
+<div class="callout-content">
+<p>Install R and RStudio before Session 0.2. Instructions in syllabus.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="for-thursday-session-0.3" class="slide level2">
+<h2>For Thursday (Session 0.3)</h2>
+<h3 id="reading-assignment">Reading Assignment</h3>
+<p><strong>Required:</strong></p>
+<ul>
+<li>Chernozhukov Ch. 1 (Introduction) — ~15 pages</li>
+<li>Chernozhukov Ch. 2 (Causal Models) — ~20 pages</li>
+<li>Hernán &amp; Robins Ch. 1-2 — ~18 pages</li>
+</ul>
+<p><strong>Optional (if needed):</strong></p>
+<ul>
+<li>Brady Neal Ch. 1-2 (ML-first perspective)</li>
+<li>R for Data Science Ch. 1-5 (R refresher)</li>
+</ul>
+</section>
+<section id="questions" class="slide level2 center">
+<h2>Questions?</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Office Hours</strong></p>
+</div>
+<div class="callout-content">
+<p>Schedule and location in syllabus.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Communication</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li><strong>Slack</strong>: Quick questions, discussion</li>
+<li><strong>Canvas</strong>: Submissions, announcements</li>
+<li><strong>Email</strong>: Scheduling, administrative</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="summary" class="slide level2 scrollable">
+<h2>Summary</h2>
+<ol type="1">
+<li class="fragment"><strong>Three-layer stack</strong>: Identification → Estimation → Decision</li>
+<li class="fragment"><strong>AI in the Loop</strong>: Human-driven, AI-assisted analysis</li>
+<li class="fragment"><strong>Potential outcomes</strong>: <span class="math inline">\(Y(1)\)</span>, <span class="math inline">\(Y(0)\)</span>, and the fundamental problem</li>
+<li class="fragment"><strong>DAGs</strong>: Visual tools for causal reasoning</li>
+<li class="fragment"><strong>This course</strong>: Modern causal ML for health policy</li>
+</ol>
+<aside class="notes">
+<p>Recap the key points. Next session we’ll get hands-on with R setup and start simulating data.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p>HPM 883 | Session 0.1</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp("https:\/\/unc-hpm-quant\.github\.io\/HPM883-Spring2026");
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

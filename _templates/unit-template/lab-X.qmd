@@ -1,0 +1,159 @@
+---
+title: "Lab X: [LAB TITLE]"
+subtitle: "Unit X: [UNIT TITLE]"
+author: "[Student Name]"
+date: "[DATE]"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: false
+    embed-resources: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Learning Objectives
+
+By completing this lab, you will:
+
+1. [Objective 1]
+2. [Objective 2]
+3. [Objective 3]
+
+## Instructions
+
+- **Due:** [DATE] by 11:59 PM
+- **Submission:** Push to your GitHub Classroom repository
+- **Collaboration:** [Policy — individual or group]
+- **AI Use:** [Policy — permitted with documentation, etc.]
+
+::: {.callout-important}
+## Before You Begin
+Ensure you have completed the setup verification and have all required packages installed.
+:::
+
+## Setup
+
+```{r}
+#| label: setup
+
+library(tidyverse)
+# Add other required packages
+
+# Load data
+# data <- read_csv("data/[filename].csv")
+```
+
+---
+
+## Part 1: [SECTION TITLE] (XX points)
+
+[Context setting — brief narrative if applicable]
+
+### Task 1.1 (X points)
+
+[Clear task description]
+
+```{r}
+#| label: task-1-1
+
+# YOUR CODE HERE
+
+```
+
+**Your interpretation:** [Prompt for written response if needed]
+
+> [Student writes here]
+
+### Task 1.2 (X points)
+
+[Clear task description]
+
+```{r}
+#| label: task-1-2
+
+# YOUR CODE HERE
+
+```
+
+---
+
+## Part 2: [SECTION TITLE] (XX points)
+
+### Task 2.1 (X points)
+
+[Clear task description]
+
+```{r}
+#| label: task-2-1
+
+# YOUR CODE HERE
+
+```
+
+### Task 2.2 (X points)
+
+[Clear task description]
+
+```{r}
+#| label: task-2-2
+
+# YOUR CODE HERE
+
+```
+
+---
+
+## Part 3: Conceptual Questions (XX points)
+
+### Question 3.1 (X points)
+
+[Conceptual question requiring understanding, not just computation]
+
+> [Student writes here]
+
+### Question 3.2 (X points)
+
+[Conceptual question]
+
+> [Student writes here]
+
+---
+## Part 4: Reflection (X points)
+
+### What was the most challenging part of this lab?
+
+> [Student writes here]
+
+### What would you do differently if you were to repeat this analysis?
+
+> [Student writes here]
+
+---
+
+## Submission Checklist
+
+Before submitting, verify:
+
+- [ ] All code chunks run without errors
+- [ ] All written responses are complete
+- [ ] Document renders to HTML successfully
+- [ ] All files are committed and pushed to GitHub
+- [ ] If AI was used, usage is documented below
+
+## AI Usage Documentation
+
+If you used AI assistance, document it here:
+
+**AI Tool(s) Used:** [e.g., Claude, ChatGPT, GitHub Copilot]
+
+**How AI Was Used:**
+
+> [Describe how you used AI — e.g., "debugging Task 2.1", "explaining concept X"]
+
+**Verification Steps Taken:**
+
+> [How you verified AI output was correct]

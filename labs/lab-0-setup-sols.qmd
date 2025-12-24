@@ -1,0 +1,346 @@
+---
+title: "Lab 0: Environment Setup & Verification — SOLUTIONS"
+subtitle: "Instructor Version"
+author: "HPM 883 Teaching Team"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: false
+execute:
+  echo: true
+  warning: true
+  message: true
+---
+
+::: {.callout-warning}
+## Instructor Only
+
+This document contains solutions and grading guidance. Do not distribute to students.
+:::
+
+---
+
+## Grading Overview
+
+| Part | Points | Criteria |
+|------|--------|----------|
+| Part 1: Environment Check | 5 | Packages load, R version ≥ 4.3.0 |
+| Part 2: Data Loading | 5 | Data loads, glimpse/summary run |
+| Part 3: Basic Analysis | 5 | Models run, reasonable interpretation |
+| Part 4: Visualization | 5 | Both plots render correctly |
+| Part 5: Render & Submit | 5 | HTML renders, pushed to GitHub |
+| **Total** | **25** | Pass/Fail on each component |
+
+**Pass threshold:** All 5 parts must pass. If any part fails, student should resubmit.
+
+---
+
+## Part 1: Environment Check (5 points)
+
+### 1.1 R Version
+
+```{r}
+#| label: r-version
+
+R.version.string
+```
+
+**Expected output:** `R version 4.3.0` or higher (4.3.x, 4.4.x acceptable)
+
+**Grading:** ✓ if version ≥ 4.3.0
+
+### 1.2 Working Directory
+
+```{r}
+#| label: working-dir
+
+getwd()
+```
+**Expected output:** Path ending in the lab repository folder (e.g., `/path/to/lab-0-username/`)
+
+**Grading:** ✓ if in a project directory (not home directory)
+
+### 1.3 Load Required Packages
+
+```{r}
+#| label: load-packages
+
+library(tidyverse)
+library(estimatr)
+library(gt)
+```
+
+**Expected output:** Packages load with possible startup messages. No errors.
+
+**Grading:** ✓ if all three packages load without error
+
+::: {.callout-note}
+## Common Issues
+
+- If `renv::restore()` wasn't run, packages won't load
+- If renv cache is corrupted, may need to delete `renv/library/` and re-run restore
+:::
+
+---
+
+## Part 2: Data Loading (5 points)
+
+### 2.1 Load the Sample Data
+
+```{r}
+#| label: load-data
+
+data <- read_csv("data/sample_data.csv")
+```
+
+**Expected output:** Data loads with column specification message.
+
+### 2.2 Explore the Data
+
+```{r}
+#| label: glimpse-data
+
+glimpse(data)
+```
+
+**Expected output:**
+```
+Rows: 50
+Columns: 5
+$ id        <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, ...
+$ treatment <dbl> 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, ...
+$ age       <dbl> 48, 39, 44, 56, 39, 50, 41, 58, 48, 35, ...
+$ baseline  <dbl> 114.06, 103.99, 110.44, 82.96, 113.59, ...
+$ outcome   <dbl> 78.74, 91.95, 82.87, 72.99, 79.23, ...
+```
+
+### 2.3 Summary Statistics
+
+```{r}
+#| label: summary-stats
+
+summary(data)
+```
+
+**Question:** How many observations are in the dataset? How many are treated vs. control?
+
+**Expected answer:**
+- 50 observations total
+- 25 treated (treatment = 1)
+- 25 control (treatment = 0)
+
+```{r}
+#| label: verify-treatment-counts
+
+# Verify treatment counts
+table(data$treatment)
+```
+
+**Grading:** ✓ if student correctly identifies n=50, and approximately equal treatment/control split (25/25)
+
+---
+
+## Part 3: Basic Analysis (5 points)
+
+### 3.1 Estimate Treatment Effect
+
+```{r}
+#| label: basic-model
+
+model <- lm_robust(outcome ~ treatment, data = data)
+tidy(model)
+```
+
+**Expected output (approximate):**
+
+| term | estimate | std.error | p.value |
+|------|----------|-----------|---------|
+| (Intercept) | ~77 | ~2.0 | <0.001 |
+| treatment | ~5-7 | ~2.8 | ~0.02-0.05 |
+
+```{r}
+#| label: model-summary
+
+summary(model)
+```
+
+### 3.2 Interpret Results
+
+**Question:** What is the estimated treatment effect? Is it statistically significant at the 5% level?
+
+**Expected answer:**
+- Treatment effect is approximately **5-7 units** (the coefficient on `treatment`)
+- It **is** statistically significant at 5% level (p-value < 0.05)
+- Interpretation: Being in the treatment group is associated with an increase in outcome of approximately X units compared to control
+
+**Grading:** ✓ if student correctly:
+1. Identifies the treatment coefficient as the effect estimate
+2. Correctly assesses significance based on p-value or CI
+
+### 3.3 Add Covariates
+
+```{r}
+#| label: model-covariates
+
+model_adj <- lm_robust(outcome ~ treatment + baseline, data = data)
+tidy(model_adj)
+```
+
+**Question:** How does the treatment effect estimate change when you add baseline as a covariate? Why might this happen?
+
+**Expected answer:**
+- The treatment effect estimate may **decrease slightly** (precision improves)
+- Adding baseline **reduces residual variance** because baseline is correlated with outcome
+- This demonstrates that covariate adjustment can improve precision in RCTs (variance reduction)
+- The estimate shouldn't change dramatically if randomization worked (treatment should be uncorrelated with baseline)
+
+```{r}
+#| label: compare-models
+
+# Compare estimates
+data.frame(
+  Model = c("Unadjusted", "Covariate-adjusted"),
+  Estimate = c(coef(model)["treatment"], coef(model_adj)["treatment"]),
+  SE = c(sqrt(vcov(model)["treatment", "treatment"]),
+         sqrt(vcov(model_adj)["treatment", "treatment"]))
+)
+```
+
+**Grading:** ✓ if student recognizes that:
+1. Covariate adjustment can change precision (SE)
+2. The point estimate shouldn't change dramatically under randomization
+
+---
+
+## Part 4: Visualization (5 points)
+
+### 4.1 Treatment Effect Plot
+
+```{r}
+#| label: boxplot
+#| fig-cap: "Outcome by Treatment Status"
+#| fig-alt: "Boxplot showing outcome distribution for treatment and control groups"
+
+ggplot(data, aes(x = factor(treatment), y = outcome, fill = factor(treatment))) +
+  geom_boxplot(alpha = 0.7) +
+  scale_fill_manual(values = c("0" = "#4BACC6", "1" = "#9BBB59"),
+                    labels = c("Control", "Treatment")) +
+  labs(
+    title = "Treatment Effect on Outcome",
+    x = "Treatment Status",
+    y = "Outcome",
+    fill = "Group"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+**Grading:** ✓ if boxplot renders with two groups visible and clear visual difference
+
+### 4.2 Scatter Plot with Regression Line
+
+```{r}
+#| label: scatter
+#| fig-cap: "Baseline vs Outcome by Treatment"
+#| fig-alt: "Scatter plot showing relationship between baseline and outcome, colored by treatment"
+
+ggplot(data, aes(x = baseline, y = outcome, color = factor(treatment))) +
+  geom_point(alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", se = TRUE) +
+  scale_color_manual(values = c("0" = "#4BACC6", "1" = "#9BBB59"),
+                     labels = c("Control", "Treatment")) +
+  labs(
+    title = "Baseline vs Outcome by Treatment Status",
+    x = "Baseline Value",
+    y = "Outcome",
+    color = "Group"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+**Grading:** ✓ if scatter plot renders with:
+- Points colored by treatment
+- Regression lines for each group
+- Visual parallel shift between groups (treatment effect)
+
+---
+
+## Part 5: Render & Submit (5 points)
+
+### 5.1 Render to HTML
+
+**Grading:** ✓ if HTML file is present in repository
+
+### 5.2 Commit and Push
+
+**Grading:** ✓ if commit history shows:
+- Meaningful commit message
+- Changes pushed before deadline
+
+### 5.3 Verify Submission
+
+**Grading:** ✓ if GitHub repository contains:
+- `lab-0-setup.qmd` (completed)
+- `lab-0-setup.html` (rendered)
+- Commit timestamp before deadline
+
+---
+
+## Session Info
+
+```{r}
+#| label: session-info
+
+sessionInfo()
+```
+
+---
+
+## Common Student Errors & How to Address
+
+### Environment Issues
+
+| Error | Solution |
+|-------|----------|
+| `renv::restore()` fails | Delete `renv/library/`, run `renv::restore()` again |
+| Package not found | Check that `renv.lock` is present and run restore |
+| R version too old | Update R to 4.3.0+ via CRAN |
+| Quarto won't render | Install Quarto CLI, restart IDE |
+
+### Code Issues
+
+| Error | Solution |
+|-------|----------|
+| `object 'data' not found` | Ensure Part 2.1 code chunk ran first |
+| `could not find function "lm_robust"` | Load `estimatr` package |
+| Plot doesn't display | Check that ggplot code is complete |
+
+### Submission Issues
+
+| Error | Solution |
+|-------|----------|
+| Git push fails | Check SSH key setup or use HTTPS |
+| HTML not in repo | Commit and push the HTML file explicitly |
+| Wrong repo | Ensure using GitHub Classroom-created repo |
+
+---
+
+## Grading Checklist
+
+Use this checklist when grading submissions:
+
+- [ ] **Part 1:** R ≥ 4.3.0, all packages load
+- [ ] **Part 2:** Data loads, correct n=50, treatment split identified
+- [ ] **Part 3:** Models run, treatment effect correctly interpreted, significance assessed
+- [ ] **Part 4:** Both plots render correctly
+- [ ] **Part 5:** HTML in repo, committed before deadline
+
+**Pass:** All 5 boxes checked
+**Fail:** Any box unchecked (student should resubmit)
+
+---
+
+*Last updated: `r Sys.Date()`*

@@ -489,14 +489,16 @@ Use Chernozhukov for implementation, Wager for deeper understanding of the theor
 
 | Component | Weight | Description |
 |-----------|--------|-------------|
-| Labs | 30% | 4 required labs (Labs 0-4) |
+| Lab 0 | 5% | Environment setup verification (in-class) |
+| Problem Sets | 25% | 7 problem sets, best 4 count |
 | Design Memos | 20% | 2 memos (experimental + DML) |
 | Capstone | 45% | PAP, replication, or comparison |
 | Peer Review | 5% | Review one peer's capstone |
 
 ::: {.callout-note}
-## Labs 5-7
-Optional labs available for extra credit and deeper exploration.
+## Terminology
+- **Labs** = In-class code-alongs (hands-on exercises)
+- **Problem Sets** = Take-home homework assignments
 :::
 
 ---

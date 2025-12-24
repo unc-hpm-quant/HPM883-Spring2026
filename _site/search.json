@@ -1,0 +1,1510 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "HPM 883: Advanced Quantitative Methods",
+    "section": "",
+    "text": "HPM 883 is an advanced graduate-level course designed to equip PhD students in Health Policy and Management with sophisticated quantitative research skills. This course is the third installment in the quantitative methods sequence, building on foundations from HPM 881 and HPM 882.\nFocus Areas:\n\nExperimental design and randomization inference\nDouble/Debiased Machine Learning (DML)\nHeterogeneous treatment effects and causal forests\nPolicy learning and optimal treatment rules\nModern causal inference methods (DiD, synthetic controls)\n\n\n\n\n\n\nInstructor\nSean Sylvia\n\n\nMeeting Time\nMon/Wed 11:15am - 12:30pm\n\n\nLocation\nRosenau 228 / Zoom (hybrid)\n\n\nOffice Hours\nWed 2:00-4:00pm\n\n\nCredits\n3\n\n\n\n\n\n\n\n\n\nSchedule\nSyllabus\nComputing Setup\nLab 0: Environment Setup\n\n\n\n\n\nGitHub Classroom\nGitHub Organization\nSlack Workspace\nPosit Cloud\nCanvas\n\n\n\n\n\nChernozhukov et al. (2025)\nWager (2024)",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#welcome",
+    "href": "index.html#welcome",
+    "title": "HPM 883: Advanced Quantitative Methods",
+    "section": "",
+    "text": "HPM 883 is an advanced graduate-level course designed to equip PhD students in Health Policy and Management with sophisticated quantitative research skills. This course is the third installment in the quantitative methods sequence, building on foundations from HPM 881 and HPM 882.\nFocus Areas:\n\nExperimental design and randomization inference\nDouble/Debiased Machine Learning (DML)\nHeterogeneous treatment effects and causal forests\nPolicy learning and optimal treatment rules\nModern causal inference methods (DiD, synthetic controls)\n\n\n\n\n\n\nInstructor\nSean Sylvia\n\n\nMeeting Time\nMon/Wed 11:15am - 12:30pm\n\n\nLocation\nRosenau 228 / Zoom (hybrid)\n\n\nOffice Hours\nWed 2:00-4:00pm\n\n\nCredits\n3",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#announcements",
+    "href": "index.html#announcements",
+    "title": "HPM 883: Advanced Quantitative Methods",
+    "section": "Announcements",
+    "text": "Announcements\n\n\n\n\n\n\nNoteWeek 1: January 7-14, 2026\n\n\n\nWelcome to HPM 883! Please complete the following before our first class:\n\nReview the syllabus\nComplete computing setup\nJoin the Slack workspace (link in Canvas)\nAccept Lab 0 on GitHub Classroom — due Jan 19",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#course-units",
+    "href": "index.html#course-units",
+    "title": "HPM 883: Advanced Quantitative Methods",
+    "section": "Course Units",
+    "text": "Course Units\n\n\n\nUnit\nTopic\nWeeks\n\n\n\n\n0\nFoundations: Potential Outcomes & DAGs\n1\n\n\n1\nExperimental Design\n2-3\n\n\n2\nDouble/Debiased ML & Doubly-Robust Estimation\n4-6\n\n\n3\nHeterogeneous Treatment Effects & Causal Forests\n7-8\n\n\n4\nPolicy Learning\n9\n\n\n5\nObservational Causal ML\n10\n\n\n6\nDiD & Synthetic Controls\n11\n\n\n7\nAdvanced Topics\n12\n\n\n8\nIntegration & Capstone\n13-14",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#assessment-overview",
+    "href": "index.html#assessment-overview",
+    "title": "HPM 883: Advanced Quantitative Methods",
+    "section": "Assessment Overview",
+    "text": "Assessment Overview\n\n\n\nComponent\nWeight\n\n\n\n\nProblem Sets\n30%\n\n\nDesign Memos (2)\n20%\n\n\nCapstone Project\n40%\n\n\nPeer Review\n10%\n\n\n\nSee Syllabus for full details.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "schedule.html",
+    "href": "schedule.html",
+    "title": "Course Schedule",
+    "section": "",
+    "text": "Dates: January 7 - April 27, 2026 Meeting Times: Mon/Wed 11:15am - 12:30pm (75 minutes) Format: Hybrid — In-person (lecture/discussion) and Remote (Zoom for labs)\n\n\n\n\n\nDate\nEvent\n\n\n\n\nJan 19\nMLK Day (No Class)\n\n\nFeb 9\nWell-Being Day (No Class)\n\n\nMar 13-22\nSpring Break\n\n\nApr 2\nWell-Being Day (No Class)\n\n\nApr 28\nReading Day\n\n\nMay 1\nFinal Deliverable Due",
+    "crumbs": [
+      "Schedule"
+    ]
+  },
+  {
+    "objectID": "schedule.html#semester-overview",
+    "href": "schedule.html#semester-overview",
+    "title": "Course Schedule",
+    "section": "",
+    "text": "Dates: January 7 - April 27, 2026 Meeting Times: Mon/Wed 11:15am - 12:30pm (75 minutes) Format: Hybrid — In-person (lecture/discussion) and Remote (Zoom for labs)\n\n\n\n\n\nDate\nEvent\n\n\n\n\nJan 19\nMLK Day (No Class)\n\n\nFeb 9\nWell-Being Day (No Class)\n\n\nMar 13-22\nSpring Break\n\n\nApr 2\nWell-Being Day (No Class)\n\n\nApr 28\nReading Day\n\n\nMay 1\nFinal Deliverable Due",
+    "crumbs": [
+      "Schedule"
+    ]
+  },
+  {
+    "objectID": "schedule.html#weekly-schedule",
+    "href": "schedule.html#weekly-schedule",
+    "title": "Course Schedule",
+    "section": "Weekly Schedule",
+    "text": "Weekly Schedule\n\nWeek 1: Foundations (Jan 7-14)\n\n\n\n\n\n\n\n\n\nSession\nDate\nTopic\nFormat\n\n\n\n\n1\nWed Jan 7\nCourse Overview & Causal Inference Foundations\nIn-Person\n\n\n2\nMon Jan 12\nReproducible Research Setup\nRemote\n\n\n3\nWed Jan 14\nPotential Outcomes & Structural Causal Models\nIn-Person\n\n\n\nLab 0 assigned: Reproducible Research Setup (due Jan 19)\n\n\n\nWeek 2: Experimental Design I (Jan 19-21)\n\n\n\nSession\nDate\nTopic\nFormat\n\n\n\n\n4\nMon Jan 19\nNO CLASS — MLK Day\n—\n\n\n5\nWed Jan 21\nRandomization & Design-Based Inference\nIn-Person\n\n\n\nDue: Lab 0\n\n\n\nWeek 3: Experimental Design II (Jan 26-28)\n\n\n\n\n\n\n\n\n\nSession\nDate\nTopic\nFormat\n\n\n\n\n6\nMon Jan 26\nExperimental Design with DeclareDesign\nRemote\n\n\n7\nWed Jan 28\nVariance Reduction & Regression Adjustment\nIn-Person\n\n\n\nLab 1 assigned: Experimental Design with DeclareDesign (due Feb 2)\n\n\n\nWeek 4: Influence Functions & Guest Lecture (Feb 2-4)\nInstructor out of town\n\n\n\nSession\nDate\nTopic\nFormat\n\n\n\n\n8\nMon Feb 2\nInfluence Functions Self-Study\nAsync\n\n\n9\nWed Feb 4\nGuest Lecture: Tara Templin (Stanford)\nRemote\n\n\n\nDue: Lab 1 Design Memo 1 assigned (due Feb 16)\n\n\n\nWeek 5: Neyman Orthogonality (Feb 9-11)\n\n\n\nSession\nDate\nTopic\nFormat\n\n\n\n\n10\nMon Feb 9\nNO CLASS — Well-Being Day\n—\n\n\n11\nWed Feb 11\nNeyman Orthogonality & Cross-Fitting\nIn-Person\n\n\n\n\n\n\nWeek 6: Double ML & Doubly-Robust Estimators (Feb 16-18)\n\n\n\nSession\nDate\nTopic\nFormat\n\n\n\n\n12\nMon Feb 16\nDouble/Debiased Machine Learning\nRemote\n\n\n13\nWed Feb 18\nDoubly-Robust Estimation (AIPW, TMLE)\nIn-Person\n\n\n\nDue: Design Memo 1 Lab 2 assigned: Double ML and DR Estimators (due Feb 23)\n\n\n\nWeek 7: Causal Forests & Meta-Learners (Feb 23-25)\n\n\n\nSession\nDate\nTopic\nFormat\n\n\n\n\n14\nMon Feb 23\nCausal Random Forests\nIn-Person\n\n\n15\nWed Feb 25\nCausal Forests Implementation\nRemote\n\n\n\nDue: Lab 2 Design Memo 2 assigned (due Mar 9) Lab 3 assigned: Causal Forests and Meta-Learners (due Mar 11)\n\n\n\nWeek 8: CATE Calibration & Meta-Learners (Mar 2-4)\n\n\n\nSession\nDate\nTopic\nFormat\n\n\n\n\n16\nMon Mar 2\nMeta-Learners for HTE\nIn-Person\n\n\n17\nWed Mar 4\nCATE Calibration & Meta-Learners Lab\nRemote\n\n\n\nDue: Design Memo 2 (Mar 9)\n\n\n\nWeek 9: Policy Learning (Mar 9-11)\n\n\n\n\n\n\n\n\n\nSession\nDate\nTopic\nFormat\n\n\n\n\n18\nMon Mar 9\nFrom CATE to Treatment Policy\nIn-Person\n\n\n19\nWed Mar 11\nPolicy Learning & Off-Policy Evaluation Lab\nRemote\n\n\n\nDue: Lab 3 Lab 4 assigned: Policy Learning and OPE (due Mar 25)\n\n\n\nSpring Break: March 13-22\nNo Classes\n\n\n\nWeek 10: Observational Causal ML (Mar 23-25)\n\n\n\n\n\n\n\n\n\nSession\nDate\nTopic\nFormat\n\n\n\n\n20\nMon Mar 23\nCausal Inference in Observational Studies\nIn-Person\n\n\n21\nWed Mar 25\nObservational Causal ML Lab\nRemote\n\n\n\nDue: Lab 4 Lab 5 assigned: Observational Causal ML (optional, due Apr 8)\n\n\n\nWeek 11: DiD and Synthetic Controls (Mar 30 - Apr 1)\n\n\n\nSession\nDate\nTopic\nFormat\n\n\n\n\n22\nMon Mar 30\nModern Difference-in-Differences\nIn-Person\n\n\n23\nWed Apr 1\nDiD and Synthetic Control Lab\nRemote\n\n\n\nLab 6 assigned: DiD and Synthetic Control (optional, due Apr 15)\nNote: April 2 is Well-Being Day (Thursday) — No impact on M/W schedule\n\n\n\nWeek 12: Advanced Topics (Apr 6-8)\n\n\n\nSession\nDate\nTopic\nFormat\n\n\n\n\n24\nMon Apr 6\nAdvanced Topics Survey\nIn-Person\n\n\n25\nWed Apr 8\nAdvanced Topics Application Lab\nRemote\n\n\n\nDue: Lab 5 (optional) Capstone Proposal assigned (due Apr 13) Lab 7 assigned: Advanced Topic Exploration (optional, due Apr 20)\n\n\n\nWeek 13: Capstone Presentations I (Apr 13-15)\n\n\n\nSession\nDate\nTopic\nFormat\n\n\n\n\n26\nMon Apr 13\nCapstone Presentations (Round 1)\nIn-Person\n\n\n27\nWed Apr 15\nCapstone Presentations (Round 2)\nIn-Person\n\n\n\nDue: Capstone Proposal Peer Review Report assigned (due Apr 22) Due: Lab 6 (optional)\n\n\n\nWeek 14: Capstone Presentations II & Synthesis (Apr 20-22)\n\n\n\nSession\nDate\nTopic\nFormat\n\n\n\n\n28\nMon Apr 20\nFinal Capstone Presentations\nIn-Person\n\n\n29\nWed Apr 22\nCourse Wrap-Up & Future Directions\nIn-Person\n\n\n\nDue: Lab 7 (optional), Peer Review Report\n\n\n\nFinals Week\n\n\n\nDate\nEvent\n\n\n\n\nTue Apr 28\nReading Day\n\n\nFri May 1\nCapstone Project Package Due",
+    "crumbs": [
+      "Schedule"
+    ]
+  },
+  {
+    "objectID": "schedule.html#deliverables-summary",
+    "href": "schedule.html#deliverables-summary",
+    "title": "Course Schedule",
+    "section": "Deliverables Summary",
+    "text": "Deliverables Summary\n\nRequired (95%)\n\n\n\nDeliverable\nDue Date\nWeight\n\n\n\n\nLab 0: Reproducible Research Setup\nJan 19\n5%\n\n\nLab 1: Experimental Design\nFeb 2\n5%\n\n\nDesign Memo 1: Experimental Design Plan\nFeb 16\n10%\n\n\nLab 2: Double ML and DR Estimators\nFeb 23\n5%\n\n\nDesign Memo 2: DML Analysis Plan\nMar 9\n10%\n\n\nLab 3: Causal Forests and Meta-Learners\nMar 11\n5%\n\n\nLab 4: Policy Learning and OPE\nMar 25\n5%\n\n\nCapstone Proposal\nApr 13\n(part of capstone)\n\n\nPeer Review Report\nApr 22\n5%\n\n\nCapstone Project Package\nMay 1\n45%\n\n\n\n\n\nOptional Extra Credit (up to 15%)\n\n\n\nDeliverable\nDue Date\n\n\n\n\nLab 5: Observational Causal ML\nApr 8\n\n\nLab 6: DiD and Synthetic Control\nApr 15\n\n\nLab 7: Advanced Topics\nApr 20",
+    "crumbs": [
+      "Schedule"
+    ]
+  },
+  {
+    "objectID": "schedule.html#format-key",
+    "href": "schedule.html#format-key",
+    "title": "Course Schedule",
+    "section": "Format Key",
+    "text": "Format Key\n\n\n\n\n\n\n\nSymbol\nMeaning\n\n\n\n\nIn-Person\nLecture, discussion, collaborative work in Rosenau 228\n\n\nRemote\nZoom session for coding labs and implementation\n\n\nAsync\nSelf-paced study, no live class\n\n\n—\nNo class (holiday or break)\n\n\n\n\nSchedule subject to adjustment. Check announcements for any changes.",
+    "crumbs": [
+      "Schedule"
+    ]
+  },
+  {
+    "objectID": "computing.html",
+    "href": "computing.html",
+    "title": "Computing",
+    "section": "",
+    "text": "HPM 883 uses a three-tier computing environment designed to minimize setup friction while teaching reproducible research workflows.\n\n\n\n\n\n\nTipQuick Links\n\n\n\n\nStudent Setup Guide — Complete installation instructions\nLab 0: Environment Verification — Verify your setup works\nTroubleshooting — Common problems and solutions\n\n\n\n\n\n\n\n\n\nTier\nPlatform\nWhen to Use\nCost\n\n\n\n\nIn-Class\nPosit Cloud\nLectures, code-alongs, live demos\n$5/month\n\n\nProjects\nLocal (Positron) + GitHub\nLabs, capstone, independent work\nFree\n\n\nSubmission\nGitHub Classroom\nAll graded assignments\nFree\n\n\n\n\n\nFor in-class exercises, we use Posit Cloud — a browser-based R environment with zero setup.\nBenefits:\n\nWorks on any computer with a browser\nPre-configured with all required packages\nInstructor can see your work in real-time\n\nCost: $5/month (Student plan) — Sign up here\nHow it works:\n\nLog into Posit Cloud\nJoin the HPM 883 course workspace (link provided in class)\nOpen the assignment project\nCode along with the instructor\n\n\n\n\nFor labs and the capstone project, you’ll work locally using Positron (recommended) or RStudio.\nWhy local development?\n\nFaster performance\nBuilt-in AI assistance (Positron)\nLearn real-world reproducible workflow\nWorks offline\n\nTemplate Repositories:\n\n\n\nTemplate\nPurpose\nLink\n\n\n\n\nLab Template\nWeekly lab assignments\nhpm883-lab-template\n\n\nCapstone Template\nSemester project\nhpm883-capstone-template\n\n\n\n\n\n\nAll graded work is submitted via GitHub Classroom.\nWorkflow:\n\nClick the assignment link (provided on course website)\nAccept the assignment → creates your personal repo\nClone to your computer\nComplete the work\nCommit and push to GitHub\nGitHub Classroom records your submission time\n\n\n\n\n\n\n\n\nR is our primary analysis language.\nWindows:\nwinget install --id R-project.R\nmacOS:\nbrew install --cask r\n\n\n\nPositron is Posit’s new IDE with built-in AI assistance.\n\n\n\nFeature\nPositron\nRStudio\n\n\n\n\nBuilt-in AI assistant\n✓\n✗\n\n\nActive development\n✓\nMaintenance only\n\n\nVS Code extensions\n✓\nLimited\n\n\nPrice\nFree\nFree\n\n\n\nDownload: positron.posit.co\nAlternative: RStudio Desktop if you prefer.\n\n\n\nVersion control for all assignments.\nWindows:\nwinget install Git.Git\nmacOS:\nbrew install git\nConfigure:\ngit config --global user.name \"Your Name\"\ngit config --global user.email \"your.email@unc.edu\"\n\n\n\nPublishing system for labs and reports. Usually bundled with Positron/RStudio.\nVerify installation:\nquarto --version\nIf not installed: quarto.org/docs/get-started\n\n\n\n\n\n\n\nPlatform: Posit Cloud\n\nLog into Posit Cloud\nOpen the class project\nFollow along with instructor\nNo submission needed\n\n\n\n\nPlatform: Local + GitHub Classroom\n\nAccept assignment via GitHub Classroom link\nClone to local machine:\n\ngit clone git@github.com:unc-hpm-quant/lab-X-yourusername.git\n\nOpen .Rproj file in Positron/RStudio\nRestore packages: renv::restore()\nComplete the lab in analysis.qmd\nRender to HTML\nCommit and push:\n\ngit add .\ngit commit -m \"Complete Lab X\"\ngit push\n\n\n\nPlatform: Local + GitHub Classroom\nSame workflow as labs, but uses the capstone template with:\n\n_targets.R — Analysis pipeline\nanalysis/01-pap.qmd — Pre-analysis plan\nanalysis/02-analysis.qmd — Main analysis\nanalysis/03-results.qmd — Results summary\n\n\n\n\n\n\nThese packages are pre-installed in all course templates:\n\n\n\n\n\nPackage\nPurpose\n\n\n\n\ntidyverse\nData manipulation and visualization\n\n\nestimatr\nRobust standard errors\n\n\ngt\nPublication-quality tables\n\n\nknitr\nDocument rendering\n\n\n\n\n\n\n\n\n\nPackage\nPurpose\n\n\n\n\nDoubleML\nDouble/Debiased Machine Learning\n\n\ngrf\nGeneralized Random Forests (causal forests)\n\n\npolicytree\nPolicy learning and decision trees\n\n\ndid\nDifference-in-Differences\n\n\nSynth\nSynthetic Control Method\n\n\n\n\n\n\n\n\n\nPackage\nPurpose\n\n\n\n\nDeclareDesign\nResearch design declaration\n\n\nfabricatr\nData simulation\n\n\nrandomizr\nRandomization\n\n\n\n\n\n\n\n\nAll course projects use renv for package management.\nFirst time opening a project:\nrenv::restore()\nThis installs the exact package versions used to create the project.\nIf you add new packages:\ninstall.packages(\"new_package\")\nrenv::snapshot()\n\n\n\n\n\n\n# Delete cached packages and retry\nunlink(\"renv/library\", recursive = TRUE)\nrenv::restore()\n\n\n\n# Pull remote changes first\ngit pull --rebase\ngit push\n\n\n\n\nCheck YAML header for syntax errors\nLook for unmatched brackets or quotes\nRun chunks one-by-one to find the error\n\n\n\n\n\nClose unused projects\nIncrease RAM: Project Settings → Resources → RAM\nClear old outputs: delete _freeze/ folder\n\n\n\n\n# Regenerate SSH key\nssh-keygen -t ed25519 -C \"your.email@unc.edu\"\n# Add to GitHub: Settings → SSH Keys → New\n\n\n\n\n\n\nSlack #hpm883-help — Quick questions, classmates can help\nOffice Hours — See course schedule\nGitHub Issues — For persistent technical problems\n\n\n\n\n\n\n\nNoteLab 0\n\n\n\nComplete Lab 0 during Week 1 to verify your environment is correctly configured. If you encounter issues, bring them to office hours.\n\n\n\n\n\n\n\n\n\nR for Data Science — Comprehensive introduction\nStata2R — For Stata users transitioning to R\nCoding for Economists — Practical coding guide\n\n\n\n\n\nHappy Git with R — Complete guide\nGit Cheat Sheet — Quick reference\n\n\n\n\n\nQuarto Documentation — Official guide\nQuarto for R Users — R-specific features\n\n\n\n\n\nPositron Documentation — IDE guide\nMigrating from RStudio — Comparison\n\n\n\n\n\nIPA Data Handbook — Research data management\nThe Turing Way — Reproducible research guide",
+    "crumbs": [
+      "Course Information",
+      "Computing"
+    ]
+  },
+  {
+    "objectID": "computing.html#three-tier-architecture",
+    "href": "computing.html#three-tier-architecture",
+    "title": "Computing",
+    "section": "",
+    "text": "Tier\nPlatform\nWhen to Use\nCost\n\n\n\n\nIn-Class\nPosit Cloud\nLectures, code-alongs, live demos\n$5/month\n\n\nProjects\nLocal (Positron) + GitHub\nLabs, capstone, independent work\nFree\n\n\nSubmission\nGitHub Classroom\nAll graded assignments\nFree\n\n\n\n\n\nFor in-class exercises, we use Posit Cloud — a browser-based R environment with zero setup.\nBenefits:\n\nWorks on any computer with a browser\nPre-configured with all required packages\nInstructor can see your work in real-time\n\nCost: $5/month (Student plan) — Sign up here\nHow it works:\n\nLog into Posit Cloud\nJoin the HPM 883 course workspace (link provided in class)\nOpen the assignment project\nCode along with the instructor\n\n\n\n\nFor labs and the capstone project, you’ll work locally using Positron (recommended) or RStudio.\nWhy local development?\n\nFaster performance\nBuilt-in AI assistance (Positron)\nLearn real-world reproducible workflow\nWorks offline\n\nTemplate Repositories:\n\n\n\nTemplate\nPurpose\nLink\n\n\n\n\nLab Template\nWeekly lab assignments\nhpm883-lab-template\n\n\nCapstone Template\nSemester project\nhpm883-capstone-template\n\n\n\n\n\n\nAll graded work is submitted via GitHub Classroom.\nWorkflow:\n\nClick the assignment link (provided on course website)\nAccept the assignment → creates your personal repo\nClone to your computer\nComplete the work\nCommit and push to GitHub\nGitHub Classroom records your submission time",
+    "crumbs": [
+      "Course Information",
+      "Computing"
+    ]
+  },
+  {
+    "objectID": "computing.html#required-software",
+    "href": "computing.html#required-software",
+    "title": "Computing",
+    "section": "",
+    "text": "R is our primary analysis language.\nWindows:\nwinget install --id R-project.R\nmacOS:\nbrew install --cask r\n\n\n\nPositron is Posit’s new IDE with built-in AI assistance.\n\n\n\nFeature\nPositron\nRStudio\n\n\n\n\nBuilt-in AI assistant\n✓\n✗\n\n\nActive development\n✓\nMaintenance only\n\n\nVS Code extensions\n✓\nLimited\n\n\nPrice\nFree\nFree\n\n\n\nDownload: positron.posit.co\nAlternative: RStudio Desktop if you prefer.\n\n\n\nVersion control for all assignments.\nWindows:\nwinget install Git.Git\nmacOS:\nbrew install git\nConfigure:\ngit config --global user.name \"Your Name\"\ngit config --global user.email \"your.email@unc.edu\"\n\n\n\nPublishing system for labs and reports. Usually bundled with Positron/RStudio.\nVerify installation:\nquarto --version\nIf not installed: quarto.org/docs/get-started",
+    "crumbs": [
+      "Course Information",
+      "Computing"
+    ]
+  },
+  {
+    "objectID": "computing.html#workflow-by-assignment-type",
+    "href": "computing.html#workflow-by-assignment-type",
+    "title": "Computing",
+    "section": "",
+    "text": "Platform: Posit Cloud\n\nLog into Posit Cloud\nOpen the class project\nFollow along with instructor\nNo submission needed\n\n\n\n\nPlatform: Local + GitHub Classroom\n\nAccept assignment via GitHub Classroom link\nClone to local machine:\n\ngit clone git@github.com:unc-hpm-quant/lab-X-yourusername.git\n\nOpen .Rproj file in Positron/RStudio\nRestore packages: renv::restore()\nComplete the lab in analysis.qmd\nRender to HTML\nCommit and push:\n\ngit add .\ngit commit -m \"Complete Lab X\"\ngit push\n\n\n\nPlatform: Local + GitHub Classroom\nSame workflow as labs, but uses the capstone template with:\n\n_targets.R — Analysis pipeline\nanalysis/01-pap.qmd — Pre-analysis plan\nanalysis/02-analysis.qmd — Main analysis\nanalysis/03-results.qmd — Results summary",
+    "crumbs": [
+      "Course Information",
+      "Computing"
+    ]
+  },
+  {
+    "objectID": "computing.html#key-r-packages",
+    "href": "computing.html#key-r-packages",
+    "title": "Computing",
+    "section": "",
+    "text": "These packages are pre-installed in all course templates:\n\n\n\n\n\nPackage\nPurpose\n\n\n\n\ntidyverse\nData manipulation and visualization\n\n\nestimatr\nRobust standard errors\n\n\ngt\nPublication-quality tables\n\n\nknitr\nDocument rendering\n\n\n\n\n\n\n\n\n\nPackage\nPurpose\n\n\n\n\nDoubleML\nDouble/Debiased Machine Learning\n\n\ngrf\nGeneralized Random Forests (causal forests)\n\n\npolicytree\nPolicy learning and decision trees\n\n\ndid\nDifference-in-Differences\n\n\nSynth\nSynthetic Control Method\n\n\n\n\n\n\n\n\n\nPackage\nPurpose\n\n\n\n\nDeclareDesign\nResearch design declaration\n\n\nfabricatr\nData simulation\n\n\nrandomizr\nRandomization",
+    "crumbs": [
+      "Course Information",
+      "Computing"
+    ]
+  },
+  {
+    "objectID": "computing.html#reproducibility-with-renv",
+    "href": "computing.html#reproducibility-with-renv",
+    "title": "Computing",
+    "section": "",
+    "text": "All course projects use renv for package management.\nFirst time opening a project:\nrenv::restore()\nThis installs the exact package versions used to create the project.\nIf you add new packages:\ninstall.packages(\"new_package\")\nrenv::snapshot()",
+    "crumbs": [
+      "Course Information",
+      "Computing"
+    ]
+  },
+  {
+    "objectID": "computing.html#troubleshooting",
+    "href": "computing.html#troubleshooting",
+    "title": "Computing",
+    "section": "",
+    "text": "# Delete cached packages and retry\nunlink(\"renv/library\", recursive = TRUE)\nrenv::restore()\n\n\n\n# Pull remote changes first\ngit pull --rebase\ngit push\n\n\n\n\nCheck YAML header for syntax errors\nLook for unmatched brackets or quotes\nRun chunks one-by-one to find the error\n\n\n\n\n\nClose unused projects\nIncrease RAM: Project Settings → Resources → RAM\nClear old outputs: delete _freeze/ folder\n\n\n\n\n# Regenerate SSH key\nssh-keygen -t ed25519 -C \"your.email@unc.edu\"\n# Add to GitHub: Settings → SSH Keys → New",
+    "crumbs": [
+      "Course Information",
+      "Computing"
+    ]
+  },
+  {
+    "objectID": "computing.html#getting-help",
+    "href": "computing.html#getting-help",
+    "title": "Computing",
+    "section": "",
+    "text": "Slack #hpm883-help — Quick questions, classmates can help\nOffice Hours — See course schedule\nGitHub Issues — For persistent technical problems\n\n\n\n\n\n\n\nNoteLab 0\n\n\n\nComplete Lab 0 during Week 1 to verify your environment is correctly configured. If you encounter issues, bring them to office hours.",
+    "crumbs": [
+      "Course Information",
+      "Computing"
+    ]
+  },
+  {
+    "objectID": "computing.html#additional-resources",
+    "href": "computing.html#additional-resources",
+    "title": "Computing",
+    "section": "",
+    "text": "R for Data Science — Comprehensive introduction\nStata2R — For Stata users transitioning to R\nCoding for Economists — Practical coding guide\n\n\n\n\n\nHappy Git with R — Complete guide\nGit Cheat Sheet — Quick reference\n\n\n\n\n\nQuarto Documentation — Official guide\nQuarto for R Users — R-specific features\n\n\n\n\n\nPositron Documentation — IDE guide\nMigrating from RStudio — Comparison\n\n\n\n\n\nIPA Data Handbook — Research data management\nThe Turing Way — Reproducible research guide",
+    "crumbs": [
+      "Course Information",
+      "Computing"
+    ]
+  },
+  {
+    "objectID": "Resources/setup-guide.html",
+    "href": "Resources/setup-guide.html",
+    "title": "Student Setup Guide",
+    "section": "",
+    "text": "This guide walks you through setting up your computing environment for HPM 883. Complete these steps before the first class or during the first week.\n\n\n\n\n\n\nImportantRequired Software\n\n\n\nYou need to install:\n\nR (version 4.3 or higher)\nPositron (recommended) or RStudio\nGit and a GitHub account\nPosit Cloud account ($5/month)\nQuarto (usually bundled with Positron/RStudio)\n\n\n\n\n\n\n\n\nOpen PowerShell and run:\nwinget install --id R-project.R\nOr download from CRAN.\n\n\n\nOpen Terminal and run:\nbrew install --cask r\nOr download from CRAN.\n\n\n\nOpen a terminal and type:\nR --version\nYou should see R version 4.3.0 or higher.\n\n\n\n\n\nPositron is Posit’s new IDE with built-in AI assistance. It’s free and actively developed.\n\n\n\nGo to positron.posit.co\nDownload the installer for your operating system\nRun the installer\n\n\n\n\n\n\n\nFeature\nPositron\nRStudio\n\n\n\n\nBuilt-in AI assistant\n✓ Yes\nNo\n\n\nVS Code extensions\n✓ 1000s\nLimited\n\n\nActive development\n✓ Very active\nMaintenance only\n\n\nPython support\nFirst-class\nSecondary\n\n\nPrice\nFree\nFree\n\n\n\n\n\n\nIf you prefer RStudio, download from posit.co/download/rstudio-desktop.\n\n\n\n\n\n\n\nWindows:\nwinget install Git.Git\nmacOS:\nbrew install git\n\n\n\nOpen a terminal and run (use your actual name and email):\ngit config --global user.name \"Your Name\"\ngit config --global user.email \"your.email@unc.edu\"\n\n\n\n\nGo to github.com\nSign up with your UNC email (you get free Pro features as a student)\nVerify your email address\n\n\n\n\nGenerate an SSH key (recommended):\nssh-keygen -t ed25519 -C \"your.email@unc.edu\"\nPress Enter to accept defaults. Then add to GitHub:\n\nCopy your public key: cat ~/.ssh/id_ed25519.pub\nGo to GitHub → Settings → SSH and GPG keys → New SSH key\nPaste and save\n\n\n\n\nssh -T git@github.com\nYou should see: “Hi username! You’ve successfully authenticated…”\n\n\n\n\n\nPosit Cloud provides a browser-based R environment for in-class exercises.\n\n\n\nGo to posit.cloud\nSign up with your UNC email\nSubscribe to the Student plan ($5/month)\n\n\n\n\n\n\n\nNoteCourse Requirement\n\n\n\nThe $5/month Posit Cloud subscription is a required course cost. This gives you:\n\n75 project hours/month (plenty for class)\n4 GB RAM per project\nUp to 20 projects\n\n\n\n\n\n\nAfter enrollment, you’ll receive a link to join the HPM 883 course workspace. This gives you access to pre-configured projects for in-class exercises.\n\n\n\n\n\nQuarto is the publishing system we use for labs and the capstone project.\n\n\nPositron and recent RStudio versions include Quarto. Check:\nquarto --version\nIf not found, download from quarto.org/docs/get-started.\n\n\n\n\n\nOnce the semester starts, you’ll receive GitHub Classroom assignment links.\n\n\n\nClick the assignment link (e.g., https://classroom.github.com/a/xyz123)\nAuthorize GitHub Classroom (first time only)\nAccept the assignment → This creates your personal repository\nClone to your computer:\n\ngit clone git@github.com:unc-hpm-quant/lab-0-yourusername.git\n\nOpen the .Rproj file in Positron/RStudio\n\n\n\n\nWhen you first open a project, restore packages:\nrenv::restore()\nThis installs all required packages in the correct versions.\n\n\n\n\n\n\n\n\nLog into Posit Cloud\nOpen the class project\nFollow along with the instructor\nNo submission needed (formative)\n\n\n\n\n\nAccept GitHub Classroom assignment\nClone to local machine\nOpen in Positron/RStudio\nRun renv::restore() (first time)\nComplete the assignment\nRender to HTML\nCommit and push to GitHub\nVerify submission on GitHub\n\n\n\n\nSame as labs, but uses the extended capstone template with:\n\ntargets pipeline\nPre-analysis plan\nMulti-file structure\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nProblem\nSolution\n\n\n\n\nrenv::restore() fails\nDelete renv/library/, restart R, try again\n\n\nPackage not found\nRun renv::install(\"package_name\")\n\n\nGit push rejected\nRun git pull first, then push\n\n\nQuarto render fails\nCheck YAML header syntax\n\n\nGitHub auth fails\nRegenerate SSH key, re-add to GitHub\n\n\nPosit Cloud slow\nIncrease project RAM in settings\n\n\n\n\n\n\n\nSlack #hpm883-help — Post questions, classmates can help\nOffice Hours — See course schedule\nGitHub Issues — For persistent technical problems\n\n\n\n\n\n\nBefore the first class, verify:\n\nR installed (version 4.3+)\nPositron or RStudio installed\nGit installed and configured\nGitHub account created\nSSH key added to GitHub\nPosit Cloud account with Student plan\nQuarto installed\n\nComplete Lab 0 during Week 1 to verify everything works together.\n\n\n\n\n\nHappy Git with R — Comprehensive Git + R guide\nR for Data Science — Learn R basics\nQuarto Documentation — Quarto reference\nPositron Documentation — IDE guide",
+    "crumbs": [
+      "Course Information",
+      "Setup Guide"
+    ]
+  },
+  {
+    "objectID": "Resources/setup-guide.html#step-1-install-r",
+    "href": "Resources/setup-guide.html#step-1-install-r",
+    "title": "Student Setup Guide",
+    "section": "",
+    "text": "Open PowerShell and run:\nwinget install --id R-project.R\nOr download from CRAN.\n\n\n\nOpen Terminal and run:\nbrew install --cask r\nOr download from CRAN.\n\n\n\nOpen a terminal and type:\nR --version\nYou should see R version 4.3.0 or higher.",
+    "crumbs": [
+      "Course Information",
+      "Setup Guide"
+    ]
+  },
+  {
+    "objectID": "Resources/setup-guide.html#step-2-install-positron-recommended-ide",
+    "href": "Resources/setup-guide.html#step-2-install-positron-recommended-ide",
+    "title": "Student Setup Guide",
+    "section": "",
+    "text": "Positron is Posit’s new IDE with built-in AI assistance. It’s free and actively developed.\n\n\n\nGo to positron.posit.co\nDownload the installer for your operating system\nRun the installer\n\n\n\n\n\n\n\nFeature\nPositron\nRStudio\n\n\n\n\nBuilt-in AI assistant\n✓ Yes\nNo\n\n\nVS Code extensions\n✓ 1000s\nLimited\n\n\nActive development\n✓ Very active\nMaintenance only\n\n\nPython support\nFirst-class\nSecondary\n\n\nPrice\nFree\nFree\n\n\n\n\n\n\nIf you prefer RStudio, download from posit.co/download/rstudio-desktop.",
+    "crumbs": [
+      "Course Information",
+      "Setup Guide"
+    ]
+  },
+  {
+    "objectID": "Resources/setup-guide.html#step-3-install-git-and-create-github-account",
+    "href": "Resources/setup-guide.html#step-3-install-git-and-create-github-account",
+    "title": "Student Setup Guide",
+    "section": "",
+    "text": "Windows:\nwinget install Git.Git\nmacOS:\nbrew install git\n\n\n\nOpen a terminal and run (use your actual name and email):\ngit config --global user.name \"Your Name\"\ngit config --global user.email \"your.email@unc.edu\"\n\n\n\n\nGo to github.com\nSign up with your UNC email (you get free Pro features as a student)\nVerify your email address\n\n\n\n\nGenerate an SSH key (recommended):\nssh-keygen -t ed25519 -C \"your.email@unc.edu\"\nPress Enter to accept defaults. Then add to GitHub:\n\nCopy your public key: cat ~/.ssh/id_ed25519.pub\nGo to GitHub → Settings → SSH and GPG keys → New SSH key\nPaste and save\n\n\n\n\nssh -T git@github.com\nYou should see: “Hi username! You’ve successfully authenticated…”",
+    "crumbs": [
+      "Course Information",
+      "Setup Guide"
+    ]
+  },
+  {
+    "objectID": "Resources/setup-guide.html#step-4-set-up-posit-cloud",
+    "href": "Resources/setup-guide.html#step-4-set-up-posit-cloud",
+    "title": "Student Setup Guide",
+    "section": "",
+    "text": "Posit Cloud provides a browser-based R environment for in-class exercises.\n\n\n\nGo to posit.cloud\nSign up with your UNC email\nSubscribe to the Student plan ($5/month)\n\n\n\n\n\n\n\nNoteCourse Requirement\n\n\n\nThe $5/month Posit Cloud subscription is a required course cost. This gives you:\n\n75 project hours/month (plenty for class)\n4 GB RAM per project\nUp to 20 projects\n\n\n\n\n\n\nAfter enrollment, you’ll receive a link to join the HPM 883 course workspace. This gives you access to pre-configured projects for in-class exercises.",
+    "crumbs": [
+      "Course Information",
+      "Setup Guide"
+    ]
+  },
+  {
+    "objectID": "Resources/setup-guide.html#step-5-install-quarto",
+    "href": "Resources/setup-guide.html#step-5-install-quarto",
+    "title": "Student Setup Guide",
+    "section": "",
+    "text": "Quarto is the publishing system we use for labs and the capstone project.\n\n\nPositron and recent RStudio versions include Quarto. Check:\nquarto --version\nIf not found, download from quarto.org/docs/get-started.",
+    "crumbs": [
+      "Course Information",
+      "Setup Guide"
+    ]
+  },
+  {
+    "objectID": "Resources/setup-guide.html#step-6-accept-github-classroom-assignment",
+    "href": "Resources/setup-guide.html#step-6-accept-github-classroom-assignment",
+    "title": "Student Setup Guide",
+    "section": "",
+    "text": "Once the semester starts, you’ll receive GitHub Classroom assignment links.\n\n\n\nClick the assignment link (e.g., https://classroom.github.com/a/xyz123)\nAuthorize GitHub Classroom (first time only)\nAccept the assignment → This creates your personal repository\nClone to your computer:\n\ngit clone git@github.com:unc-hpm-quant/lab-0-yourusername.git\n\nOpen the .Rproj file in Positron/RStudio\n\n\n\n\nWhen you first open a project, restore packages:\nrenv::restore()\nThis installs all required packages in the correct versions.",
+    "crumbs": [
+      "Course Information",
+      "Setup Guide"
+    ]
+  },
+  {
+    "objectID": "Resources/setup-guide.html#workflow-summary",
+    "href": "Resources/setup-guide.html#workflow-summary",
+    "title": "Student Setup Guide",
+    "section": "",
+    "text": "Log into Posit Cloud\nOpen the class project\nFollow along with the instructor\nNo submission needed (formative)\n\n\n\n\n\nAccept GitHub Classroom assignment\nClone to local machine\nOpen in Positron/RStudio\nRun renv::restore() (first time)\nComplete the assignment\nRender to HTML\nCommit and push to GitHub\nVerify submission on GitHub\n\n\n\n\nSame as labs, but uses the extended capstone template with:\n\ntargets pipeline\nPre-analysis plan\nMulti-file structure",
+    "crumbs": [
+      "Course Information",
+      "Setup Guide"
+    ]
+  },
+  {
+    "objectID": "Resources/setup-guide.html#troubleshooting",
+    "href": "Resources/setup-guide.html#troubleshooting",
+    "title": "Student Setup Guide",
+    "section": "",
+    "text": "Problem\nSolution\n\n\n\n\nrenv::restore() fails\nDelete renv/library/, restart R, try again\n\n\nPackage not found\nRun renv::install(\"package_name\")\n\n\nGit push rejected\nRun git pull first, then push\n\n\nQuarto render fails\nCheck YAML header syntax\n\n\nGitHub auth fails\nRegenerate SSH key, re-add to GitHub\n\n\nPosit Cloud slow\nIncrease project RAM in settings\n\n\n\n\n\n\n\nSlack #hpm883-help — Post questions, classmates can help\nOffice Hours — See course schedule\nGitHub Issues — For persistent technical problems",
+    "crumbs": [
+      "Course Information",
+      "Setup Guide"
+    ]
+  },
+  {
+    "objectID": "Resources/setup-guide.html#verification-checklist",
+    "href": "Resources/setup-guide.html#verification-checklist",
+    "title": "Student Setup Guide",
+    "section": "",
+    "text": "Before the first class, verify:\n\nR installed (version 4.3+)\nPositron or RStudio installed\nGit installed and configured\nGitHub account created\nSSH key added to GitHub\nPosit Cloud account with Student plan\nQuarto installed\n\nComplete Lab 0 during Week 1 to verify everything works together.",
+    "crumbs": [
+      "Course Information",
+      "Setup Guide"
+    ]
+  },
+  {
+    "objectID": "Resources/setup-guide.html#additional-resources",
+    "href": "Resources/setup-guide.html#additional-resources",
+    "title": "Student Setup Guide",
+    "section": "",
+    "text": "Happy Git with R — Comprehensive Git + R guide\nR for Data Science — Learn R basics\nQuarto Documentation — Quarto reference\nPositron Documentation — IDE guide",
+    "crumbs": [
+      "Course Information",
+      "Setup Guide"
+    ]
+  },
+  {
+    "objectID": "project.html",
+    "href": "project.html",
+    "title": "Semester Project Description",
+    "section": "",
+    "text": "With the semester project, you’ll dive into the full experimental research lifecycle and apply the tools and techniques you’re learning in this course. Working in your assigned group, you’ll design an experiment to answer a meaningful research question of your choosing, develop a pre-analysis plan, and analyze data (we’ll simulate the data given time constraints). By the end of the semester, you’ll have a manuscript and replication package that showcase your ability to design, execute, and report on a rigorous experimental research project. This is your opportunity to apply what we learn in class to a topic of interest.\n\n\n\n\n\n\nThe Pre-Analysis Plan (PAP) ensures your experiment is well-conceived, transparent, and analytically rigorous. This document lays out your research design and specifies how you will analyze the data.\n\n\n\nIntroduction and Background: Explain your research question and its significance.\n\nHypotheses: Clearly state primary and secondary hypotheses.\n\nExperimental Design:\n\nType of experiment (e.g., lab, online A/B test, field).\n\nRandom assignment procedure.\n\nTreatment and control conditions.\n\nParticipant details (e.g., recruitment, sample size, inclusion criteria).\n\n\nKey Outcomes: Define primary and secondary outcomes and describe how they will be measured.\n\nAnalytical Strategy:\n\nSpecify statistical methods and models.\n\nIncorporate analysis related to compliance or heterogeneous treatment effects.\n\nUse a machine learning approach (e.g., predicting treatment heterogeneity or analyzing secondary outcomes).\n\nAddress how you will handle multiple hypotheses testing, if applicable.\n\n\nLimitations: Discuss potential weaknesses and their impact on findings.\n\n\n\n\n\nClarity and Completeness (40%)\n\nRigor of Design and Analysis (40%)\n\nFeasibility and Practicality (20%)\n\n\n\n\n\nPre-Analysis Plan Template\nFor guidance on pre-analysis plans: World Bank DIME Wiki\nFor examples of pre-analysis plans: AEA RCT Registry\n\n\n\n\n\n\nThis deliverable includes a journal-style manuscript and a replication package to showcase your research findings and ensure reproducibility.\n\n\n\nFinal Manuscript: (10–15 pages)\n\nAbstract: Concise summary of your study and findings.\nIntroduction: Background and motivation for your research.\nMethods: Detailed description of your experimental design, treatments, and analytical approach.\nResults: Clear presentation of findings, including tables and figures.\nDiscussion: Interpretation, limitations, and implications for future research or policy.\nReferences: Properly formatted citations.\n\nReplication Package:\n\nSimulated Data: Dataset formatted for analysis.\nCode: Well-documented scripts (R or Python recommended) for data cleaning and analysis, incorporating machine learning where appropriate.\nREADME File: Detailed instructions for replicating your analysis.\n\n\n\n\n\n\nManuscript:\n\nWriting Quality and Organization (20%)\nClarity and Depth of Analysis (30%)\n\nReplication Package:\n\nReproducibility (30%)\nCompleteness and Documentation (20%)\n\n\n\n\n\n\n\n\n\nNow - April 9: Work with team on pre-analysis plan.\nApril 9: Submit Pre-Analysis Plan for feedback.\nApril 9 - April 28: Simulate and analyze data; draft your final deliverable.\nApril 28: Submit Final Manuscript and Replication Package.\n\n\n\n\n\n\nPre-Analysis Plan: 50%\nFinal Manuscript and Replication Package: 50%",
+    "crumbs": [
+      "Capstone Project",
+      "Project Description"
+    ]
+  },
+  {
+    "objectID": "project.html#overview",
+    "href": "project.html#overview",
+    "title": "Semester Project Description",
+    "section": "",
+    "text": "With the semester project, you’ll dive into the full experimental research lifecycle and apply the tools and techniques you’re learning in this course. Working in your assigned group, you’ll design an experiment to answer a meaningful research question of your choosing, develop a pre-analysis plan, and analyze data (we’ll simulate the data given time constraints). By the end of the semester, you’ll have a manuscript and replication package that showcase your ability to design, execute, and report on a rigorous experimental research project. This is your opportunity to apply what we learn in class to a topic of interest.",
+    "crumbs": [
+      "Capstone Project",
+      "Project Description"
+    ]
+  },
+  {
+    "objectID": "project.html#deliverables",
+    "href": "project.html#deliverables",
+    "title": "Semester Project Description",
+    "section": "",
+    "text": "The Pre-Analysis Plan (PAP) ensures your experiment is well-conceived, transparent, and analytically rigorous. This document lays out your research design and specifies how you will analyze the data.\n\n\n\nIntroduction and Background: Explain your research question and its significance.\n\nHypotheses: Clearly state primary and secondary hypotheses.\n\nExperimental Design:\n\nType of experiment (e.g., lab, online A/B test, field).\n\nRandom assignment procedure.\n\nTreatment and control conditions.\n\nParticipant details (e.g., recruitment, sample size, inclusion criteria).\n\n\nKey Outcomes: Define primary and secondary outcomes and describe how they will be measured.\n\nAnalytical Strategy:\n\nSpecify statistical methods and models.\n\nIncorporate analysis related to compliance or heterogeneous treatment effects.\n\nUse a machine learning approach (e.g., predicting treatment heterogeneity or analyzing secondary outcomes).\n\nAddress how you will handle multiple hypotheses testing, if applicable.\n\n\nLimitations: Discuss potential weaknesses and their impact on findings.\n\n\n\n\n\nClarity and Completeness (40%)\n\nRigor of Design and Analysis (40%)\n\nFeasibility and Practicality (20%)\n\n\n\n\n\nPre-Analysis Plan Template\nFor guidance on pre-analysis plans: World Bank DIME Wiki\nFor examples of pre-analysis plans: AEA RCT Registry\n\n\n\n\n\n\nThis deliverable includes a journal-style manuscript and a replication package to showcase your research findings and ensure reproducibility.\n\n\n\nFinal Manuscript: (10–15 pages)\n\nAbstract: Concise summary of your study and findings.\nIntroduction: Background and motivation for your research.\nMethods: Detailed description of your experimental design, treatments, and analytical approach.\nResults: Clear presentation of findings, including tables and figures.\nDiscussion: Interpretation, limitations, and implications for future research or policy.\nReferences: Properly formatted citations.\n\nReplication Package:\n\nSimulated Data: Dataset formatted for analysis.\nCode: Well-documented scripts (R or Python recommended) for data cleaning and analysis, incorporating machine learning where appropriate.\nREADME File: Detailed instructions for replicating your analysis.\n\n\n\n\n\n\nManuscript:\n\nWriting Quality and Organization (20%)\nClarity and Depth of Analysis (30%)\n\nReplication Package:\n\nReproducibility (30%)\nCompleteness and Documentation (20%)",
+    "crumbs": [
+      "Capstone Project",
+      "Project Description"
+    ]
+  },
+  {
+    "objectID": "project.html#timeline",
+    "href": "project.html#timeline",
+    "title": "Semester Project Description",
+    "section": "",
+    "text": "Now - April 9: Work with team on pre-analysis plan.\nApril 9: Submit Pre-Analysis Plan for feedback.\nApril 9 - April 28: Simulate and analyze data; draft your final deliverable.\nApril 28: Submit Final Manuscript and Replication Package.",
+    "crumbs": [
+      "Capstone Project",
+      "Project Description"
+    ]
+  },
+  {
+    "objectID": "project.html#grading-breakdown",
+    "href": "project.html#grading-breakdown",
+    "title": "Semester Project Description",
+    "section": "",
+    "text": "Pre-Analysis Plan: 50%\nFinal Manuscript and Replication Package: 50%",
+    "crumbs": [
+      "Capstone Project",
+      "Project Description"
+    ]
+  },
+  {
+    "objectID": "resources.html",
+    "href": "resources.html",
+    "title": "Useful Reference Materials",
+    "section": "",
+    "text": "List, John. Experimental Economics: Theory and Practice, 2025. (Link available soon)\nChernozhukov, Victor, Christian Hansen, Nathan Kallus, Martin Spindler, and Vasilis Syrgkanis. Applied Causal Inference Powered by ML and AI, 2024.\nWager, Stefan. Causal Inference: A Statistical Learning Approach, 2024.\nJames, Gareth, Daniela Witten, Trevor Hastie, and Robert Tibshirani. An Introduction to Statistical Learning: With Applications in R. Springer Texts in Statistics. New York, NY: Springer US, 2021.",
+    "crumbs": [
+      "Resources",
+      "Reference Materials"
+    ]
+  },
+  {
+    "objectID": "resources.html#key-texts",
+    "href": "resources.html#key-texts",
+    "title": "Useful Reference Materials",
+    "section": "",
+    "text": "List, John. Experimental Economics: Theory and Practice, 2025. (Link available soon)\nChernozhukov, Victor, Christian Hansen, Nathan Kallus, Martin Spindler, and Vasilis Syrgkanis. Applied Causal Inference Powered by ML and AI, 2024.\nWager, Stefan. Causal Inference: A Statistical Learning Approach, 2024.\nJames, Gareth, Daniela Witten, Trevor Hastie, and Robert Tibshirani. An Introduction to Statistical Learning: With Applications in R. Springer Texts in Statistics. New York, NY: Springer US, 2021.",
+    "crumbs": [
+      "Resources",
+      "Reference Materials"
+    ]
+  },
+  {
+    "objectID": "resources.html#r-tutorials",
+    "href": "resources.html#r-tutorials",
+    "title": "Useful Reference Materials",
+    "section": "R Tutorials",
+    "text": "R Tutorials\nParadis, Emmanuel. R for Beginners, 2005.\nWickham, Hadley, and Mine Çetinkaya-Rundel. R for Data Science, 2nd ed. 2023.\nR “Cheat Sheet” Compilation.\nThe R Graph Gallery",
+    "crumbs": [
+      "Resources",
+      "Reference Materials"
+    ]
+  },
+  {
+    "objectID": "resources.html#websites",
+    "href": "resources.html#websites",
+    "title": "Useful Reference Materials",
+    "section": "Websites",
+    "text": "Websites\nField Experiments Website\nPapers in economic field experiments.\nAbdul Latif Jameel Poverty Action Lab (JPAL)\nA global research center based at MIT’s Economics Department that works to reduce poverty through rigorous scientific evidence and policy implementation\n\nJPAL maintains an excellent site with resources for randomized evaluations and more\n\nStanford Social Impact Lab\nMelissa Dell’s EconDL Website\n\nEconDL is a comprehensive resource detailing applications of Deep Learning in Economics. This is a companion website to the paper Deep Learning for Economists and aims to be a go-to resource for economists and other social scientists for applying tools provided by deep learning in their research.",
+    "crumbs": [
+      "Resources",
+      "Reference Materials"
+    ]
+  },
+  {
+    "objectID": "resources.html#data",
+    "href": "resources.html#data",
+    "title": "Useful Reference Materials",
+    "section": "Data",
+    "text": "Data\n\nStanford GSB Social Impact Lab Experiment Data\nMIMIC-IV (Medical Information Mart for Intensive Care IV)\nMIMIC-IV is an updated version of the MIMIC database, containing comprehensive de-identified electronic health records from patients admitted to Beth Israel Deaconess Medical Center in Boston, MA from 2008 to 2019. This freely accessible dataset includes data from over 257,000 distinct patients, yielding approximately 524,000 admission records.\nKey Features and Structure\nMIMIC-IV adopts a modular approach to data organization, highlighting data provenance and facilitating both individual and combined use of different data sources. The database is organized into three main modules:\n\nhosp: Contains hospital-wide data including admission/discharge/transfer records, laboratory values, microbiology cultures, medication orders, and administrative data from billing practices\nicu: Comprises data documented at the ICU bedside, including intravenous infusions, patient outputs, charted observations, and documentation of ongoing procedures\nnote: Contains discharge summaries, radiology reports, and other clinical notes in free-text format\nDetailed Description\nMIMIC Code Repository\n\nPapers With Code\nPapers with Code is a free and open resource platform dedicated to making machine learning research more accessible by connecting research papers with their code implementations.",
+    "crumbs": [
+      "Resources",
+      "Reference Materials"
+    ]
+  },
+  {
+    "objectID": "templates.html",
+    "href": "templates.html",
+    "title": "Templates & Guides",
+    "section": "",
+    "text": "Pre-Analysis Plan Template\nRCT Analysis Template Repository (GitHub)\nJ-Pal Sample Size and Power Repository",
+    "crumbs": [
+      "Resources",
+      "Templates"
+    ]
+  },
+  {
+    "objectID": "templates.html#templates",
+    "href": "templates.html#templates",
+    "title": "Templates & Guides",
+    "section": "",
+    "text": "Pre-Analysis Plan Template\nRCT Analysis Template Repository (GitHub)\nJ-Pal Sample Size and Power Repository",
+    "crumbs": [
+      "Resources",
+      "Templates"
+    ]
+  },
+  {
+    "objectID": "templates.html#guides",
+    "href": "templates.html#guides",
+    "title": "Templates & Guides",
+    "section": "Guides",
+    "text": "Guides\nPeer Review Guide",
+    "crumbs": [
+      "Resources",
+      "Templates"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#welcome-to-hpm-883",
+    "href": "unit-0/session-0-1-slides.html#welcome-to-hpm-883",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "Welcome to HPM 883",
+    "text": "Welcome to HPM 883\nAdvanced Quantitative Methods for Health Policy and Management\nSpring 2026\n\nWelcome students. This is the third course in the quantitative methods sequence. We’re going to explore cutting-edge methods at the intersection of causal inference and machine learning.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#course-philosophy",
+    "href": "unit-0/session-0-1-slides.html#course-philosophy",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "Course Philosophy",
+    "text": "Course Philosophy\n\n\nWhat This Course Is\n\nApplied focus: Real health policy problems\nModern methods: Causal ML, not just regression\nReproducible research: Code that others can run\nAI-assisted analysis: Learning to work with AI tools\n\n\nWhat This Course Is Not\n\nA statistics refresher (prerequisite: HPM 881-882)\nPure machine learning for prediction\nTheory without application\nAI doing your thinking for you\n\n\n\nSet expectations early. This is an advanced course that builds on prior quantitative training. We’ll use modern methods but always with a focus on causal questions that matter for health policy.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#the-central-question",
+    "href": "unit-0/session-0-1-slides.html#the-central-question",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "The Central Question",
+    "text": "The Central Question\n\nWhen does a health intervention cause an outcome to change?\n\n\nThis is fundamentally different from:\n\n“Are intervention and outcome associated?”\n“Can we predict outcomes from interventions?”\n\n\n\n\n\n\n\nKey Insight\n\n\nPrediction ≠ Causation. A model that predicts well may tell us nothing about what happens when we intervene.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#the-three-layer-causal-inference-stack",
+    "href": "unit-0/session-0-1-slides.html#the-three-layer-causal-inference-stack",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "The Three-Layer Causal Inference Stack",
+    "text": "The Three-Layer Causal Inference Stack\n\nflowchart TB\n    subgraph Layer3[\"Layer 3: DECISION\"]\n        D1[\"What should we do?\"]\n        D2[\"Policy learning\"]\n        D3[\"Optimal treatment rules\"]\n    end\n\n    subgraph Layer2[\"Layer 2: ESTIMATION\"]\n        E1[\"How do we estimate effects?\"]\n        E2[\"Double ML, Causal Forests\"]\n        E3[\"Doubly-robust methods\"]\n    end\n\n    subgraph Layer1[\"Layer 1: IDENTIFICATION\"]\n        I1[\"What assumptions justify causal claims?\"]\n        I2[\"RCTs, Natural experiments\"]\n        I3[\"DAGs, Potential outcomes\"]\n    end\n\n    Layer1 --&gt; Layer2\n    Layer2 --&gt; Layer3\n\n    style Layer1 fill:#e6f3ff\n    style Layer2 fill:#fff2e6\n    style Layer3 fill:#e6ffe6\n\n\n\n\nflowchart TB\n    subgraph Layer3[\"Layer 3: DECISION\"]\n        D1[\"What should we do?\"]\n        D2[\"Policy learning\"]\n        D3[\"Optimal treatment rules\"]\n    end\n\n    subgraph Layer2[\"Layer 2: ESTIMATION\"]\n        E1[\"How do we estimate effects?\"]\n        E2[\"Double ML, Causal Forests\"]\n        E3[\"Doubly-robust methods\"]\n    end\n\n    subgraph Layer1[\"Layer 1: IDENTIFICATION\"]\n        I1[\"What assumptions justify causal claims?\"]\n        I2[\"RCTs, Natural experiments\"]\n        I3[\"DAGs, Potential outcomes\"]\n    end\n\n    Layer1 --&gt; Layer2\n    Layer2 --&gt; Layer3\n\n    style Layer1 fill:#e6f3ff\n    style Layer2 fill:#fff2e6\n    style Layer3 fill:#e6ffe6\n\n\n\n\n\n\n\nThis three-layer stack is the organizing framework for the entire course. Every method we learn fits somewhere in this stack. Identification comes first—you must know what you’re estimating before worrying about how to estimate it.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#layer-1-identification",
+    "href": "unit-0/session-0-1-slides.html#layer-1-identification",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "Layer 1: Identification",
+    "text": "Layer 1: Identification\nThe Question: Under what assumptions can we interpret an estimate as causal?\n\n\nTools\n\nPotential outcomes framework\nDirected Acyclic Graphs (DAGs)\nIdentification strategies\n\n\nCourse Coverage\n\nUnit 0: Foundations\nUnit 1: Experimental design\nUnit 5-6: Observational strategies\n\n\n\n\n\n\n\n\nIdentification First\n\n\nNo amount of sophisticated estimation can rescue a study with flawed identification.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#layer-2-estimation",
+    "href": "unit-0/session-0-1-slides.html#layer-2-estimation",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "Layer 2: Estimation",
+    "text": "Layer 2: Estimation\nThe Question: Given valid identification, how do we estimate effects efficiently?\n\n\nTools\n\nDouble/Debiased ML\nDoubly-robust estimation\nCausal forests\nInfluence functions\n\n\nCourse Coverage\n\nUnit 2: DR & DML\nUnit 3: Heterogeneous effects\nUnits 5-6: Advanced methods\n\n\n\n\n\n\n\n\nModern Estimation\n\n\nML methods excel at high-dimensional nuisance estimation while preserving valid inference on causal parameters.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#layer-3-decision",
+    "href": "unit-0/session-0-1-slides.html#layer-3-decision",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "Layer 3: Decision",
+    "text": "Layer 3: Decision\nThe Question: Given estimated effects, what action should we take?\n\n\nTools\n\nPolicy learning\nTreatment rules\nOff-policy evaluation\n\n\nCourse Coverage\n\nUnit 4: Policy learning\nUnit 8: Capstone projects\n\n\n\n\n\n\n\n\nDecision Under Uncertainty\n\n\nOptimal decisions depend not just on average effects, but on heterogeneity and constraints.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#why-ai-in-the-loop",
+    "href": "unit-0/session-0-1-slides.html#why-ai-in-the-loop",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "Why “AI in the Loop”?",
+    "text": "Why “AI in the Loop”?\n\n\nHuman-Driven, AI-Assisted\n\nYou specify the causal question\nYou choose the identification strategy\nAI assists with implementation\nYou evaluate and interpret results\nYou make the decision\n\nThis is “AI in the Loop” — not “Human in the Loop”\n\nWhy It Matters\n\nAI can’t choose your research question\nAI can hallucinate methods\nAI doesn’t know your context\nAI can’t defend your work\nYou are responsible\n\n\n\nThis distinction is crucial. Many people talk about “human in the loop” for AI systems. In research, we flip this: the human drives the process, AI assists. You maintain control and responsibility.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#ai-in-causal-analysis-dos-and-donts",
+    "href": "unit-0/session-0-1-slides.html#ai-in-causal-analysis-dos-and-donts",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "AI in Causal Analysis: Do’s and Don’ts",
+    "text": "AI in Causal Analysis: Do’s and Don’ts\n\n\n✅ Good Uses of AI\n\nCode implementation\nDebugging syntax errors\nExplaining methods\nGenerating simulations\nFormatting output\n\n\n❌ Risky Uses of AI\n\nChoosing identification strategy\nInterpreting results for you\nMaking causal claims\nSelecting variables\n“Just run an analysis”\n\n\n\n\n\n\n\n\nCourse Policy\n\n\nYou may use AI tools, but you are responsible for all submitted work. You must understand and be able to explain every line of code and every claim.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#potential-outcomes-framework",
+    "href": "unit-0/session-0-1-slides.html#potential-outcomes-framework",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "Potential Outcomes Framework",
+    "text": "Potential Outcomes Framework\nThe Fundamental Setup\nFor each unit \\(i\\):\n\n\\(Y_i(1)\\): Outcome if unit receives treatment\n\\(Y_i(0)\\): Outcome if unit receives control\n\\(D_i\\): Treatment indicator (1 = treated, 0 = control)\n\n. . .\nThe Individual Treatment Effect\n\\[\\tau_i = Y_i(1) - Y_i(0)\\]\nThe causal effect for unit \\(i\\) is the difference between what would happen under treatment versus control.\n\nThis notation will be used throughout the course. Get comfortable with it. Y(1) is the potential outcome under treatment, Y(0) under control. These are counterfactual outcomes—we can only ever observe one for each unit.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#the-fundamental-problem-of-causal-inference",
+    "href": "unit-0/session-0-1-slides.html#the-fundamental-problem-of-causal-inference",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "The Fundamental Problem of Causal Inference",
+    "text": "The Fundamental Problem of Causal Inference\n\n\n\n\n\n\nThe Problem\n\n\nWe can never observe both \\(Y_i(1)\\) and \\(Y_i(0)\\) for the same unit.\n\n\n\n\n\n\nUnit\n\\(Y_i(1)\\)\n\\(Y_i(0)\\)\n\\(\\tau_i\\)\n\n\n\n\n1\n8\n?\n?\n\n\n2\n?\n5\n?\n\n\n3\n7\n?\n?\n\n\n4\n?\n6\n?\n\n\n\n\nSolution: Randomization allows us to estimate average effects by comparing groups.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#average-treatment-effect-ate",
+    "href": "unit-0/session-0-1-slides.html#average-treatment-effect-ate",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "Average Treatment Effect (ATE)",
+    "text": "Average Treatment Effect (ATE)\nDefinition\n\\[\\text{ATE} = E[Y(1) - Y(0)] = E[Y(1)] - E[Y(0)]\\]\nThe average causal effect across the population.\n. . .\nUnder Random Assignment\n\\[\\text{ATE} = E[Y | D=1] - E[Y | D=0]\\]\nWhy? Because randomization ensures:\n\\[E[Y(1) | D=1] = E[Y(1)] \\quad \\text{and} \\quad E[Y(0) | D=0] = E[Y(0)]\\]\n\nThis is the magic of randomization. It breaks the link between treatment assignment and potential outcomes, allowing us to estimate average causal effects by comparing means.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#beyond-average-effects-cate",
+    "href": "unit-0/session-0-1-slides.html#beyond-average-effects-cate",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "Beyond Average Effects: CATE",
+    "text": "Beyond Average Effects: CATE\nConditional Average Treatment Effect\n\\[\\text{CATE}(x) = E[Y(1) - Y(0) | X = x]\\]\nThe average effect for units with characteristics \\(X = x\\).\n. . .\nWhy It Matters for Health Policy\n\nPersonalized medicine: Who benefits most from treatment?\nResource allocation: Where should we target interventions?\nEquity: Do effects differ across populations?\n\n\n\n\n\n\n\nCourse Focus\n\n\nUnits 3-4 focus on estimating heterogeneous effects using causal forests and policy learning.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#introduction-to-causal-graphs-dags",
+    "href": "unit-0/session-0-1-slides.html#introduction-to-causal-graphs-dags",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "Introduction to Causal Graphs (DAGs)",
+    "text": "Introduction to Causal Graphs (DAGs)\nDirected Acyclic Graphs\nVisual representations of causal relationships:\n\nflowchart LR\n    X[\"Confounder&lt;br/&gt;X\"] --&gt; D[\"Treatment&lt;br/&gt;D\"]\n    X --&gt; Y[\"Outcome&lt;br/&gt;Y\"]\n    D --&gt; Y\n\n    style X fill:#ffcccc\n    style D fill:#cce5ff\n    style Y fill:#ccffcc\n\n\n\n\nflowchart LR\n    X[\"Confounder&lt;br/&gt;X\"] --&gt; D[\"Treatment&lt;br/&gt;D\"]\n    X --&gt; Y[\"Outcome&lt;br/&gt;Y\"]\n    D --&gt; Y\n\n    style X fill:#ffcccc\n    style D fill:#cce5ff\n    style Y fill:#ccffcc\n\n\n\n\n\n\n\nNodes: Variables\nArrows: Direct causal effects\nPaths: Chains of causal relationships\n\n\nDAGs are powerful tools for reasoning about identification. We’ll use them throughout the course to think about what we need to control for and what we should not control for.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#why-dags-matter",
+    "href": "unit-0/session-0-1-slides.html#why-dags-matter",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "Why DAGs Matter",
+    "text": "Why DAGs Matter\nConfounding\n\nflowchart LR\n    SES[\"Socioeconomic&lt;br/&gt;Status\"] --&gt; Access[\"Healthcare&lt;br/&gt;Access\"]\n    SES --&gt; Health[\"Health&lt;br/&gt;Outcomes\"]\n    Access --&gt; Health\n\n    style SES fill:#ffcccc\n\n\n\n\nflowchart LR\n    SES[\"Socioeconomic&lt;br/&gt;Status\"] --&gt; Access[\"Healthcare&lt;br/&gt;Access\"]\n    SES --&gt; Health[\"Health&lt;br/&gt;Outcomes\"]\n    Access --&gt; Health\n\n    style SES fill:#ffcccc\n\n\n\n\n\n\nSES confounds the relationship between access and health.\n. . .\nWithout adjustment: Association ≠ Causation\nWith adjustment for SES: We can isolate the causal effect of access",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#course-structure-overview",
+    "href": "unit-0/session-0-1-slides.html#course-structure-overview",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "Course Structure Overview",
+    "text": "Course Structure Overview\n\n\n\nUnit\nTopic\nWeeks\n\n\n\n\n0\nFoundations\n1\n\n\n1\nExperimental Design\n2-3\n\n\n2\nDR & DML\n4-6\n\n\n3\nHTE & Causal Forests\n7-8\n\n\n4\nPolicy Learning\n9\n\n\n5\nObservational ML\n10\n\n\n6\nDiD & Synthetic Controls\n11\n\n\n7\nAdvanced Topics\n12\n\n\n8\nCapstone\n13-14",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#primary-textbooks-both-free",
+    "href": "unit-0/session-0-1-slides.html#primary-textbooks-both-free",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "Primary Textbooks (Both FREE!)",
+    "text": "Primary Textbooks (Both FREE!)\n\n\nChernozhukov et al. (2025)\nApplied Causal Inference Powered by ML and AI\ncausalml-book.org\n\nPractitioner-focused\nPython + R code\nIndustry examples\n\n\nWager (2024)\nCausal Inference: A Statistical Learning Approach\nStanford PDF\n\nTheoretical foundations\nMath-forward\nResearch orientation\n\n\n\n\n\n\n\n\nReading Strategy\n\n\nUse Chernozhukov for implementation, Wager for deeper understanding of the theory.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#methods-preview",
+    "href": "unit-0/session-0-1-slides.html#methods-preview",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "Methods Preview",
+    "text": "Methods Preview\nWhat You’ll Learn\n\n\nEstimation\n\nDouble ML\nAIPW\nInfluence functions\n\n\nHeterogeneity\n\nCausal forests\nMeta-learners\nCATE estimation\n\n\nPolicy\n\nPolicy trees\nOff-policy evaluation\nTreatment rules\n\n\n. . .\nR Packages\nDoubleML | grf | policytree | did | Synth | DeclareDesign",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#assessment-structure",
+    "href": "unit-0/session-0-1-slides.html#assessment-structure",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "Assessment Structure",
+    "text": "Assessment Structure\n\n\n\nComponent\nWeight\nDescription\n\n\n\n\nLabs\n30%\n4 required labs (Labs 0-4)\n\n\nDesign Memos\n20%\n2 memos (experimental + DML)\n\n\nCapstone\n45%\nPAP, replication, or comparison\n\n\nPeer Review\n5%\nReview one peer’s capstone\n\n\n\n\n\n\n\n\n\nLabs 5-7\n\n\nOptional labs available for extra credit and deeper exploration.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#this-weeks-goals",
+    "href": "unit-0/session-0-1-slides.html#this-weeks-goals",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "This Week’s Goals",
+    "text": "This Week’s Goals\nBy End of Unit 0 (Week 1)\n\n✅ Understand the three-layer causal inference stack\n📐 Apply potential outcomes framework\n📊 Construct and interpret basic DAGs\n💻 Set up reproducible R environment\n🔬 Simulate basic RCT and estimate ATE",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#next-session-session-0.2-jan-12",
+    "href": "unit-0/session-0-1-slides.html#next-session-session-0.2-jan-12",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "Next Session: Session 0.2 (Jan 12)",
+    "text": "Next Session: Session 0.2 (Jan 12)\nReproducible Research Setup (Remote)\n\nR environment with renv\nWorkflow automation with targets\nIntroduction to DeclareDesign\nSimulating RCT data in R\n\n\n\n\n\n\n\nPreparation\n\n\nInstall R and RStudio before Session 0.2. Instructions in syllabus.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#for-thursday-session-0.3",
+    "href": "unit-0/session-0-1-slides.html#for-thursday-session-0.3",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "For Thursday (Session 0.3)",
+    "text": "For Thursday (Session 0.3)\nReading Assignment\nRequired:\n\nChernozhukov Ch. 1 (Introduction) — ~15 pages\nChernozhukov Ch. 2 (Causal Models) — ~20 pages\nHernán & Robins Ch. 1-2 — ~18 pages\n\nOptional (if needed):\n\nBrady Neal Ch. 1-2 (ML-first perspective)\nR for Data Science Ch. 1-5 (R refresher)",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#questions",
+    "href": "unit-0/session-0-1-slides.html#questions",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "Questions?",
+    "text": "Questions?\n\n\n\n\n\n\nOffice Hours\n\n\nSchedule and location in syllabus.\n\n\n\n\n\n\n\n\n\nCommunication\n\n\n\nSlack: Quick questions, discussion\nCanvas: Submissions, announcements\nEmail: Scheduling, administrative",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-1-slides.html#summary",
+    "href": "unit-0/session-0-1-slides.html#summary",
+    "title": "Session 0.1: Course Overview & Causal Inference Foundations",
+    "section": "Summary",
+    "text": "Summary\n\nThree-layer stack: Identification → Estimation → Decision\nAI in the Loop: Human-driven, AI-assisted analysis\nPotential outcomes: \\(Y(1)\\), \\(Y(0)\\), and the fundamental problem\nDAGs: Visual tools for causal reasoning\nThis course: Modern causal ML for health policy\n\n\nRecap the key points. Next session we’ll get hands-on with R setup and start simulating data.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.1: Course Overview"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#todays-agenda",
+    "href": "unit-0/session-0-3-slides.html#todays-agenda",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Today’s Agenda",
+    "text": "Today’s Agenda\n\nDeep dive into potential outcomes\nCounterfactual reasoning\nDirected Acyclic Graphs (DAGs)\nd-Separation and identification\nConfounding vs. selection bias\n\n\nThis is conceptual and mathematical. Heavy on notation but essential for everything that follows.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#the-fundamental-problem-of-causal-inference",
+    "href": "unit-0/session-0-3-slides.html#the-fundamental-problem-of-causal-inference",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "The Fundamental Problem of Causal Inference",
+    "text": "The Fundamental Problem of Causal Inference\nPatient i receives treatment\n\n\n\n\nTreated (Z=1)\nControl (Z=0)\n\n\n\n\nObserved\n\\(Y_i(1)\\)\n?\n\n\nCounterfactual\n?\n\\(Y_i(0)\\)\n\n\n\n\nThe Problem\nWe can never observe both \\(Y_i(1)\\) and \\(Y_i(0)\\) for the same unit.\nIndividual treatment effect \\(\\tau_i = Y_i(1) - Y_i(0)\\) is unobservable.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#potential-outcomes-notation",
+    "href": "unit-0/session-0-3-slides.html#potential-outcomes-notation",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Potential Outcomes Notation",
+    "text": "Potential Outcomes Notation\nDefinition\nFor each unit \\(i\\):\n\n\\(Y_i(1)\\) = outcome if treated (potential outcome under treatment)\n\\(Y_i(0)\\) = outcome if control (potential outcome under control)\n\\(Z_i\\) = treatment indicator (1 = treated, 0 = control)\n\n\nObserved Outcome\n\\[Y_i = Z_i \\cdot Y_i(1) + (1 - Z_i) \\cdot Y_i(0)\\]\nWe only see one potential outcome for each unit.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#treatment-effects",
+    "href": "unit-0/session-0-3-slides.html#treatment-effects",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Treatment Effects",
+    "text": "Treatment Effects\nIndividual Treatment Effect (ITE)\n\\[\\tau_i = Y_i(1) - Y_i(0)\\]\nUnobservable — would need to see same unit in both states\n\nAverage Treatment Effect (ATE)\n\\[\\tau_{ATE} = E[Y_i(1) - Y_i(0)] = E[Y_i(1)] - E[Y_i(0)]\\]\nObservable — with the right design\n\n\nOther Estimands\n\nATT: \\(E[Y(1) - Y(0) | Z = 1]\\)\nATU: \\(E[Y(1) - Y(0) | Z = 0]\\)\nCATE: \\(E[Y(1) - Y(0) | X = x]\\)",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#the-selection-problem",
+    "href": "unit-0/session-0-3-slides.html#the-selection-problem",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "The Selection Problem",
+    "text": "The Selection Problem\nNaive Comparison\n\\[\\hat{\\tau}_{naive} = E[Y | Z=1] - E[Y | Z=0]\\]\n\nDecomposition\n\\[\n\\begin{aligned}\nE[Y | Z=1] - E[Y | Z=0] &= \\underbrace{E[Y(1) | Z=1] - E[Y(0) | Z=1]}_{\\text{ATT}} \\\\\n&+ \\underbrace{E[Y(0) | Z=1] - E[Y(0) | Z=0]}_{\\text{Selection Bias}}\n\\end{aligned}\n\\]\n\n\n\n\n\n\n\nKey Insight\n\n\nNaive comparison = Treatment effect + Selection bias\nWithout randomization, we can’t separate them.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#randomization-solves-selection",
+    "href": "unit-0/session-0-3-slides.html#randomization-solves-selection",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Randomization Solves Selection",
+    "text": "Randomization Solves Selection\nUnder Randomization\n\\[Z \\perp\\!\\!\\!\\perp \\{Y(0), Y(1)\\}\\]\nTreatment is independent of potential outcomes.\n\nConsequence\n\\[\n\\begin{aligned}\nE[Y(0) | Z=1] &= E[Y(0) | Z=0] = E[Y(0)] \\\\\nE[Y(1) | Z=1] &= E[Y(1) | Z=0] = E[Y(1)]\n\\end{aligned}\n\\]\nSelection bias = 0!",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#the-identification-assumption",
+    "href": "unit-0/session-0-3-slides.html#the-identification-assumption",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "The Identification Assumption",
+    "text": "The Identification Assumption\nUnconfoundedness (Ignorability)\n\\[\\{Y(0), Y(1)\\} \\perp\\!\\!\\!\\perp Z | X\\]\nGiven covariates \\(X\\), treatment is as-if random.\n\nWhat This Means\n\nAll confounders are measured\nNo unmeasured common causes\nAllows causal interpretation in observational data\nStrong and untestable assumption",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#stability-assumption-sutva",
+    "href": "unit-0/session-0-3-slides.html#stability-assumption-sutva",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Stability Assumption (SUTVA)",
+    "text": "Stability Assumption (SUTVA)\nStable Unit Treatment Value Assumption\nTwo components:\n\nNo interference: \\(Y_i\\) depends only on \\(Z_i\\), not \\(Z_j\\) for \\(j \\neq i\\)\nNo hidden versions: Treatment is well-defined\n\n\nWhen SUTVA Fails\n\nInterference: Vaccines (herd immunity)\nHidden versions: “Job training” means many things\nSpillovers: Treated patients share rooms with controls",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#directed-acyclic-graphs-dags",
+    "href": "unit-0/session-0-3-slides.html#directed-acyclic-graphs-dags",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Directed Acyclic Graphs (DAGs)",
+    "text": "Directed Acyclic Graphs (DAGs)\nA Visual Language for Causal Assumptions\n\nflowchart LR\n    Z[\"Treatment&lt;br&gt;(Z)\"] --&gt; Y[\"Outcome&lt;br&gt;(Y)\"]\n\n\n\n\nflowchart LR\n    Z[\"Treatment&lt;br&gt;(Z)\"] --&gt; Y[\"Outcome&lt;br&gt;(Y)\"]\n\n\n\n\n\n\nNotation: - Nodes = Variables - Arrows = Direct causal effects - Missing arrows = No direct effect",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#dag-elements",
+    "href": "unit-0/session-0-3-slides.html#dag-elements",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "DAG Elements",
+    "text": "DAG Elements\nConfounding\n\nflowchart TB\n    X[\"Confounder&lt;br&gt;(X)\"] --&gt; Z[\"Treatment&lt;br&gt;(Z)\"]\n    X --&gt; Y[\"Outcome&lt;br&gt;(Y)\"]\n    Z --&gt; Y\n\n\n\n\nflowchart TB\n    X[\"Confounder&lt;br&gt;(X)\"] --&gt; Z[\"Treatment&lt;br&gt;(Z)\"]\n    X --&gt; Y[\"Outcome&lt;br&gt;(Y)\"]\n    Z --&gt; Y\n\n\n\n\n\n\n\\(X\\) creates spurious association between \\(Z\\) and \\(Y\\)\n\nSolution\nAdjust for \\(X\\) (conditioning, regression, matching, weighting)",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#mediator",
+    "href": "unit-0/session-0-3-slides.html#mediator",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Mediator",
+    "text": "Mediator\n\nflowchart LR\n    Z[\"Treatment&lt;br&gt;(Z)\"] --&gt; M[\"Mediator&lt;br&gt;(M)\"]\n    M --&gt; Y[\"Outcome&lt;br&gt;(Y)\"]\n\n\n\n\nflowchart LR\n    Z[\"Treatment&lt;br&gt;(Z)\"] --&gt; M[\"Mediator&lt;br&gt;(M)\"]\n    M --&gt; Y[\"Outcome&lt;br&gt;(Y)\"]\n\n\n\n\n\n\n\\(M\\) is on the causal pathway from \\(Z\\) to \\(Y\\)\n\n\n\n\n\n\nDo NOT Adjust for Mediators\n\n\nAdjusting for \\(M\\) blocks the causal effect you’re trying to estimate!",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#collider",
+    "href": "unit-0/session-0-3-slides.html#collider",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Collider",
+    "text": "Collider\n\nflowchart TB\n    Z[\"Treatment&lt;br&gt;(Z)\"] --&gt; C[\"Collider&lt;br&gt;(C)\"]\n    Y[\"Outcome&lt;br&gt;(Y)\"] --&gt; C\n\n\n\n\nflowchart TB\n    Z[\"Treatment&lt;br&gt;(Z)\"] --&gt; C[\"Collider&lt;br&gt;(C)\"]\n    Y[\"Outcome&lt;br&gt;(Y)\"] --&gt; C\n\n\n\n\n\n\n\\(C\\) is caused by both \\(Z\\) and \\(Y\\)",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#collider-bias",
+    "href": "unit-0/session-0-3-slides.html#collider-bias",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Collider Bias",
+    "text": "Collider Bias\nAdjusting for \\(C\\) creates spurious association between \\(Z\\) and \\(Y\\)!\nClassic mistake in observational studies.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#d-separation",
+    "href": "unit-0/session-0-3-slides.html#d-separation",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "d-Separation",
+    "text": "d-Separation\nRules for Reading DAGs\nA path is blocked if it contains:\n\nA chain \\(A \\rightarrow B \\rightarrow C\\) and we condition on \\(B\\)\nA fork \\(A \\leftarrow B \\rightarrow C\\) and we condition on \\(B\\)\nA collider \\(A \\rightarrow B \\leftarrow C\\) and we don’t condition on \\(B\\)\n\n\nTwo Variables are d-Separated\nIf all paths between them are blocked.\nd-Separated variables are conditionally independent.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#example-complex-dag",
+    "href": "unit-0/session-0-3-slides.html#example-complex-dag",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Example: Complex DAG",
+    "text": "Example: Complex DAG\n\nflowchart TB\n    U[\"Unobserved&lt;br&gt;Confounder\"] --&gt; Z[\"Treatment\"]\n    U --&gt; Y[\"Outcome\"]\n    Z --&gt; M[\"Mediator\"]\n    Z --&gt; Y\n    M --&gt; Y\n    X[\"Observed&lt;br&gt;Covariate\"] --&gt; Z\n    X --&gt; Y\n\n\n\n\nflowchart TB\n    U[\"Unobserved&lt;br&gt;Confounder\"] --&gt; Z[\"Treatment\"]\n    U --&gt; Y[\"Outcome\"]\n    Z --&gt; M[\"Mediator\"]\n    Z --&gt; Y\n    M --&gt; Y\n    X[\"Observed&lt;br&gt;Covariate\"] --&gt; Z\n    X --&gt; Y\n\n\n\n\n\n\n\nAnalysis\n\nConfounding path: \\(Z \\leftarrow U \\rightarrow Y\\) (blocked by conditioning on \\(U\\), but \\(U\\) unobserved!)\nAdjustment set: Must include \\(X\\); cannot adjust for unobserved \\(U\\)\nProblem: Causal effect not identified without more assumptions",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#confounding-vs.-selection-bias",
+    "href": "unit-0/session-0-3-slides.html#confounding-vs.-selection-bias",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Confounding vs. Selection Bias",
+    "text": "Confounding vs. Selection Bias\nConfounding\n\nflowchart TB\n    X --&gt; Z\n    X --&gt; Y\n    Z --&gt; Y\n\n\n\n\nflowchart TB\n    X --&gt; Z\n    X --&gt; Y\n    Z --&gt; Y\n\n\n\n\n\n\nA common cause creates spurious association\n\nSelection Bias (Collider)\n\nflowchart TB\n    Z --&gt; S[\"Selection\"]\n    Y --&gt; S\n    Z --&gt; Y\n\n\n\n\nflowchart TB\n    Z --&gt; S[\"Selection\"]\n    Y --&gt; S\n    Z --&gt; Y\n\n\n\n\n\n\nConditioning on a common effect creates spurious association",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#example-selection-bias",
+    "href": "unit-0/session-0-3-slides.html#example-selection-bias",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Example: Selection Bias",
+    "text": "Example: Selection Bias\n“Hospital patients who receive treatment X have worse outcomes”\n\nflowchart TB\n    D[\"Disease&lt;br&gt;Severity\"] --&gt; H[\"Hospital&lt;br&gt;Admission\"]\n    D --&gt; Y[\"Outcome\"]\n    T[\"Treatment\"] --&gt; H\n    T --&gt; Y\n\n\n\n\nflowchart TB\n    D[\"Disease&lt;br&gt;Severity\"] --&gt; H[\"Hospital&lt;br&gt;Admission\"]\n    D --&gt; Y[\"Outcome\"]\n    T[\"Treatment\"] --&gt; H\n    T --&gt; Y\n\n\n\n\n\n\n\nThe Problem\nBy studying only hospital patients, we condition on admission (a collider).\nThis creates spurious negative association between treatment and outcomes.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#structural-causal-models-scms",
+    "href": "unit-0/session-0-3-slides.html#structural-causal-models-scms",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Structural Causal Models (SCMs)",
+    "text": "Structural Causal Models (SCMs)\nBeyond DAGs: The Math\nAn SCM specifies:\n\nEndogenous variables: \\(V = \\{Y, Z, X, ...\\}\\)\nExogenous variables: \\(U = \\{U_Y, U_Z, ...\\}\\)\nStructural equations: \\(Y = f_Y(pa(Y), U_Y)\\)\n\n\nExample\n\\[\n\\begin{aligned}\nX &= U_X \\\\\nZ &= g(X) + U_Z \\\\\nY &= \\beta Z + \\gamma X + U_Y\n\\end{aligned}\n\\]",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#interventions-in-scms",
+    "href": "unit-0/session-0-3-slides.html#interventions-in-scms",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Interventions in SCMs",
+    "text": "Interventions in SCMs\nThe do() Operator\n\\(P(Y | do(Z=1))\\) ≠ \\(P(Y | Z=1)\\)\ndo(Z=1): Set \\(Z=1\\) by intervention, breaking all arrows into \\(Z\\)\nZ=1: Observe that \\(Z=1\\), preserving all relationships\n\nGraphically\n\nflowchart TB\n    X -.-&gt; Z\n    X --&gt; Y\n    Z --&gt; Y\n\n    style Z fill:#f9f,stroke:#333\n\n\n\n\nflowchart TB\n    X -.-&gt; Z\n    X --&gt; Y\n    Z --&gt; Y\n\n    style Z fill:#f9f,stroke:#333\n\n\n\n\n\n\n\\(do(Z=1)\\) removes all arrows into \\(Z\\)",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#the-adjustment-formula",
+    "href": "unit-0/session-0-3-slides.html#the-adjustment-formula",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "The Adjustment Formula",
+    "text": "The Adjustment Formula\nBackdoor Criterion\nIf \\(X\\) blocks all backdoor paths from \\(Z\\) to \\(Y\\):\n\\[P(Y | do(Z)) = \\sum_x P(Y | Z, X=x) P(X=x)\\]\n\nIn Practice\n\nDraw DAG\nFind adjustment set (backdoor criterion)\nCondition on adjustment set\nEstimate effect (regression, matching, weighting)",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#code-example-simulating-confounding",
+    "href": "unit-0/session-0-3-slides.html#code-example-simulating-confounding",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Code Example: Simulating Confounding",
+    "text": "Code Example: Simulating Confounding\n\nlibrary(tidyverse)\nset.seed(883)\n\nn &lt;- 1000\n\n# Generate data with confounding\ndf &lt;- tibble(\n  X = rnorm(n),                    # Confounder\n  Z = rbinom(n, 1, plogis(0.5*X)), # Treatment depends on X\n  Y0 = 2 + 1*X + rnorm(n),         # Potential outcome under control\n  Y1 = Y0 + 0.5,                   # True effect = 0.5\n  Y = ifelse(Z == 1, Y1, Y0)       # Observed outcome\n)",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#naive-vs.-adjusted-estimate",
+    "href": "unit-0/session-0-3-slides.html#naive-vs.-adjusted-estimate",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Naive vs. Adjusted Estimate",
+    "text": "Naive vs. Adjusted Estimate\n\nlibrary(estimatr)\n\n# Naive estimate (biased)\nnaive &lt;- lm_robust(Y ~ Z, data = df)\n\n# Adjusted estimate (unbiased)\nadjusted &lt;- lm_robust(Y ~ Z + X, data = df)\n\ntribble(\n  ~Estimator, ~Estimate, ~SE, ~True,\n  \"Naive\", coef(naive)[\"Z\"], naive$std.error[\"Z\"], 0.5,\n  \"Adjusted\", coef(adjusted)[\"Z\"], adjusted$std.error[\"Z\"], 0.5\n)\n\n\nLesson: Adjusting for confounders removes bias!",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#visualizing-confounding",
+    "href": "unit-0/session-0-3-slides.html#visualizing-confounding",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Visualizing Confounding",
+    "text": "Visualizing Confounding\n\nggplot(df, aes(x = X, y = Y, color = factor(Z))) +\n  geom_point(alpha = 0.5) +\n  geom_smooth(method = \"lm\", se = FALSE) +\n  labs(title = \"Confounding: Treated units have higher X\",\n       color = \"Treatment\") +\n  theme_minimal()",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#dag-tools-in-r",
+    "href": "unit-0/session-0-3-slides.html#dag-tools-in-r",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "DAG Tools in R",
+    "text": "DAG Tools in R\nUsing ggdag\n\nlibrary(ggdag)\n\ndag &lt;- dagify(\n  Y ~ Z + X,\n  Z ~ X,\n  exposure = \"Z\",\n  outcome = \"Y\"\n)\n\nggdag_adjustment_set(dag) + theme_dag()",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#key-assumptions-summary",
+    "href": "unit-0/session-0-3-slides.html#key-assumptions-summary",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Key Assumptions Summary",
+    "text": "Key Assumptions Summary\n\n\n\nAssumption\nMeaning\nTestable?\n\n\n\n\nSUTVA\nNo interference, well-defined treatment\nPartially\n\n\nUnconfoundedness\nNo unmeasured confounders\nNo\n\n\nPositivity\nAll units have chance of treatment\nYes\n\n\nConsistency\nPotential outcome = observed if treated\nNo\n\n\n\n\n\n\n\n\n\nCritical Insight\n\n\nCausal inference requires assumptions. These assumptions are often untestable. Be explicit about what you’re assuming.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#practical-guidelines",
+    "href": "unit-0/session-0-3-slides.html#practical-guidelines",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Practical Guidelines",
+    "text": "Practical Guidelines\nWhen Drawing DAGs\n\nInclude all common causes you can think of\nAsk domain experts\nBe explicit about what’s unobserved\nDon’t include mediators unless studying mechanisms\nCheck for colliders before conditioning\n\nWhen Making Assumptions\n\nState them clearly\nJustify them substantively\nTest robustness to violations\nBe honest about limitations",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#connection-to-course",
+    "href": "unit-0/session-0-3-slides.html#connection-to-course",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Connection to Course",
+    "text": "Connection to Course\nThis Foundation Enables:\n\n\n\nUnit\nMethod\nKey Assumption\n\n\n\n\n1\nRCTs\nRandomization\n\n\n2\nDML\nUnconfoundedness + correct functional form\n\n\n3\nCausal Forests\nUnconfoundedness\n\n\n5\nObservational ML\nStrong ignorability\n\n\n6\nDiD\nParallel trends\n\n\n\nEverything builds on potential outcomes and DAGs!",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#key-takeaways",
+    "href": "unit-0/session-0-3-slides.html#key-takeaways",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\nPotential outcomes define causal effects as contrasts between possible worlds\nSelection bias arises when treatment is related to outcomes\nDAGs visualize causal assumptions and guide identification\nd-Separation tells us what we must adjust for (and what we must not!)\nSCMs formalize interventions with the do() operator",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#for-next-time",
+    "href": "unit-0/session-0-3-slides.html#for-next-time",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "For Next Time",
+    "text": "For Next Time\nSession 1.1: Randomization & Design-Based Inference\nReadings: - Chernozhukov Ch 3 - Lin (2013) on regression adjustment\nNote: No class Monday (MLK Day). Lab 0 due before Session 1.1.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-3-slides.html#questions",
+    "href": "unit-0/session-0-3-slides.html#questions",
+    "title": "Session 0.3: Potential Outcomes & Structural Causal Models",
+    "section": "Questions?",
+    "text": "Questions?\nOffice Hours: Wednesday 2-4pm\nSlack: #hpm883-help\n\nThis is dense material. Expect questions. Encourage students to come to office hours if confused about DAGs.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.3: Potential Outcomes & DAGs"
+    ]
+  },
+  {
+    "objectID": "labs/lab-0-setup.html",
+    "href": "labs/lab-0-setup.html",
+    "title": "Lab 0: Environment Setup & Verification",
+    "section": "",
+    "text": "Objective: Verify that your computing environment is correctly configured for HPM 883.\nDue Date: End of Week 1 (Sunday, January 19, 2026)\n\n\n\n\n\n\nImportantAccept the Assignment\n\n\n\nClick here to accept Lab 0 on GitHub Classroom\nThis will create your personal repository for this lab.\n\n\nPoints: 25 (Pass/Fail on each component)\n\n\n\n\n\n\nNoteWhat This Lab Tests\n\n\n\nThis lab verifies that you can:\n\nClone a repository from GitHub\nRestore R packages with renv\nLoad and manipulate data\nRun a basic regression\nRender Quarto to HTML and submit via GitHub",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Lab 0: Environment Setup"
+    ]
+  },
+  {
+    "objectID": "labs/lab-0-setup.html#overview",
+    "href": "labs/lab-0-setup.html#overview",
+    "title": "Lab 0: Environment Setup & Verification",
+    "section": "",
+    "text": "Objective: Verify that your computing environment is correctly configured for HPM 883.\nDue Date: End of Week 1 (Sunday, January 19, 2026)\n\n\n\n\n\n\nImportantAccept the Assignment\n\n\n\nClick here to accept Lab 0 on GitHub Classroom\nThis will create your personal repository for this lab.\n\n\nPoints: 25 (Pass/Fail on each component)\n\n\n\n\n\n\nNoteWhat This Lab Tests\n\n\n\nThis lab verifies that you can:\n\nClone a repository from GitHub\nRestore R packages with renv\nLoad and manipulate data\nRun a basic regression\nRender Quarto to HTML and submit via GitHub",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Lab 0: Environment Setup"
+    ]
+  },
+  {
+    "objectID": "labs/lab-0-setup.html#part-1-environment-check-5-points",
+    "href": "labs/lab-0-setup.html#part-1-environment-check-5-points",
+    "title": "Lab 0: Environment Setup & Verification",
+    "section": "Part 1: Environment Check (5 points)",
+    "text": "Part 1: Environment Check (5 points)\nFirst, let’s verify your R environment is working correctly.\n\n1.1 R Version\nRun the following code chunk. You should see R version 4.3.0 or higher.\n\nR.version.string\n\nYour R version: [Write your version here]\n\n\n1.2 Working Directory\nConfirm you’re in the correct project directory:\n\ngetwd()\n\n\n\n1.3 Load Required Packages\nThese packages should load without errors after running renv::restore():\n\nlibrary(tidyverse)\nlibrary(estimatr)\nlibrary(gt)\n\n\n\n\n\n\n\nTipTroubleshooting\n\n\n\nIf packages fail to load:\n\nRun renv::restore() in the console\nIf that fails, delete renv/library/ folder and try again\nStill stuck? Come to office hours!",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Lab 0: Environment Setup"
+    ]
+  },
+  {
+    "objectID": "labs/lab-0-setup.html#part-2-data-loading-5-points",
+    "href": "labs/lab-0-setup.html#part-2-data-loading-5-points",
+    "title": "Lab 0: Environment Setup & Verification",
+    "section": "Part 2: Data Loading (5 points)",
+    "text": "Part 2: Data Loading (5 points)\n\n2.1 Load the Sample Data\n\n# Load the sample dataset\ndata &lt;- read_csv(\"data/sample_data.csv\")\n\n\n\n2.2 Explore the Data\n\n# View data structure\nglimpse(data)\n\n\n\n2.3 Summary Statistics\n\n# Basic summary\nsummary(data)\n\nQuestion: How many observations are in the dataset? How many are treated vs. control?\nYour answer: [Write your answer here]",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Lab 0: Environment Setup"
+    ]
+  },
+  {
+    "objectID": "labs/lab-0-setup.html#part-3-basic-analysis-5-points",
+    "href": "labs/lab-0-setup.html#part-3-basic-analysis-5-points",
+    "title": "Lab 0: Environment Setup & Verification",
+    "section": "Part 3: Basic Analysis (5 points)",
+    "text": "Part 3: Basic Analysis (5 points)\n\n3.1 Estimate Treatment Effect\nWe’ll estimate the effect of treatment on outcome using OLS with robust standard errors:\n\n# Fit model with robust SEs\nmodel &lt;- lm_robust(outcome ~ treatment, data = data)\n\n# View results\ntidy(model)\n\n\n\n3.2 Interpret Results\nQuestion: What is the estimated treatment effect? Is it statistically significant at the 5% level?\nYour answer: [Write your answer here]\n\n\n3.3 Add Covariates\nNow estimate the model controlling for baseline:\n\n# Model with covariate\nmodel_adj &lt;- lm_robust(outcome ~ treatment + baseline, data = data)\n\n# View results\ntidy(model_adj)\n\nQuestion: How does the treatment effect estimate change when you add baseline as a covariate? Why might this happen?\nYour answer: [Write your answer here]",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Lab 0: Environment Setup"
+    ]
+  },
+  {
+    "objectID": "labs/lab-0-setup.html#part-4-visualization-5-points",
+    "href": "labs/lab-0-setup.html#part-4-visualization-5-points",
+    "title": "Lab 0: Environment Setup & Verification",
+    "section": "Part 4: Visualization (5 points)",
+    "text": "Part 4: Visualization (5 points)\n\n4.1 Treatment Effect Plot\nCreate a boxplot comparing outcomes by treatment status:\n\nggplot(data, aes(x = factor(treatment), y = outcome, fill = factor(treatment))) +\ngeom_boxplot(alpha = 0.7) +\n  scale_fill_manual(values = c(\"0\" = \"#4BACC6\", \"1\" = \"#9BBB59\"),\n                    labels = c(\"Control\", \"Treatment\")) +\n  labs(\n    title = \"Treatment Effect on Outcome\",\n    x = \"Treatment Status\",\n    y = \"Outcome\",\n    fill = \"Group\"\n  ) +\n  theme_minimal() +\n  theme(legend.position = \"bottom\")\n\n\n\n4.2 Scatter Plot with Regression Line\n\nggplot(data, aes(x = baseline, y = outcome, color = factor(treatment))) +\n  geom_point(alpha = 0.6, size = 2) +\n  geom_smooth(method = \"lm\", se = TRUE) +\n  scale_color_manual(values = c(\"0\" = \"#4BACC6\", \"1\" = \"#9BBB59\"),\n                     labels = c(\"Control\", \"Treatment\")) +\n  labs(\n    title = \"Baseline vs Outcome by Treatment Status\",\n    x = \"Baseline Value\",\n    y = \"Outcome\",\n    color = \"Group\"\n  ) +\n  theme_minimal() +\n  theme(legend.position = \"bottom\")",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Lab 0: Environment Setup"
+    ]
+  },
+  {
+    "objectID": "labs/lab-0-setup.html#part-5-render-submit-5-points",
+    "href": "labs/lab-0-setup.html#part-5-render-submit-5-points",
+    "title": "Lab 0: Environment Setup & Verification",
+    "section": "Part 5: Render & Submit (5 points)",
+    "text": "Part 5: Render & Submit (5 points)\n\n5.1 Render to HTML\nClick the “Render” button in Positron/RStudio (or run quarto render lab-0-setup.qmd in terminal).\nVerify that:\n\nThe HTML file is created in the same directory\nAll code chunks executed without errors\nAll figures appear correctly\n\n\n\n5.2 Commit and Push\nIn the terminal:\ngit add .\ngit commit -m \"Complete Lab 0 - Environment Setup\"\ngit push\nOr use the Git pane in your IDE:\n\nStage all changes\nWrite commit message: “Complete Lab 0 - Environment Setup”\nCommit\nPush\n\n\n\n5.3 Verify Submission\nGo to your GitHub repository and confirm:\n\nYour latest commit appears\nThe rendered HTML file is present\nThe commit timestamp is before the deadline",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Lab 0: Environment Setup"
+    ]
+  },
+  {
+    "objectID": "labs/lab-0-setup.html#session-info",
+    "href": "labs/lab-0-setup.html#session-info",
+    "title": "Lab 0: Environment Setup & Verification",
+    "section": "Session Info",
+    "text": "Session Info\nAlways include session info at the end of your analysis for reproducibility:\n\nsessionInfo()",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Lab 0: Environment Setup"
+    ]
+  },
+  {
+    "objectID": "labs/lab-0-setup.html#submission-checklist",
+    "href": "labs/lab-0-setup.html#submission-checklist",
+    "title": "Lab 0: Environment Setup & Verification",
+    "section": "Submission Checklist",
+    "text": "Submission Checklist\nBefore submitting, verify:\n\nAll code chunks run without errors\nAll questions have written answers\nHTML renders correctly\nChanges are committed and pushed to GitHub\nSubmission is before the deadline\n\n\n\n\n\n\n\nImportantGetting Help\n\n\n\nIf you encounter issues:\n\nCheck the troubleshooting guide on the course website\nPost in Slack #hpm883-help\nAttend office hours (see course schedule)",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Lab 0: Environment Setup"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#todays-agenda",
+    "href": "unit-0/session-0-2-slides.html#todays-agenda",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "Today’s Agenda",
+    "text": "Today’s Agenda\n\nReproducible research principles\nComputing environment setup\nIntroduction to DeclareDesign\nSimulating your first RCT\nLab 0 overview\n\n\nThis is a hands-on session. Have your laptops ready. We’ll be coding together.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#why-reproducibility-matters",
+    "href": "unit-0/session-0-2-slides.html#why-reproducibility-matters",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "Why Reproducibility Matters",
+    "text": "Why Reproducibility Matters\n\n\nThe Reproducibility Crisis\n\n70%+ of researchers have failed to reproduce another’s work\n50%+ have failed to reproduce their own work\nRetractions increasing exponentially\n\n\nOur Solution\n\nVersion control (Git)\nPackage management (renv)\nPipeline automation (targets)\nLiterate programming (Quarto)\n\n\n\n\n\n\n\n\nCourse Requirement\n\n\nAll submitted work must be reproducible. If we can’t run your code, we can’t grade it.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#the-reproducibility-stack",
+    "href": "unit-0/session-0-2-slides.html#the-reproducibility-stack",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "The Reproducibility Stack",
+    "text": "The Reproducibility Stack\n\nflowchart TB\n    subgraph L4[\"Literate Programming\"]\n        Q[\"Quarto: Code + Narrative\"]\n    end\n\n    subgraph L3[\"Pipeline\"]\n        T[\"targets: Automated workflow\"]\n    end\n\n    subgraph L2[\"Environment\"]\n        R[\"renv: Package versions\"]\n    end\n\n    subgraph L1[\"Version Control\"]\n        G[\"Git: Track changes\"]\n    end\n\n    L4 --&gt; L3\n    L3 --&gt; L2\n    L2 --&gt; L1\n\n\n\n\nflowchart TB\n    subgraph L4[\"Literate Programming\"]\n        Q[\"Quarto: Code + Narrative\"]\n    end\n\n    subgraph L3[\"Pipeline\"]\n        T[\"targets: Automated workflow\"]\n    end\n\n    subgraph L2[\"Environment\"]\n        R[\"renv: Package versions\"]\n    end\n\n    subgraph L1[\"Version Control\"]\n        G[\"Git: Track changes\"]\n    end\n\n    L4 --&gt; L3\n    L3 --&gt; L2\n    L2 --&gt; L1",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#git-github",
+    "href": "unit-0/session-0-2-slides.html#git-github",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "Git & GitHub",
+    "text": "Git & GitHub\nWhy Version Control?\n\nTrack changes: See exactly what changed when\nCollaborate: Multiple people, same codebase\nBackup: Your work lives in the cloud\nSubmission: GitHub Classroom for assignments\n\n\nBasic Workflow\ngit clone &lt;repo-url&gt;    # Copy repo to local\ngit add .               # Stage changes\ngit commit -m \"message\" # Save snapshot\ngit push                # Upload to GitHub",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#package-management-with-renv",
+    "href": "unit-0/session-0-2-slides.html#package-management-with-renv",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "Package Management with renv",
+    "text": "Package Management with renv\nThe Problem\n# Works on your machine...\ninstall.packages(\"dplyr\")  # Version 1.1.4\n\n# Breaks on mine...\n# I have dplyr 0.8.3\n\nThe Solution: renv\n# First time setup (already done in templates)\nrenv::init()\n\n# Restore packages (you run this)\nrenv::restore()\n\n# After adding packages\nrenv::snapshot()",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#pipeline-automation-with-targets",
+    "href": "unit-0/session-0-2-slides.html#pipeline-automation-with-targets",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "Pipeline Automation with targets",
+    "text": "Pipeline Automation with targets\nWhy targets?\n\nOnly re-run what changed\nDocument dependencies automatically\nScale to complex analyses\n\n\nBasic Structure\n# _targets.R\nlist(\n  tar_target(raw_data, read_csv(\"data/raw.csv\")),\n  tar_target(clean_data, clean_fn(raw_data)),\n  tar_target(model, fit_model(clean_data)),\n  tar_target(results, summarize(model))\n)\n\n\n\n\n\n\n\nTip\n\n\nWe’ll use targets for the capstone project. Labs use simpler structure.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#literate-programming-with-quarto",
+    "href": "unit-0/session-0-2-slides.html#literate-programming-with-quarto",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "Literate Programming with Quarto",
+    "text": "Literate Programming with Quarto\nCode + Narrative = Reproducible Report\n## Methods\n\nWe estimate the treatment effect using:\n\n`​``{r}\nmodel &lt;- lm_robust(outcome ~ treatment, data = df)\n`​``\n\nThe estimated effect is 0.42.\n\nOutput: A document where code, results, and interpretation live together.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#your-computing-environment",
+    "href": "unit-0/session-0-2-slides.html#your-computing-environment",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "Your Computing Environment",
+    "text": "Your Computing Environment\nThree Tiers\n\n\n\nTier\nPlatform\nWhen\n\n\n\n\nIn-Class\nPosit Cloud\nToday, lectures\n\n\nProjects\nPositron/RStudio + GitHub\nLabs, capstone\n\n\nSubmission\nGitHub Classroom\nAll graded work\n\n\n\n\n\n\n\n\n\nSetup Guide\n\n\nSee Student Setup Guide for detailed installation instructions.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#live-demo-posit-cloud",
+    "href": "unit-0/session-0-2-slides.html#live-demo-posit-cloud",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "Live Demo: Posit Cloud",
+    "text": "Live Demo: Posit Cloud\nLet’s walk through:\n\nLog into posit.cloud\nJoin HPM 883 workspace\nOpen today’s project\nRun renv::restore()\nVerify packages load\n\n\nWalk through the demo slowly. Pause for questions. This is where students often get stuck.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#introduction-to-declaredesign",
+    "href": "unit-0/session-0-2-slides.html#introduction-to-declaredesign",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "Introduction to DeclareDesign",
+    "text": "Introduction to DeclareDesign\nA Grammar for Research Design\nDeclareDesign provides a unified framework:\n\nModel (M): Data generating process\nInquiry (I): What we want to learn\nData Strategy (D): How we collect data\nAnswer Strategy (A): How we estimate\n\ndesign &lt;- declare_model(...) +\n          declare_inquiry(...) +\n          declare_sampling(...) +\n          declare_assignment(...) +\n          declare_estimator(...)",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#the-mida-framework",
+    "href": "unit-0/session-0-2-slides.html#the-mida-framework",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "The MIDA Framework",
+    "text": "The MIDA Framework\n\nflowchart LR\n    M[\"Model&lt;br&gt;(DGP)\"] --&gt; I[\"Inquiry&lt;br&gt;(Estimand)\"]\n    I --&gt; D[\"Data Strategy&lt;br&gt;(Sampling, Assignment)\"]\n    D --&gt; A[\"Answer Strategy&lt;br&gt;(Estimator)\"]\n    A --&gt; |\"Diagnosis\"| M\n\n\n\n\nflowchart LR\n    M[\"Model&lt;br&gt;(DGP)\"] --&gt; I[\"Inquiry&lt;br&gt;(Estimand)\"]\n    I --&gt; D[\"Data Strategy&lt;br&gt;(Sampling, Assignment)\"]\n    D --&gt; A[\"Answer Strategy&lt;br&gt;(Estimator)\"]\n    A --&gt; |\"Diagnosis\"| M\n\n\n\n\n\n\n\nKey Insight\nDesign declaration before data collection forces clear thinking about:\n\nWhat we’re trying to learn (estimand)\nWhat assumptions we’re making (model)\nHow we’ll analyze the data (estimator)",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#example-simple-rct",
+    "href": "unit-0/session-0-2-slides.html#example-simple-rct",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "Example: Simple RCT",
+    "text": "Example: Simple RCT\n\nlibrary(DeclareDesign)\nlibrary(tidyverse)\n\n# Declare the design\nsimple_rct &lt;- declare_model(\n  N = 100,\n  U = rnorm(N),\n  potential_outcomes(Y ~ 0.5 * Z + U)\n) +\ndeclare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0)) +\ndeclare_assignment(Z = complete_ra(N)) +\ndeclare_measurement(Y = reveal_outcomes(Y ~ Z)) +\ndeclare_estimator(Y ~ Z, .method = lm_robust)",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#running-the-design",
+    "href": "unit-0/session-0-2-slides.html#running-the-design",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "Running the Design",
+    "text": "Running the Design\n\n# Run once\nrun_design(simple_rct) |&gt;\n  select(inquiry, estimand, estimate, std.error) |&gt;\n  head(1)\n\n\nWhat just happened?\n\nGenerated 100 units with potential outcomes\nRandomly assigned to treatment\nRevealed observed outcomes\nEstimated ATE with robust SEs",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#diagnosing-the-design",
+    "href": "unit-0/session-0-2-slides.html#diagnosing-the-design",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "Diagnosing the Design",
+    "text": "Diagnosing the Design\n\n# Simulate 500 runs\ndiagnosis &lt;- diagnose_design(simple_rct, sims = 500)\n\n\ndiagnosis |&gt;\n  reshape_diagnosis() |&gt;\n  select(Bias, RMSE, Power, Coverage)",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#interpretation",
+    "href": "unit-0/session-0-2-slides.html#interpretation",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "Interpretation",
+    "text": "Interpretation\n\n\n\nMetric\nValue\nTarget\n\n\n\n\nBias\n~0\nNear 0\n\n\nRMSE\n~0.20\nLow\n\n\nPower\n~0.60\n≥ 0.80\n\n\nCoverage\n~0.95\n0.95\n\n\n\n\nProblem: Underpowered!\nWith N=100 and true effect of 0.5, we only have ~60% power.\nSolutions: - Increase sample size - Block on predictive covariates - Use CUPED/regression adjustment",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#your-turn-modify-the-design",
+    "href": "unit-0/session-0-2-slides.html#your-turn-modify-the-design",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "Your Turn: Modify the Design",
+    "text": "Your Turn: Modify the Design\nTry changing:\n\nN = 200 — What happens to power?\npotential_outcomes(Y ~ 0.3 * Z + U) — Smaller effect?\ncomplete_ra(N, prob = 0.3) — Unequal allocation?\n\n# Template\nmy_design &lt;- declare_model(\n  N = ???,\n  U = rnorm(N),\n  potential_outcomes(Y ~ ??? * Z + U)\n) +\ndeclare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0)) +\ndeclare_assignment(Z = complete_ra(N, prob = ???)) +\ndeclare_measurement(Y = reveal_outcomes(Y ~ Z)) +\ndeclare_estimator(Y ~ Z, .method = lm_robust)",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#lab-0-environment-setup",
+    "href": "unit-0/session-0-2-slides.html#lab-0-environment-setup",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "Lab 0: Environment Setup",
+    "text": "Lab 0: Environment Setup\nObjectives\nVerify your computing environment works:\n\nClone repo from GitHub Classroom\nRestore packages with renv\nLoad and summarize data\nRun a simple regression\nRender to HTML and push to GitHub\n\n\n\n\n\n\n\nDue Date\n\n\nFriday, January 17 (before Session 0.3)",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#lab-0-walkthrough",
+    "href": "unit-0/session-0-2-slides.html#lab-0-walkthrough",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "Lab 0 Walkthrough",
+    "text": "Lab 0 Walkthrough\nStep 1: Accept Assignment\n\nClick GitHub Classroom link (in Slack)\nAccept assignment → creates your repo\n\nStep 2: Clone Locally\ngit clone git@github.com:unc-hpm-quant/lab-0-yourusername.git\nStep 3: Open & Restore\n\nOpen .Rproj in Positron\nRun renv::restore() in console",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#getting-help",
+    "href": "unit-0/session-0-2-slides.html#getting-help",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "Getting Help",
+    "text": "Getting Help\nWhen Stuck\n\nSlack #hpm883-help — Quick questions\nOffice Hours — Wednesday 2-4pm\nEmail — For private concerns\n\nTroubleshooting Guide\nSee Computing Page for common issues.\n\n\n\n\n\n\nPro Tip\n\n\nGoogle error messages. Stack Overflow has solved most R problems.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#key-takeaways",
+    "href": "unit-0/session-0-2-slides.html#key-takeaways",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\nReproducibility is non-negotiable — renv + Git + Quarto\nDeclareDesign lets us simulate designs before collecting data\nDiagnose before you analyze — Power, bias, coverage\nLab 0 verifies your setup works — Do it early!",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#for-next-time",
+    "href": "unit-0/session-0-2-slides.html#for-next-time",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "For Next Time",
+    "text": "For Next Time\nSession 0.3: Potential Outcomes & DAGs\nReadings: - Chernozhukov Ch 2 (finish) - Hernán & Robins Ch 1-2\nPrepare: - Complete Lab 0 - Bring questions about setup\n\nEmphasize that Lab 0 must be done before Session 0.3. We won’t spend class time on setup issues.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "unit-0/session-0-2-slides.html#questions",
+    "href": "unit-0/session-0-2-slides.html#questions",
+    "title": "Session 0.2: Reproducible Research & Computing Setup",
+    "section": "Questions?",
+    "text": "Questions?\nOffice Hours: Wednesday 2-4pm\nSlack: #hpm883-help\n\nOpen floor for questions. This is usually when students reveal confusion about setup.",
+    "crumbs": [
+      "Unit 0: Foundations",
+      "Session 0.2: Reproducible Research"
+    ]
+  },
+  {
+    "objectID": "course-syllabus.html",
+    "href": "course-syllabus.html",
+    "title": "Course Syllabus",
+    "section": "",
+    "text": "TipOfficial Syllabus\n\n\n\nDownload Complete Syllabus (PDF)",
+    "crumbs": [
+      "Course Information",
+      "Syllabus"
+    ]
+  },
+  {
+    "objectID": "course-syllabus.html#course-information",
+    "href": "course-syllabus.html#course-information",
+    "title": "Course Syllabus",
+    "section": "Course Information",
+    "text": "Course Information\n\n\n\n\n\n\n\nCourse Number\nHPM 883\n\n\nCourse Title\nAdvanced Quantitative Methods for Health Policy and Management\n\n\nSemester\nSpring 2026\n\n\nCredits\n3\n\n\nMeeting Time\nMonday & Wednesday, 11:15am - 12:30pm\n\n\nLocation\nRosenau 228 / Zoom (Hybrid format)\n\n\nPrerequisites\nHPM 881, HPM 882, or permission of instructor",
+    "crumbs": [
+      "Course Information",
+      "Syllabus"
+    ]
+  },
+  {
+    "objectID": "course-syllabus.html#instructor",
+    "href": "course-syllabus.html#instructor",
+    "title": "Course Syllabus",
+    "section": "Instructor",
+    "text": "Instructor\n\n\n\nInstructor\nSean Sylvia, PhD\n\n\nTitle\nAssociate Professor, Health Policy and Management\n\n\nOffice\nMcGavran-Greenberg 1101-D\n\n\nEmail\nsysylvia@email.unc.edu\n\n\nOffice Hours\nWednesday 2:00-4:00pm (in-person or Zoom)\n\n\nCoding Support\nFriday 10:00-11:00am (Zoom)\n\n\n\nTeaching Assistant: Bryan Nice, MPH (bnice@email.unc.edu)",
+    "crumbs": [
+      "Course Information",
+      "Syllabus"
+    ]
+  },
+  {
+    "objectID": "course-syllabus.html#course-description",
+    "href": "course-syllabus.html#course-description",
+    "title": "Course Syllabus",
+    "section": "Course Description",
+    "text": "Course Description\nHPM 883 is an advanced graduate-level course designed to equip PhD students in Health Policy and Management with sophisticated quantitative research skills. This course is the third installment in the quantitative methods sequence, building on foundations from HPM 881 and HPM 882.\nThe course integrates experimental design principles with modern causal machine learning methods, following a three-layer framework: Identification → Estimation → Decision.\nFocus Areas:\n\nExperimental design and randomization inference\nDouble/Debiased Machine Learning (DML)\nHeterogeneous treatment effects and causal forests\nPolicy learning and optimal treatment rules\nModern causal inference methods (DiD, synthetic controls)\n\nCourse Format: This is a hybrid course combining in-person lectures (theory and discussion) with remote Zoom sessions (coding labs and implementation).",
+    "crumbs": [
+      "Course Information",
+      "Syllabus"
+    ]
+  },
+  {
+    "objectID": "course-syllabus.html#learning-objectives",
+    "href": "course-syllabus.html#learning-objectives",
+    "title": "Course Syllabus",
+    "section": "Learning Objectives",
+    "text": "Learning Objectives\nUpon successful completion of this course, students will be able to:\n\n\n\n\n\n\n\n\n#\nLearning Objective\nAssessment Evidence\n\n\n\n\n1\nDesign randomized experiments with appropriate power analysis, randomization strategies, and variance reduction techniques\nDesign Memo 1, PS 1, Capstone Project\n\n\n2\nImplement Double/Debiased Machine Learning and doubly-robust estimators for causal inference\nPS 2, Design Memo 2, Capstone Project\n\n\n3\nEstimate heterogeneous treatment effects using causal forests and meta-learners\nPS 3, Capstone Project\n\n\n4\nEvaluate Conditional Average Treatment Effect (CATE) estimates using calibration diagnostics\nPS 3, Capstone Project\n\n\n5\nLearn optimal treatment policies from observational data using policy trees\nPS 4, Capstone Project\n\n\n6\nApply modern difference-in-differences and synthetic control methods\nPS 5, Capstone Project\n\n\n7\nDiagnose common problems including overlap violations, confounding, and model misspecification\nPS 2-5, Design Memos, Capstone Project\n\n\n8\nProduce reproducible research using modern workflow tools (renv, targets, Quarto)\nPS 0, All Problem Sets, Capstone Project",
+    "crumbs": [
+      "Course Information",
+      "Syllabus"
+    ]
+  },
+  {
+    "objectID": "course-syllabus.html#required-materials",
+    "href": "course-syllabus.html#required-materials",
+    "title": "Course Syllabus",
+    "section": "Required Materials",
+    "text": "Required Materials\n\nTextbooks (Both FREE Online)\n\nChernozhukov, V., Hansen, C., Kallus, N., Spindler, M., & Syrgkanis, V. (2025) Applied Causal Inference Powered by ML and AI Available free at: causalml-book.org\nWager, S. (2024) Causal Inference: A Statistical Learning Approach Available free at: Stanford PDF\n\n\n\nSoftware\n\nR (version 4.3 or higher)\nRStudio or Positron IDE\nKey R Packages: tidyverse, renv, targets, DeclareDesign, estimatr, DoubleML, grf, policytree, did, Synth, cobalt, WeightIt\n\nAll software is free and open-source. See Setup Guide for installation instructions.",
+    "crumbs": [
+      "Course Information",
+      "Syllabus"
+    ]
+  },
+  {
+    "objectID": "course-syllabus.html#course-structure",
+    "href": "course-syllabus.html#course-structure",
+    "title": "Course Syllabus",
+    "section": "Course Structure",
+    "text": "Course Structure\nThe course is organized into 8 units over 14 weeks:\n\n\n\n\n\n\n\n\n\nUnit\nTopic\nWeeks\nContent Focus\n\n\n\n\n0\nFoundations: Potential Outcomes & DAGs\n1\nFramework foundations\n\n\n1\nExperimental Design & Randomization\n2-3\nDesign-based inference\n\n\n2\nDouble/Debiased Machine Learning\n4-6\nSemiparametric estimation\n\n\n3\nHTE & Causal Forests\n7-8\nTreatment heterogeneity\n\n\n4\nPolicy Learning\n9\nOptimal decisions\n\n\n5\nObservational Causal ML\n10\nWeighting and balance\n\n\n6\nDiD & Synthetic Controls\n11\nPanel methods\n\n\n7\nAdvanced Topics\n12\nStudent choice\n\n\n8\nIntegration & Capstone\n13-14\nSynthesis and presentations",
+    "crumbs": [
+      "Course Information",
+      "Syllabus"
+    ]
+  },
+  {
+    "objectID": "course-syllabus.html#assessment-grading",
+    "href": "course-syllabus.html#assessment-grading",
+    "title": "Course Syllabus",
+    "section": "Assessment & Grading",
+    "text": "Assessment & Grading\n\nGrade Composition\n\n\n\nComponent\nWeight\nDescription\n\n\n\n\nProblem Sets\n30%\n~7 assignments, drop 3 lowest\n\n\nDesign Memos\n20%\n2 written memos (10% each)\n\n\nCapstone Project\n40%\nPaper + code + presentation\n\n\nPeer Review\n10%\nReview of one peer’s project\n\n\nTotal\n100%\n\n\n\n\n\n\nGrading Scale\nFinal course grades follow the UNC Graduate School grading scale:\n\nH — High Pass (93-100): Clear excellence\nP — Pass (80-92): Entirely satisfactory graduate work\nL — Low Pass (70-79): Inadequate graduate work\nF — Fail (0-69)",
+    "crumbs": [
+      "Course Information",
+      "Syllabus"
+    ]
+  },
+  {
+    "objectID": "course-syllabus.html#key-dates",
+    "href": "course-syllabus.html#key-dates",
+    "title": "Course Syllabus",
+    "section": "Key Dates",
+    "text": "Key Dates\n\n\n\nDate\nEvent\n\n\n\n\nWed, January 7\nFirst Day of Class\n\n\nMon, January 19\nMLK Day (No Class)\n\n\nMon, February 9\nWell-Being Day (No Class)\n\n\nMarch 13-22\nSpring Break (No Classes)\n\n\nThu, April 2\nWell-Being Day (No Class)\n\n\nMon, April 27\nLast Day of Class\n\n\nFri, May 1\nCapstone Project Due",
+    "crumbs": [
+      "Course Information",
+      "Syllabus"
+    ]
+  },
+  {
+    "objectID": "course-syllabus.html#policies",
+    "href": "course-syllabus.html#policies",
+    "title": "Course Syllabus",
+    "section": "Policies",
+    "text": "Policies\n\nAI Use Policy\nThe use of AI tools (such as ChatGPT, GitHub Copilot, or Claude) is permitted and encouraged for:\n\nDebugging code\nUnderstanding error messages\nLearning syntax and package functions\nGenerating code snippets for adaptation\n\nHowever, you are responsible for all code you submit — AI-generated code must be understood, tested, and verified. Conceptual understanding cannot be outsourced.\n\n\nLate Work\n\nLate submissions: -10% per 24 hours\nAfter 48 hours: No credit without prior arrangement\nExtensions may be granted for documented circumstances if requested before the deadline\n\n\n\n\n\n\n\n\nNoteComplete Details\n\n\n\nFor full course policies, institutional requirements, and detailed schedule, please download the complete syllabus (PDF).",
+    "crumbs": [
+      "Course Information",
+      "Syllabus"
+    ]
+  }
+]

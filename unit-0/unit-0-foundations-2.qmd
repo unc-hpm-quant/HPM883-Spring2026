@@ -1,45 +1,150 @@
 ---
 title: "Unit 0: Foundations"
-subtitle: "Class 2: A Field Experiment in Health Services Research"
+subtitle: "Session 0.2: Reproducible Research Setup"
+date: "January 12, 2026"
 ---
 
-## Overview
+## Session Overview
 
-{{< fa person-chalkboard size=2x >}} Guest Lecture by [Dr. Dorien Emmers](https://sccei.fsi.stanford.edu/reap/people/dorien-emmers)
+This session establishes the computing environment and reproducible research practices we'll use throughout the course. You'll set up version control, learn literate programming with Quarto, and practice package management with `renv`.
 
-::: {.callout-warning appearance="simple"}
-## Class will be remote-only
+**Format:** Remote (Zoom)
 
-Join from the comfort of your own home!\
-Zoom link: <https://unc.zoom.us/j/7840211370?omn=97363476255>
+::: callout-note
+## Remote Session
+
+Join via Zoom: \[Link TBD\]
 :::
 
-### Preparation
+**Learning Objectives:**
 
-**Skim:** [Using Community Health Workers to Deliver a Scalable Integrated Parenting Program in Rural China: A Cluster Randomized Controlled Trial](https://app.perusall.com/courses/hpm-883/using-community-health-workers-to-deliver-a-scalable-integrated-parenting-program-in-rural-china-a-cluster-randomized-controlled-trial)
+1.  Understand why reproducible research matters in health policy
+2.  Set up version control using Git and GitHub
+3.  Create reproducible documents with Quarto
+4.  Manage package dependencies with `renv`
+5.  Establish your semester project repository
 
--   **Optional**
-    -   **Download Replication Data and Code:** [<i class="fa-sharp fa-solid fa-code fa-flip" style="color: #74C0FC;" title="Replication data and code"></i>](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/XBGUUL)
-    -   Dr. Emmers wrote this analysis code in Stata (Boo! {{< fa smile size=1x >}}). Try converting it to R using the [`stata2r`](https://github.com/seanmcraig/stata2r) package.
+------------------------------------------------------------------------
 
-::: callout-tip
-## Perusall
+## Preparation
 
-Perusall is a free online platform that allows you to collaboratively annotate content with your classmates. Here is a link to the Perusall page for this course: [HPM 883](https://app.perusall.com/join/sylvia-zxtwh). If needed, the class enrollment code is SYLVIA-ZXTWH.\
-\
-Although it is a good way to engage with your classmates around the material, it is not required that you comment on Perusall. If you wish, you can just download the readings directly.
-:::
+### Computing Setup (Complete Before Class)
 
--   **Submit:** Any questions you have for Dr. Emmers? Submit to the `#guest-lecture-questions` channel on Slack
+To ensure a smooth experience during class, **complete these steps before January 12**:
 
-### In Class
+1.  **Install R (v4.4 or later)**
 
--   [Slides](https://docs.google.com/presentation/d/1hWSej7CXmUps5dN2LgEwvz2w752k8YXZ/edit?usp=sharing&ouid=114438467412155557996&rtpof=true&sd=true)
+    -   [CRAN Download](https://cloud.r-project.org/)
 
--   [Zoom Recording](https://uncch.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=95eaefb7-3209-42cb-bafc-b26b0039ee01)
+2.  **Install RStudio Desktop** (or Positron)
 
-::: callout-important
-## Introductory Survey Due by end of day on Jan 15
+    -   [RStudio Download](https://posit.co/download/rstudio-desktop/)
+    -   Alternative: [Positron](https://positron.posit.co/) (newer IDE from Posit)
 
-[Introductory Class Survey](https://unc.az1.qualtrics.com/jfe/form/SV_07iqDZtdRC5PIJE)
-:::
+3.  **Install Quarto**
+
+    -   [Quarto Installation](https://quarto.org/docs/get-started/)
+    -   Verify: `quarto --version` in terminal
+
+4.  **Install Git**
+
+    -   Verify: `git --version` in terminal
+    -   Windows: [Git for Windows](https://git-scm.com/download/win)
+    -   macOS: Use Xcode Command Line Tools or [Homebrew](https://brew.sh/)
+
+5.  **Create a GitHub Account**
+
+    -   [GitHub Signup](https://github.com/)
+    -   Use your UNC email for education benefits
+
+6.  **Set Up Git Credentials**
+
+    -   [Connecting to GitHub with SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)
+    -   Or use GitHub CLI: `gh auth login`
+
+7.  **Install Core R Packages**
+
+    ``` r
+    install.packages(c(
+      "tidyverse",
+      "renv",
+      "devtools",
+      "broom",
+      "here",
+      "quarto"
+    ))
+    ```
+
+### Readings
+
+**Review:** [Computing Setup Page](/computing.qmd)
+
+**Skim:**
+
+-   Bryan (2018) — "Excuse Me, Do You Have a Moment to Talk About Version Control?" *The American Statistician*
+-   [Happy Git with R](https://happygitwithr.com/) — Chapters 1-4
+
+------------------------------------------------------------------------
+
+## In Class
+
+-   [Lecture Slides](session-0-2-slides.qmd)
+
+**Topics Covered:**
+
+1.  The reproducibility crisis and why it matters
+2.  Git fundamentals: commits, branches, push/pull
+3.  GitHub workflow for research projects
+4.  Quarto for literate programming
+5.  `renv` for package management
+6.  Live demo: Creating a reproducible analysis project
+
+**Hands-On Activity:**
+
+-   Clone the RCT Analysis Template
+-   Create your first commit
+-   Render a Quarto document
+
+------------------------------------------------------------------------
+
+## After Class
+
+### Lab 0 Assigned
+
+**Lab 0: Reproducible Research Setup**
+
+-   Fork the [RCT Analysis Template](https://github.com/unc-hpm-quant/rct-analysis-template)
+-   Complete the setup checklist
+-   Submit verification by **January 19**
+
+See [Lab 0 Instructions](/labs/lab-0-setup.qmd)
+
+### Next Session
+
+-   Session 0.3 (Jan 14): Potential Outcomes & Structural Causal Models — **In-Person**
+-   Complete Chernozhukov Chapter 2 reading
+
+------------------------------------------------------------------------
+
+## Additional Resources
+
+### Git & GitHub
+
+-   [Happy Git with R](https://happygitwithr.com/) — Comprehensive guide
+-   [GitHub Skills](https://skills.github.com/) — Interactive tutorials
+-   [Oh Shit, Git!?!](https://ohshitgit.com/) — Common Git problems solved
+
+### Quarto
+
+-   [Quarto Guide](https://quarto.org/docs/guide/)
+-   [Quarto for R Users](https://quarto.org/docs/computations/r.html)
+
+### Package Management
+
+-   [renv Documentation](https://rstudio.github.io/renv/)
+-   [Reproducible Environments with renv](https://rstudio.github.io/renv/articles/renv.html)
+
+### Project Templates
+
+-   [RCT Analysis Template](https://github.com/unc-hpm-quant/rct-analysis-template) — Course template
+-   [targets Package](https://books.ropensci.org/targets/) — Pipeline automation

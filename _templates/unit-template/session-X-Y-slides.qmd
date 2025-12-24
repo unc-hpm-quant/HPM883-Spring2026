@@ -1,0 +1,206 @@
+---
+title: "Session X.Y: [SESSION TITLE]"
+subtitle: "Unit X: [UNIT TITLE]"
+author: "Sean Sylvia"
+date: "[DATE]"
+format:
+  revealjs:
+    theme: [default, ../style/custom.scss]
+    slide-number: true
+    chalkboard: true
+    preview-links: auto
+    logo: ../images/unc-logo.png
+    footer: "HPM 883 | Spring 2026"
+    transition: fade
+    incremental: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+
+# Set default options
+knitr::opts_chunk$set(
+  fig.width = 10,
+  fig.height = 6,
+  fig.retina = 2,
+  out.width = "100%"
+)
+
+# Custom theme for plots
+theme_set(theme_minimal(base_size = 14))
+```
+
+# Learning Objectives
+
+## By the end of this session, you will...
+
+1. [Objective 1]
+2. [Objective 2]
+3. [Objective 3]
+
+::: notes
+Speaker notes for objectives slide.
+Remind students how this connects to prior sessions.
+:::
+
+# Part 1: [SECTION TITLE]
+
+## [Slide Title]
+
+::: {.columns}
+::: {.column width="50%"}
+**Key Point:**
+
+- Bullet 1
+- Bullet 2
+- Bullet 3
+:::
+
+::: {.column width="50%"}
+```{r}
+#| label: example-plot
+#| echo: false
+#| fig-alt: "[Alt text describing the plot for accessibility]"
+
+# Example visualization
+# ggplot(...) + ...
+```
+:::
+:::
+
+::: notes
+Speaker notes explaining the concept in more depth.
+Include examples, anecdotes, or questions to pose to class.
+:::
+
+## Key Concept: [CONCEPT NAME]
+
+::: {.callout-note}
+## Definition
+[Formal definition of the concept]
+:::
+
+::: fragment
+**Intuition:** [Plain language explanation]
+:::
+
+::: fragment
+**Example:** [Concrete example from health services research]
+:::
+
+# Part 2: [SECTION TITLE]
+
+## Mathematical Formulation
+
+$$
+[LaTeX formula]
+$$
+
+where:
+
+- $X$ = [description]
+- $Y$ = [description]
+
+::: notes
+Walk through each term. Connect to intuition from previous slide.
+:::
+
+## R Implementation
+
+```{r}
+#| label: code-example
+#| eval: false
+
+# Example code implementation
+# result <- function_name(
+#   data = df,
+#   formula = y ~ x,
+#   ...
+# )
+```
+
+::: fragment
+**Key parameters:**
+
+- `param1`: [description]
+- `param2`: [description]
+:::
+
+# Part 3: Application
+
+## Example: [APPLIED EXAMPLE TITLE]
+
+**Context:** [Brief description of health policy/HSR context]
+
+**Question:** [Research question being addressed]
+
+**Data:** [Description of data source]
+
+## Results
+
+```{r}
+#| label: applied-example
+#| echo: true
+
+# Applied example code
+```
+
+## Interpretation
+
+- **Finding 1:** [Interpretation]
+- **Finding 2:** [Interpretation]
+
+::: {.callout-warning}
+## Caution
+[Common misinterpretation or limitation to highlight]
+:::
+
+# Wrap-Up
+
+## Key Takeaways
+
+1. [Takeaway 1]
+2. [Takeaway 2]
+3. [Takeaway 3]
+
+## For Next Time
+
+**Readings:**
+
+- [Reading assignment]
+
+**Prepare:**
+
+- [Preparation task, if any]
+
+## Questions?
+
+::: {.r-fit-text}
+Office Hours: [Time/Location]
+:::
+
+# Appendix {visibility="uncounted"}
+
+## Additional Resources
+
+**Remedial:**
+
+- [Resource for students needing background]
+
+**Advanced:**
+
+- [Resource for students wanting to go deeper]
+
+## References
+
+::: {#refs}
+:::

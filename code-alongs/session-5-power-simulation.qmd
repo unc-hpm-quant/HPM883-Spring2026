@@ -1,0 +1,125 @@
+---
+title: "Code-Along: Power Simulation with DeclareDesign"
+subtitle: "Session 5: Statistical Conclusion Validity & Power"
+author: "Sean Sylvia"
+date: "January 21, 2026"
+format:
+  html:
+    toc: true
+    code-tools: true
+execute:
+  eval: true
+  echo: true
+---
+
+## Setup
+
+```{r}
+#| message: false
+library(DeclareDesign)
+library(data.table)
+library(ggplot2)
+set.seed(883)
+```
+
+## Part 1: A Simple RCT Design
+
+Let's declare a simple randomized controlled trial for a chronic disease intervention.
+
+**Context:** Testing whether enhanced care coordination reduces HbA1c levels in diabetic patients.
+
+```{r}
+# Parameters
+N <- 200
+treatment_effect <- -0.5  # 0.5% reduction in HbA1c
+sd_outcome <- 1.2
+
+# Declare the design
+design <-
+  declare_model(
+    N = N,
+    U = rnorm(N, 0, sd_outcome),
+    Y_Z_0 = 8.5 + U,
+    Y_Z_1 = 8.5 + treatment_effect + U
+  ) +
+  declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0)) +
+  declare_assignment(Z = complete_ra(N)) +
+  declare_measurement(Y = reveal_outcomes(Y ~ Z)) +
+  declare_estimator(Y ~ Z, inquiry = "ATE", .method = lm_robust)
+
+# Preview
+design
+```
+
+## Part 2: Draw Data
+
+```{r}
+# Draw one realization
+sim_data <- draw_data(design)
+head(sim_data)
+
+# Estimate
+draw_estimates(design)
+```
+
+## Part 3: Diagnose the Design
+
+```{r}
+# Run 200 simulations
+diagnosis <- diagnose_design(design, sims = 200)
+diagnosis
+```
+
+**Key questions:**
+- What is the power?
+- Is the estimator unbiased?
+- Is coverage close to 95%?
+
+## Part 4: Power Curve
+
+```{r}
+# Vary sample size
+sample_sizes <- c(50, 100, 150, 200, 300, 400)
+
+power_results <- lapply(sample_sizes, function(n) {
+  d <- redesign(design, N = n)
+  diag <- diagnose_design(d, sims = 100)
+  data.frame(N = n, power = diag$diagnosands$power)
+})
+
+power_df <- do.call(rbind, power_results)
+
+ggplot(power_df, aes(x = N, y = power)) +
+  geom_line() + geom_point(size = 3) +
+  geom_hline(yintercept = 0.8, linetype = "dashed", color = "red") +
+  labs(title = "Power by Sample Size", y = "Power", x = "N") +
+  theme_minimal()
+```
+
+## Part 5: MDE Calculation
+
+```{r}
+# Analytical MDE
+calculate_mde <- function(n, sigma, alpha = 0.05, power = 0.80) {
+  t_a <- qt(1 - alpha/2, n - 2)
+  t_b <- qt(power, n - 2)
+  se <- sigma * sqrt(4/n)  # Equal allocation
+  (t_a + t_b) * se
+}
+
+mde_200 <- calculate_mde(200, sd_outcome)
+cat("MDE with N=200:", round(mde_200, 3), "\n")
+cat("Expected effect:", abs(treatment_effect), "\n")
+cat("Powered?", abs(treatment_effect) > mde_200, "\n")
+```
+
+## Your Turn
+
+Modify the design to test:
+1. What happens with a smaller effect size (0.3)?
+2. What if the outcome has more variance (SD = 2.0)?
+3. How much does blocking by clinic help?
+
+---
+
+*Continue to Problem Set 1 for the full assignment.*

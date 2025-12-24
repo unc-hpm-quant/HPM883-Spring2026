@@ -1,0 +1,606 @@
+---
+title: "Problem Set 1"
+subtitle: "Experimental Design & Power with DeclareDesign"
+author: "Sean Sylvia"
+date: "Due: February 2, 2026"
+slug: "pset-1"
+categories: [Problem Set, Experimental Design, Power]
+description: "Homework: Design, diagnose, and redesign experiments using the MIDA framework and DeclareDesign."
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-tools: true
+editor: visual
+execute:
+  eval: false
+---
+
+## Overview and Learning Objectives
+
+In this lab, you will apply the **MIDA framework** (Model-Inquiry-Data-Answer) to design and diagnose randomized experiments. You will:
+
+1. **Declare** a complete experimental design using DeclareDesign
+2. **Diagnose** your design's statistical properties (bias, power, coverage)
+3. **Redesign** to compare simple vs. blocked randomization
+4. **Analyze** trade-offs between sample size, effect size, and power
+
+By the end of this lab, you will have practical experience with:
+
+- Thinking systematically about research design using the MIDA framework
+- Using `DeclareDesign`, `fabricatr`, and `randomizr` for experimental design
+- Conducting power analysis by simulation
+- Understanding when blocking improves (or doesn't improve) power
+- Calculating Minimum Detectable Effects (MDEs)
+
+---
+
+## The Healthy Futures Clinic Network
+
+### Background
+
+You have been hired as a research consultant by the **Healthy Futures Clinic Network**, a consortium of 20 community health clinics serving underserved populations. The network wants to evaluate a **chronic disease management intervention** that provides enhanced care coordination for patients with Type 2 diabetes.
+
+The intervention includes:
+- Weekly check-ins with a care coordinator
+- Text message medication reminders
+- Quarterly home visits
+
+**Primary outcome:** HbA1c levels (hemoglobin A1c, a measure of blood glucose control)
+
+**Key parameters:**
+- **Baseline HbA1c:** Mean = 8.5%, SD = 1.2%
+- **Expected treatment effect:** 0.5% reduction in HbA1c
+- **Clinically meaningful difference:** 0.3% reduction
+- **Budget constraint:** Can enroll up to 400 patients total
+- **Individual randomization** is ethically and practically feasible
+
+Your task: Design an experiment that can detect whether the intervention works.
+
+---
+
+## Part 1: Getting Started with DeclareDesign
+
+First, let's install and load the required packages:
+
+```{r}
+#| label: setup
+#| eval: true
+#| message: false
+
+# Install if needed
+if (!require("DeclareDesign")) install.packages("DeclareDesign")
+if (!require("data.table")) install.packages("data.table")
+if (!require("ggplot2")) install.packages("ggplot2")
+
+# Load libraries
+library(DeclareDesign)
+library(data.table)
+library(ggplot2)
+
+# Set seed for reproducibility
+set.seed(883)
+```
+
+### The MIDA Framework
+
+Every research design has four components:
+
+| Component | Question | Example |
+|-----------|----------|---------|
+| **M**odel | What is the data generating process? | HbA1c ~ treatment + covariates + error |
+| **I**nquiry | What is the estimand? | Average Treatment Effect (ATE) |
+| **D**ata strategy | How do we collect data? | Random assignment, N=400 |
+| **A**nswer strategy | How do we estimate? | Difference-in-means, regression |
+
+Let's declare each component step by step.
+
+---
+
+## Part 2: Declaring Your Design
+
+### Step 1: Declare the Model
+
+The **model** defines the potential outcomes for each unit. This is your hypothesis about how the world works.
+
+```{r}
+#| label: declare-model
+
+# Define simulation parameters
+N <- 400                    # Total sample size
+baseline_hba1c <- 8.5       # Mean baseline HbA1c (%)
+sd_hba1c <- 1.2             # Standard deviation
+treatment_effect <- -0.5    # Expected effect (reduction)
+
+# Declare the model
+model <- declare_model(
+  N = N,
+  # Individual-level error (unexplained variation)
+  U = rnorm(N, mean = 0, sd = sd_hba1c),
+  # Potential outcomes
+  Y_Z_0 = baseline_hba1c + U,          # Control outcome
+  Y_Z_1 = baseline_hba1c + treatment_effect + U  # Treatment outcome
+)
+
+# Preview the model
+draw_data(model) |> head()
+```
+
+::: callout-note
+## Task 1: Understand the Model
+
+1. What does `U` represent in this model?
+2. Why do we add `U` to both potential outcomes?
+3. What assumption are we making about treatment effect heterogeneity?
+:::
+
+### Step 2: Declare the Inquiry
+
+The **inquiry** defines what we want to learn—the estimand.
+
+```{r}
+#| label: declare-inquiry
+
+# Declare the inquiry: Average Treatment Effect
+inquiry <- declare_inquiry(
+  ATE = mean(Y_Z_1 - Y_Z_0)
+)
+```
+
+::: callout-note
+## Task 2: What's the True ATE?
+
+Based on our model, what is the true Average Treatment Effect? (Hint: It's deterministic given our setup.)
+:::
+
+### Step 3: Declare the Data Strategy
+
+The **data strategy** specifies how we collect data—sampling and treatment assignment.
+
+```{r}
+#| label: declare-data
+
+# Declare simple random assignment
+assignment <- declare_assignment(
+  Z = complete_ra(N, prob = 0.5)
+)
+
+# Declare measurement (reveal potential outcomes)
+measurement <- declare_measurement(
+  Y = reveal_outcomes(Y ~ Z)
+)
+```
+
+### Step 4: Declare the Answer Strategy
+
+The **answer strategy** specifies how we estimate the treatment effect.
+
+```{r}
+#| label: declare-answer
+
+# Declare the estimator: difference-in-means
+estimator <- declare_estimator(
+  Y ~ Z,
+  inquiry = "ATE",
+  .method = lm_robust,
+  label = "Difference-in-Means"
+)
+```
+
+### Step 5: Combine into a Complete Design
+
+```{r}
+#| label: combine-design
+
+# Combine all components
+design <- model + inquiry + assignment + measurement + estimator
+
+# View the design
+design
+```
+
+---
+
+## Part 3: Diagnosing Your Design
+
+Now that we have declared our design, let's **diagnose** its statistical properties by simulating many realizations.
+
+### Step 1: Run Simulations
+
+```{r}
+#| label: diagnose
+
+# Diagnose the design with 500 simulations
+diagnosis <- diagnose_design(design, sims = 500)
+
+# View the diagnosis
+diagnosis
+```
+
+### Key Diagnosands
+
+| Diagnosand | Definition | Target |
+|------------|------------|--------|
+| **Bias** | E[estimate] - true value | 0 |
+| **RMSE** | Root mean squared error | Low |
+| **Power** | P(reject H₀ \| H₁ true) | ≥ 0.80 |
+| **Coverage** | P(CI contains true value) | 0.95 |
+
+::: callout-note
+## Task 3: Interpret the Diagnosis
+
+1. What is the estimated power of this design?
+2. Is the difference-in-means estimator unbiased?
+3. Is the 95% CI coverage close to 0.95?
+:::
+
+### Step 2: Visualize Power Across Sample Sizes
+
+Let's see how power changes with sample size:
+
+```{r}
+#| label: power-curve
+
+# Create designs with different sample sizes
+sample_sizes <- seq(100, 600, by = 50)
+
+designs <- lapply(sample_sizes, function(n) {
+  declare_model(
+    N = n,
+    U = rnorm(N, mean = 0, sd = sd_hba1c),
+    Y_Z_0 = baseline_hba1c + U,
+    Y_Z_1 = baseline_hba1c + treatment_effect + U
+  ) +
+  inquiry +
+  declare_assignment(Z = complete_ra(N, prob = 0.5)) +
+  measurement +
+  estimator
+})
+
+# Diagnose all designs
+diagnoses <- diagnose_designs(designs, sims = 200)
+
+# Extract power estimates
+power_results <- data.table(
+  N = sample_sizes,
+  Power = sapply(diagnoses, function(d) d$diagnosands$power[1]),
+  SE = sapply(diagnoses, function(d) d$diagnosands$se_power[1])
+)
+
+# Plot power curve
+ggplot(power_results, aes(x = N, y = Power)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 3) +
+  geom_ribbon(aes(ymin = Power - 1.96*SE, ymax = Power + 1.96*SE), alpha = 0.2) +
+  geom_hline(yintercept = 0.80, linetype = "dashed", color = "red") +
+  labs(
+    title = "Power by Sample Size",
+    subtitle = paste("Effect size:", treatment_effect, "| SD:", sd_hba1c),
+    x = "Total Sample Size",
+    y = "Statistical Power"
+  ) +
+  theme_minimal() +
+  scale_y_continuous(limits = c(0, 1))
+```
+
+::: callout-note
+## Task 4: Find the Required Sample Size
+
+Based on the power curve, approximately what sample size is needed to achieve 80% power? Is our budget of 400 patients sufficient?
+:::
+
+---
+
+## Part 4: Comparing Simple vs. Blocked Randomization
+
+Blocking can reduce variance and increase power when blocks explain variation in outcomes. Let's compare designs.
+
+### Step 1: Add a Blocking Variable
+
+Suppose we know each patient's clinic, and clinics vary in their patient populations:
+
+```{r}
+#| label: blocked-model
+
+# Number of clinics
+n_clinics <- 20
+
+# Declare model with clinic effects
+model_blocked <- declare_model(
+  N = N,
+  # Clinic assignment
+  clinic_id = sample(1:n_clinics, N, replace = TRUE),
+  # Clinic-level effect (some clinics have sicker patients)
+  clinic_effect = rnorm(n_clinics, mean = 0, sd = 0.5)[clinic_id],
+  # Individual-level error
+  U = rnorm(N, mean = 0, sd = 1.0),
+  # Potential outcomes
+  Y_Z_0 = baseline_hba1c + clinic_effect + U,
+  Y_Z_1 = baseline_hba1c + treatment_effect + clinic_effect + U
+)
+```
+
+### Step 2: Declare Simple vs. Blocked Assignment
+
+```{r}
+#| label: assignment-compare
+
+# Simple random assignment
+assignment_simple <- declare_assignment(
+  Z = complete_ra(N, prob = 0.5),
+  label = "Simple"
+)
+
+# Blocked random assignment (block by clinic)
+assignment_blocked <- declare_assignment(
+  Z = block_ra(blocks = clinic_id),
+  label = "Blocked"
+)
+```
+
+### Step 3: Compare Designs
+
+```{r}
+#| label: compare-designs
+
+# Simple randomization design
+design_simple <- model_blocked + inquiry + assignment_simple + measurement + estimator
+
+# Blocked randomization design
+design_blocked <- model_blocked + inquiry + assignment_blocked + measurement +
+  declare_estimator(
+    Y ~ Z + factor(clinic_id),  # Include clinic fixed effects
+    inquiry = "ATE",
+    .method = lm_robust,
+    label = "Blocked + FE"
+  )
+
+# Diagnose both
+comparison <- diagnose_designs(
+  list(Simple = design_simple, Blocked = design_blocked),
+  sims = 500
+)
+
+# View comparison
+comparison
+```
+
+::: callout-note
+## Task 5: Compare the Designs
+
+1. Which design has higher power?
+2. What is the difference in RMSE between designs?
+3. Why does blocking help (or not help) in this case?
+:::
+
+---
+
+## Part 5: Minimum Detectable Effect (MDE)
+
+The **Minimum Detectable Effect** is the smallest effect you can detect with a given power level. It's a key design parameter.
+
+### Analytical MDE Formula
+
+For a simple two-arm RCT with equal allocation:
+
+$$MDE = (t_{1-\alpha/2} + t_{1-\beta}) \times \sqrt{\frac{\sigma^2}{n_T} + \frac{\sigma^2}{n_C}}$$
+
+```{r}
+#| label: mde-calculation
+
+# MDE calculation function
+calculate_mde <- function(n_total, sigma, alpha = 0.05, power = 0.80, prop_treated = 0.5) {
+  n_T <- n_total * prop_treated
+  n_C <- n_total * (1 - prop_treated)
+
+  t_alpha <- qt(1 - alpha/2, df = n_total - 2)
+  t_beta <- qt(power, df = n_total - 2)
+
+  se <- sqrt(sigma^2 / n_T + sigma^2 / n_C)
+  mde <- (t_alpha + t_beta) * se
+
+  return(mde)
+}
+
+# Calculate MDE for our design
+mde_400 <- calculate_mde(n_total = 400, sigma = sd_hba1c)
+cat("MDE with N=400:", round(mde_400, 3), "% HbA1c\n")
+cat("Expected effect:", treatment_effect, "% HbA1c\n")
+cat("Powered to detect expected effect?", abs(treatment_effect) > mde_400, "\n")
+```
+
+### MDE by Sample Size
+
+```{r}
+#| label: mde-curve
+
+# Calculate MDE for different sample sizes
+mde_results <- data.table(
+  N = seq(100, 800, by = 50),
+  MDE = sapply(seq(100, 800, by = 50), function(n) calculate_mde(n, sigma = sd_hba1c))
+)
+
+# Plot MDE curve
+ggplot(mde_results, aes(x = N, y = MDE)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
+  geom_hline(yintercept = abs(treatment_effect), linetype = "dashed", color = "blue",
+             linewidth = 1) +
+  geom_hline(yintercept = 0.3, linetype = "dotted", color = "red") +
+  annotate("text", x = 750, y = abs(treatment_effect) + 0.05,
+           label = "Expected Effect", color = "blue") +
+  annotate("text", x = 750, y = 0.35,
+           label = "Clinical Threshold", color = "red") +
+  labs(
+    title = "Minimum Detectable Effect by Sample Size",
+    subtitle = paste("SD =", sd_hba1c, "| α = 0.05 | Power = 80%"),
+    x = "Total Sample Size",
+    y = "MDE (% HbA1c)"
+  ) +
+  theme_minimal()
+```
+
+::: callout-note
+## Task 6: MDE Interpretation
+
+1. With N=400, can we detect the expected effect of 0.5%?
+2. Can we detect the clinically meaningful threshold of 0.3%?
+3. What sample size would we need to detect an effect of 0.3%?
+:::
+
+---
+
+## Part 6: Variance Reduction with Covariates
+
+### Lin (2013) Regression Adjustment
+
+We can improve power by adjusting for baseline covariates. The key insight from Lin (2013):
+
+1. **Center** covariates at their means
+2. **Include** covariate × treatment interactions
+3. This **guarantees** variance reduction (never hurts!)
+
+```{r}
+#| label: covariate-adjustment
+
+# Add baseline HbA1c as a covariate
+model_with_baseline <- declare_model(
+  N = N,
+  clinic_id = sample(1:n_clinics, N, replace = TRUE),
+  # Baseline HbA1c (observed pre-treatment)
+  baseline_hba1c_measured = baseline_hba1c + rnorm(N, 0, 0.5),
+  # Individual effect (correlated with baseline)
+  U = 0.6 * (baseline_hba1c_measured - baseline_hba1c) + rnorm(N, mean = 0, sd = 0.8),
+  # Potential outcomes
+  Y_Z_0 = baseline_hba1c + U,
+  Y_Z_1 = baseline_hba1c + treatment_effect + U
+)
+
+# Unadjusted estimator
+estimator_unadj <- declare_estimator(
+  Y ~ Z,
+  inquiry = "ATE",
+  .method = lm_robust,
+  label = "Unadjusted"
+)
+
+# Lin-adjusted estimator
+# Center baseline and include interaction
+estimator_lin <- declare_estimator(
+  Y ~ Z * I(baseline_hba1c_measured - mean(baseline_hba1c_measured)),
+  inquiry = "ATE",
+  .method = lm_robust,
+  term = "Z",
+  label = "Lin-adjusted"
+)
+
+# Compare designs
+design_unadj <- model_with_baseline + inquiry + assignment_simple + measurement + estimator_unadj
+design_lin <- model_with_baseline + inquiry + assignment_simple + measurement + estimator_lin
+
+comparison_cov <- diagnose_designs(
+  list(Unadjusted = design_unadj, `Lin-Adjusted` = design_lin),
+  sims = 500
+)
+
+comparison_cov
+```
+
+::: callout-note
+## Task 7: Covariate Adjustment
+
+1. How much does power improve with Lin adjustment?
+2. Is the Lin-adjusted estimator still unbiased?
+3. Why does covariate adjustment work in this case?
+:::
+
+---
+
+## Part 7: Your Design Challenge
+
+Now it's your turn to design an experiment for a different health intervention.
+
+### The Challenge
+
+The Healthy Futures Network is also considering testing a **smoking cessation program**. Here are the parameters:
+
+- **Outcome:** 6-month abstinence rate (binary: quit or not)
+- **Baseline quit rate:** 10% (without intervention)
+- **Expected treatment effect:** 8 percentage point increase (to 18%)
+- **Clinically meaningful difference:** 5 percentage points
+- **Budget:** Can enroll up to 500 participants
+
+::: callout-important
+## Task 8: Design the Smoking Cessation Trial
+
+Using DeclareDesign, create a complete experimental design for this intervention. Your design should:
+
+1. Declare a model with binary outcomes
+2. Declare the inquiry (ATE on the probability scale)
+3. Declare the data strategy (randomization)
+4. Declare the answer strategy (appropriate for binary outcomes)
+5. Diagnose the design to assess power
+6. Report the MDE and whether you're powered to detect the expected effect
+
+**Hints:**
+- For binary outcomes, use `draw_binary()` in fabricatr or `rbinom()`
+- The variance of a binary outcome is p(1-p)
+- Consider whether `lm_robust` or a different estimator is appropriate
+:::
+
+```{r}
+#| label: your-design
+#| eval: false
+
+# YOUR CODE HERE
+
+# Hint: Start with the model
+smoking_model <- declare_model(
+  N = 500,
+  # Define potential outcomes for binary outcome
+  # ...
+)
+
+# Continue with inquiry, assignment, measurement, estimator
+# ...
+
+# Diagnose your design
+# ...
+```
+
+---
+
+## Submission Instructions
+
+1. Complete all tasks marked with ::: callout-note
+2. Write your own design for the smoking cessation trial (Task 8)
+3. Render your `.qmd` file to HTML
+4. Submit to Gradescope by **February 2, 2026**
+
+Include:
+- All code with `eval: true` so results are visible
+- Written answers to discussion questions
+- Your smoking cessation design with diagnosis
+
+---
+
+## Additional Resources
+
+### DeclareDesign
+
+- [DeclareDesign Documentation](https://declaredesign.org/)
+- [Design Library](https://declaredesign.org/library/)
+- [Power Analysis Vignette](https://declaredesign.org/r/designlibrary/articles/power.html)
+
+### Readings
+
+- Blair et al. (2019) — "Declaring and Diagnosing Research Designs"
+- Lin (2013) — "Agnostic notes on regression adjustments"
+- Chernozhukov et al. (2025) — Chapter 3
+
+### R Packages
+
+- [`DeclareDesign`](https://declaredesign.org/) — Declare, diagnose, redesign
+- [`estimatr`](https://declaredesign.org/r/estimatr/) — Fast robust estimators
+- [`fabricatr`](https://declaredesign.org/r/fabricatr/) — Simulate data
+- [`randomizr`](https://declaredesign.org/r/randomizr/) — Randomization tools

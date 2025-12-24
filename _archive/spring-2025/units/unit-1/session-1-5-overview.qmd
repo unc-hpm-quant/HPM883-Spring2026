@@ -1,0 +1,115 @@
+---
+title: "Unit 1: Experimental Design"
+subtitle: "Session 5: Statistical Conclusion Validity & Power"
+date: "January 21, 2026"
+---
+
+## Session Overview
+
+This session covers the foundations of statistical inference in experiments: how to design studies with adequate power, understand Type I/II errors, and implement power analysis by simulation. We'll also discuss proper regression adjustment using Lin (2013).
+
+**Format:** In-Person (Rosenau 228)
+
+::: {.callout-note}
+## Note: January 19 is MLK Day (No Class)
+Session 4 is cancelled. Lab 0 is due January 19.
+:::
+
+**Learning Objectives:**
+
+1. Distinguish statistical conclusion validity from internal validity
+2. Calculate power analytically and by simulation
+3. Apply Lin (2013) regression adjustment properly
+4. Use DeclareDesign to diagnose experimental designs
+5. Understand minimum detectable effects (MDE)
+
+---
+
+## Preparation
+
+### Required Readings
+
+**Chernozhukov et al. (2025)** — *Applied Causal Inference Powered by ML and AI*
+
+- **Chapter 3:** Design and Inference for Experiments (~25 pages)
+  - [Online PDF](https://causalml-book.org/assets/chapters/CausalML_chap_3.pdf)
+  - Focus: Randomization, design-based inference, power
+
+**Lin (2013)** — "Agnostic notes on regression adjustments to experimental data"
+
+- *Statistics, Politics, and Policy*, 4(1), 1-13
+- Critical paper on proper covariate adjustment in experiments
+
+### Recommended
+
+- Gerber & Green (2012) — *Field Experiments* — Chapters 2-3
+- Blair et al. (2019) — "Declaring and Diagnosing Research Designs" *APSR*
+
+**Estimated Reading Time:** 60-75 minutes
+
+---
+
+## In Class
+
+- [Lecture Slides](lec-1-2-slides.qmd)
+
+**Topics Covered:**
+
+1. **Statistical Conclusion Validity**
+   - Type I and Type II errors
+   - Power: What it is and why it matters
+   - Effect sizes and practical significance
+
+2. **Power Analysis**
+   - Analytical power calculations
+   - Power by simulation (DeclareDesign)
+   - Minimum Detectable Effects (MDE)
+
+3. **Variance Reduction**
+   - Lin (2013) regression adjustment
+   - When and how to adjust for covariates
+   - Pre-registration of adjustment strategy
+
+4. **Multiple Testing**
+   - Familywise error rate
+   - False discovery rate
+   - Pre-specified primary outcomes
+
+**Code-Along:**
+
+- [Power Simulation with DeclareDesign](/code-alongs/session-5-power-simulation.qmd)
+- Comparing designs: simple vs. blocked randomization
+
+---
+
+## After Class
+
+### Due This Week
+
+- **Lab 0** due Sunday, January 19
+
+### Looking Ahead
+
+- **Session 6 (Jan 26):** Optimal Experimental Design & MIDA Framework
+- Complete Duflo et al. (2007) and Bruhn & McKenzie (2009) readings
+
+---
+
+## Additional Resources
+
+### Power Analysis
+
+- [DeclareDesign Library](https://declaredesign.org/library/) — Pre-built designs
+- [Power Analysis Vignette](https://declaredesign.org/r/designlibrary/articles/power.html)
+- Bloom (1995) — "Minimum Detectable Effects" *Evaluation Review*
+
+### Regression Adjustment
+
+- Freedman (2008) — "On regression adjustments in experiments" *Annals of Applied Statistics*
+- Lin's discussion and rejoinder in same issue
+
+### R Packages
+
+- [`DeclareDesign`](https://declaredesign.org/) — Declare, diagnose, redesign
+- [`estimatr`](https://declaredesign.org/r/estimatr/) — Fast estimators with robust SEs
+- [`fabricatr`](https://declaredesign.org/r/fabricatr/) — Simulate data

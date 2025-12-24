@@ -1,0 +1,133 @@
+---
+title: "Unit 1: Experimental Design"
+subtitle: "Session 7: ML Foundations for Causal Inference"
+date: "January 28, 2026"
+---
+
+## Session Overview
+
+This session bridges experimental design and machine learning, establishing the ML foundations needed for Double/Debiased Machine Learning (DML) in Unit 2. We'll cover why ML is useful for causal inference, the distinction between prediction and estimation, and key concepts like cross-validation and regularization.
+
+**Format:** In-Person (Rosenau 228)
+
+::: {.callout-important}
+## Required Video Preparation
+You MUST watch the Jann Spiess videos (~90 min) BEFORE class. This session assumes you've completed the videos.
+:::
+
+**Learning Objectives:**
+
+1. Distinguish prediction tasks (Y-hard) from estimation tasks (β-hard)
+2. Understand the bias-variance tradeoff
+3. Apply cross-validation for model selection
+4. Recognize when ML helps with causal inference (nuisance estimation)
+5. Preview how DML uses ML for valid inference
+
+---
+
+## Preparation
+
+### Required Videos (Before Class)
+
+**Jann Spiess Video Series** (~90 min total):
+
+1. [Applied ML: An Introduction](https://www.youtube.com/watch?v=G5qrBvOmzes) — [Slides](https://drive.google.com/file/d/1WACyrmUdlEZ-FI9ekC9ggo7m-pYUD7id/view)
+2. [Applied ML: Secret Sauce](https://www.youtube.com/watch?v=Qs6JmdNoT-Y) — [Slides](https://drive.google.com/file/d/1DhiD4CGoKjxuC1ZKVlKDHXL80kYB5LAS/view)
+3. [Applied ML: Prediction vs Estimation](https://www.youtube.com/watch?v=e2Nmlk0cbrY) — [Slides](https://drive.google.com/file/d/1tZYJlMnBncYqMfZ3rnWD1tYHYhgqB3HX/view)
+
+### Required Readings
+
+**ISLR (James et al.)** — *Introduction to Statistical Learning*
+
+- **Chapter 2:** Statistical Learning (~30 pages) — [Free PDF](https://www.statlearning.com/)
+- **Chapter 5:** Resampling Methods (Cross-Validation) (~20 pages)
+
+### Recommended
+
+- ISLR Chapter 6: Linear Model Selection and Regularization (Lasso/Ridge)
+- ISLR Chapter 8: Tree-Based Methods
+
+**Estimated Preparation Time:** 90 min videos + 50 min reading = ~140 min
+
+---
+
+## In Class
+
+- Lecture Slides (TBD)
+
+**Topics Covered:**
+
+1. **Why ML for Causal Inference?**
+   - The nuisance function problem
+   - High-dimensional controls
+   - Preview: DML uses ML for propensity scores and outcome models
+
+2. **Prediction vs. Estimation**
+   - Y-hard tasks: Predict $Y$ accurately
+   - β-hard tasks: Recover $\beta$ with valid inference
+   - Why good prediction ≠ good causal estimates
+
+3. **The Bias-Variance Tradeoff**
+   - Underfitting vs. overfitting
+   - Regularization as complexity control
+   - Why we need cross-fitting in DML
+
+4. **Cross-Validation**
+   - K-fold CV for model selection
+   - Leave-one-out CV
+   - Connection to sample splitting in DML
+
+5. **Key ML Methods (Overview)**
+   - Regularization: Lasso (L1), Ridge (L2), Elastic Net
+   - Tree-based methods: Random forests, gradient boosting
+   - When to use what
+
+**Live Coding:**
+
+- Cross-validation with `tidymodels` or `caret`
+- Regularized regression with `glmnet`
+
+---
+
+## After Class
+
+### Continue Lab 1
+
+- Lab 1 due: **February 2** (Sunday)
+
+### Looking Ahead
+
+- **Session 8 (Feb 2):** Self-Guided ML Workbook (Async)
+  - Interactive exercises on ML concepts
+  - Complete at your own pace
+- **Session 9 (Feb 4):** Guest Lecture by Tara Templin (Stanford) — Remote
+
+### Unit 2 Begins
+
+After the guest lecture, we transition to Double/Debiased Machine Learning (DML).
+
+---
+
+## Additional Resources
+
+### Textbooks
+
+- [ISLR Free PDF](https://www.statlearning.com/) — James, Witten, Hastie, Tibshirani
+- [Elements of Statistical Learning](https://hastie.su.domains/ElemStatLearn/) — More advanced
+
+### Videos
+
+- [StatQuest: Machine Learning](https://www.youtube.com/c/joshstarmer) — Intuitive explanations
+- [Stanford Statistical Learning Course](https://www.edx.org/course/statistical-learning) — Full MOOC
+
+### ML for Causal Inference
+
+- Athey & Imbens (2019) — "Machine Learning Methods That Economists Should Know About"
+- Mullainathan & Spiess (2017) — "Machine Learning: An Applied Econometric Approach"
+
+### R Packages
+
+- [`tidymodels`](https://www.tidymodels.org/) — Modern ML framework
+- [`glmnet`](https://glmnet.stanford.edu/) — Regularized regression
+- [`ranger`](https://github.com/imbs-hl/ranger) — Fast random forests
+- [`xgboost`](https://xgboost.readthedocs.io/) — Gradient boosting
