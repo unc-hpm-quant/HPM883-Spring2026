@@ -10,7 +10,7 @@ format:
     transition: fade
     progress: true
     chalkboard: true
-    smaller: false
+    smaller: true
     scrollable: true
     footer: "HPM 883 | Session 0.3"
 execute:
@@ -190,10 +190,26 @@ Two components:
 
 ### A Visual Language for Causal Assumptions
 
-```{mermaid}
-%%| fig-alt: "Simple DAG showing Z causes Y with arrow from Z to Y"
-flowchart LR
-    Z["Treatment<br>(Z)"] --> Y["Outcome<br>(Y)"]
+```{r}
+#| echo: false
+#| fig-width: 4
+#| fig-height: 2
+#| fig-align: center
+library(ggplot2)
+library(ggdag)
+library(dagitty)
+
+dag_simple <- dagify(
+  Y ~ Z,
+  exposure = "Z",
+  outcome = "Y",
+  labels = c(Z = "Treatment (Z)", Y = "Outcome (Y)"),
+  coords = list(x = c(Z = 0, Y = 2), y = c(Z = 0, Y = 0))
+)
+
+ggdag(dag_simple, text = FALSE, use_labels = "label") +
+  theme_dag() +
+  theme(legend.position = "none")
 ```
 
 **Notation:**
@@ -207,12 +223,24 @@ flowchart LR
 
 ### Confounding
 
-```{mermaid}
-%%| fig-alt: "DAG showing confounder X causing both Z and Y, creating spurious association"
-flowchart TB
-    X["Confounder<br>(X)"] --> Z["Treatment<br>(Z)"]
-    X --> Y["Outcome<br>(Y)"]
-    Z --> Y
+```{r}
+#| echo: false
+#| fig-width: 4
+#| fig-height: 3
+#| fig-align: center
+
+dag_confounding <- dagify(
+  Y ~ Z + X,
+  Z ~ X,
+  exposure = "Z",
+  outcome = "Y",
+  labels = c(X = "Confounder (X)", Z = "Treatment (Z)", Y = "Outcome (Y)"),
+  coords = list(x = c(X = 1, Z = 0, Y = 2), y = c(X = 1, Z = 0, Y = 0))
+)
+
+ggdag(dag_confounding, text = FALSE, use_labels = "label") +
+  theme_dag() +
+  theme(legend.position = "none")
 ```
 
 $X$ creates **spurious association** between $Z$ and $Y$
@@ -227,11 +255,24 @@ Adjust for $X$ (conditioning, regression, matching, weighting)
 
 ## Mediator
 
-```{mermaid}
-%%| fig-alt: "DAG showing Z causes M which causes Y, with M as mediator"
-flowchart LR
-    Z["Treatment<br>(Z)"] --> M["Mediator<br>(M)"]
-    M --> Y["Outcome<br>(Y)"]
+```{r}
+#| echo: false
+#| fig-width: 4
+#| fig-height: 2
+#| fig-align: center
+
+dag_mediator <- dagify(
+  Y ~ M,
+  M ~ Z,
+  exposure = "Z",
+  outcome = "Y",
+  labels = c(Z = "Treatment (Z)", M = "Mediator (M)", Y = "Outcome (Y)"),
+  coords = list(x = c(Z = 0, M = 1, Y = 2), y = c(Z = 0, M = 0, Y = 0))
+)
+
+ggdag(dag_mediator, text = FALSE, use_labels = "label") +
+  theme_dag() +
+  theme(legend.position = "none")
 ```
 
 $M$ is on the causal pathway from $Z$ to $Y$
@@ -245,11 +286,23 @@ Adjusting for $M$ blocks the causal effect you're trying to estimate!
 
 ## Collider
 
-```{mermaid}
-%%| fig-alt: "DAG showing Z and Y both causing C, making C a collider"
-flowchart TB
-    Z["Treatment<br>(Z)"] --> C["Collider<br>(C)"]
-    Y["Outcome<br>(Y)"] --> C
+```{r}
+#| echo: false
+#| fig-width: 4
+#| fig-height: 3
+#| fig-align: center
+
+dag_collider <- dagify(
+  C ~ Z + Y,
+  exposure = "Z",
+  outcome = "Y",
+  labels = c(Z = "Treatment (Z)", C = "Collider (C)", Y = "Outcome (Y)"),
+  coords = list(x = c(Z = 0, C = 1, Y = 2), y = c(Z = 1, C = 0, Y = 1))
+)
+
+ggdag(dag_collider, text = FALSE, use_labels = "label") +
+  theme_dag() +
+  theme(legend.position = "none")
 ```
 
 $C$ is caused by both $Z$ and $Y$
@@ -285,16 +338,30 @@ d-Separated variables are **conditionally independent**.
 
 ## Example: Complex DAG
 
-```{mermaid}
-%%| fig-alt: "Complex DAG with confounder U, treatment Z, mediator M, and outcome Y"
-flowchart TB
-    U["Unobserved<br>Confounder"] --> Z["Treatment"]
-    U --> Y["Outcome"]
-    Z --> M["Mediator"]
-    Z --> Y
-    M --> Y
-    X["Observed<br>Covariate"] --> Z
-    X --> Y
+```{r}
+#| echo: false
+#| fig-width: 5
+#| fig-height: 4
+#| fig-align: center
+
+dag_complex <- dagify(
+  Y ~ Z + U + X + M,
+  Z ~ U + X,
+  M ~ Z,
+  exposure = "Z",
+  outcome = "Y",
+  latent = "U",
+  labels = c(U = "Unobserved\nConfounder", Z = "Treatment", Y = "Outcome",
+             M = "Mediator", X = "Observed\nCovariate"),
+  coords = list(
+    x = c(U = 0, X = 0, Z = 1, M = 2, Y = 2),
+    y = c(U = 2, X = 0, Z = 1, M = 2, Y = 0)
+  )
+)
+
+ggdag(dag_complex, text = FALSE, use_labels = "label") +
+  theme_dag() +
+  theme(legend.position = "none")
 ```
 
 ::: {.fragment}
@@ -309,30 +376,51 @@ flowchart TB
 
 ## Confounding vs. Selection Bias
 
+::: {.columns}
+::: {.column width="50%"}
 ### Confounding
 
-```{mermaid}
-%%| fig-alt: "Confounding: X causes both Z and Y"
-flowchart TB
-    X --> Z
-    X --> Y
-    Z --> Y
+```{r}
+#| echo: false
+#| fig-width: 3
+#| fig-height: 2.5
+
+dag_conf <- dagify(
+  Y ~ Z + X,
+  Z ~ X,
+  coords = list(x = c(X = 1, Z = 0, Y = 2), y = c(X = 1, Z = 0, Y = 0))
+)
+
+ggdag(dag_conf, text = TRUE) +
+  theme_dag() +
+  theme(legend.position = "none")
 ```
 
-A common cause creates spurious association
+A common **cause** creates spurious association
+:::
 
-::: {.fragment}
+::: {.column width="50%"}
 ### Selection Bias (Collider)
 
-```{mermaid}
-%%| fig-alt: "Selection bias: conditioning on S which is caused by Z and Y"
-flowchart TB
-    Z --> S["Selection"]
-    Y --> S
-    Z --> Y
+```{r}
+#| echo: false
+#| fig-width: 3
+#| fig-height: 2.5
+
+dag_sel <- dagify(
+  S ~ Z + Y,
+  Y ~ Z,
+  labels = c(S = "Selection"),
+  coords = list(x = c(Z = 0, S = 1, Y = 2), y = c(Z = 1, S = 0, Y = 1))
+)
+
+ggdag(dag_sel, text = TRUE) +
+  theme_dag() +
+  theme(legend.position = "none")
 ```
 
-Conditioning on a common effect creates spurious association
+Conditioning on a common **effect** creates spurious association
+:::
 :::
 
 ---
@@ -341,13 +429,28 @@ Conditioning on a common effect creates spurious association
 
 ### "Hospital patients who receive treatment X have worse outcomes"
 
-```{mermaid}
-%%| fig-alt: "Selection bias from hospital admission collider"
-flowchart TB
-    D["Disease<br>Severity"] --> H["Hospital<br>Admission"]
-    D --> Y["Outcome"]
-    T["Treatment"] --> H
-    T --> Y
+```{r}
+#| echo: false
+#| fig-width: 5
+#| fig-height: 3
+#| fig-align: center
+
+dag_hospital <- dagify(
+  H ~ D + T,
+  Y ~ D + T,
+  exposure = "T",
+  outcome = "Y",
+  labels = c(D = "Disease\nSeverity", H = "Hospital\nAdmission",
+             T = "Treatment", Y = "Outcome"),
+  coords = list(
+    x = c(D = 2, T = 0, H = 1, Y = 1),
+    y = c(D = 1, T = 1, H = 0, Y = 2)
+  )
+)
+
+ggdag(dag_hospital, text = FALSE, use_labels = "label") +
+  theme_dag() +
+  theme(legend.position = "none")
 ```
 
 ::: {.fragment}
@@ -369,6 +472,11 @@ An SCM specifies:
 1. **Endogenous variables**: $V = \{Y, Z, X, ...\}$
 2. **Exogenous variables**: $U = \{U_Y, U_Z, ...\}$
 3. **Structural equations**: $Y = f_Y(pa(Y), U_Y)$
+
+::: {.callout-note}
+## Foundation
+SCMs and the do() operator were developed by [Pearl (2009)](https://doi.org/10.1017/CBO9780511803161), building on his earlier work on Bayesian networks and causal reasoning.
+:::
 
 ::: {.fragment}
 ### Example
@@ -397,14 +505,24 @@ $P(Y | do(Z=1))$ ≠ $P(Y | Z=1)$
 ::: {.fragment}
 ### Graphically
 
-```{mermaid}
-%%| fig-alt: "After do(Z=1), arrows into Z are removed"
-flowchart TB
-    X -.-> Z
-    X --> Y
-    Z --> Y
+```{r}
+#| echo: false
+#| fig-width: 4
+#| fig-height: 3
+#| fig-align: center
 
-    style Z fill:#f9f,stroke:#333
+# Show the intervened graph (arrows into Z removed)
+dag_do <- dagify(
+  Y ~ Z + X,
+  # Note: No arrow from X to Z after do(Z)
+  coords = list(x = c(X = 0, Z = 1, Y = 2), y = c(X = 1, Z = 0, Y = 1))
+)
+
+ggdag(dag_do, text = TRUE) +
+  theme_dag() +
+  theme(legend.position = "none") +
+  annotate("text", x = 0.5, y = 0.6, label = "✗", size = 8, color = "red") +
+  labs(caption = "Arrow from X to Z is cut by do(Z)")
 ```
 
 $do(Z=1)$ removes all arrows into $Z$
@@ -588,8 +706,9 @@ Causal inference requires **assumptions**. These assumptions are often untestabl
 ### Session 1.1: Statistical Conclusion Validity & Power (Wed Jan 21)
 
 **Readings:**
-- Chernozhukov Ch 3
-- Gelman & Carlin (2014) on power analysis
+
+- [Chernozhukov Ch. 3 (RCTs)](http://chapters.causalml-book.org/CausalML_chap_3.pdf)
+- [Gelman & Carlin (2014)](https://doi.org/10.1177/1745691614551642) on power analysis
 
 **Note:** No class Monday (MLK Day). Lab 0 due Sunday, January 19.
 

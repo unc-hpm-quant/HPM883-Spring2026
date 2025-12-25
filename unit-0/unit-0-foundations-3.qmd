@@ -27,7 +27,7 @@ This session establishes the theoretical foundations for causal inference that w
 **Chernozhukov et al. (2025)** — *Applied Causal Inference Powered by ML and AI*
 
 - **Chapter 2:** Causal Models and Potential Outcomes (~20 pages)
-  - [Online PDF](https://causalml-book.org/assets/chapters/CausalML_chap_2.pdf)
+  - [Online PDF](http://chapters.causalml-book.org/CausalML_chap_2.pdf)
   - Focus: Potential outcomes, DAGs, SCMs, counterfactuals
 
 ### Recommended

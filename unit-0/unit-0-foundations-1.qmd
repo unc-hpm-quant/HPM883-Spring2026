@@ -25,20 +25,20 @@ Welcome to HPM 883! This session introduces the course structure, philosophy, an
 
 **Chernozhukov et al. (2025)** — *Applied Causal Inference Powered by ML and AI*
 
--   **Chapter 1:** Introduction to Causal Inference (\~15 pages)
-    -   [Online PDF](https://causalml-book.org/assets/chapters/CausalML_chap_1.pdf)
-    -   Focus: Three-layer stack, identification vs. prediction
+-   **Chapter 0:** Sneak Peek — A Fusion of Causal Inference and ML (\~10 pages)
+    -   [Online PDF](http://chapters.causalml-book.org/CausalML_chap_0.pdf)
+    -   Focus: Overview of the causal ML paradigm, course roadmap
 
 **Hernán & Robins (2020)** — *Causal Inference: What If*
 
 -   **Chapter 1:** A Definition of Causal Effect (\~10 pages)
 -   **Chapter 2:** Randomized Experiments (\~8 pages)
-    -   [Online Book](https://miguelhernan.org/whatifbook)
+    -   [Online Book](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/)
     -   Focus: Potential outcomes, randomization
 
 ### Recommended
 
--   Pearl (2009) — "Causal inference in statistics: An overview" *Statistics Surveys*
+-   [Pearl (2009) — "Causal inference in statistics: An overview"](https://projecteuclid.org/journals/statistics-surveys/volume-3/issue-none/Causal-inference-in-statistics-An-overview/10.1214/09-SS057.full) *Statistics Surveys*, Vol 3, 96-146
 -   Browse the [course website](/) to familiarize yourself with structure
 
 **Estimated Reading Time:** 45-60 minutes

@@ -10,7 +10,7 @@ format:
     transition: fade
     progress: true
     chalkboard: true
-    smaller: false
+    smaller: true
     scrollable: true
     footer: "HPM 883 | Session 0.2"
 execute:
@@ -453,10 +453,12 @@ Google error messages. Stack Overflow has solved most R problems.
 ### Session 0.3: Potential Outcomes & DAGs
 
 **Readings:**
-- Chernozhukov Ch 2 (finish)
-- Hernán & Robins Ch 1-2
+
+- [Chernozhukov Ch. 2 (finish)](http://chapters.causalml-book.org/CausalML_chap_2.pdf)
+- [Hernán & Robins Ch. 1-2](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/)
 
 **Prepare:**
+
 - Complete Lab 0
 - Bring questions about setup
 
