@@ -1,18 +1,25 @@
 ---
 title: "Session 0.3: Potential Outcomes & Structural Causal Models"
-subtitle: "HPM 883: Advanced Quantitative Methods"
+subtitle: "Unit 0: Foundations"
 author: "Sean Sylvia"
 date: "January 14, 2026"
+date-format: long
 format:
   revealjs:
-    theme: default
+    theme: [default, ../style/gillings.scss]
     slide-number: true
-    transition: fade
-    progress: true
     chalkboard: true
+    preview-links: auto
+    logo: ../images/logo.png
+    footer: "HPM 883 | Session 0.3"
+    transition: fade
+    incremental: false
     smaller: true
     scrollable: true
-    footer: "HPM 883 | Session 0.3"
+    toc: true
+    toc-depth: 1
+    code-fold: false
+    highlight-style: github
 execute:
   echo: true
   warning: false
@@ -199,6 +206,10 @@ library(ggplot2)
 library(ggdag)
 library(dagitty)
 
+# Gillings brand colors
+gillings_navy <- "#13294B"
+gillings_carolina <- "#4B9CD3"
+
 dag_simple <- dagify(
   Y ~ Z,
   exposure = "Z",
@@ -207,7 +218,10 @@ dag_simple <- dagify(
   coords = list(x = c(Z = 0, Y = 2), y = c(Z = 0, Y = 0))
 )
 
-ggdag(dag_simple, text = FALSE, use_labels = "label") +
+ggdag(dag_simple, text = FALSE, use_labels = "label", node_size = 20) +
+  geom_dag_point(color = gillings_navy, size = 20) +
+  geom_dag_text(color = "white", size = 3.5) +
+  geom_dag_edges(edge_color = gillings_navy, edge_width = 1.2) +
   theme_dag() +
   theme(legend.position = "none")
 ```
@@ -238,7 +252,10 @@ dag_confounding <- dagify(
   coords = list(x = c(X = 1, Z = 0, Y = 2), y = c(X = 1, Z = 0, Y = 0))
 )
 
-ggdag(dag_confounding, text = FALSE, use_labels = "label") +
+ggdag(dag_confounding, text = FALSE, use_labels = "label", node_size = 18) +
+  geom_dag_point(color = gillings_navy, size = 18) +
+  geom_dag_text(color = "white", size = 3) +
+  geom_dag_edges(edge_color = gillings_navy, edge_width = 1.2) +
   theme_dag() +
   theme(legend.position = "none")
 ```
@@ -270,7 +287,10 @@ dag_mediator <- dagify(
   coords = list(x = c(Z = 0, M = 1, Y = 2), y = c(Z = 0, M = 0, Y = 0))
 )
 
-ggdag(dag_mediator, text = FALSE, use_labels = "label") +
+ggdag(dag_mediator, text = FALSE, use_labels = "label", node_size = 18) +
+  geom_dag_point(color = gillings_navy, size = 18) +
+  geom_dag_text(color = "white", size = 3) +
+  geom_dag_edges(edge_color = gillings_navy, edge_width = 1.2) +
   theme_dag() +
   theme(legend.position = "none")
 ```
@@ -300,7 +320,10 @@ dag_collider <- dagify(
   coords = list(x = c(Z = 0, C = 1, Y = 2), y = c(Z = 1, C = 0, Y = 1))
 )
 
-ggdag(dag_collider, text = FALSE, use_labels = "label") +
+ggdag(dag_collider, text = FALSE, use_labels = "label", node_size = 18) +
+  geom_dag_point(color = gillings_navy, size = 18) +
+  geom_dag_text(color = "white", size = 3) +
+  geom_dag_edges(edge_color = gillings_navy, edge_width = 1.2) +
   theme_dag() +
   theme(legend.position = "none")
 ```
@@ -359,7 +382,10 @@ dag_complex <- dagify(
   )
 )
 
-ggdag(dag_complex, text = FALSE, use_labels = "label") +
+ggdag(dag_complex, text = FALSE, use_labels = "label", node_size = 16) +
+  geom_dag_point(color = gillings_navy, size = 16) +
+  geom_dag_text(color = "white", size = 2.5) +
+  geom_dag_edges(edge_color = gillings_navy, edge_width = 1.2) +
   theme_dag() +
   theme(legend.position = "none")
 ```
@@ -391,7 +417,10 @@ dag_conf <- dagify(
   coords = list(x = c(X = 1, Z = 0, Y = 2), y = c(X = 1, Z = 0, Y = 0))
 )
 
-ggdag(dag_conf, text = TRUE) +
+ggdag(dag_conf, text = FALSE, node_size = 16) +
+  geom_dag_point(color = gillings_navy, size = 16) +
+  geom_dag_text(color = "white", size = 4, fontface = "bold") +
+  geom_dag_edges(edge_color = gillings_navy, edge_width = 1.2) +
   theme_dag() +
   theme(legend.position = "none")
 ```
@@ -414,7 +443,10 @@ dag_sel <- dagify(
   coords = list(x = c(Z = 0, S = 1, Y = 2), y = c(Z = 1, S = 0, Y = 1))
 )
 
-ggdag(dag_sel, text = TRUE) +
+ggdag(dag_sel, text = FALSE, node_size = 16) +
+  geom_dag_point(color = gillings_navy, size = 16) +
+  geom_dag_text(color = "white", size = 4, fontface = "bold") +
+  geom_dag_edges(edge_color = gillings_navy, edge_width = 1.2) +
   theme_dag() +
   theme(legend.position = "none")
 ```
@@ -448,7 +480,10 @@ dag_hospital <- dagify(
   )
 )
 
-ggdag(dag_hospital, text = FALSE, use_labels = "label") +
+ggdag(dag_hospital, text = FALSE, use_labels = "label", node_size = 16) +
+  geom_dag_point(color = gillings_navy, size = 16) +
+  geom_dag_text(color = "white", size = 2.5) +
+  geom_dag_edges(edge_color = gillings_navy, edge_width = 1.2) +
   theme_dag() +
   theme(legend.position = "none")
 ```
@@ -518,10 +553,13 @@ dag_do <- dagify(
   coords = list(x = c(X = 0, Z = 1, Y = 2), y = c(X = 1, Z = 0, Y = 1))
 )
 
-ggdag(dag_do, text = TRUE) +
+ggdag(dag_do, text = FALSE, node_size = 18) +
+  geom_dag_point(color = gillings_navy, size = 18) +
+  geom_dag_text(color = "white", size = 4, fontface = "bold") +
+  geom_dag_edges(edge_color = gillings_navy, edge_width = 1.2) +
   theme_dag() +
   theme(legend.position = "none") +
-  annotate("text", x = 0.5, y = 0.6, label = "✗", size = 8, color = "red") +
+  annotate("text", x = 0.5, y = 0.6, label = "✗", size = 8, color = "#C4122F") +
   labs(caption = "Arrow from X to Z is cut by do(Z)")
 ```
 
@@ -631,7 +669,11 @@ dag <- dagify(
   outcome = "Y"
 )
 
-ggdag_adjustment_set(dag) + theme_dag()
+ggdag_adjustment_set(dag, node_size = 16) +
+  geom_dag_point(aes(color = adjusted), size = 16) +
+  scale_color_manual(values = c("unadjusted" = gillings_navy, "adjusted" = gillings_carolina)) +
+  theme_dag() +
+  theme(legend.position = "bottom")
 ```
 
 ---

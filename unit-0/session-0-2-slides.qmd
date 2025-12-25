@@ -1,18 +1,25 @@
 ---
 title: "Session 0.2: Reproducible Research & Computing Setup"
-subtitle: "HPM 883: Advanced Quantitative Methods"
+subtitle: "Unit 0: Foundations"
 author: "Sean Sylvia"
 date: "January 12, 2026"
+date-format: long
 format:
   revealjs:
-    theme: default
+    theme: [default, ../style/gillings.scss]
     slide-number: true
-    transition: fade
-    progress: true
     chalkboard: true
+    preview-links: auto
+    logo: ../images/logo.png
+    footer: "HPM 883 | Session 0.2"
+    transition: fade
+    incremental: false
     smaller: true
     scrollable: true
-    footer: "HPM 883 | Session 0.2"
+    toc: true
+    toc-depth: 1
+    code-fold: false
+    highlight-style: github
 execute:
   echo: true
   warning: false
