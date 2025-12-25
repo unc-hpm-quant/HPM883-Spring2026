@@ -1,0 +1,14 @@
+# Ignore build output
+_site/
+
+# Ignore quarto files
+.quarto/
+
+# Ignore git
+.git/
+
+# Ignore archive
+_archive/
+
+# Ignore templates (not rendered)
+_templates/
