@@ -35,6 +35,16 @@ Spring 2026
 Welcome students. This is the third course in the quantitative methods sequence. We're going to explore cutting-edge methods at the intersection of causal inference and machine learning.
 :::
 
+---
+
+## Today's Journey
+
+![Session 0.1 Roadmap](media/session-0-1-roadmap.png){fig-alt="Session roadmap showing today's flow: Course Overview, Assessment & Grading, Causal Inference Foundations, Course Framework, Next Steps" width="100%"}
+
+::: {.notes}
+Let me walk you through what we'll cover today. We'll start with course logistics and assessment, then dive into the core of what this course is about — causal inference foundations. We'll close with the three-layer framework that structures the entire course.
+:::
+
 # Course Overview {.center}
 
 ## Course Philosophy
@@ -87,11 +97,11 @@ Set expectations early. This is an advanced course that builds on prior quantita
 :::
 :::
 
-. . .
-
+::: fragment
 ::: {.callout-note}
 ## Format Varies by Session
 Check the schedule — some weeks are all in-person, some mix formats.
+:::
 :::
 
 ---
@@ -121,8 +131,7 @@ Check the schedule — some weeks are all in-person, some mix formats.
 One credit hour = 1 hour of direct instruction + **2 hours of out-of-class work** per week.
 :::
 
-. . .
-
+::: fragment
 **For HPM 883 (3 credits):**
 
 | Activity | Hours/Week |
@@ -132,6 +141,7 @@ One credit hour = 1 hour of direct instruction + **2 hours of out-of-class work*
 | Problem sets / Labs | 3-4 hrs |
 | Capstone project | 1-2 hrs |
 | **Total** | **~8-10 hrs** |
+:::
 
 ---
 
@@ -184,13 +194,13 @@ One credit hour = 1 hour of direct instruction + **2 hours of out-of-class work*
 | **Coding Support** | Fri 10:00-11:00am | Zoom |
 | **TA** | By appointment | Email Bryan Nice |
 
-. . .
-
+::: fragment
 ::: {.callout-tip}
 ## Best Practices
 - Come with specific questions or code snippets
 - Check Slack first — someone may have answered already
 - Don't wait until the deadline to ask for help
+:::
 :::
 
 # Assessment & Grading {.center}
@@ -274,9 +284,9 @@ Compare methods on simulated or real data
 :::
 :::
 
-. . .
-
+::: fragment
 **Deliverables:** Paper (15-20 pages) + Code repository + 15-min presentation
+:::
 
 # The Central Question {.center}
 
@@ -284,8 +294,7 @@ Compare methods on simulated or real data
 
 > When does a health intervention **cause** an outcome to change?
 
-. . .
-
+::: fragment
 This is fundamentally different from:
 
 - "Are intervention and outcome **associated**?"
@@ -294,6 +303,7 @@ This is fundamentally different from:
 ::: {.callout-important}
 ## Key Insight
 Prediction ≠ Causation. A model that predicts well may tell us nothing about what happens when we intervene.
+:::
 :::
 
 ---
@@ -328,11 +338,11 @@ Prediction ≠ Causation. A model that predicts well may tell us nothing about w
 :::
 :::
 
-. . .
-
+::: fragment
 ::: {.callout-warning}
 ## Common Mistake
 Using predictive models to make causal claims. Correlation in $\hat{Y}$ ≠ Causation in $\hat{\beta}$.
+:::
 :::
 
 # The Three-Layer Causal Inference Stack {.center}
@@ -439,8 +449,7 @@ For each unit $i$:
 - $Y_i(0)$: Outcome if unit receives control
 - $D_i$: Treatment indicator (1 = treated, 0 = control)
 
-. . .
-
+::: fragment
 ### The Individual Treatment Effect
 
 $$\tau_i = Y_i(1) - Y_i(0)$$
@@ -449,6 +458,7 @@ The causal effect for unit $i$ is the difference between what would happen under
 
 ::: {.notes}
 This notation will be used throughout the course. Y(1) is the potential outcome under treatment, Y(0) under control. These are counterfactual outcomes—we can only ever observe one for each unit.
+:::
 :::
 
 ---
@@ -467,9 +477,9 @@ We can never observe both $Y_i(1)$ and $Y_i(0)$ for the same unit.
 | 3    | 7        | ?        | ?        |
 | 4    | ?        | 6        | ?        |
 
-. . .
-
+::: fragment
 **The missing data problem**: Every causal inference method is fundamentally about dealing with missing counterfactual outcomes.
+:::
 
 ---
 
@@ -481,8 +491,7 @@ $$\text{ATE} = E[Y | D=1] - E[Y | D=0]$$
 
 **Why does this work?**
 
-. . .
-
+::: fragment
 Randomization ensures treatment and control groups are *exchangeable*:
 
 $$E[Y(1) | D=1] = E[Y(1) | D=0] = E[Y(1)]$$
@@ -492,6 +501,7 @@ $$E[Y(0) | D=1] = E[Y(0) | D=0] = E[Y(0)]$$
 ::: {.callout-tip}
 ## This is Unit 1
 Experimental design: power, randomization inference, blocking, variance reduction.
+:::
 :::
 
 ---
@@ -506,8 +516,7 @@ $$Y(1), Y(0) \perp\!\!\!\perp D \mid X$$
 
 "After controlling for $X$, treatment is as good as random."
 
-. . .
-
+::: fragment
 ```{r}
 #| fig-width: 6
 #| fig-height: 3
@@ -539,6 +548,7 @@ ggdag(dag, text = FALSE, node_size = 22) +
 ```
 
 **Control for X** → Block the backdoor path → Identify causal effect
+:::
 
 ---
 
@@ -548,16 +558,15 @@ ggdag(dag, text = FALSE, node_size = 22) +
 
 Traditional approach: Model $E[Y|D,X]$ parametrically
 
-. . .
-
+::: fragment
 **But what if X is complex?**
 
 - Many covariates
 - Nonlinear relationships
 - Interactions
+:::
 
-. . .
-
+::: fragment
 ### The ML Solution: Double/Debiased ML
 
 Use ML to estimate **nuisance functions** (propensity score, outcome model) while preserving valid inference on $\hat{\tau}$.
@@ -565,6 +574,7 @@ Use ML to estimate **nuisance functions** (propensity score, outcome model) whil
 ::: {.callout-tip}
 ## This is Unit 2
 Influence functions, orthogonal scores, cross-fitting.
+:::
 :::
 
 ---
@@ -577,8 +587,7 @@ $$\text{CATE}(x) = E[Y(1) - Y(0) | X = x]$$
 
 The average effect for units with characteristics $X = x$.
 
-. . .
-
+::: fragment
 ### Why It Matters for Health Policy
 
 - **Personalized medicine**: Who benefits most from treatment?
@@ -588,6 +597,7 @@ The average effect for units with characteristics $X = x$.
 ::: {.callout-tip}
 ## This is Units 3-4
 Causal forests, meta-learners, policy learning.
+:::
 :::
 
 ---
@@ -614,8 +624,7 @@ Causal forests, meta-learners, policy learning.
 :::
 :::
 
-. . .
-
+::: fragment
 ### How ML Helps
 
 1. **Variance reduction** via covariate adjustment
@@ -626,6 +635,7 @@ Causal forests, meta-learners, policy learning.
 ::: {.callout-tip}
 ## This is Unit 1
 Design-based inference with modern tools.
+:::
 :::
 
 # AI in Your Workflow {.center}
@@ -751,11 +761,11 @@ Use Chernozhukov for implementation, Wager for deeper understanding of the theor
 :::
 :::
 
-. . .
-
+::: fragment
 ### R Packages
 
 `DoubleML` | `grf` | `policytree` | `did` | `Synth` | `DeclareDesign`
+:::
 
 # This Week {.center}
 
