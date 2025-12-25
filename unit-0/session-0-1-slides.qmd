@@ -3,18 +3,24 @@ title: "Session 0.1: Course Overview & Causal Inference Foundations"
 subtitle: "HPM 883: Advanced Quantitative Methods"
 author: "Sean Sylvia"
 date: "January 7, 2026"
+date-format: long
 format:
   revealjs:
-    theme: default
+    theme: [default, ../style/gillings.scss]
     slide-number: true
     transition: fade
     progress: true
     chalkboard: true
-    smaller: false
+    smaller: true
     scrollable: true
+    logo: ../images/logo.png
     footer: "HPM 883 | Session 0.1"
+    toc: true
+    toc-depth: 1
+    preview-links: auto
+    incremental: false
 execute:
-  echo: true
+  echo: false
   warning: false
   message: false
 ---
@@ -29,7 +35,7 @@ Spring 2026
 Welcome students. This is the third course in the quantitative methods sequence. We're going to explore cutting-edge methods at the intersection of causal inference and machine learning.
 :::
 
----
+# Course Overview {.center}
 
 ## Course Philosophy
 
@@ -59,7 +65,222 @@ Set expectations early. This is an advanced course that builds on prior quantita
 
 ---
 
-## The Central Question
+## Course Structure
+
+### Hybrid Format
+
+::: {.columns}
+::: {.column width="50%"}
+**In-Person Sessions (M/W)**
+
+- Lectures and theory
+- Discussion and Q&A
+- Location: Rosenau 228
+:::
+
+::: {.column width="50%"}
+**Remote Sessions (Select Days)**
+
+- Hands-on coding labs
+- Implementation practice
+- Via Zoom
+:::
+:::
+
+. . .
+
+::: {.callout-note}
+## Format Varies by Session
+Check the schedule — some weeks are all in-person, some mix formats.
+:::
+
+---
+
+## Unit Structure (8 Units, 14 Weeks)
+
+| Unit | Topic | Weeks |
+|------|-------|-------|
+| 0 | Foundations | 1 |
+| 1 | Experimental Design | 2-3 |
+| 2 | DR & DML | 4-6 |
+| 3 | HTE & Causal Forests | 7-8 |
+| 4 | Policy Learning | 9 |
+| 5 | Observational ML | 10 |
+| 6 | DiD & Synthetic Controls | 11 |
+| 7 | Advanced Topics | 12 |
+| 8 | Capstone | 13-14 |
+
+---
+
+## Work Expectations
+
+### Credit Hour Requirements
+
+::: {.callout-note}
+## U.S. Department of Education Definition
+One credit hour = 1 hour of direct instruction + **2 hours of out-of-class work** per week.
+:::
+
+. . .
+
+**For HPM 883 (3 credits):**
+
+| Activity | Hours/Week |
+|----------|-----------|
+| Class time | 2.5 hrs |
+| Reading | 1-1.5 hrs |
+| Problem sets / Labs | 3-4 hrs |
+| Capstone project | 1-2 hrs |
+| **Total** | **~8-10 hrs** |
+
+---
+
+## Communication Channels
+
+::: {.columns}
+::: {.column width="33%"}
+### Slack
+**Primary channel**
+
+- Quick questions
+- Peer discussion
+- Code help
+- Announcements
+
+*Response: < 24 hrs*
+:::
+
+::: {.column width="33%"}
+### Canvas
+**Official platform**
+
+- Submissions
+- Grades
+- Course materials
+- Gradescope
+
+*Check daily*
+:::
+
+::: {.column width="33%"}
+### Email
+**When needed**
+
+- Scheduling
+- Personal matters
+- Administrative
+
+*Response: 48 hrs*
+:::
+:::
+
+---
+
+## Office Hours & Support
+
+| Resource | When | Where |
+|----------|------|-------|
+| **Office Hours** | Wed 2:00-4:00pm | McGavran-Greenberg 1101-D or Zoom |
+| **Coding Support** | Fri 10:00-11:00am | Zoom |
+| **TA** | By appointment | Email Bryan Nice |
+
+. . .
+
+::: {.callout-tip}
+## Best Practices
+- Come with specific questions or code snippets
+- Check Slack first — someone may have answered already
+- Don't wait until the deadline to ask for help
+:::
+
+# Assessment & Grading {.center}
+
+## Assessment Structure
+
+| Component | Weight | Description |
+|-----------|--------|-------------|
+| Problem Sets | 30% | ~7 assignments, **best 4 count** |
+| Design Memos | 20% | 2 memos (10% each) |
+| Capstone Project | 40% | PAP, replication, or comparison |
+| Peer Review | 10% | Review one peer's project |
+
+::: {.callout-note}
+## Problem Set Policy
+You submit ~7 problem sets; lowest 3 are dropped. This allows flexibility for illness, travel, or competing deadlines.
+:::
+
+---
+
+## Grading Scale
+
+::: {.columns}
+::: {.column width="50%"}
+### Graduate School Scale
+
+| Grade | Range | Meaning |
+|-------|-------|---------|
+| **H** | 93-100 | High Pass |
+| **P** | 80-92 | Pass |
+| **L** | 70-79 | Low Pass |
+| **F** | 0-69 | Fail |
+:::
+
+::: {.column width="50%"}
+### My Philosophy
+
+- **H** = Exceptional work, ready for publication
+- **P** = Strong graduate work (most students)
+- **L** = Below expectations; needs improvement
+- **F** = Did not meet requirements
+:::
+:::
+
+---
+
+## Capstone Project
+
+### Three Options
+
+::: {.columns}
+::: {.column width="33%"}
+**Pre-Analysis Plan**
+
+Write a complete PAP for a planned or hypothetical study
+
+- Full identification strategy
+- Power analysis
+- Estimation approach
+- HTE analysis
+:::
+
+::: {.column width="33%"}
+**Replication + Extension**
+
+Replicate a published study and extend with causal ML
+
+- Reproduce main results
+- Apply DML/forests
+- Compare approaches
+:::
+
+::: {.column width="33%"}
+**Methods Comparison**
+
+Compare methods on simulated or real data
+
+- Define DGP
+- Apply multiple methods
+- Benchmark performance
+:::
+:::
+
+. . .
+
+**Deliverables:** Paper (15-20 pages) + Code repository + 15-min presentation
+
+# The Central Question {.center}
+
+## Why Are We Here?
 
 > When does a health intervention **cause** an outcome to change?
 
@@ -77,40 +298,53 @@ Prediction ≠ Causation. A model that predicts well may tell us nothing about w
 
 ---
 
-## The Three-Layer Causal Inference Stack
+## Prediction vs. Causal Estimation
 
-```{mermaid}
-%%| fig-alt: "Three-layer stack showing Identification at bottom, Estimation in middle, and Decision at top, with arrows flowing upward"
-flowchart TB
-    subgraph Layer3["Layer 3: DECISION"]
-        D1["What should we do?"]
-        D2["Policy learning"]
-        D3["Optimal treatment rules"]
-    end
+::: {.columns}
+::: {.column width="50%"}
+### Prediction (Ŷ)
 
-    subgraph Layer2["Layer 2: ESTIMATION"]
-        E1["How do we estimate effects?"]
-        E2["Double ML, Causal Forests"]
-        E3["Doubly-robust methods"]
-    end
+**Goal:** Forecast outcomes
 
-    subgraph Layer1["Layer 1: IDENTIFICATION"]
-        I1["What assumptions justify causal claims?"]
-        I2["RCTs, Natural experiments"]
-        I3["DAGs, Potential outcomes"]
-    end
+- Minimize prediction error
+- Any features allowed
+- Black box OK
+- "What will happen?"
 
-    Layer1 --> Layer2
-    Layer2 --> Layer3
-
-    style Layer1 fill:#e6f3ff
-    style Layer2 fill:#fff2e6
-    style Layer3 fill:#e6ffe6
-```
-
-::: {.notes}
-This three-layer stack is the organizing framework for the entire course. Every method we learn fits somewhere in this stack. Identification comes first—you must know *what* you're estimating before worrying about *how* to estimate it.
+**Example:** Predict which patients will be readmitted
 :::
+
+::: {.column width="50%"}
+### Causal Estimation (β̂)
+
+**Goal:** Estimate treatment effects
+
+- Unbiased estimation
+- Confounding matters
+- Interpretability needed
+- "What if we intervene?"
+
+**Example:** Does discharge planning *reduce* readmissions?
+:::
+:::
+
+. . .
+
+::: {.callout-warning}
+## Common Mistake
+Using predictive models to make causal claims. Correlation in $\hat{Y}$ ≠ Causation in $\hat{\beta}$.
+:::
+
+# The Three-Layer Causal Inference Stack {.center}
+
+## Course Framework
+
+::: {.callout-note}
+## Organizing Principle
+This three-layer stack is our pedagogical framework for the course — a tool for understanding how methods relate.
+:::
+
+![Three-Layer Causal Inference Stack](images/three-layer-stack.png){fig-alt="Three-layer stack: Identification at bottom, Estimation in middle, Decision at top" width="80%"}
 
 ---
 
@@ -193,9 +427,210 @@ ML methods excel at high-dimensional nuisance estimation while preserving valid 
 Optimal decisions depend not just on average effects, but on heterogeneity and constraints.
 :::
 
+# How ML Helps with Causal Inference {.center}
+
+## The Potential Outcomes Framework
+
+### The Fundamental Setup
+
+For each unit $i$:
+
+- $Y_i(1)$: Outcome if unit receives treatment
+- $Y_i(0)$: Outcome if unit receives control
+- $D_i$: Treatment indicator (1 = treated, 0 = control)
+
+. . .
+
+### The Individual Treatment Effect
+
+$$\tau_i = Y_i(1) - Y_i(0)$$
+
+The causal effect for unit $i$ is the difference between what would happen under treatment versus control.
+
+::: {.notes}
+This notation will be used throughout the course. Y(1) is the potential outcome under treatment, Y(0) under control. These are counterfactual outcomes—we can only ever observe one for each unit.
+:::
+
 ---
 
-## Why "AI in the Loop"?
+## The Fundamental Problem of Causal Inference
+
+::: {.callout-warning}
+## The Problem
+We can never observe both $Y_i(1)$ and $Y_i(0)$ for the same unit.
+:::
+
+| Unit | $Y_i(1)$ | $Y_i(0)$ | $\tau_i$ |
+|------|----------|----------|----------|
+| 1    | 8        | ?        | ?        |
+| 2    | ?        | 5        | ?        |
+| 3    | 7        | ?        | ?        |
+| 4    | ?        | 6        | ?        |
+
+. . .
+
+**The missing data problem**: Every causal inference method is fundamentally about dealing with missing counterfactual outcomes.
+
+---
+
+## Solution 1: Randomization
+
+### Under Random Assignment
+
+$$\text{ATE} = E[Y | D=1] - E[Y | D=0]$$
+
+**Why does this work?**
+
+. . .
+
+Randomization ensures treatment and control groups are *exchangeable*:
+
+$$E[Y(1) | D=1] = E[Y(1) | D=0] = E[Y(1)]$$
+
+$$E[Y(0) | D=1] = E[Y(0) | D=0] = E[Y(0)]$$
+
+::: {.callout-tip}
+## This is Unit 1
+Experimental design: power, randomization inference, blocking, variance reduction.
+:::
+
+---
+
+## Solution 2: Conditional Independence
+
+### When Randomization Isn't Possible
+
+Without experiments, we need **conditional ignorability**:
+
+$$Y(1), Y(0) \perp\!\!\!\perp D \mid X$$
+
+"After controlling for $X$, treatment is as good as random."
+
+. . .
+
+```{r}
+#| fig-width: 6
+#| fig-height: 3
+#| fig-align: center
+library(ggplot2)
+library(ggdag)
+library(dagitty)
+
+dag <- dagify(
+  Y ~ D + X,
+  D ~ X,
+  exposure = "D",
+  outcome = "Y",
+  coords = list(x = c(X = 1, D = 0, Y = 2), y = c(X = 1.2, D = 0, Y = 0))
+)
+
+# Gillings brand colors
+gillings_navy <- "#13294B"
+gillings_carolina <- "#4B9CD3"
+
+ggdag(dag, text = FALSE, node_size = 22) +
+  geom_dag_point(color = gillings_navy, size = 22) +
+  geom_dag_text(color = "white", size = 5, fontface = "bold") +
+  geom_dag_edges(edge_color = gillings_navy, edge_width = 1.2) +
+  theme_dag() +
+  labs(title = "Confounding: X affects both D and Y") +
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = 0.5, size = 16, color = gillings_navy))
+```
+
+**Control for X** → Block the backdoor path → Identify causal effect
+
+---
+
+## How ML Helps: Nuisance Estimation
+
+### The Problem with High-Dimensional X
+
+Traditional approach: Model $E[Y|D,X]$ parametrically
+
+. . .
+
+**But what if X is complex?**
+
+- Many covariates
+- Nonlinear relationships
+- Interactions
+
+. . .
+
+### The ML Solution: Double/Debiased ML
+
+Use ML to estimate **nuisance functions** (propensity score, outcome model) while preserving valid inference on $\hat{\tau}$.
+
+::: {.callout-tip}
+## This is Unit 2
+Influence functions, orthogonal scores, cross-fitting.
+:::
+
+---
+
+## Beyond Averages: Treatment Effect Heterogeneity
+
+### Conditional Average Treatment Effect
+
+$$\text{CATE}(x) = E[Y(1) - Y(0) | X = x]$$
+
+The average effect for units with characteristics $X = x$.
+
+. . .
+
+### Why It Matters for Health Policy
+
+- **Personalized medicine**: Who benefits most from treatment?
+- **Resource allocation**: Where should we target interventions?
+- **Equity**: Do effects differ across populations?
+
+::: {.callout-tip}
+## This is Units 3-4
+Causal forests, meta-learners, policy learning.
+:::
+
+---
+
+## ML for Experimental Design
+
+### Adaptive Experiments
+
+::: {.columns}
+::: {.column width="50%"}
+**Traditional RCT**
+
+- Fixed assignment probabilities
+- Equal allocation
+- Static design
+:::
+
+::: {.column width="50%"}
+**Adaptive/ML-Enhanced**
+
+- Response-adaptive randomization
+- Covariate-adaptive allocation
+- Bandits and exploration
+:::
+:::
+
+. . .
+
+### How ML Helps
+
+1. **Variance reduction** via covariate adjustment
+2. **Blocking and stratification** with many covariates
+3. **Adaptive designs** that learn during trial
+4. **Power optimization** using baseline predictions
+
+::: {.callout-tip}
+## This is Unit 1
+Design-based inference with modern tools.
+:::
+
+# AI in Your Workflow {.center}
+
+## "AI in the Loop" — Not "Human in the Loop"
 
 ::: {.columns}
 ::: {.column width="60%"}
@@ -206,8 +641,6 @@ Optimal decisions depend not just on average effects, but on heterogeneity and c
 3. **AI** assists with implementation
 4. **You** evaluate and interpret results
 5. **You** make the decision
-
-This is **"AI in the Loop"** — not "Human in the Loop"
 :::
 
 ::: {.column width="40%"}
@@ -256,166 +689,7 @@ This distinction is crucial. Many people talk about "human in the loop" for AI s
 You may use AI tools, but you are responsible for all submitted work. You must understand and be able to explain every line of code and every claim.
 :::
 
----
-
-## Potential Outcomes Framework
-
-### The Fundamental Setup
-
-For each unit $i$:
-
-- $Y_i(1)$: Outcome if unit receives treatment
-- $Y_i(0)$: Outcome if unit receives control
-- $D_i$: Treatment indicator (1 = treated, 0 = control)
-
-. . .
-
-### The Individual Treatment Effect
-
-$$\tau_i = Y_i(1) - Y_i(0)$$
-
-The causal effect for unit $i$ is the difference between what would happen under treatment versus control.
-
-::: {.notes}
-This notation will be used throughout the course. Get comfortable with it. Y(1) is the potential outcome under treatment, Y(0) under control. These are counterfactual outcomes—we can only ever observe one for each unit.
-:::
-
----
-
-## The Fundamental Problem of Causal Inference
-
-::: {.callout-warning}
-## The Problem
-We can never observe both $Y_i(1)$ and $Y_i(0)$ for the same unit.
-:::
-
-| Unit | $Y_i(1)$ | $Y_i(0)$ | $\tau_i$ |
-|------|----------|----------|----------|
-| 1    | 8        | ?        | ?        |
-| 2    | ?        | 5        | ?        |
-| 3    | 7        | ?        | ?        |
-| 4    | ?        | 6        | ?        |
-
-. . .
-
-**Solution**: Randomization allows us to estimate *average* effects by comparing groups.
-
----
-
-## Average Treatment Effect (ATE)
-
-### Definition
-
-$$\text{ATE} = E[Y(1) - Y(0)] = E[Y(1)] - E[Y(0)]$$
-
-The average causal effect across the population.
-
-. . .
-
-### Under Random Assignment
-
-$$\text{ATE} = E[Y | D=1] - E[Y | D=0]$$
-
-Why? Because randomization ensures:
-
-$$E[Y(1) | D=1] = E[Y(1)] \quad \text{and} \quad E[Y(0) | D=0] = E[Y(0)]$$
-
-::: {.notes}
-This is the magic of randomization. It breaks the link between treatment assignment and potential outcomes, allowing us to estimate average causal effects by comparing means.
-:::
-
----
-
-## Beyond Average Effects: CATE
-
-### Conditional Average Treatment Effect
-
-$$\text{CATE}(x) = E[Y(1) - Y(0) | X = x]$$
-
-The average effect for units with characteristics $X = x$.
-
-. . .
-
-### Why It Matters for Health Policy
-
-- **Personalized medicine**: Who benefits most from treatment?
-- **Resource allocation**: Where should we target interventions?
-- **Equity**: Do effects differ across populations?
-
-::: {.callout-note}
-## Course Focus
-Units 3-4 focus on estimating heterogeneous effects using causal forests and policy learning.
-:::
-
----
-
-## Introduction to Causal Graphs (DAGs)
-
-### Directed Acyclic Graphs
-
-Visual representations of causal relationships:
-
-```{mermaid}
-%%| fig-alt: "Simple DAG showing Treatment D pointing to Outcome Y, with Confounder X pointing to both D and Y"
-flowchart LR
-    X["Confounder<br/>X"] --> D["Treatment<br/>D"]
-    X --> Y["Outcome<br/>Y"]
-    D --> Y
-
-    style X fill:#ffcccc
-    style D fill:#cce5ff
-    style Y fill:#ccffcc
-```
-
-- **Nodes**: Variables
-- **Arrows**: Direct causal effects
-- **Paths**: Chains of causal relationships
-
-::: {.notes}
-DAGs are powerful tools for reasoning about identification. We'll use them throughout the course to think about what we need to control for and what we should not control for.
-:::
-
----
-
-## Why DAGs Matter
-
-### Confounding
-
-```{mermaid}
-%%| fig-alt: "DAG showing socioeconomic status (SES) as a confounder affecting both healthcare access and health outcomes"
-flowchart LR
-    SES["Socioeconomic<br/>Status"] --> Access["Healthcare<br/>Access"]
-    SES --> Health["Health<br/>Outcomes"]
-    Access --> Health
-
-    style SES fill:#ffcccc
-```
-
-SES confounds the relationship between access and health.
-
-. . .
-
-**Without adjustment**: Association ≠ Causation
-
-**With adjustment for SES**: We can isolate the causal effect of access
-
----
-
-## Course Structure Overview
-
-| Unit | Topic | Weeks |
-|------|-------|-------|
-| 0 | Foundations | 1 |
-| 1 | Experimental Design | 2-3 |
-| 2 | DR & DML | 4-6 |
-| 3 | HTE & Causal Forests | 7-8 |
-| 4 | Policy Learning | 9 |
-| 5 | Observational ML | 10 |
-| 6 | DiD & Synthetic Controls | 11 |
-| 7 | Advanced Topics | 12 |
-| 8 | Capstone | 13-14 |
-
----
+# Course Materials {.center}
 
 ## Primary Textbooks (Both FREE!)
 
@@ -483,25 +757,7 @@ Use Chernozhukov for implementation, Wager for deeper understanding of the theor
 
 `DoubleML` | `grf` | `policytree` | `did` | `Synth` | `DeclareDesign`
 
----
-
-## Assessment Structure
-
-| Component | Weight | Description |
-|-----------|--------|-------------|
-| Lab 0 | 5% | Environment setup verification (in-class) |
-| Problem Sets | 25% | 7 problem sets, best 4 count |
-| Design Memos | 20% | 2 memos (experimental + DML) |
-| Capstone | 45% | PAP, replication, or comparison |
-| Peer Review | 5% | Review one peer's capstone |
-
-::: {.callout-note}
-## Terminology
-- **Labs** = In-class code-alongs (hands-on exercises)
-- **Problem Sets** = Take-home homework assignments
-:::
-
----
+# This Week {.center}
 
 ## This Week's Goals
 
@@ -517,7 +773,7 @@ Use Chernozhukov for implementation, Wager for deeper understanding of the theor
 
 ## Next Session: Session 0.2 (Jan 12)
 
-### Reproducible Research Setup (Remote)
+### Reproducible Research Setup (Remote via Zoom)
 
 - R environment with `renv`
 - Workflow automation with `targets`
@@ -531,47 +787,46 @@ Install R and RStudio before Session 0.2. Instructions in syllabus.
 
 ---
 
-## For Thursday (Session 0.3)
+## Reading Assignment
 
-### Reading Assignment
+### For Session 0.3 (Thursday)
 
 **Required:**
 
-- Chernozhukov Ch. 1 (Introduction) — ~15 pages
-- Chernozhukov Ch. 2 (Causal Models) — ~20 pages
-- Hernán & Robins Ch. 1-2 — ~18 pages
+- [Chernozhukov Ch. 0 (Sneak Peek)](http://chapters.causalml-book.org/CausalML_chap_0.pdf) — ~10 pages
+- [Chernozhukov Ch. 2 (Causal Models)](http://chapters.causalml-book.org/CausalML_chap_2.pdf) — ~20 pages
+- [Hernán & Robins Ch. 1-2](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/) — ~18 pages
 
-**Optional (if needed):**
+**Optional:**
 
-- Brady Neal Ch. 1-2 (ML-first perspective)
-- R for Data Science Ch. 1-5 (R refresher)
+- [Brady Neal Ch. 1-2](https://www.bradyneal.com/Introduction_to_Causal_Inference-Dec17_2020-Neal.pdf) (ML-first perspective)
+- [R for Data Science Ch. 1-5](https://r4ds.hadley.nz/) (R refresher)
+
+---
+
+## Summary
+
+### Key Takeaways
+
+1. **Three-layer stack**: Identification → Estimation → Decision
+2. **Prediction ≠ Causation**: Different goals require different methods
+3. **Potential outcomes**: $Y(1)$, $Y(0)$, and the fundamental problem
+4. **ML helps**: Nuisance estimation, HTE, adaptive design
+5. **AI in the Loop**: Human-driven, AI-assisted analysis
+6. **This course**: Modern causal ML for health policy
 
 ---
 
 ## Questions? {.center}
 
 ::: {.callout-tip}
-## Office Hours
-Schedule and location in syllabus.
+## After Class
+Complete the [Introductory Survey](https://unc.az1.qualtrics.com/jfe/form/SV_07iqDZtdRC5PIJE) by January 15.
 :::
 
 ::: {.callout-note}
-## Communication
-- **Slack**: Quick questions, discussion
-- **Canvas**: Submissions, announcements
-- **Email**: Scheduling, administrative
-:::
-
----
-
-## Summary
-
-::: {.incremental}
-1. **Three-layer stack**: Identification → Estimation → Decision
-2. **AI in the Loop**: Human-driven, AI-assisted analysis
-3. **Potential outcomes**: $Y(1)$, $Y(0)$, and the fundamental problem
-4. **DAGs**: Visual tools for causal reasoning
-5. **This course**: Modern causal ML for health policy
+## Office Hours
+Wednesday 2:00-4:00pm — McGavran-Greenberg 1101-D or Zoom
 :::
 
 ::: {.notes}

@@ -264,6 +264,67 @@ $code-bg: $cream;
   line-height: 1.5;
 }
 
+// Section divider slides (slides with only H1 and {.center})
+.reveal .slides section.center {
+  background: linear-gradient(135deg, $navy 0%, darken($navy, 5%) 100%);
+  color: $white;
+}
+
+.reveal .slides section.center h1 {
+  color: $white;
+  border-bottom: none;
+  font-size: 2.2em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+// Mermaid diagram theming (Gillings colors)
+.mermaid {
+  max-height: 450px !important;
+}
+
+.mermaid svg {
+  max-height: 450px !important;
+}
+
+.mermaid .flowchart-link {
+  stroke: $navy !important;
+}
+
+.mermaid .node rect {
+  fill: $cream !important;
+  stroke: $navy !important;
+  stroke-width: 2px !important;
+}
+
+.mermaid .node .label {
+  color: $navy !important;
+}
+
+.mermaid .cluster rect {
+  stroke: $carolina-blue !important;
+  stroke-width: 2px !important;
+}
+
+.mermaid .cluster-label .nodeLabel {
+  color: $navy !important;
+  font-weight: 600;
+}
+
+// Logo visibility on title slide
+.reveal .slides section.title-slide .slide-logo {
+  display: block !important;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  max-height: 80px;
+  opacity: 0.9;
+}
+
+// Incremental reveal dots styling (hide the raw ". . .")
+.reveal .slides .fragment-delimiter {
+  display: none;
+}
+
 // Print/PDF export adjustments
 @media print {
   .reveal .slides section {
