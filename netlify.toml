@@ -4,6 +4,3 @@
 
 [build.environment]
   QUARTO_DENO = "true"
-
-[[plugins]]
-  package = "@quarto/netlify-plugin-quarto"
