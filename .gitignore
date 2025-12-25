@@ -67,3 +67,18 @@ _site/
 
 # Local Netlify folder
 .netlify
+
+# Node modules
+node_modules/
+package-lock.json
+
+# SAFETY: Prevent accidental push of personal AI infrastructure
+.claude/
+CLAUDE.md
+Helix-Vault/
+mcp-servers/
+.helix*/
+*.secret*
+credentials*
+.env
+.env.*
