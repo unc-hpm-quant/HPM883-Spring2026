@@ -803,12 +803,12 @@ Install R and RStudio before Session 0.2. Instructions in syllabus.
 
 **Required:**
 
-- [Chernozhukov Ch. 0 (Sneak Peek)](http://chapters.causalml-book.org/CausalML_chap_0.pdf) — ~10 pages
-- [Chernozhukov Ch. 2 (Causal Models)](http://chapters.causalml-book.org/CausalML_chap_2.pdf) — ~20 pages
 - [Hernán & Robins Ch. 1-2](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/) — ~18 pages
+  - Primary source for potential outcomes, counterfactuals, and DAGs
 
 **Optional:**
 
+- [Chernozhukov Ch. 0 (Sneak Peek)](http://chapters.causalml-book.org/CausalML_chap_0.pdf) — ~10 pages (course roadmap)
 - [Brady Neal Ch. 1-2](https://www.bradyneal.com/Introduction_to_Causal_Inference-Dec17_2020-Neal.pdf) (ML-first perspective)
 - [R for Data Science Ch. 1-5](https://r4ds.hadley.nz/) (R refresher)
 

@@ -32,9 +32,9 @@ Session 4 is cancelled. Lab 0 is due January 19.
 
 **Chernozhukov et al. (2025)** — *Applied Causal Inference Powered by ML and AI*
 
--   **Chapter 3:** Design and Inference for Experiments (\~25 pages)
-    -   [Online PDF](https://causalml-book.org/assets/chapters/CausalML_chap_3.pdf)
-    -   Focus: Randomization, design-based inference, power
+-   **Chapter 2:** Causal Inference via Randomized Experiments (\~25 pages)
+    -   [Online PDF](https://causalml-book.org/assets/chapters/CausalML_chap_2.pdf)
+    -   Focus: Randomization, design-based inference, power, estimands
 
 **Lin (2013)** — "Agnostic notes on regression adjustments to experimental data"
 

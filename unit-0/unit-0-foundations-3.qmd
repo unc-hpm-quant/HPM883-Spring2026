@@ -24,16 +24,17 @@ This session establishes the theoretical foundations for causal inference that w
 
 ### Required Readings
 
-**Chernozhukov et al. (2025)** — *Applied Causal Inference Powered by ML and AI*
+**Hernán & Robins (2020)** — *Causal Inference: What If*
 
-- **Chapter 2:** Causal Models and Potential Outcomes (~20 pages)
-  - [Online PDF](http://chapters.causalml-book.org/CausalML_chap_2.pdf)
-  - Focus: Potential outcomes, DAGs, SCMs, counterfactuals
+- **Chapter 1-2:** Potential Outcomes and Randomized Experiments (~18 pages)
+  - [Online Book](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/)
+  - Focus: Potential outcomes, counterfactuals, DAGs, SCMs
 
 ### Recommended
 
 - Pearl (2009) — "Causal inference in statistics: An overview" *Statistics Surveys*, Vol 3, 96-146
 - Imbens & Rubin (2015) — *Causal Inference* — Chapter 1: The Basic Framework
+- [Brady Neal Ch. 1-2](https://www.bradyneal.com/Introduction_to_Causal_Inference-Dec17_2020-Neal.pdf) — ML-first perspective
 
 **Estimated Reading Time:** 45-60 minutes
 
@@ -79,7 +80,7 @@ This session establishes the theoretical foundations for causal inference that w
 ### Looking Ahead
 
 - **Week 2:** Experimental Design (power, blocking, variance reduction)
-- Complete Chernozhukov Chapter 3 reading
+- Complete Chernozhukov Chapter 2 reading (Causal Inference via Randomized Experiments)
 - Note: January 19 is MLK Day (no class)
 
 ---

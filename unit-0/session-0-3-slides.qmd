@@ -749,7 +749,7 @@ Causal inference requires **assumptions**. These assumptions are often untestabl
 
 **Readings:**
 
-- [Chernozhukov Ch. 3 (RCTs)](http://chapters.causalml-book.org/CausalML_chap_3.pdf)
+- [Chernozhukov Ch. 2 (RCTs)](http://chapters.causalml-book.org/CausalML_chap_2.pdf) — Causal Inference via Randomized Experiments
 - [Gelman & Carlin (2014)](https://doi.org/10.1177/1745691614551642) on power analysis
 
 **Note:** No class Monday (MLK Day). Lab 0 due Sunday, January 19.

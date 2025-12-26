@@ -461,8 +461,7 @@ Google error messages. Stack Overflow has solved most R problems.
 
 **Readings:**
 
-- [Chernozhukov Ch. 2 (finish)](http://chapters.causalml-book.org/CausalML_chap_2.pdf)
-- [Hernán & Robins Ch. 1-2](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/)
+- [Hernán & Robins Ch. 1-2](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/) — Primary source for potential outcomes and DAGs
 
 **Prepare:**
 
