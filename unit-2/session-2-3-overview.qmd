@@ -1,7 +1,7 @@
 ---
 title: "Unit 2: Double Machine Learning"
 subtitle: "Session 2.3: DML Theory — Partialling Out & Cross-Fitting"
-date: "February 16, 2026"
+date: "February 18, 2026"
 ---
 
 ## Session Overview
@@ -95,13 +95,13 @@ This session covers the core Double Machine Learning (DML) algorithm. We formali
 
 ## After Class
 
-### Design Memo 1 Due
+### Design Memo 1 Already Due
 
--   **Design Memo 1: Experimental Design Plan** — Due February 16 (today)
+-   **Design Memo 1: Experimental Design Plan** — Due February 16
 
 ### Looking Ahead
 
--   **Session 2.4 (Feb 18):** DML Implementation with DoubleML
+-   **Session 2.4 (Feb 23):** DML Implementation with DoubleML
 -   Install and test the `DoubleML` package
 -   Review DoubleML documentation and example vignettes
 

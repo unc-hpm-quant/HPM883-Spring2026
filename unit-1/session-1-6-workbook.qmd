@@ -1,0 +1,432 @@
+---
+title: "Code-Along 1.6: Power Analysis by Simulation"
+subtitle: "Unit 1: Experimental Design"
+author: "Sean Sylvia"
+date: "February 2, 2026"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+    code-tools: true
+    embed-resources: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Overview
+
+**Learning Objective:** Design, diagnose, and redesign an experimental study using simulation-based power analysis with the DeclareDesign framework.
+
+**Method:** Power analysis by simulation provides a flexible approach to understanding design properties that works for any estimator and design structure, going beyond the limitations of analytical power formulas.
+
+**Packages Used:**
+
+```{r}
+#| label: setup
+#| message: false
+
+library(DeclareDesign)
+library(estimatr)
+library(randomizr)
+library(fabricatr)
+library(tidyverse)
+
+# Set seed for reproducibility
+set.seed(883)
+```
+
+---
+
+## 1. The MIDA Framework
+
+### What is Design Declaration?
+
+Design declaration formally specifies the four components of any research design:
+
+- **M**odel: The data generating process (population, potential outcomes)
+- **I**nquiry: The causal question we want to answer (estimand)
+- **D**ata Strategy: How we collect data (sampling, assignment)
+- **A**nswer Strategy: How we analyze data (estimator)
+
+By declaring a design, we can simulate it thousands of times to learn about its properties *before* we collect any data.
+
+### Key Diagnosands
+
+When we diagnose a design, we learn about:
+
+| Diagnosand | Definition | Good Value |
+|------------|------------|------------|
+| **Power** | $P(\text{reject } H_0 \mid H_1 \text{ true})$ | $\geq 0.80$ |
+| **Bias** | $E[\hat\theta] - \theta$ | Near 0 |
+| **RMSE** | $\sqrt{E[(\hat\theta - \theta)^2]}$ | Low |
+| **Coverage** | $P(\text{CI contains } \theta)$ | Near $1-\alpha$ |
+
+---
+
+## 2. Exercise 1: Declare a Two-Arm RCT
+
+### The Research Question
+
+We're designing a randomized trial to evaluate a health education intervention. We expect:
+
+- **Sample size:** 200 participants
+- **Outcome:** Health knowledge score (0-100 scale)
+- **Expected effect:** 5-point improvement (Cohen's $d \approx 0.33$)
+- **Control group SD:** 15 points
+
+### Step 1: Declare the Population Model
+
+```{r}
+#| label: ex1-model
+
+# Population model: Define potential outcomes
+model <- declare_model(
+  N = 200,
+  # Baseline characteristics
+  age = rnorm(N, mean = 45, sd = 10),
+  education = sample(c("HS", "Some College", "College+"), N, replace = TRUE),
+  # Potential outcomes
+  Y_Z_0 = rnorm(N, mean = 50, sd = 15),  # Control outcome
+  Y_Z_1 = Y_Z_0 + 5                       # Treatment adds 5 points
+)
+```
+
+### Step 2: Declare the Inquiry (Estimand)
+
+```{r}
+#| label: ex1-inquiry
+
+# Inquiry: Average Treatment Effect
+inquiry <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
+```
+
+### Step 3: Declare the Data Strategy
+
+```{r}
+#| label: ex1-data
+
+# Data strategy: Random assignment and potential outcomes reveal
+assignment <- declare_assignment(Z = complete_ra(N, prob = 0.5))
+reveal <- declare_measurement(Y = reveal_outcomes(Y ~ Z))
+```
+
+### Step 4: Declare the Answer Strategy
+
+```{r}
+#| label: ex1-answer
+
+# Answer strategy: Difference-in-means estimator
+estimator <- declare_estimator(
+  Y ~ Z,
+  model = difference_in_means,
+  inquiry = "ATE"
+)
+```
+
+### Step 5: Combine into Full Design
+
+```{r}
+#| label: ex1-design
+
+# Combine all components
+design_simple <- model + inquiry + assignment + reveal + estimator
+
+# Inspect the design
+design_simple
+```
+
+### Step 6: Diagnose the Design
+
+```{r}
+#| label: ex1-diagnose
+
+# Run 500 simulations (more = more precise, but slower)
+diagnosis_simple <- diagnose_design(design_simple, sims = 500)
+
+# View diagnosands
+diagnosis_simple
+```
+
+::: {.callout-tip}
+## Interpreting the Output
+
+- **Power** should be at least 0.80 for adequate detection
+- **Bias** should be near 0 for unbiased estimation
+- **Coverage** should be near 0.95 for valid confidence intervals
+:::
+
+---
+
+## 3. Exercise 2: Compare Estimators
+
+### Adding Lin (2013) Covariate Adjustment
+
+Lin (2013) showed that including centered covariates and their interactions with treatment improves precision without bias.
+
+```{r}
+#| label: ex2-lin
+
+# Lin estimator with covariate adjustment
+estimator_lin <- declare_estimator(
+  Y ~ Z + age + education,
+  model = lm_robust,
+  inquiry = "ATE",
+  term = "Z",
+  label = "Lin"
+)
+
+# Design with Lin estimator
+design_lin <- model + inquiry + assignment + reveal + estimator_lin
+
+# Diagnose
+diagnosis_lin <- diagnose_design(design_lin, sims = 500)
+diagnosis_lin
+```
+
+### Compare Both Estimators
+
+```{r}
+#| label: ex2-compare
+
+# Add both estimators to one design
+design_both <- model + inquiry + assignment + reveal +
+  declare_estimator(Y ~ Z, model = difference_in_means,
+                   inquiry = "ATE", label = "DIM") +
+  declare_estimator(Y ~ Z + age + education, model = lm_robust,
+                   inquiry = "ATE", term = "Z", label = "Lin")
+
+# Diagnose
+diagnosis_compare <- diagnose_design(design_both, sims = 500)
+diagnosis_compare
+```
+
+::: {.callout-note}
+## Key Insight
+Covariate adjustment reduces standard errors (improves power) without introducing bias when done correctly following Lin (2013).
+:::
+
+---
+
+## 4. Exercise 3: Block Randomization
+
+### When to Block
+
+Blocking creates groups of similar units and randomizes within groups. This reduces variance when the blocking variable predicts outcomes.
+
+```{r}
+#| label: ex3-block
+
+# Block on education
+assignment_blocked <- declare_assignment(
+  Z = block_ra(blocks = education, prob = 0.5)
+)
+
+# Design with blocking
+design_blocked <- model + inquiry + assignment_blocked + reveal +
+  declare_estimator(Y ~ Z, model = difference_in_means,
+                   inquiry = "ATE", label = "Blocked DIM")
+
+# Diagnose
+diagnosis_blocked <- diagnose_design(design_blocked, sims = 500)
+diagnosis_blocked
+```
+
+### Compare Simple vs. Blocked Randomization
+
+```{r}
+#| label: ex3-compare
+
+# Combine for comparison
+designs_compare <- redesign(design_simple, N = 200) +
+                   redesign(design_blocked, N = 200)
+
+# Note: In practice, you'd want to compare these more carefully
+# This is illustrative of the comparison approach
+```
+
+---
+
+## 5. Exercise 4: Power Curves
+
+### Varying Sample Size
+
+Power curves show how power changes with sample size, helping with design decisions.
+
+```{r}
+#| label: ex4-power-curve
+
+# Redesign with different sample sizes
+designs_N <- redesign(design_simple, N = c(50, 100, 150, 200, 300, 400))
+
+# Diagnose all designs
+diagnosis_N <- diagnose_design(designs_N, sims = 200)
+
+# Plot power curve
+diagnosis_N |>
+  ggplot(aes(x = N, y = power)) +
+  geom_line(color = "#4B9CD3", linewidth = 1) +
+  geom_point(color = "#4B9CD3", size = 3) +
+  geom_hline(yintercept = 0.80, linetype = "dashed", color = "red") +
+  labs(
+    title = "Power Curve: Sample Size vs. Power",
+    x = "Sample Size (N)",
+    y = "Statistical Power",
+    caption = "Dashed line indicates 80% power threshold"
+  ) +
+  theme_minimal() +
+  scale_y_continuous(limits = c(0, 1), labels = scales::percent)
+```
+
+### Varying Effect Size
+
+What if our effect is smaller or larger than expected?
+
+```{r}
+#| label: ex4-effect-curve
+
+# Redesign model with different effect sizes
+model_effects <- function(effect_size) {
+  declare_model(
+    N = 200,
+    Y_Z_0 = rnorm(N, mean = 50, sd = 15),
+    Y_Z_1 = Y_Z_0 + effect_size
+  )
+}
+
+# Create designs with different effects
+effect_sizes <- c(2, 3, 4, 5, 7, 10)
+designs_effect <- lapply(effect_sizes, function(e) {
+  model_effects(e) + inquiry + assignment + reveal + estimator
+})
+
+# Name designs by effect size
+names(designs_effect) <- paste0("Effect_", effect_sizes)
+
+# Diagnose (this takes a moment)
+diagnosis_effect <- diagnose_designs(designs_effect, sims = 200)
+```
+
+---
+
+## 6. Minimum Detectable Effect (MDE)
+
+### What MDE Can We Detect?
+
+Given our constraints (N, power target), what's the smallest effect we can reliably detect?
+
+```{r}
+#| label: mde-calc
+
+# Function to find MDE
+find_mde <- function(N, target_power = 0.80, alpha = 0.05, sd = 15) {
+  # Analytical approximation for two-sample t-test
+  # MDE = (t_alpha + t_beta) * sd * sqrt(2/N)
+  t_alpha <- qt(1 - alpha/2, df = N - 2)
+  t_beta <- qt(target_power, df = N - 2)
+
+  mde <- (t_alpha + t_beta) * sd * sqrt(4/N)
+  return(mde)
+}
+
+# MDE table for different sample sizes
+tibble(
+  N = c(50, 100, 150, 200, 300, 400, 500),
+  MDE = map_dbl(N, find_mde),
+  Cohens_d = MDE / 15
+) |>
+  mutate(
+    MDE = round(MDE, 2),
+    Cohens_d = round(Cohens_d, 2)
+  ) |>
+  knitr::kable(
+    col.names = c("Sample Size", "MDE (points)", "Cohen's d"),
+    caption = "Minimum Detectable Effect at 80% Power"
+  )
+```
+
+---
+
+## 7. Your Turn: Practice Exercises
+
+### Exercise A: Unequal Allocation
+
+Modify the design to allocate 2/3 of participants to treatment and 1/3 to control. How does this affect power?
+
+```{r}
+#| label: exercise-a
+#| eval: false
+
+# Modify assignment probability
+assignment_unequal <- declare_assignment(
+  Z = complete_ra(N, prob = ___)  # Fill in
+)
+
+# Create and diagnose the design
+# YOUR CODE HERE
+```
+
+::: {.callout-note collapse="true"}
+## Hint
+Use `prob = 0.67` for 2/3 treatment allocation. Compare power to the balanced design.
+:::
+
+### Exercise B: Cluster Randomization
+
+What if we must randomize at the clinic level (10 clinics, 20 patients each)?
+
+```{r}
+#| label: exercise-b
+#| eval: false
+
+# Cluster-randomized design
+model_cluster <- declare_model(
+  clinics = add_level(N = 10, clinic_effect = rnorm(N, 0, 5)),
+  patients = add_level(N = 20,
+                       Y_Z_0 = 50 + clinic_effect + rnorm(N, 0, 15),
+                       Y_Z_1 = Y_Z_0 + 5)
+)
+
+# YOUR CODE: Add assignment (at clinic level), reveal, and estimator
+```
+
+---
+
+## 8. Summary
+
+**Key Takeaways:**
+
+1. **Simulation beats formulas:** Power by simulation works for any design and estimator
+2. **Covariate adjustment helps:** Lin (2013) improves power without bias
+3. **Blocking works:** Stratifying on predictive covariates reduces variance
+4. **Trade-offs exist:** More power requires larger N or accepting larger MDE
+
+**Common Pitfalls:**
+
+- Forgetting to set a seed (results won't reproduce)
+- Too few simulations (imprecise diagnosands)
+- Assuming analytical power formulas apply to your complex design
+
+**Next Steps:** Session 2.0 introduces causal inference with machine learning, extending these ideas to observational settings.
+
+---
+
+## Resources
+
+### Required Reading
+
+- Blair et al. (2019) — "Declaring and Diagnosing Research Designs" *APSR*
+- Lin (2013) — "Agnostic notes on regression adjustments"
+
+### Further Reading
+
+- Gelman & Carlin (2014) — "Beyond Power Calculations"
+- [DeclareDesign website](https://declaredesign.org/)
+
+### R Documentation
+
+- `?DeclareDesign::diagnose_design` — Run simulations
+- `?DeclareDesign::redesign` — Create design variants
+- `?estimatr::lm_robust` — Robust linear models

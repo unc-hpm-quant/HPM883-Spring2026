@@ -1,7 +1,7 @@
 ---
 title: "Unit 2: Double Machine Learning"
 subtitle: "Session 2.6: Doubly-Robust Estimation Lab"
-date: "February 25, 2026"
+date: "March 2, 2026"
 ---
 
 ## Session Overview
@@ -104,9 +104,9 @@ install.packages("nnet")
 
 ## After Class
 
-### Lab 2 Assigned
+### Problem Set 3 Assigned
 
--   **Lab 2: DR & DML Estimation** — Due March 9
+-   **Problem Set 3: DR & DML Estimation** — Due March 9
 -   Comprehensive lab applying DML and DR methods
 -   Compare estimators, conduct diagnostics, interpret results
 
@@ -117,7 +117,7 @@ install.packages("nnet")
 
 ### Looking Ahead
 
--   **Unit 3 Begins (Mar 2):** Causal Forests & Honest Inference
+-   **Unit 3 Begins (Mar 4):** Causal Forests & Honest Inference
 -   Read Wager & Athey (2018) on causal forests
 -   Install and explore `grf` package
 

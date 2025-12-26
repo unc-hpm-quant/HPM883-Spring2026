@@ -1,7 +1,7 @@
 ---
 title: "Unit 2: Double Machine Learning"
 subtitle: "Session 2.5: Doubly-Robust Estimation — AIPW & TMLE"
-date: "February 23, 2026"
+date: "February 25, 2026"
 ---
 
 ## Session Overview
@@ -93,9 +93,9 @@ This session covers doubly-robust (DR) estimators that combine propensity score 
 
 ## After Class
 
-### Problem Set 2 Due
+### Problem Set 2 Already Due
 
--   **Problem Set 2: Double ML Implementation** — Due February 23 (today)
+-   **Problem Set 2: Double ML Implementation** — Due February 23
 
 ### Design Memo 2 Assigned
 
@@ -104,7 +104,7 @@ This session covers doubly-robust (DR) estimators that combine propensity score 
 
 ### Looking Ahead
 
--   **Session 2.6 (Feb 25):** DR Estimation Lab
+-   **Session 2.6 (Mar 2):** DR Estimation Lab
 -   Install `tmle` and `drtmle` packages
 -   Review DR estimation examples
 

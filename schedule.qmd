@@ -32,7 +32,7 @@ subtitle: "HPM 883 Spring 2026"
 | 2 | Mon Jan 12 | Reproducible Research Setup | Remote |
 | 3 | Wed Jan 14 | Potential Outcomes & Structural Causal Models | In-Person |
 
-**Lab 0 assigned:** Reproducible Research Setup (due Jan 19)
+**Problem Set 0 assigned:** Reproducible Research Setup (due Jan 19)
 
 ---
 
@@ -45,7 +45,7 @@ subtitle: "HPM 883 Spring 2026"
 
 **Key Concepts:** Why randomization works, potential outcomes ⊥ treatment, ATE/ATT/ITT/LATE estimands, design-based vs. model-based inference, assignment mechanisms
 
-**Due:** Lab 0
+**Due:** Problem Set 0
 
 ---
 
@@ -60,82 +60,88 @@ subtitle: "HPM 883 Spring 2026"
 
 **Session 7 Key Concepts:** Model-Inquiry-Data-Answer (MIDA), blocking, stratification, variance reduction (CUPED, Lin regression), cluster randomization, design diagnosis
 
-**Lab 1 assigned:** Power Analysis by Simulation (due Feb 2)
+**Problem Set 1 assigned:** Power Analysis by Simulation (due Feb 2)
 
 ---
 
-### Week 4: ML Foundations & Guest Lecture (Feb 2-4)
+### Week 4: Power Lab & Guest Lecture (Feb 2-4)
 
-*Instructor traveling — Unit 2 begins*
+*Instructor traveling — Unit 1 concludes, Unit 2 begins*
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 8 | Mon Feb 2 | ML Foundations for Causal Inference (Session 2.0) | Async |
-| 9 | Wed Feb 4 | **Guest Lecture:** Tara Templin (Stanford) | Remote |
+| 8 | Mon Feb 2 | Power Analysis by Simulation Lab (Session 1.6) | Async |
+| 9 | Wed Feb 4 | **Guest Lecture:** Tara Templin (Stanford) (Session 2.0) | Remote |
 
-**Session 8 (Self-Study):** ML foundations needed for Double Machine Learning. Covers prediction vs. causal estimation (Y-hard vs. β-hard), bias-variance tradeoff, cross-validation, regularization (Lasso/Ridge), and tree-based methods. Focus on ML as nuisance estimation.
+**Session 8 (Async Lab):** Code-along lab on power analysis by simulation using DeclareDesign. Capstone of Unit 1 experimental design sequence.
 
-**Preparation (Required before Feb 4):**
+**Session 9 (Guest Lecture):** Introduction to ML for causal inference from an applied health economics perspective. Bridge to Unit 2.
+
+**Due:** Problem Set 1
+**Design Memo 1 assigned** (due Feb 16)
+
+---
+
+### Week 5: ML Foundations for Causal Inference (Feb 9-11)
+
+| Session | Date | Topic | Format |
+|---------|------|-------|--------|
+| 10 | Mon Feb 9 | **NO CLASS — Well-Being Day** | — |
+| 11 | Wed Feb 11 | ML Foundations for Causal Inference (Session 2.1) | In-Person |
+
+**Preparation (Required):**
 - Watch: Jann Spiess videos (~90 min total)
   - [Applied ML: An Introduction](https://www.youtube.com/watch?v=G5qrBvOmzes)
   - [Applied ML: Secret Sauce](https://www.youtube.com/watch?v=Qs6JmdNoT-Y)
   - [Applied ML: Prediction vs Estimation](https://www.youtube.com/watch?v=e2Nmlk0cbrY)
 - Read: ISLR Chapters 2 (Statistical Learning), 5 (Cross-Validation)
 
-**Due:** Lab 1
-**Design Memo 1 assigned** (due Feb 16)
+**Key Concepts:** Prediction vs. causal estimation (Y-hard vs. β-hard), bias-variance tradeoff, cross-validation, regularization (Lasso/Ridge), tree-based methods, ML as nuisance estimation
 
 ---
 
-### Week 5: Influence Functions & Neyman Orthogonality (Feb 9-11)
+### Week 6: Influence Functions & DML Theory (Feb 16-18)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 10 | Mon Feb 9 | **NO CLASS — Well-Being Day** | — |
-| 11 | Wed Feb 11 | Influence Functions & Neyman Orthogonality | In-Person |
+| 12 | Mon Feb 16 | Influence Functions & Neyman Orthogonality (Session 2.2) | In-Person |
+| 13 | Wed Feb 18 | DML Theory: Partialling Out & Cross-Fitting (Session 2.3) | Remote |
 
-**Key Concepts:** Influence functions, efficient influence function (EIF), Neyman orthogonality, cross-fitting, why ML + orthogonal scores = valid inference
-
----
-
-### Week 6: Double/Debiased Machine Learning (Feb 16-18)
-
-| Session | Date | Topic | Format |
-|---------|------|-------|--------|
-| 12 | Mon Feb 16 | DML Theory: Partialling Out & Cross-Fitting | In-Person |
-| 13 | Wed Feb 18 | DML Implementation with DoubleML | Remote |
-
-**Key Concepts:** Partialling out, cross-fitting, sample splitting, nuisance estimation, DoubleML package
+**Key Concepts:** Influence functions, EIF, Neyman orthogonality, partialling out, cross-fitting, sample splitting
 
 **Due:** Design Memo 1
 **Problem Set 2 assigned:** Double ML Implementation (due Feb 23)
 
 ---
 
-### Week 7: Doubly-Robust Estimation (Feb 23-25)
+### Week 7: DML Implementation & DR Estimation (Feb 23-25)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 14 | Mon Feb 23 | Doubly-Robust Estimation: AIPW & TMLE | In-Person |
-| 15 | Wed Feb 25 | DR Estimation Lab | Remote |
+| 14 | Mon Feb 23 | DML Implementation with DoubleML (Session 2.4) | In-Person |
+| 15 | Wed Feb 25 | Doubly-Robust Estimation: AIPW & TMLE (Session 2.5) | Remote |
 
-**Key Concepts:** AIPW, TMLE, semiparametric efficiency, robustness to model misspecification
+**Key Concepts:** DoubleML package, nuisance estimation, AIPW, TMLE, semiparametric efficiency
 
 **Due:** Problem Set 2
 **Design Memo 2 assigned** (due Mar 9)
 
 ---
 
-### Week 8: Causal Forests (Mar 2-4)
+### Week 8: DR Lab & Causal Forests (Mar 2-4)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 16 | Mon Mar 2 | Causal Random Forests & Honest Inference | In-Person |
-| 17 | Wed Mar 4 | Causal Forests Implementation | Remote |
+| 16 | Mon Mar 2 | DR Estimation Lab (Session 2.6) | In-Person |
+| 17 | Wed Mar 4 | Causal Random Forests & Honest Inference (Session 3.0) | In-Person |
 
-**Key Concepts:** Honest splitting, local centering, variance estimation, grf package
+**Session 16:** Hands-on lab implementing AIPW and TMLE in R. Capstone of Unit 2.
 
-**Problem Set 3 assigned:** Causal Forests (due Mar 11)
+**Session 17:** Unit 3 begins — Introduction to causal forests and honest inference.
+
+**Key Concepts:** TMLE diagnostics, overlap, honest splitting, local centering, grf package
+
+**Problem Set 3 assigned:** DR & DML Estimation (due Mar 9)
 
 ---
 
@@ -248,21 +254,22 @@ subtitle: "HPM 883 Spring 2026"
 
 | Deliverable | Due Date | Weight |
 |-------------|----------|--------|
-| Lab 0: Reproducible Research Setup | Jan 19 | 5% |
-| Lab 1: Power Analysis by Simulation | Feb 2 | 5% |
+| Problem Set 0: Reproducible Research Setup | Jan 19 | 5% |
+| Problem Set 1: Power Analysis by Simulation | Feb 2 | 5% |
 | Design Memo 1: Experimental Design Plan | Feb 16 | 10% |
 | Problem Set 2: Double ML Implementation | Feb 23 | — |
 | Design Memo 2: DML Analysis Plan | Mar 9 | 10% |
-| Problem Set 3: Causal Forests | Mar 11 | — |
-| Problem Set 4: Meta-Learners and CATE | Mar 25 | — |
-| Problem Set 5: Policy Learning | Apr 8 | — |
-| Problem Set 6: ML for Quasi-Experimental Methods | Apr 15 | — |
-| Problem Set 7: Causal ML Workflow | Apr 20 | — |
+| Problem Set 3: DR & DML Estimation | Mar 9 | — |
+| Problem Set 4: Causal Forests | Mar 11 | — |
+| Problem Set 5: Meta-Learners and CATE | Mar 25 | — |
+| Problem Set 6: Policy Learning | Apr 8 | — |
+| Problem Set 7: ML for Quasi-Experimental Methods | Apr 15 | — |
+| Problem Set 8: Causal ML Workflow | Apr 20 | — |
 | Capstone Proposal | Apr 13 | (part of capstone) |
 | Peer Review Report | Apr 22 | 5% |
 | Capstone Project Package | May 1 | 45% |
 
-**Problem Sets (25% total):** All 7 problem sets are required. Your best 4 scores count toward your grade (lowest 3 dropped).
+**Problem Sets (25% total):** All 8 problem sets are required. Your best 5 scores count toward your grade (lowest 3 dropped).
 
 ---
 

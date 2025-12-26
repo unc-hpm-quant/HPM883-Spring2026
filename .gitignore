@@ -62,6 +62,9 @@ rsconnect/
 
 **/*.quarto_ipynb
 
+# Quarto render artifacts
+*_files/
+
 # Build output (Netlify builds from source)
 _site/
 

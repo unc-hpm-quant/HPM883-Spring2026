@@ -26,10 +26,11 @@ By the end of this unit, students will be able to:
 | 1.1 | Jan 21 | Randomization & RCTs | [overview](session-1-1-overview.qmd), [slides](session-1-1-slides.qmd) |
 | 1.2 | Jan 26 | Statistical Conclusion Validity & Power | [overview](session-1-2-overview.qmd), [slides](session-1-2-slides.qmd) |
 | 1.3 | Jan 28 | Optimal Experimental Design & MIDA | [overview](session-1-3-overview.qmd), [slides](session-1-3-slides.qmd) |
+| 1.6 | Feb 2 | Power Analysis by Simulation Lab (Async) | [overview](session-1-6-overview.qmd), [workbook](session-1-6-workbook.qmd) |
 
 ::: callout-note
 ## Note: January 19 is MLK Day (No Class)
-Lab 0 is due January 19.
+Problem Set 0 is due January 19.
 :::
 
 ## Required Readings
@@ -69,8 +70,8 @@ library(fabricatr)      # Data simulation
 
 ## Assessment
 
-- **Lab 0:** Reproducible Research Setup — Due January 19
-- **Lab 1:** Power Analysis by Simulation — Due February 2
+- **Problem Set 0:** Reproducible Research Setup — Due January 19
+- **Problem Set 1:** Power Analysis by Simulation — Due February 2
 - **Participation:** In-class discussion and code exercises
 
 ## Connection to Course Arc

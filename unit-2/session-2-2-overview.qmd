@@ -1,7 +1,7 @@
 ---
 title: "Unit 2: Double Machine Learning"
 subtitle: "Session 2.2: Influence Functions & Neyman Orthogonality"
-date: "February 11, 2026"
+date: "February 16, 2026"
 ---
 
 ## Session Overview
@@ -104,7 +104,7 @@ This is the only session this week due to the Well-Being Day on Monday.
 
 ### Looking Ahead
 
--   **Session 2.3 (Feb 16):** DML Theory — Partialling Out & Cross-Fitting
+-   **Session 2.3 (Feb 18):** DML Theory — Partialling Out & Cross-Fitting
 -   Read Chernozhukov et al. (2025) Chapter 5-6 (DML sections)
 -   Review DoubleML package documentation
 

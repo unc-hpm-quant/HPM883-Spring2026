@@ -1,0 +1,141 @@
+---
+title: "Unit 1: Experimental Design"
+subtitle: "Session 1.6: Power Analysis by Simulation Lab"
+date: "February 2, 2026"
+---
+
+## Session Overview
+
+This asynchronous lab session provides hands-on practice with power analysis by simulation using the DeclareDesign framework. You'll work through a complete power analysis workflow, from design declaration through diagnosis to redesign under constraints.
+
+**Format:** Asynchronous (Remote)
+
+**Learning Objectives:**
+
+1.  Declare a complete experimental design using the MIDA framework
+2.  Diagnose design properties using simulation-based power analysis
+3.  Compare power across different design choices (sample size, blocking, covariates)
+4.  Implement variance reduction strategies to increase power
+5.  Communicate power analysis results effectively
+
+------------------------------------------------------------------------
+
+## Preparation
+
+### Before Starting the Lab
+
+**Review:**
+
+-   Session 1.2 materials on power analysis
+-   Session 1.3 materials on MIDA framework
+-   DeclareDesign documentation and examples
+
+**Ensure Packages Installed:**
+
+```r
+# Core packages for this lab
+library(DeclareDesign)
+library(estimatr)
+library(randomizr)
+library(fabricatr)
+library(tidyverse)
+```
+
+**Estimated Lab Time:** 90-120 minutes
+
+------------------------------------------------------------------------
+
+## Lab Materials
+
+-   [Lab Workbook](session-1-6-workbook.qmd) — Code-along exercises
+
+**Topics Covered:**
+
+1.  **Design Declaration**
+    -   Specifying population model
+    -   Defining potential outcomes
+    -   Assignment mechanism
+    -   Estimand and estimator
+
+2.  **Power Simulation**
+    -   Running simulations with `diagnose_design()`
+    -   Interpreting diagnosands (power, bias, RMSE, coverage)
+    -   Understanding simulation precision
+
+3.  **Design Comparison**
+    -   Simple vs. block randomization
+    -   With and without covariate adjustment
+    -   Power curves across sample sizes
+
+4.  **Variance Reduction**
+    -   Lin (2013) regression adjustment
+    -   Blocking on baseline covariates
+    -   Combining strategies
+
+5.  **Practical Constraints**
+    -   Budget and sample size tradeoffs
+    -   Minimum Detectable Effect (MDE) calculations
+    -   Redesigning under constraints
+
+**Lab Exercises:**
+
+-   Exercise 1: Declare a two-arm RCT design
+-   Exercise 2: Diagnose power and compare estimators
+-   Exercise 3: Implement blocking and covariate adjustment
+-   Exercise 4: Generate power curves and MDE tables
+
+------------------------------------------------------------------------
+
+## After Lab
+
+### Problem Set 1 Due
+
+-   **Problem Set 1: Power Analysis by Simulation** — Due February 2
+
+### Looking Ahead
+
+-   **Session 2.0 (Feb 4):** Guest Lecture — Tara Templin (Stanford)
+-   **Session 2.1 (Feb 11):** ML Foundations for Causal Inference
+-   Begin Unit 2 readings on machine learning and DML
+
+------------------------------------------------------------------------
+
+## Additional Resources
+
+### DeclareDesign
+
+-   [DeclareDesign Library](https://declaredesign.org/library/) — Pre-built designs
+-   [Power Analysis Tutorial](https://declaredesign.org/r/designlibrary/articles/power.html)
+-   Blair et al. (2019) — "Declaring and Diagnosing Research Designs" *APSR*
+
+### Power Analysis Best Practices
+
+-   Gelman & Carlin (2014) — "Beyond Power Calculations" *Perspectives on Psychological Science*
+-   Bloom (1995) — "Minimum Detectable Effects" *Evaluation Review*
+
+### R Resources
+
+-   [`DeclareDesign`](https://declaredesign.org/) — Design declaration framework
+-   [`estimatr`](https://declaredesign.org/r/estimatr/) — Fast robust estimators
+-   [`fabricatr`](https://declaredesign.org/r/fabricatr/) — Data simulation
+
+------------------------------------------------------------------------
+
+## Key Concepts Summary
+
+| Concept | Definition |
+|---------|------------|
+| **Design Declaration** | Formal specification of M-I-D-A components |
+| **Diagnosand** | Property of a design estimated via simulation |
+| **Power** | $P(\text{reject } H_0 \mid H_0 \text{ false})$ |
+| **MDE** | Smallest effect detectable at given power level |
+| **Coverage** | $P(\text{CI contains truth})$ — should be near $1-\alpha$ |
+
+### Workflow Summary
+
+```
+1. Declare: Model → Inquiry → Data Strategy → Answer Strategy
+2. Diagnose: simulate() → diagnosands (power, bias, coverage)
+3. Redesign: Modify design → re-diagnose → compare
+4. Report: Power curves, MDE tables, design justification
+```

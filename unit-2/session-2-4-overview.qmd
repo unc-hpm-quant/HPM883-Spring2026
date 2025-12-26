@@ -1,7 +1,7 @@
 ---
 title: "Unit 2: Double Machine Learning"
 subtitle: "Session 2.4: DML Implementation with DoubleML"
-date: "February 18, 2026"
+date: "February 23, 2026"
 ---
 
 ## Session Overview
@@ -102,15 +102,15 @@ install.packages("data.table")
 
 ## After Class
 
-### Problem Set 2 Assigned
+### Problem Set 2 Due
 
--   **Problem Set 2: Double ML Implementation** — Due February 23
+-   **Problem Set 2: Double ML Implementation** — Due February 23 (today)
 -   Apply DML to a provided dataset
 -   Compare estimators and conduct sensitivity analysis
 
 ### Looking Ahead
 
--   **Session 2.5 (Feb 23):** Doubly-Robust Estimation — AIPW & TMLE
+-   **Session 2.5 (Feb 25):** Doubly-Robust Estimation — AIPW & TMLE
 -   Read Bang & Robins (2005) on AIPW
 -   Explore `tmle` and `drtmle` packages
 
