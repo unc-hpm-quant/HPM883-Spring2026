@@ -1,0 +1,141 @@
+---
+title: "Unit 2: Double Machine Learning"
+subtitle: "Session 2.2: Influence Functions & Neyman Orthogonality"
+date: "February 11, 2026"
+---
+
+## Session Overview
+
+This session introduces the theoretical foundations that make Double Machine Learning possible: influence functions and Neyman orthogonality. We'll understand why standard ML methods fail for causal inference and how orthogonal scores solve this problem by making treatment effect estimates insensitive to first-stage estimation error.
+
+**Format:** In-Person (Rosenau 228)
+
+::: callout-note
+## Note: February 9 is Well-Being Day (No Class)
+This is the only session this week due to the Well-Being Day on Monday.
+:::
+
+**Learning Objectives:**
+
+1.  Define influence functions and understand their role in efficient estimation
+2.  Explain Neyman orthogonality and why it enables valid inference with ML
+3.  Understand the "double robustness" property at an intuitive level
+4.  Connect influence functions to standard errors and efficiency bounds
+5.  Preview how cross-fitting uses these ideas in practice
+
+------------------------------------------------------------------------
+
+## Preparation
+
+### Required Readings
+
+**Chernozhukov et al. (2025)** — *Applied Causal Inference Powered by ML and AI*
+
+-   **Chapter 5:** Causal Inference via Conditional Ignorability (~30 pages)
+    -   [Online PDF](https://causalml-book.org/assets/chapters/CausalML_chap_5.pdf)
+    -   Focus: Selection on observables, propensity scores, doubly-robust estimators
+
+**Kennedy (2016)** — "Semiparametric Theory and Empirical Processes in Causal Inference"
+
+-   Sections 1-3 on influence functions
+-   Accessible tutorial on IF basics
+
+### Recommended
+
+-   Chernozhukov et al. (2018) — "Double/Debiased Machine Learning" *Econometrics Journal* — Section 2
+-   Hines et al. (2022) — "Demystifying Statistical Learning" *Statistical Science*
+-   Ichimura & Newey (2022) — "The Influence Function of Semiparametric Estimators"
+
+**Estimated Reading Time:** 75-90 minutes
+
+------------------------------------------------------------------------
+
+## In Class
+
+-   [Lecture Slides](session-2-2-slides.qmd)
+
+**Topics Covered:**
+
+1.  **Why Standard ML Fails for Causal Inference**
+    -   The regularization bias problem
+    -   Overfitting nuisances → invalid inference
+    -   The $\sqrt{n}$-rate requirement for valid standard errors
+
+2.  **Influence Functions**
+    -   Definition and intuition
+    -   IF as the derivative of a functional
+    -   Influence functions for common estimands (mean, ATE, ATT)
+    -   Connection to asymptotic variance
+
+3.  **The Efficient Influence Function (EIF)**
+    -   Efficiency bounds in semiparametric models
+    -   The EIF for the ATE under unconfoundedness
+    -   Why the EIF has the "doubly-robust" form
+
+4.  **Neyman Orthogonality**
+    -   Definition: orthogonality to nuisance perturbations
+    -   Why orthogonal scores are insensitive to nuisance estimation error
+    -   The key insight: ML errors don't propagate to treatment effects
+    -   Heuristic: "immunization" against first-stage mistakes
+
+5.  **Preview: Cross-Fitting**
+    -   Sample splitting to avoid overfitting bias
+    -   K-fold cross-fitting algorithm
+    -   Why splitting + orthogonality = valid inference
+
+**Live Coding:**
+
+-   Computing influence function values for simple estimators
+-   Visualizing how perturbations affect different estimators
+
+**Discussion:**
+
+-   Why can't we just use bootstrap for inference with ML?
+-   What's the intuition behind "double robustness"?
+
+------------------------------------------------------------------------
+
+## After Class
+
+### Design Memo 1 Due Soon
+
+-   **Design Memo 1: Experimental Design Plan** — Due February 16
+-   Start drafting if you haven't already
+
+### Looking Ahead
+
+-   **Session 2.3 (Feb 16):** DML Theory — Partialling Out & Cross-Fitting
+-   Read Chernozhukov et al. (2025) Chapter 5-6 (DML sections)
+-   Review DoubleML package documentation
+
+------------------------------------------------------------------------
+
+## Additional Resources
+
+### Influence Functions
+
+-   Fisher & Kennedy (2020) — "Visually Communicating Influence Functions"
+-   Hampel et al. (1986) — *Robust Statistics* (original IF development)
+
+### Neyman Orthogonality
+
+-   Chernozhukov et al. (2018) — "Double/Debiased Machine Learning" — Full paper
+-   Belloni, Chernozhukov, & Hansen (2014) — "Inference on Treatment Effects after Selection"
+
+### R Packages
+
+-   [`DoubleML`](https://docs.doubleml.org/) — Official documentation
+-   [`mlr3`](https://mlr3.mlr-org.com/) — ML framework used by DoubleML
+
+------------------------------------------------------------------------
+
+## Key Concepts Summary
+
+| Concept | Definition |
+|---------|------------|
+| **Influence Function (IF)** | Functional derivative showing effect of single observation on estimator |
+| **Efficient Influence Function (EIF)** | IF achieving the semiparametric efficiency bound |
+| **Neyman Orthogonality** | Score function insensitive to nuisance perturbations: $\partial_\eta \psi[\theta, \eta] = 0$ |
+| **Double Robustness** | Consistent if either propensity score OR outcome model is correct |
+| **Cross-Fitting** | K-fold sample splitting: estimate nuisances on folds, evaluate on held-out |
+| **$\sqrt{n}$-Rate** | The convergence rate required for valid asymptotic inference |

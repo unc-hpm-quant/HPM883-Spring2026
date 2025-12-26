@@ -1,0 +1,112 @@
+---
+title: "Unit 2: Double Machine Learning"
+subtitle: "HPM 883 — Advanced Quantitative Methods"
+---
+
+## Overview
+
+This unit introduces the theoretical foundations and practical implementation of Double/Debiased Machine Learning (DML) and doubly-robust estimation. We begin with ML foundations, then develop the key insight of Neyman orthogonality — which allows ML methods to be used aggressively for nuisance estimation without biasing causal effect estimates.
+
+By the end of this unit, you'll understand why standard ML fails for causal inference, how orthogonal scores solve this problem, and how to implement modern DML and DR estimators in R.
+
+## Learning Objectives
+
+By the end of this unit, students will be able to:
+
+1. Distinguish prediction (Y-hard) from causal estimation (β-hard) tasks
+2. Explain influence functions and Neyman orthogonality
+3. Implement Double Machine Learning using the DoubleML package
+4. Apply doubly-robust estimators (AIPW, TMLE)
+5. Diagnose overlap violations and conduct sensitivity analysis
+6. Choose appropriate estimators for different causal inference problems
+
+## Sessions
+
+| Session | Date | Topic | Materials |
+|---------|------|-------|-----------|
+| 2.0 | Feb 2 | ML Foundations for Causal Inference (Async) | [overview](session-2-0-overview.qmd), [workbook](session-2-0-workbook.qmd) |
+| 2.1 | Feb 4 | Guest Lecture — Tara Templin (Stanford) | [overview](session-2-1-overview.qmd) |
+| 2.2 | Feb 11 | Influence Functions & Neyman Orthogonality | [overview](session-2-2-overview.qmd), [slides](session-2-2-slides.qmd) |
+| 2.3 | Feb 16 | DML Theory: Partialling Out & Cross-Fitting | [overview](session-2-3-overview.qmd), [slides](session-2-3-slides.qmd) |
+| 2.4 | Feb 18 | DML Implementation with DoubleML | [overview](session-2-4-overview.qmd), [workbook](session-2-4-workbook.qmd) |
+| 2.5 | Feb 23 | Doubly-Robust Estimation: AIPW & TMLE | [overview](session-2-5-overview.qmd), [slides](session-2-5-slides.qmd) |
+| 2.6 | Feb 25 | DR Estimation Lab | [overview](session-2-6-overview.qmd), [workbook](session-2-6-workbook.qmd) |
+
+::: callout-note
+## Note: February 9 is Well-Being Day (No Class)
+Session 2.2 on Feb 11 is the only in-person session during Week 5.
+:::
+
+## Required Readings
+
+### Primary
+
+- **Chernozhukov et al. (2025)** — *Applied Causal Inference Powered by ML and AI*
+  - Chapter 5: Causal Inference via Conditional Ignorability
+  - Chapter 9: Statistical Inference on Predictive and Causal Effects (DML sections)
+  - [Online PDF](https://causalml-book.org/)
+
+- **Chernozhukov et al. (2018)** — "Double/Debiased Machine Learning" *Econometrics Journal*
+  - The foundational DML paper
+
+- **Kennedy (2016)** — "Semiparametric Theory and Empirical Processes in Causal Inference"
+  - Tutorial on influence functions
+
+### Supplementary
+
+- James et al. (ISLR) — *Introduction to Statistical Learning* Chapters 2, 5
+- Bang & Robins (2005) — "Doubly Robust Estimation"
+- Schuler & Rose (2017) — "TMLE for Causal Inference in Observational Studies"
+- Bach et al. (2021) — "DoubleML: An Object-Oriented Implementation"
+
+## Key Concepts
+
+- **Y-hard vs. β-hard:** Prediction tasks vs. causal parameter estimation
+- **Influence Function:** Functional derivative showing effect of single observation
+- **Neyman Orthogonality:** Score insensitive to nuisance perturbations
+- **Cross-Fitting:** K-fold sample splitting for valid inference
+- **PLM:** Partially Linear Model — $Y = D\theta + g(X) + \epsilon$
+- **IRM:** Interactive Regression Model — heterogeneous effects allowed
+- **AIPW:** Augmented IPW — doubly-robust estimator
+- **TMLE:** Targeted MLE — substitution-based DR estimator
+
+## R Packages
+
+```r
+# Core DML packages
+library(DoubleML)        # Double ML implementation
+library(mlr3)            # ML framework
+library(mlr3learners)    # Additional learners
+
+# ML backends
+library(glmnet)          # Lasso, Ridge
+library(ranger)          # Random Forest
+library(xgboost)         # Gradient Boosting
+
+# DR estimation
+library(tmle)            # Targeted MLE
+library(SuperLearner)    # Ensemble learning
+library(drtmle)          # Doubly-robust TMLE
+
+# Diagnostics
+library(cobalt)          # Balance tables
+library(WeightIt)        # Propensity weighting
+```
+
+## Assessment
+
+- **Lab 1:** Power Analysis by Simulation — Due February 2
+- **Design Memo 1:** Experimental Design Plan — Due February 16
+- **Problem Set 2:** Double ML Implementation — Due February 23
+- **Lab 2:** DR & DML Estimation — Due March 9
+- **Design Memo 2:** DML Analysis Plan — Due March 9
+
+## Connection to Course Arc
+
+**Previous:** Unit 1 — Experimental Design (randomization, power, MIDA)
+
+**Next:** Unit 3 — Heterogeneous Treatment Effects & Causal Forests (CATEs, meta-learners, grf)
+
+---
+
+*This unit develops the theoretical foundations (influence functions, orthogonality) that make modern causal ML possible. Unit 3 builds on these ideas to estimate heterogeneous treatment effects.*

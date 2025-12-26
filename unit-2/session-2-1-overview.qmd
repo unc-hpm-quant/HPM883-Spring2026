@@ -1,0 +1,104 @@
+---
+title: "Unit 2: Double Machine Learning"
+subtitle: "Session 2.1: Guest Lecture — Tara Templin (Stanford)"
+date: "February 4, 2026"
+---
+
+## Session Overview
+
+Guest lecture by **Tara Templin** (Stanford University) on machine learning methods for health economics and causal inference. Dr. Templin's research bridges ML methods and applied health economics, making this an ideal bridge between our ML foundations and DML theory.
+
+**Format:** Remote (Zoom)
+
+::: callout-important
+## Guest Lecture
+This is a guest lecture delivered remotely via Zoom. Please join on time and have questions prepared.
+:::
+
+**Learning Objectives:**
+
+1.  See applied examples of ML methods in health economics research
+2.  Understand the practical considerations for using ML in causal inference
+3.  Connect theoretical ML foundations to real-world applications
+4.  Identify common pitfalls when applying ML to policy questions
+
+------------------------------------------------------------------------
+
+## Preparation
+
+### Required (Complete Before Session)
+
+**Session 2.0 Materials:**
+
+-   Complete self-study materials from Session 2.0 (ML Foundations)
+-   Watch Jann Spiess videos (~90 min total)
+-   Read ISLR Chapters 2 and 5
+
+**Recommended Background:**
+
+-   Mullainathan & Spiess (2017) — "Machine Learning: An Applied Econometric Approach" *JEP*
+-   Athey (2019) — "The Impact of Machine Learning on Economics" *NBER*
+
+### Guest Speaker Bio
+
+**Tara Templin, PhD** is [position] at Stanford University. Her research focuses on [research areas]. Recent work includes [notable papers/projects].
+
+*Bio to be updated closer to session.*
+
+------------------------------------------------------------------------
+
+## In Class
+
+**Guest Lecture Topics (Tentative):**
+
+1.  ML in health economics: opportunities and challenges
+2.  Case studies from applied research
+3.  When prediction helps vs. when we need causation
+4.  Practical workflow for ML-based causal inference
+5.  Q&A with students
+
+**Suggested Questions to Prepare:**
+
+-   How do you decide between ML and traditional econometric approaches?
+-   What are the biggest pitfalls you've seen in applied work?
+-   How do you communicate ML-based findings to policymakers?
+
+------------------------------------------------------------------------
+
+## After Class
+
+### Lab 1 Due
+
+-   **Lab 1: Power Analysis by Simulation** — Due February 2
+
+### Looking Ahead
+
+-   **Session 2.2 (Feb 11):** Influence Functions & Neyman Orthogonality
+-   Read Kennedy (2016) on influence functions
+-   Begin Chernozhukov et al. Chapter 5 (Conditional Ignorability)
+
+------------------------------------------------------------------------
+
+## Additional Resources
+
+### Guest Speaker Materials
+
+-   Speaker slides will be posted after the session
+-   Recording link (if available)
+
+### Bridge to DML
+
+-   Kennedy (2016) — "Semiparametric Theory and Empirical Processes" (tutorial)
+-   Chernozhukov et al. (2018) — "Double/Debiased Machine Learning" *Econometrics Journal*
+
+------------------------------------------------------------------------
+
+## Key Takeaways
+
+*To be populated after guest lecture.*
+
+| Topic | Key Insight |
+|-------|-------------|
+| **ML in Health Economics** | TBD |
+| **Practical Workflow** | TBD |
+| **Common Pitfalls** | TBD |

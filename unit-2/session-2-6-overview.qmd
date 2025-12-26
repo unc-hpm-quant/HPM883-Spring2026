@@ -1,0 +1,234 @@
+---
+title: "Unit 2: Double Machine Learning"
+subtitle: "Session 2.6: Doubly-Robust Estimation Lab"
+date: "February 25, 2026"
+---
+
+## Session Overview
+
+This hands-on lab implements AIPW and TMLE in R, with emphasis on practical workflow, diagnostics, and interpretation. We'll work with real-world-style data to estimate treatment effects using doubly-robust methods and compare results across estimators.
+
+**Format:** Remote (Zoom)
+
+**Learning Objectives:**
+
+1.  Implement AIPW using the `DoubleML` package
+2.  Apply TMLE using the `tmle` and `SuperLearner` packages
+3.  Diagnose propensity score overlap and apply trimming
+4.  Compare DR estimators with IPW and outcome regression
+5.  Conduct sensitivity analysis for DR estimates
+
+------------------------------------------------------------------------
+
+## Preparation
+
+### Required
+
+**Install Packages (Before Session):**
+
+```r
+# Core DR packages
+install.packages("tmle")
+install.packages("SuperLearner")
+install.packages("drtmle")
+
+# We'll also use (should already have)
+install.packages("DoubleML")
+install.packages("cobalt")
+install.packages("WeightIt")
+
+# ML libraries for SuperLearner
+install.packages("glmnet")
+install.packages("ranger")
+install.packages("xgboost")
+install.packages("nnet")
+```
+
+**Review:**
+-   Session 2.5 materials on AIPW and TMLE theory
+-   DoubleML IRM examples from Session 2.4
+
+### Recommended
+
+-   [tlverse tutorials](https://tlverse.org/tlverse-handbook/)
+-   SuperLearner vignette
+
+**Estimated Preparation Time:** 20-30 minutes (mostly installation)
+
+------------------------------------------------------------------------
+
+## In Class
+
+-   [Code-Along Workbook](session-2-6-workbook.qmd)
+
+**Topics Covered:**
+
+1.  **AIPW with DoubleML**
+    -   Using `DoubleMLIRM` with DR score
+    -   Specifying propensity and outcome learners
+    -   Extracting influence function values
+    -   Inference and confidence intervals
+
+2.  **TMLE Implementation**
+    -   Setting up SuperLearner library
+    -   Running `tmle()` for ATE estimation
+    -   Understanding TMLE output
+    -   Confidence intervals and hypothesis tests
+
+3.  **Overlap Diagnostics**
+    -   Propensity score histograms by treatment group
+    -   Balance tables with `cobalt`
+    -   Identifying overlap violations
+    -   Effective sample size under weighting
+
+4.  **Trimming and Sensitivity**
+    -   Implementing trimming rules (0.01, 0.05, 0.10)
+    -   Comparing estimates across trimming thresholds
+    -   Assessing sensitivity to trimming choices
+    -   When to report trimmed vs. untrimmed estimates
+
+5.  **Estimator Comparison**
+    -   IPW vs. Outcome Regression vs. AIPW vs. TMLE
+    -   When do they agree/disagree?
+    -   Efficiency comparison
+    -   Robustness to misspecification
+
+**Code-Along Exercises:**
+
+-   Exercise 1: AIPW with DoubleML (simulated data)
+-   Exercise 2: TMLE with SuperLearner ensemble
+-   Exercise 3: Overlap diagnostics and trimming
+-   Exercise 4: Real data application — compare all estimators
+
+------------------------------------------------------------------------
+
+## After Class
+
+### Lab 2 Assigned
+
+-   **Lab 2: DR & DML Estimation** — Due March 9
+-   Comprehensive lab applying DML and DR methods
+-   Compare estimators, conduct diagnostics, interpret results
+
+### Design Memo 2 Due Soon
+
+-   **Design Memo 2: DML Analysis Plan** — Due March 9
+-   Develop analysis plan for observational study using DML
+
+### Looking Ahead
+
+-   **Unit 3 Begins (Mar 2):** Causal Forests & Honest Inference
+-   Read Wager & Athey (2018) on causal forests
+-   Install and explore `grf` package
+
+------------------------------------------------------------------------
+
+## Additional Resources
+
+### TMLE Ecosystem
+
+-   [tlverse Handbook](https://tlverse.org/tlverse-handbook/)
+-   [tmle3 Package](https://github.com/tlverse/tmle3)
+-   [sl3: SuperLearner 3](https://github.com/tlverse/sl3)
+
+### SuperLearner
+
+-   [SuperLearner Vignette](https://cran.r-project.org/web/packages/SuperLearner/vignettes/Guide-to-SuperLearner.html)
+-   Polley & van der Laan (2010) — "Super Learner in Prediction"
+
+### Diagnostics
+
+-   [`cobalt`](https://ngreifer.github.io/cobalt/) — Covariate balance tables
+-   [`WeightIt`](https://ngreifer.github.io/WeightIt/) — Propensity score weighting
+
+------------------------------------------------------------------------
+
+## Code Templates
+
+### AIPW with DoubleML
+
+```r
+library(DoubleML)
+library(mlr3learners)
+
+# Set up IRM for binary treatment
+ml_g <- lrn("regr.ranger", num.trees = 500)
+ml_m <- lrn("classif.ranger", predict_type = "prob")
+
+dml_irm <- DoubleMLIRM$new(
+  data = dml_data,
+  ml_g = ml_g,
+  ml_m = ml_m,
+  n_folds = 5,
+  score = "ATE"
+)
+
+dml_irm$fit()
+dml_irm$summary()
+
+# Get influence function values
+psi <- dml_irm$psi
+```
+
+### TMLE with SuperLearner
+
+```r
+library(tmle)
+library(SuperLearner)
+
+# Define SuperLearner library
+SL.library <- c("SL.glmnet", "SL.ranger", "SL.xgboost", "SL.mean")
+
+# Run TMLE
+result <- tmle(
+  Y = Y,
+  A = A,
+  W = W,
+  Q.SL.library = SL.library,
+  g.SL.library = SL.library
+)
+
+# Results
+result$estimates$ATE
+```
+
+### Overlap Diagnostics
+
+```r
+library(cobalt)
+
+# Check balance
+bal.tab(
+  treat ~ .,
+  data = df,
+  weights = weights,
+  un = TRUE
+)
+
+# Propensity score overlap plot
+library(ggplot2)
+ggplot(df, aes(x = ps, fill = factor(treat))) +
+  geom_density(alpha = 0.5) +
+  labs(x = "Propensity Score", fill = "Treatment")
+```
+
+------------------------------------------------------------------------
+
+## Key Concepts Summary
+
+| Task | Package | Function |
+|------|---------|----------|
+| AIPW (DML framework) | `DoubleML` | `DoubleMLIRM$new(score = "ATE")` |
+| TMLE | `tmle` | `tmle()` |
+| SuperLearner ensemble | `SuperLearner` | `SuperLearner()` |
+| Balance diagnostics | `cobalt` | `bal.tab()`, `love.plot()` |
+| Propensity weighting | `WeightIt` | `weightit()` |
+
+### Workflow for DR Estimation
+
+1. **Estimate propensity scores** with ML (e.g., SuperLearner)
+2. **Check overlap** — plot PS distributions, check effective sample size
+3. **Apply trimming** if needed (document sensitivity)
+4. **Estimate ATE** with AIPW or TMLE
+5. **Compare with other estimators** (IPW, outcome regression)
+6. **Conduct sensitivity analysis** for unmeasured confounding

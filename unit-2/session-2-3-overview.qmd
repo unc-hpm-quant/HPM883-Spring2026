@@ -1,0 +1,157 @@
+---
+title: "Unit 2: Double Machine Learning"
+subtitle: "Session 2.3: DML Theory — Partialling Out & Cross-Fitting"
+date: "February 16, 2026"
+---
+
+## Session Overview
+
+This session covers the core Double Machine Learning (DML) algorithm. We formalize the partialling-out approach, understand why cross-fitting is essential, and see how these pieces combine to enable valid causal inference with flexible ML methods. By the end, you'll understand the DML "recipe" that makes modern causal ML possible.
+
+**Format:** In-Person (Rosenau 228)
+
+**Learning Objectives:**
+
+1.  Derive the partialling-out estimator for the Partially Linear Model (PLM)
+2.  Implement the cross-fitting algorithm step-by-step
+3.  Explain why sample splitting prevents overfitting bias
+4.  Distinguish between PLM and IRM (Interactive Regression Model) settings
+5.  Understand the conditions for valid DML inference
+
+------------------------------------------------------------------------
+
+## Preparation
+
+### Required Readings
+
+**Chernozhukov et al. (2025)** — *Applied Causal Inference Powered by ML and AI*
+
+-   **Chapter 5:** Conditional Ignorability — Sections on DML
+-   **Chapter 9:** Statistical Inference on Predictive and Causal Effects
+    -   Focus: DML algorithm, cross-fitting, inference
+
+**Chernozhukov et al. (2018)** — "Double/Debiased Machine Learning for Treatment and Structural Parameters"
+
+-   *Econometrics Journal*, 21(1), C1-C68
+-   Sections 1-4: Core DML theory
+-   The foundational DML paper
+
+### Recommended
+
+-   Bach et al. (2021) — "DoubleML: An Object-Oriented Implementation of DML in R"
+-   Knaus (2022) — "Double Machine Learning Based Program Evaluation"
+
+**Estimated Reading Time:** 60-75 minutes
+
+------------------------------------------------------------------------
+
+## In Class
+
+-   [Lecture Slides](session-2-3-slides.qmd)
+
+**Topics Covered:**
+
+1.  **The Partially Linear Model (PLM)**
+    -   Setup: $Y = D\theta + g(X) + \epsilon$
+    -   The partialling-out approach: regress out confounders
+    -   Frisch-Waugh-Lovell in high dimensions
+    -   Why OLS fails with many covariates
+
+2.  **The DML Algorithm**
+    -   Step 1: Estimate nuisance functions ($\hat{g}(X)$, $\hat{m}(X)$)
+    -   Step 2: Compute residuals ($\tilde{Y}$, $\tilde{D}$)
+    -   Step 3: Regress residualized outcome on residualized treatment
+    -   The "double" in Double ML: two-way residualization
+
+3.  **Cross-Fitting: Why and How**
+    -   The overfitting problem: in-sample predictions are biased
+    -   K-fold cross-fitting algorithm
+    -   Why out-of-sample predictions break the bias chain
+    -   Practical considerations: K=5 vs. K=10, computational cost
+
+4.  **Interactive Regression Model (IRM)**
+    -   Setup: $Y = g(D, X) + \epsilon$ with $D$ binary
+    -   The doubly-robust score for ATE
+    -   Connection to AIPW
+    -   When to use PLM vs. IRM
+
+5.  **Inference with DML**
+    -   Asymptotic normality of DML estimators
+    -   Standard error calculation
+    -   Confidence intervals and hypothesis tests
+    -   The role of sample splitting in variance estimation
+
+**Live Coding:**
+
+-   Manual DML implementation (partialling out step by step)
+-   Comparison: OLS vs. Lasso vs. DML with same data
+
+**Discussion:**
+
+-   When might cross-fitting hurt rather than help?
+-   How many folds should we use?
+
+------------------------------------------------------------------------
+
+## After Class
+
+### Design Memo 1 Due
+
+-   **Design Memo 1: Experimental Design Plan** — Due February 16 (today)
+
+### Looking Ahead
+
+-   **Session 2.4 (Feb 18):** DML Implementation with DoubleML
+-   Install and test the `DoubleML` package
+-   Review DoubleML documentation and example vignettes
+
+------------------------------------------------------------------------
+
+## Additional Resources
+
+### DML Theory
+
+-   Chernozhukov et al. (2018) — Full paper with all proofs
+-   Chernozhukov et al. (2017) — "Double/Debiased/Neyman ML" — Extended version
+
+### Implementation Guides
+
+-   [DoubleML User Guide](https://docs.doubleml.org/stable/guide/guide.html)
+-   [DoubleML R Vignettes](https://docs.doubleml.org/r/stable/)
+
+### R Packages
+
+-   [`DoubleML`](https://docs.doubleml.org/) — Primary DML package
+-   [`mlr3`](https://mlr3.mlr-org.com/) — ML framework
+-   [`glmnet`](https://glmnet.stanford.edu/) — Lasso/Ridge
+-   [`ranger`](https://github.com/imbs-hl/ranger) — Random Forest
+
+------------------------------------------------------------------------
+
+## Key Concepts Summary
+
+| Concept | Definition |
+|---------|------------|
+| **PLM** | Partially Linear Model: $Y = D\theta + g(X) + \epsilon$ |
+| **IRM** | Interactive Regression Model: heterogeneous effects allowed |
+| **Partialling Out** | Residualize Y and D on X, then regress residuals |
+| **Cross-Fitting** | Estimate nuisances on fold $k$, evaluate on fold $-k$ |
+| **Nuisance Functions** | $g(X) = E[Y|X]$, $m(X) = E[D|X]$ — not the target |
+| **DML Score** | Neyman-orthogonal moment condition for $\theta$ |
+
+### The DML Recipe
+
+```
+For k = 1, ..., K folds:
+  1. Hold out fold k
+  2. Estimate ĝ(X), m̂(X) on remaining folds
+  3. Compute residuals on fold k:
+     Ỹ = Y - ĝ(X)
+     D̃ = D - m̂(X)
+  4. Store residuals
+
+Combine all folds:
+  θ̂ = (Σ D̃²)⁻¹ Σ D̃Ỹ
+
+Compute standard errors using influence function formula
+```

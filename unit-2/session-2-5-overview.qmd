@@ -1,0 +1,164 @@
+---
+title: "Unit 2: Double Machine Learning"
+subtitle: "Session 2.5: Doubly-Robust Estimation — AIPW & TMLE"
+date: "February 23, 2026"
+---
+
+## Session Overview
+
+This session covers doubly-robust (DR) estimators that combine propensity score weighting with outcome regression. We focus on Augmented Inverse Propensity Weighting (AIPW) and Targeted Maximum Likelihood Estimation (TMLE) — methods that provide valid inference when *either* the propensity model or outcome model is correctly specified.
+
+**Format:** In-Person (Rosenau 228)
+
+**Learning Objectives:**
+
+1.  Derive the AIPW estimator and understand its double robustness property
+2.  Explain how TMLE differs from AIPW (targeting step)
+3.  Compare AIPW, TMLE, IPW, and outcome regression
+4.  Diagnose overlap/positivity violations
+5.  Apply trimming and sensitivity analysis for practical inference
+
+------------------------------------------------------------------------
+
+## Preparation
+
+### Required Readings
+
+**Chernozhukov et al. (2025)** — *Applied Causal Inference Powered by ML and AI*
+
+-   **Chapter 5:** Conditional Ignorability — DR estimation sections
+-   Focus: AIPW derivation, double robustness property
+
+**Bang & Robins (2005)** — "Doubly Robust Estimation in Missing Data and Causal Inference"
+
+-   *Biometrics* 61(4), 962-973
+-   Classic paper introducing AIPW for causal inference
+
+### Recommended
+
+-   Schuler & Rose (2017) — "Targeted Maximum Likelihood Estimation for Causal Inference in Observational Studies"
+-   Kennedy (2016) — "Semiparametric Theory" — Sections on DR estimation
+-   Glynn & Quinn (2010) — "An Introduction to AIPW"
+
+**Estimated Reading Time:** 60-75 minutes
+
+------------------------------------------------------------------------
+
+## In Class
+
+-   [Lecture Slides](session-2-5-slides.qmd)
+
+**Topics Covered:**
+
+1.  **Review: IPW and Outcome Regression**
+    -   IPW: $\hat\tau_{IPW} = \frac{1}{n}\sum \frac{D_i Y_i}{\hat e(X_i)} - \frac{(1-D_i) Y_i}{1-\hat e(X_i)}$
+    -   Outcome regression: $\hat\tau_{OR} = \frac{1}{n}\sum \hat\mu_1(X_i) - \hat\mu_0(X_i)$
+    -   Problems: IPW high variance, OR biased if misspecified
+
+2.  **Augmented IPW (AIPW)**
+    -   The augmentation idea: correct IPW with outcome model
+    -   AIPW formula: $\hat\tau_{AIPW} = \frac{1}{n}\sum \hat\phi(D_i, X_i, Y_i)$
+    -   Double robustness: consistent if PS OR outcome model correct
+    -   Why augmentation reduces variance
+
+3.  **Targeted Maximum Likelihood Estimation (TMLE)**
+    -   Initial outcome model estimation
+    -   The "targeting" step: clever covariate adjustment
+    -   TMLE as a substitution estimator
+    -   Comparison with AIPW: plug-in vs. one-step
+
+4.  **Semiparametric Efficiency**
+    -   Efficiency bounds and the EIF
+    -   Why AIPW/TMLE achieve the semiparametric bound
+    -   Conditions for efficiency: correct nuisance rates
+
+5.  **Overlap and Positivity**
+    -   The positivity assumption: $0 < P(D=1|X) < 1$
+    -   Diagnosing overlap violations
+    -   Propensity score trimming rules
+    -   Sensitivity to extreme weights
+
+**Live Coding:**
+
+-   Computing AIPW by hand
+-   Visualizing propensity score overlap
+-   Implementing trimming with different cutoffs
+
+**Discussion:**
+
+-   When should we prefer TMLE over AIPW?
+-   How do we report results when overlap is questionable?
+
+------------------------------------------------------------------------
+
+## After Class
+
+### Problem Set 2 Due
+
+-   **Problem Set 2: Double ML Implementation** — Due February 23 (today)
+
+### Design Memo 2 Assigned
+
+-   **Design Memo 2: DML Analysis Plan** — Due March 9
+-   Plan a DML analysis for an observational study
+
+### Looking Ahead
+
+-   **Session 2.6 (Feb 25):** DR Estimation Lab
+-   Install `tmle` and `drtmle` packages
+-   Review DR estimation examples
+
+------------------------------------------------------------------------
+
+## Additional Resources
+
+### AIPW
+
+-   Robins, Rotnitzky, & Zhao (1994) — Original AIPW development
+-   Lunceford & Davidian (2004) — Tutorial on AIPW
+
+### TMLE
+
+-   van der Laan & Rose (2011) — *Targeted Learning* (comprehensive)
+-   van der Laan & Rubin (2006) — Original TMLE paper
+-   [TMLE Software](https://tlverse.org/) — The tlverse ecosystem
+
+### Overlap and Trimming
+
+-   Crump et al. (2009) — "Dealing with Limited Overlap"
+-   Li, Morgan, & Zaslavsky (2018) — "Balancing Covariates via Propensity Score Weighting"
+
+### R Packages
+
+-   [`tmle`](https://cran.r-project.org/package=tmle) — TMLE implementation
+-   [`drtmle`](https://github.com/benkeser/drtmle) — Doubly-robust TMLE
+-   [`SuperLearner`](https://github.com/ecpolley/SuperLearner) — Ensemble learning for TMLE
+-   [`cobalt`](https://ngreifer.github.io/cobalt/) — Balance diagnostics
+
+------------------------------------------------------------------------
+
+## Key Concepts Summary
+
+| Concept | Definition |
+|---------|------------|
+| **AIPW** | Augmented IPW: combines weighting + outcome regression |
+| **TMLE** | Targeted MLE: fluctuates outcome model toward target |
+| **Double Robustness** | Consistent if PS *or* outcome model correct |
+| **Efficient Influence Function** | $\phi = \frac{D(Y-\mu_1)}{\pi} - \frac{(1-D)(Y-\mu_0)}{1-\pi} + \mu_1 - \mu_0 - \tau$ |
+| **Overlap/Positivity** | $0 < \pi(X) < 1$ for all $X$ in support |
+| **Trimming** | Exclude units with extreme propensity scores |
+
+### The AIPW Estimator
+
+$$
+\hat\tau_{AIPW} = \frac{1}{n}\sum_{i=1}^n \left[
+\hat\mu_1(X_i) - \hat\mu_0(X_i) +
+\frac{D_i(Y_i - \hat\mu_1(X_i))}{\hat\pi(X_i)} -
+\frac{(1-D_i)(Y_i - \hat\mu_0(X_i))}{1-\hat\pi(X_i)}
+\right]
+$$
+
+**Components:**
+- First two terms: Outcome regression estimate
+- Third term: IPW correction for treated
+- Fourth term: IPW correction for control

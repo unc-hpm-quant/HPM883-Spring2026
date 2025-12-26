@@ -1,0 +1,210 @@
+---
+title: "Unit 2: Double Machine Learning"
+subtitle: "Session 2.4: DML Implementation with DoubleML"
+date: "February 18, 2026"
+---
+
+## Session Overview
+
+This hands-on session focuses on implementing Double Machine Learning using the `DoubleML` R package. We'll work through complete examples, compare different ML algorithms for nuisance estimation, and develop best practices for applied DML analysis.
+
+**Format:** Remote (Zoom)
+
+**Learning Objectives:**
+
+1.  Set up and use the `DoubleML` package in R
+2.  Specify PLM and IRM models with different ML learners
+3.  Compare nuisance estimation with Lasso, Random Forest, and XGBoost
+4.  Interpret DML output and conduct sensitivity analysis
+5.  Diagnose common implementation issues
+
+------------------------------------------------------------------------
+
+## Preparation
+
+### Required
+
+**DoubleML Documentation:**
+
+-   [Getting Started Guide](https://docs.doubleml.org/stable/intro/intro.html)
+-   [R User Guide](https://docs.doubleml.org/r/stable/)
+
+**Install Packages (Before Session):**
+
+```r
+# Core DML packages
+install.packages("DoubleML")
+install.packages("mlr3")
+install.packages("mlr3learners")
+
+# ML backends
+install.packages("glmnet")    # Lasso/Ridge
+install.packages("ranger")     # Random Forest
+install.packages("xgboost")    # Gradient Boosting
+
+# Utilities
+install.packages("data.table")
+```
+
+### Recommended
+
+-   Bach et al. (2021) — "DoubleML: An Object-Oriented Implementation"
+-   DoubleML vignettes and tutorials
+
+**Estimated Preparation Time:** 30 minutes (mostly installation)
+
+------------------------------------------------------------------------
+
+## In Class
+
+-   [Code-Along Workbook](session-2-4-workbook.qmd)
+
+**Topics Covered:**
+
+1.  **DoubleML Package Architecture**
+    -   Data backend (`DoubleMLData`)
+    -   Model classes (`DoubleMLPLR`, `DoubleMLIRM`, etc.)
+    -   ML learner specification with `mlr3`
+    -   Fitting and inference
+
+2.  **Partially Linear Regression (PLR)**
+    -   Setting up `DoubleMLPLR` for continuous outcomes
+    -   Specifying learners for outcome and treatment models
+    -   Cross-fitting with different K values
+    -   Interpreting output: estimates, SEs, p-values
+
+3.  **Interactive Regression Model (IRM)**
+    -   Binary treatment effects with `DoubleMLIRM`
+    -   Propensity score estimation
+    -   ATE, ATT, ATTE estimation
+    -   Handling imbalanced treatment
+
+4.  **Learner Comparison**
+    -   Lasso (`lrn("regr.cv_glmnet")`)
+    -   Random Forest (`lrn("regr.ranger")`)
+    -   XGBoost (`lrn("regr.xgboost")`)
+    -   Ensemble approaches
+
+5.  **Diagnostics and Best Practices**
+    -   Checking propensity score overlap
+    -   Cross-validation within cross-fitting
+    -   Sensitivity to tuning parameters
+    -   Reporting standards for DML results
+
+**Code-Along Exercises:**
+
+-   Exercise 1: Basic PLR with simulated data
+-   Exercise 2: Compare Lasso vs. RF nuisance estimators
+-   Exercise 3: IRM for binary treatment (ATE estimation)
+-   Exercise 4: Real data application (401(k) participation example)
+
+------------------------------------------------------------------------
+
+## After Class
+
+### Problem Set 2 Assigned
+
+-   **Problem Set 2: Double ML Implementation** — Due February 23
+-   Apply DML to a provided dataset
+-   Compare estimators and conduct sensitivity analysis
+
+### Looking Ahead
+
+-   **Session 2.5 (Feb 23):** Doubly-Robust Estimation — AIPW & TMLE
+-   Read Bang & Robins (2005) on AIPW
+-   Explore `tmle` and `drtmle` packages
+
+------------------------------------------------------------------------
+
+## Additional Resources
+
+### DoubleML Examples
+
+-   [Bonus Vignette](https://docs.doubleml.org/r/stable/articles/bonus.html)
+-   [401(k) Example](https://docs.doubleml.org/stable/examples/R_double_ml_bonus.html)
+-   [DoubleML GitHub](https://github.com/DoubleML/doubleml-for-r)
+
+### Troubleshooting
+
+-   Common errors and solutions in DoubleML
+-   mlr3 learner configuration
+-   Memory management for large datasets
+
+### R Packages
+
+| Package | Purpose |
+|---------|---------|
+| `DoubleML` | Core DML implementation |
+| `mlr3` | ML framework (learners, tasks) |
+| `mlr3learners` | Additional ML algorithms |
+| `glmnet` | Lasso, Ridge, Elastic Net |
+| `ranger` | Fast Random Forest |
+| `xgboost` | Gradient Boosting |
+
+------------------------------------------------------------------------
+
+## Code Templates
+
+### Basic PLR Setup
+
+```r
+library(DoubleML)
+library(mlr3)
+library(mlr3learners)
+
+# Create data backend
+dml_data <- DoubleMLData$new(
+  data = my_data,
+  y_col = "outcome",
+  d_col = "treatment",
+  x_cols = covariate_names
+)
+
+# Specify learners
+ml_l <- lrn("regr.ranger", num.trees = 500)
+ml_m <- lrn("regr.ranger", num.trees = 500)
+
+# Fit PLR model
+dml_plr <- DoubleMLPLR$new(
+  data = dml_data,
+  ml_l = ml_l,
+  ml_m = ml_m,
+  n_folds = 5
+)
+
+dml_plr$fit()
+dml_plr$summary()
+```
+
+### IRM for Binary Treatment
+
+```r
+# For binary treatment, use IRM
+ml_g <- lrn("regr.ranger")  # Outcome model
+ml_m <- lrn("classif.ranger", predict_type = "prob")  # Propensity
+
+dml_irm <- DoubleMLIRM$new(
+  data = dml_data,
+  ml_g = ml_g,
+  ml_m = ml_m,
+  n_folds = 5,
+  score = "ATE"  # or "ATTE"
+)
+
+dml_irm$fit()
+dml_irm$summary()
+```
+
+------------------------------------------------------------------------
+
+## Key Concepts Summary
+
+| Component | Description |
+|-----------|-------------|
+| **DoubleMLData** | Data container specifying Y, D, X |
+| **DoubleMLPLR** | Partially Linear Regression model |
+| **DoubleMLIRM** | Interactive Regression Model (binary D) |
+| **ml_l / ml_g** | Learner for outcome nuisance |
+| **ml_m** | Learner for treatment nuisance |
+| **n_folds** | Number of cross-fitting folds |
+| **score** | Moment function ("partialling out", "ATE", "ATTE") |
