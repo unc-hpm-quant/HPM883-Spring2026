@@ -1,0 +1,151 @@
+---
+title: "Unit 2: Double Machine Learning"
+subtitle: "Session 2.0: ML Foundations for Causal Inference"
+date: "February 2, 2026"
+---
+
+## Session Overview
+
+This session provides the machine learning foundations needed for modern causal inference. We distinguish between prediction tasks (Y-hard) and causal estimation tasks (beta-hard), covering the bias-variance tradeoff, cross-validation, regularization, and tree-based methods. This session prepares you for Double Machine Learning methods.
+
+**Format:** Async/Self-Study (Instructor traveling)
+
+::: callout-important
+## Self-Study Session
+This is an asynchronous session. Complete the videos and readings before the guest lecture on Feb 4.
+:::
+
+**Learning Objectives:**
+
+1.  Distinguish prediction (Y-hard) from causal estimation (beta-hard) tasks
+2.  Explain the bias-variance tradeoff and its implications for model selection
+3.  Implement cross-validation for hyperparameter tuning
+4.  Apply regularization techniques (Lasso, Ridge, Elastic Net)
+5.  Understand when and how to use tree-based methods (Random Forests, XGBoost)
+6.  Recognize ML's role as "nuisance estimation" in causal inference
+
+------------------------------------------------------------------------
+
+## Preparation
+
+### Required Videos (Before Class)
+
+**Jann Spiess Video Series** (~90 minutes total)
+
+1.  [Applied ML: An Introduction](https://www.youtube.com/watch?v=G5qrBvOmzes) — [Slides](https://drive.google.com/file/d/1WACyrmUdlEZ-FI9ekC9ggo7m-pYUD7id/view?usp=sharing)
+2.  [Applied ML: Secret Sauce](https://www.youtube.com/watch?v=Qs6JmdNoT-Y) — [Slides](https://drive.google.com/file/d/1qaiJOStmAOVnBubteuQDu56Or0cC3V_Q/view)
+3.  [Applied ML: Prediction vs Estimation](https://www.youtube.com/watch?v=e2Nmlk0cbrY) — [Slides](https://drive.google.com/file/d/1x1NbOqgZpMegBSq-jpJPYQjaZiioh4Ix/view)
+
+### Required Readings
+
+**James et al. (ISLR)** — *Introduction to Statistical Learning* (FREE)
+
+-   **Chapter 2:** Statistical Learning (~25 pages)
+    -   Focus: Prediction vs. inference, bias-variance tradeoff
+-   **Chapter 5:** Resampling Methods (~20 pages)
+    -   Focus: K-fold CV, validation set approach
+
+### Recommended
+
+-   **ISLR Chapter 6:** Linear Model Selection and Regularization
+-   **ISLR Chapter 8:** Tree-Based Methods
+-   Mullainathan & Spiess (2017) — "Machine Learning: An Applied Econometric Approach" *JEP*
+
+**Estimated Preparation Time:** 90 min videos + 45 min reading = ~135 min
+
+------------------------------------------------------------------------
+
+## In Class
+
+-   [Self-Study Materials](session-2-0-workbook.qmd)
+
+**Topics Covered:**
+
+1.  **Prediction vs. Causation**
+    -   Y-hard tasks: Predict outcome well
+    -   Beta-hard tasks: Recover causal parameters
+    -   Why standard ML fails for causal questions
+    -   The role of "nuisance functions" in modern causal ML
+
+2.  **Bias-Variance Tradeoff**
+    -   Underfitting vs. overfitting
+    -   Model complexity and generalization
+    -   Training vs. test error
+    -   Regularization as complexity control
+
+3.  **Cross-Validation**
+    -   K-fold cross-validation
+    -   Leave-one-out CV
+    -   Nested CV for hyperparameter tuning
+    -   CV for model selection vs. model assessment
+
+4.  **Regularization**
+    -   Ridge regression (L2 penalty)
+    -   Lasso regression (L1 penalty, variable selection)
+    -   Elastic Net (combining L1 and L2)
+    -   Choosing lambda via CV
+
+5.  **Tree-Based Methods**
+    -   Decision trees and recursive partitioning
+    -   Bagging and Random Forests
+    -   Boosting (XGBoost, LightGBM)
+    -   When trees beat linear models
+
+6.  **ML for Nuisance Estimation**
+    -   Propensity score estimation with ML
+    -   Outcome regression with flexible models
+    -   Preview: Double Machine Learning
+
+**Discussion:**
+
+-   When should we use ML for causal inference?
+-   What can go wrong when applying prediction tools to causal questions?
+
+------------------------------------------------------------------------
+
+## After Class
+
+### Lab 1 Continues
+
+-   **Lab 1: Power Analysis by Simulation** — Due February 2
+
+### Looking Ahead
+
+-   **Session 2.1 (Feb 4):** Guest Lecture — Tara Templin (Stanford)
+-   **Session 2.2 (Feb 9):** Influence Functions & Neyman Orthogonality
+-   Complete Chernozhukov et al. Chapter 5 (Conditional Ignorability) reading
+
+------------------------------------------------------------------------
+
+## Additional Resources
+
+### ML Foundations
+
+-   [ISLR Online](https://www.statlearning.com/) — Free textbook with R labs
+-   [ESL Online](https://hastie.su.domains/ElemStatLearn/) — More mathematical treatment
+-   Athey (2019) — "The Impact of Machine Learning on Economics" *NBER*
+
+### R Packages
+
+-   [`glmnet`](https://glmnet.stanford.edu/) — Lasso and Ridge regression
+-   [`ranger`](https://github.com/imbs-hl/ranger) — Fast Random Forest
+-   [`xgboost`](https://xgboost.readthedocs.io/) — Gradient boosting
+-   [`caret`](https://topepo.github.io/caret/) — Unified ML interface
+-   [`tidymodels`](https://www.tidymodels.org/) — Modern ML workflow
+
+### Key Papers
+
+-   Belloni, Chernozhukov, & Hansen (2014) — "Inference on Treatment Effects after Selection"
+-   Athey & Imbens (2019) — "Machine Learning Methods Economists Should Know About"
+
+------------------------------------------------------------------------
+
+## Key Concepts Summary
+
+| Concept | Definition | Causal ML Role |
+|---------|------------|----------------|
+| **Y-hard** | Predicting outcome accurately | Nuisance estimation |
+| **Beta-hard** | Recovering causal parameters | Target of inference |
+| **Cross-validation** | Out-of-sample evaluation | Hyperparameter selection |
+| **Regularization** | Complexity control | Preventing overfitting |
+| **Nuisance function** | Non-target quantities (PS, outcome model) | Estimated with ML |

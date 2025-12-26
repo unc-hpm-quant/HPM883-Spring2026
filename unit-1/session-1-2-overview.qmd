@@ -1,7 +1,7 @@
 ---
 title: "Unit 1: Experimental Design"
-subtitle: "Session 5: Statistical Conclusion Validity & Power"
-date: "January 21, 2026"
+subtitle: "Session 1.2: Statistical Conclusion Validity & Power"
+date: "January 26, 2026"
 ---
 
 ## Session Overview
@@ -9,12 +9,6 @@ date: "January 21, 2026"
 This session covers the foundations of statistical inference in experiments: how to design studies with adequate power, understand Type I/II errors, and implement power analysis by simulation. We'll also discuss proper regression adjustment using Lin (2013).
 
 **Format:** In-Person (Rosenau 228)
-
-::: callout-note
-## Note: January 19 is MLK Day (No Class)
-
-Session 4 is cancelled. Lab 0 is due January 19.
-:::
 
 **Learning Objectives:**
 
@@ -52,7 +46,7 @@ Session 4 is cancelled. Lab 0 is due January 19.
 
 ## In Class
 
--   [Lecture Slides](lec-1-2-slides.qmd)
+-   [Lecture Slides](session-1-2-slides.qmd)
 
 **Topics Covered:**
 
@@ -88,7 +82,7 @@ Session 4 is cancelled. Lab 0 is due January 19.
 
 ### Looking Ahead
 
--   **Session 6 (Jan 26):** Optimal Experimental Design & MIDA Framework
+-   **Session 1.3 (Jan 28):** Optimal Experimental Design & MIDA Framework
 -   Complete Duflo et al. (2007) and Bruhn & McKenzie (2009) readings
 
 ------------------------------------------------------------------------

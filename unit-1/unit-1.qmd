@@ -1,0 +1,84 @@
+---
+title: "Unit 1: Experimental Design"
+subtitle: "HPM 883 — Advanced Quantitative Methods"
+---
+
+## Overview
+
+This unit establishes the foundations of experimental design for causal inference. We begin with why randomization works — how it solves the fundamental problem of causal inference by breaking the link between potential outcomes and treatment assignment. We then cover statistical power and validity, followed by optimal design strategies to maximize precision under constraints.
+
+By the end of this unit, you will have the tools to design, diagnose, and defend a randomized controlled trial using modern computational methods.
+
+## Learning Objectives
+
+By the end of this unit, students will be able to:
+
+1. Explain why randomization identifies causal effects and distinguish key estimands (ATE, ATT, ITT, LATE)
+2. Calculate statistical power analytically and by simulation using DeclareDesign
+3. Apply the MIDA framework to formally declare and diagnose research designs
+4. Implement variance reduction techniques (blocking, CUPED, Lin regression)
+5. Navigate practical tradeoffs in experimental design for health services research
+
+## Sessions
+
+| Session | Date | Topic | Materials |
+|---------|------|-------|-----------|
+| 1.1 | Jan 21 | Randomization & RCTs | [overview](session-1-1-overview.qmd), [slides](session-1-1-slides.qmd) |
+| 1.2 | Jan 26 | Statistical Conclusion Validity & Power | [overview](session-1-2-overview.qmd), [slides](session-1-2-slides.qmd) |
+| 1.3 | Jan 28 | Optimal Experimental Design & MIDA | [overview](session-1-3-overview.qmd), [slides](session-1-3-slides.qmd) |
+
+::: callout-note
+## Note: January 19 is MLK Day (No Class)
+Lab 0 is due January 19.
+:::
+
+## Required Readings
+
+### Primary
+
+- **Chernozhukov et al. (2025)** — Chapter 2: Causal Inference via Randomized Experiments
+  - [Online PDF](https://causalml-book.org/assets/chapters/CausalML_chap_2.pdf)
+- **Lin (2013)** — "Agnostic notes on regression adjustments to experimental data" *Statistics, Politics, and Policy*
+- **Duflo, Glennerster, & Kremer (2007)** — "Using Randomization in Development Economics" *Handbook of Development Economics*
+- **Bruhn & McKenzie (2009)** — "In Pursuit of Balance" *Journal of Development Economics*
+
+### Supplementary
+
+- Gerber & Green (2012) — *Field Experiments* — Chapters 2-3
+- Blair et al. (2019) — "Declaring and Diagnosing Research Designs" *APSR*
+- Gelman & Carlin (2014) — "Beyond Power Calculations" *Perspectives on Psychological Science*
+
+## Key Concepts
+
+- **Randomization:** Random assignment ensures $Y(0), Y(1) \perp Z$, breaking confounding
+- **Estimands:** ATE, ATT, ITT, LATE — choosing what we want to learn
+- **Power:** Probability of detecting a true effect ($1 - \beta$)
+- **MDE:** Minimum Detectable Effect given sample size and power target
+- **MIDA Framework:** Model-Inquiry-Data-Answer for design declaration
+- **Variance Reduction:** Blocking, CUPED, Lin regression to increase precision
+
+## R Packages
+
+```r
+# Core packages for this unit
+library(DeclareDesign)  # Declare, diagnose, redesign
+library(estimatr)       # Robust estimation
+library(randomizr)      # Randomization functions
+library(fabricatr)      # Data simulation
+```
+
+## Assessment
+
+- **Lab 0:** Reproducible Research Setup — Due January 19
+- **Lab 1:** Power Analysis by Simulation — Due February 2
+- **Participation:** In-class discussion and code exercises
+
+## Connection to Course Arc
+
+**Previous:** Unit 0 — Foundations (Potential outcomes, DAGs, reproducible research)
+
+**Next:** Unit 2 — Double Machine Learning (ML foundations, DML, doubly-robust estimation)
+
+---
+
+*This unit prepares you to design rigorous experiments. Unit 2 extends these ideas to observational settings using machine learning.*

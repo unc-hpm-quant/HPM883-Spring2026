@@ -1,0 +1,119 @@
+---
+title: "Unit 1: Experimental Design"
+subtitle: "Session 1.3: Optimal Experimental Design & MIDA Framework"
+date: "January 28, 2026"
+---
+
+## Session Overview
+
+This session introduces the Model-Inquiry-Data-Answer (MIDA) framework for declaring and diagnosing research designs. We'll cover advanced randomization techniques including blocking, stratification, and cluster randomization, and explore variance reduction methods like CUPED and ANCOVA.
+
+**Format:** In-Person (Rosenau 228)
+
+**Learning Objectives:**
+
+1.  Apply the MIDA framework to declare research designs formally
+2.  Choose appropriate randomization strategies (simple, blocked, clustered)
+3.  Implement variance reduction techniques (blocking, CUPED, ANCOVA)
+4.  Diagnose designs for power, bias, and coverage
+5.  Navigate practical design tradeoffs in health services research
+
+------------------------------------------------------------------------
+
+## Preparation
+
+### Required Readings
+
+**Duflo, Glennerster, & Kremer (2007)** — "Using Randomization in Development Economics"
+
+-   *Handbook of Development Economics*, Vol 4, 3895-3962
+-   Focus: Sections on design, randomization procedures, power
+-   [Available via course readings]
+
+**Bruhn & McKenzie (2009)** — "In Pursuit of Balance: Randomization in Practice"
+
+-   *Journal of Development Economics*, 89(2), 200-217
+-   Practical guidance on randomization methods
+
+### Recommended
+
+-   Blair et al. (2019) — "Declaring and Diagnosing Research Designs" *APSR*
+-   [DeclareDesign Library](https://declaredesign.org/library/) — Pre-built designs
+
+**Estimated Reading Time:** 70-90 minutes
+
+------------------------------------------------------------------------
+
+## In Class
+
+-   [Lecture Slides](session-1-3-slides.qmd)
+
+**Topics Covered:**
+
+1.  **The MIDA Framework**
+    -   Model: Data generating process
+    -   Inquiry: What we want to learn (estimand)
+    -   Data Strategy: How we collect data (sampling, assignment)
+    -   Answer Strategy: How we estimate (estimator)
+
+2.  **Advanced Randomization**
+    -   Blocked/stratified randomization
+    -   Cluster randomization
+    -   Factorial designs
+    -   Adaptive randomization
+
+3.  **Variance Reduction**
+    -   CUPED (Controlled-experiment Using Pre-Experiment Data)
+    -   ANCOVA adjustment
+    -   Pre-stratification vs. post-stratification
+    -   Optimal blocking strategies
+
+4.  **Design Diagnosis**
+    -   Power curves
+    -   Bias assessment
+    -   Coverage probabilities
+    -   Design-based vs. model-based inference
+
+**Live Coding:**
+
+-   Implementing blocked randomization with `randomizr`
+-   Diagnosing designs with `diagnose_design()`
+-   Comparing simple vs. blocked designs
+
+------------------------------------------------------------------------
+
+## After Class
+
+### Lab 1 Assigned
+
+-   **Lab 1: Power Analysis by Simulation** — Due February 2
+-   Design and diagnose an RCT using DeclareDesign
+
+### Looking Ahead
+
+-   **Session 2.0 (Feb 2):** ML Foundations for Causal Inference (Async)
+-   Watch Jann Spiess videos (required, ~90 min)
+-   Read ISLR Chapters 2 and 5
+-   Unit 2 begins with guest lecture Feb 4
+
+------------------------------------------------------------------------
+
+## Additional Resources
+
+### MIDA Framework
+
+-   [DeclareDesign Package](https://declaredesign.org/) — Official documentation
+-   [EGAP Methods Guides](https://egap.org/methods-guides/) — Practical guidance
+-   Humphreys & Jacobs (2015) — "Mixing Methods: A Bayesian Approach"
+
+### Variance Reduction
+
+-   Deng et al. (2013) — "Improving the Sensitivity of Online Controlled Experiments" (CUPED paper)
+-   McKenzie (2012) — "Beyond baseline and follow-up" *JDE*
+-   Young (2022) — "Channeling Fisher" *QJE*
+
+### R Packages
+
+-   [`randomizr`](https://declaredesign.org/r/randomizr/) — Randomization
+-   [`DeclareDesign`](https://declaredesign.org/) — Full framework
+-   [`fabricatr`](https://declaredesign.org/r/fabricatr/) — Data simulation

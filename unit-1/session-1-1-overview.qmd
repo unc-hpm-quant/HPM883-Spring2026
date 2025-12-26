@@ -1,0 +1,133 @@
+---
+title: "Unit 1: Experimental Design"
+subtitle: "Session 1.1: Randomization & RCTs"
+date: "January 21, 2026"
+---
+
+## Session Overview
+
+This session establishes the foundations of experimental design: why randomization works, what it identifies, and how to think about causal estimands in randomized controlled trials. We build on the potential outcomes framework from Unit 0 to understand how randomization solves the fundamental problem of causal inference.
+
+**Format:** In-Person (Rosenau 228)
+
+::: callout-note
+## Note: January 19 is MLK Day (No Class)
+
+Lab 0 is due January 19.
+:::
+
+**Learning Objectives:**
+
+1.  Explain why randomization identifies causal effects
+2.  Define key estimands: ATE, ATT, ITT, LATE
+3.  Distinguish design-based from model-based inference
+4.  Understand the role of the assignment mechanism
+5.  Apply the Neyman-Rubin framework to analyze experiments
+
+------------------------------------------------------------------------
+
+## Preparation
+
+### Required Readings
+
+**Chernozhukov et al. (2025)** — *Applied Causal Inference Powered by ML and AI*
+
+-   **Chapter 2:** Causal Inference via Randomized Experiments (~25 pages)
+    -   [Online PDF](https://causalml-book.org/assets/chapters/CausalML_chap_2.pdf)
+    -   Focus: Randomization, estimands, design-based inference
+
+**Gerber & Green (2012)** — *Field Experiments* (excerpts)
+
+-   **Chapter 2:** Causal Inference and Experimentation
+-   Classic treatment of randomization inference
+
+### Recommended
+
+-   Athey & Imbens (2017) — "The Econometrics of Randomized Experiments" *Handbook of Field Experiments*
+-   Imbens & Rubin (2015) — *Causal Inference* Chapter 5: Fisher's Exact P-values
+
+**Estimated Reading Time:** 60-75 minutes
+
+------------------------------------------------------------------------
+
+## In Class
+
+-   [Lecture Slides](session-1-1-slides.qmd)
+
+**Topics Covered:**
+
+1.  **Why Randomization Works**
+    -   Randomization as the "reasoned basis for inference"
+    -   Independence of potential outcomes and treatment
+    -   Eliminating confounding by design
+    -   The role of chance in inference
+
+2.  **Causal Estimands**
+    -   Average Treatment Effect (ATE)
+    -   Average Treatment Effect on the Treated (ATT)
+    -   Intent-to-Treat (ITT) vs. Treatment-on-Treated (TOT)
+    -   Local Average Treatment Effect (LATE)
+    -   Choosing the right estimand for your question
+
+3.  **Design-Based vs. Model-Based Inference**
+    -   Randomization inference (Fisher, Neyman)
+    -   Model-based inference (regression)
+    -   When they agree and when they differ
+    -   Robust standard errors and why they matter
+
+4.  **The Assignment Mechanism**
+    -   Complete randomization
+    -   Bernoulli randomization
+    -   Block/stratified randomization (preview)
+    -   Cluster randomization (preview)
+
+**Discussion:**
+
+-   What assumptions does randomization buy us?
+-   When might an RCT still fail to identify causal effects?
+
+------------------------------------------------------------------------
+
+## After Class
+
+### Lab 0 Due
+
+-   **Lab 0** due Sunday, January 19
+
+### Looking Ahead
+
+-   **Session 1.2 (Jan 26):** Power & Statistical Validity
+-   Read Lin (2013) and Gelman & Carlin (2014)
+
+------------------------------------------------------------------------
+
+## Additional Resources
+
+### Randomization Inference
+
+-   [EGAP Methods Guide: Randomization Inference](https://egap.org/resource/10-things-to-know-about-randomization-inference/)
+-   Rosenbaum (2002) — "Covariance Adjustment in Randomized Experiments"
+
+### Estimands
+
+-   Imbens & Angrist (1994) — "Identification and Estimation of LATE"
+-   Swanson et al. (2018) — "A Practical Guide to Selection Bias"
+
+### R Packages
+
+-   [`ri2`](https://declaredesign.org/r/ri2/) — Randomization inference
+-   [`DeclareDesign`](https://declaredesign.org/) — Design declaration
+-   [`estimatr`](https://declaredesign.org/r/estimatr/) — Robust estimation
+
+------------------------------------------------------------------------
+
+## Key Concepts Summary
+
+| Concept | Definition |
+|---------|------------|
+| **Randomization** | Random assignment of treatment ensures $Y(0), Y(1) \perp Z$ |
+| **ATE** | $E[Y(1) - Y(0)]$ — Average effect across population |
+| **ATT** | $E[Y(1) - Y(0) | Z=1]$ — Effect on those who received treatment |
+| **ITT** | Effect of assignment (regardless of compliance) |
+| **Design-based** | Inference based on randomization distribution |
+| **Model-based** | Inference based on assumed data-generating process |
