@@ -36,53 +36,53 @@ subtitle: "HPM 883 Spring 2026"
 
 ---
 
-### Week 2: Statistical Conclusion Validity (Jan 19-21)
+### Week 2: Randomization & RCTs (Jan 19-21)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
 | 4 | Mon Jan 19 | **NO CLASS — MLK Day** | — |
-| 5 | Wed Jan 21 | Statistical Conclusion Validity & Power | In-Person |
+| 5 | Wed Jan 21 | Randomization & RCTs (Session 1.1) | In-Person |
 
-**Key Concepts:** Type I/II errors, power analysis, effect size considerations, multiple testing, power by simulation
+**Key Concepts:** Why randomization works, potential outcomes ⊥ treatment, ATE/ATT/ITT/LATE estimands, design-based vs. model-based inference, assignment mechanisms
 
 **Due:** Lab 0
 
 ---
 
-### Week 3: Optimal Design & ML Foundations (Jan 26-28)
+### Week 3: Power & Optimal Design (Jan 26-28)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 6 | Mon Jan 26 | Optimal Experimental Design & MIDA Framework | In-Person |
-| 7 | Wed Jan 28 | ML Foundations for Causal Inference | In-Person |
+| 6 | Mon Jan 26 | Statistical Conclusion Validity & Power (Session 1.2) | In-Person |
+| 7 | Wed Jan 28 | Optimal Experimental Design & MIDA (Session 1.3) | In-Person |
 
-**Session 6 Key Concepts:** Model-Inquiry-Data-Answer (MIDA), blocking, stratification, variance reduction (CUPED, Lin regression), cluster randomization
+**Session 6 Key Concepts:** Type I/II errors, power analysis (analytical + simulation), effect size considerations, MDE, Lin (2013) regression adjustment, multiple testing
 
-**Session 7 Key Concepts:** Prediction vs. estimation (Y-hard vs. β-hard), bias-variance tradeoff, cross-validation, regularization (Lasso/Ridge), tree-based methods
+**Session 7 Key Concepts:** Model-Inquiry-Data-Answer (MIDA), blocking, stratification, variance reduction (CUPED, Lin regression), cluster randomization, design diagnosis
 
-**Preparation for Session 7 (Required):**
+**Lab 1 assigned:** Power Analysis by Simulation (due Feb 2)
+
+---
+
+### Week 4: ML Foundations & Guest Lecture (Feb 2-4)
+
+*Instructor traveling — Unit 2 begins*
+
+| Session | Date | Topic | Format |
+|---------|------|-------|--------|
+| 8 | Mon Feb 2 | ML Foundations for Causal Inference (Session 2.0) | Async |
+| 9 | Wed Feb 4 | **Guest Lecture:** Tara Templin (Stanford) | Remote |
+
+**Session 8 (Self-Study):** ML foundations needed for Double Machine Learning. Covers prediction vs. causal estimation (Y-hard vs. β-hard), bias-variance tradeoff, cross-validation, regularization (Lasso/Ridge), and tree-based methods. Focus on ML as nuisance estimation.
+
+**Preparation (Required before Feb 4):**
 - Watch: Jann Spiess videos (~90 min total)
   - [Applied ML: An Introduction](https://www.youtube.com/watch?v=G5qrBvOmzes)
   - [Applied ML: Secret Sauce](https://www.youtube.com/watch?v=Qs6JmdNoT-Y)
   - [Applied ML: Prediction vs Estimation](https://www.youtube.com/watch?v=e2Nmlk0cbrY)
-- Read: ISLR Chapter 2 (Statistical Learning), Chapter 5 (Cross-Validation)
+- Read: ISLR Chapters 2 (Statistical Learning), 5 (Cross-Validation)
 
-**Problem Set 1 assigned:** Experimental Design & Power (due Feb 2)
-
----
-
-### Week 4: ML Workbook & Guest Lecture (Feb 2-4)
-
-*Instructor out of town — Unit 2 begins*
-
-| Session | Date | Topic | Format |
-|---------|------|-------|--------|
-| 8 | Mon Feb 2 | Self-Guided ML Workbook | Async |
-| 9 | Wed Feb 4 | **Guest Lecture:** Tara Templin (Stanford) | Remote |
-
-**Session 8:** Interactive workbook covering ML concepts for causal inference. Complete exercises on cross-validation, regularization, and tree-based methods. Focus on ML as a tool for nuisance estimation in DML.
-
-**Due:** Problem Set 1
+**Due:** Lab 1
 **Design Memo 1 assigned** (due Feb 16)
 
 ---
@@ -249,7 +249,7 @@ subtitle: "HPM 883 Spring 2026"
 | Deliverable | Due Date | Weight |
 |-------------|----------|--------|
 | Lab 0: Reproducible Research Setup | Jan 19 | 5% |
-| Problem Set 1: Experimental Design & Power | Feb 2 | — |
+| Lab 1: Power Analysis by Simulation | Feb 2 | 5% |
 | Design Memo 1: Experimental Design Plan | Feb 16 | 10% |
 | Problem Set 2: Double ML Implementation | Feb 23 | — |
 | Design Memo 2: DML Analysis Plan | Mar 9 | 10% |
