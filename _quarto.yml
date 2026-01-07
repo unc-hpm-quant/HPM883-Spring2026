@@ -46,28 +46,31 @@ website:
         menu:
           - icon: person-raised-hand
             text: Office hours
-            href: https://placeholder.link/office-hours
-          - icon: people-fill
-            text: Help from humans 
-            href: https://placeholder.link/help-humans
-          - icon: robot
-            text: Help from AI (Chatbot)
-            href: https://placeholder.link/chatbot
+            href: https://calendly.com/placeholder/hpm883-office-hours
+          - icon: chat-dots-fill
+            text: Course Discussions
+            href: https://uncch.instructure.com/courses/108894/discussion_topics
+          - icon: envelope-fill
+            text: Anonymous Feedback
+            href: https://forms.gle/placeholder-feedback-form
       - icon: slack
         href: https://hpm883.slack.com
         text: "Slack"
       - icon: file-check-fill
         text: "Canvas"
         menu:
+          - icon: house-fill
+            text: Course Home
+            url: https://uncch.instructure.com/courses/108894
           - icon: megaphone-fill
             text: Announcements
-            url: https://placeholder.link/announcements
+            url: https://uncch.instructure.com/courses/108894/announcements
           - icon: file-arrow-up-fill
-            text: Gradescope
-            url: https://placeholder.link/gradescope
+            text: Assignments
+            url: https://uncch.instructure.com/courses/108894/assignments
           - icon: alphabet-uppercase
             text: Gradebook
-            url: https://placeholder.link/gradebook
+            url: https://uncch.instructure.com/courses/108894/grades
     
     style: "docked"
     search: true

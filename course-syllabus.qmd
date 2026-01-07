@@ -32,8 +32,8 @@ subtitle: "HPM 883: Advanced Quantitative Methods — Spring 2026"
 | **Title** | Associate Professor, Health Policy and Management |
 | **Office** | McGavran-Greenberg 1101-D |
 | **Email** | sysylvia@email.unc.edu |
-| **Office Hours** | Wednesday 2:00-4:00pm (in-person or Zoom) |
-| **Coding Support** | Friday 10:00-11:00am (Zoom) |
+| **Office Hours** | Tuesday 1-2pm, Wednesday 3-4pm (Zoom: [unc.zoom.us/my/seansylvia](https://unc.zoom.us/my/seansylvia)) |
+| **Book Appointment** | [Calendly](https://calendly.com/placeholder/hpm883-office-hours) — Book at least 2 days in advance |
 
 **Teaching Assistant:** Bryan Nice, MPH (bnice@email.unc.edu)
 
@@ -165,6 +165,31 @@ Final course grades follow the [UNC Graduate School grading scale](https://handb
 
 ## Policies
 
+### Communication
+
+**Course Questions:** Please use the [Canvas Discussion Board](https://uncch.instructure.com/courses/108894/discussion_topics) to ask questions about problem sets, exercises, and other class materials. This ensures everyone benefits from the answers. If you email me or the TA a question that is not personal in nature, we will ask you to post it to Canvas instead.
+
+::: {.callout-tip}
+## Participation Bonus
+If you are "on the bubble" for your final grade, your participation in helping answer classmates' questions on the discussion board will be carefully considered!
+:::
+
+**Announcements:** We use Canvas/email for time-critical announcements. For updates on class materials, check the [course website](https://hpm883.ssylvia.io) (NOT Canvas) regularly — there will be adjustments as we go through the semester.
+
+**Anonymous Feedback:** I am continuously trying to improve the course. Please share feedback anytime via the [anonymous feedback form](https://forms.gle/placeholder-feedback-form) — don't be shy!
+
+---
+
+### Attendance
+
+- Attendance is **not** formally taken, but participation in jigsaw activities will be recorded
+- You do **not** need to email the instructor or TA if you will be absent
+- For jigsaw discussions, you may drop your **lowest 2** session scores
+- When possible, class recordings will be provided
+- For sessions marked as **in-person**, there will not be a live Zoom option for remote attendance
+
+---
+
 ### AI Use Policy
 
 The use of AI tools (such as ChatGPT, GitHub Copilot, or Claude) is **permitted and encouraged** for:
@@ -176,7 +201,23 @@ The use of AI tools (such as ChatGPT, GitHub Copilot, or Claude) is **permitted 
 
 However, you are responsible for all code you submit — AI-generated code must be understood, tested, and verified. Conceptual understanding cannot be outsourced.
 
-### Late Work
+**Required Disclosure:** For any assignment, you must include a brief note indicating which AI model(s) you used and how. For example: "Used Claude 3.5 to help debug the bootstrap function" or "Used GitHub Copilot for code completion throughout."
+
+### Labs & Problem Sets
+
+Labs are intentionally challenging and combine theoretical and empirical (coding) components.
+
+**Submission Requirements:**
+
+- Submit both a **PDF report** and the **code** used to generate results via GitHub Classroom
+- Late submissions will **not** be accepted
+- You may use either **R or Python** (Stata and other pre-packaged solutions beyond the basics are not permitted)
+
+**Collaboration Policy:**
+
+I encourage you to work in groups and discuss approaches. However, you must do your own work — I do not want to receive multiple copies of the exact same submission.
+
+### Late Work (Capstone Only)
 
 - Late submissions: -10% per 24 hours
 - After 48 hours: No credit without prior arrangement

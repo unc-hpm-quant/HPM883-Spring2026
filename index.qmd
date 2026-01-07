@@ -28,7 +28,7 @@ HPM 883 is an advanced graduate-level course designed to equip PhD students in H
 | **Instructor** | Sean Sylvia |
 | **Meeting Time** | Mon/Wed 11:15am - 12:30pm |
 | **Location** | Rosenau 228 / Zoom (hybrid) |
-| **Office Hours** | Wed 2:00-4:00pm |
+| **Office Hours** | Tue 1-2pm, Wed 3-4pm ([Book appointment](https://calendly.com/placeholder/hpm883-office-hours)) |
 | **Credits** | 3 |
 
 :::
@@ -48,7 +48,7 @@ HPM 883 is an advanced graduate-level course designed to equip PhD students in H
 - [Course GitHub Org](https://github.com/HPM-883-course)
 - [Semester GitHub Org](https://github.com/HPM-883-2026)
 - [Slack Workspace](https://hpm883.slack.com)
-- [Canvas](https://canvas.unc.edu)
+- [Canvas](https://uncch.instructure.com/courses/108894)
 
 ### Textbooks (Free)
 
