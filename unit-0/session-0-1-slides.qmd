@@ -108,7 +108,7 @@ Bryan will help with:
 - **Lectures:** Monday & Wednesday, 11:15am - 12:30pm
 - **Location:** Rosenau 228 / Zoom (hybrid)
 - **Office Hours:** Tue 1-2pm, Wed 3-4pm via Zoom
-  - [Book appointment](https://calendly.com/placeholder/hpm883-office-hours) — **2 days advance required**
+  - [Book appointment](https://calendly.com/sean-sylvia/hpm-883-office-hours-1) — **2 days advance required**
 :::
 
 # Course Overview {.center}
@@ -285,7 +285,7 @@ We'll cover computing setup: GitHub Codespaces, R environment, and `DeclareDesig
 
 | Resource | When | Where |
 |----------|------|-------|
-| **Office Hours** | Tue 1-2pm, Wed 3-4pm | Zoom ([Book](https://calendly.com/placeholder/hpm883-office-hours)) |
+| **Office Hours** | Tue 1-2pm, Wed 3-4pm | Zoom ([Book](https://calendly.com/sean-sylvia/hpm-883-office-hours-1)) |
 | **TA** | By appointment | Email Bryan Nice |
 
 ::: fragment
@@ -925,7 +925,7 @@ Accept Lab 0 on GitHub Classroom before Session 0.2. Link in Canvas.
 
 ::: {.callout-note}
 ## Office Hours
-Tue 1-2pm, Wed 3-4pm via Zoom — [Book appointment](https://calendly.com/placeholder/hpm883-office-hours)
+Tue 1-2pm, Wed 3-4pm via Zoom — [Book appointment](https://calendly.com/sean-sylvia/hpm-883-office-hours-1)
 :::
 
 ::: {.notes}

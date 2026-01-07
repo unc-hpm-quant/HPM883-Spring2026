@@ -46,13 +46,13 @@ website:
         menu:
           - icon: person-raised-hand
             text: Office hours
-            href: https://calendly.com/placeholder/hpm883-office-hours
+            href: https://calendly.com/sean-sylvia/hpm-883-office-hours-1
           - icon: chat-dots-fill
             text: Course Discussions
             href: https://uncch.instructure.com/courses/108894/discussion_topics
           - icon: envelope-fill
             text: Anonymous Feedback
-            href: https://forms.gle/placeholder-feedback-form
+            href: https://unc.az1.qualtrics.com/jfe/form/SV_b3O2k8IV6hVLn9k
       - icon: slack
         href: https://hpm883.slack.com
         text: "Slack"
