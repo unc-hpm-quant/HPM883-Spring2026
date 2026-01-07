@@ -3,10 +3,8 @@ title: "HPM 883: Advanced Quantitative Methods"
 subtitle: "Spring 2026 | UNC Gillings School of Global Public Health"
 ---
 
-::: {.grid}
-
+::::: grid
 ::: {.g-col-12 .g-col-md-8}
-
 ## Welcome
 
 HPM 883 is an advanced graduate-level course designed to equip PhD students in Health Policy and Management with sophisticated quantitative research skills. This course is the third installment in the quantitative methods sequence, building on foundations from HPM 881 and HPM 882.
@@ -15,71 +13,67 @@ HPM 883 is an advanced graduate-level course designed to equip PhD students in H
 
 **Focus Areas:**
 
-- Experimental design and randomization inference
-- Double/Debiased Machine Learning (DML)
-- Heterogeneous treatment effects and causal forests
-- Policy learning and optimal treatment rules
-- Adaptive experiments and dynamic treatment decisions
+-   Experimental design and randomization inference
+-   Double/Debiased Machine Learning (DML)
+-   Heterogeneous treatment effects and causal forests
+-   Policy learning and optimal treatment rules
+-   Adaptive experiments and dynamic treatment decisions
 
 ### Course Details
 
-| | |
-|---|---|
+|  |  |
+|------------------------------------|------------------------------------|
 | **Instructor** | Sean Sylvia |
 | **Meeting Time** | Mon/Wed 11:15am - 12:30pm |
 | **Location** | Rosenau 228 / Zoom (hybrid) |
 | **Office Hours** | Tue 1-2pm, Wed 3-4pm ([Book appointment](https://calendly.com/placeholder/hpm883-office-hours)) |
 | **Credits** | 3 |
-
 :::
 
 ::: {.g-col-12 .g-col-md-4}
-
 ### Quick Links
 
-- [Schedule](schedule.qmd)
-- [Syllabus](course-syllabus.qmd)
-- [Computing Setup](computing.qmd)
-- [Lab 0: Environment Setup](labs/lab-0-setup.qmd)
+-   [Schedule](schedule.qmd)
+-   [Syllabus](course-syllabus.qmd)
+-   [Computing Setup](computing.qmd)
+-   [Lab 0: Environment Setup](labs/lab-0-setup.qmd)
 
 ### Resources
 
-- [GitHub Classroom](https://classroom.github.com/classrooms/253497296-hpm-883-s26)
-- [Course GitHub Org](https://github.com/HPM-883-course)
-- [Semester GitHub Org](https://github.com/HPM-883-2026)
-- [Slack Workspace](https://hpm883.slack.com)
-- [Canvas](https://uncch.instructure.com/courses/108894)
+-   [GitHub Classroom](https://classroom.github.com/classrooms/253497296-hpm-883-s26)
+-   [Course GitHub Org](https://github.com/HPM-883-course)
+-   [Semester GitHub Org](https://github.com/HPM-883-2026)
+-   [Slack Workspace](https://hpm883.slack.com)
+-   [Canvas](https://uncch.instructure.com/courses/108894)
 
 ### Textbooks (Free)
 
-- [Chernozhukov et al. (2025)](https://causalml-book.org/)
-- [Wager (2024)](http://web.stanford.edu/~swager/causal_inf_book.pdf)
-
+-   [Chernozhukov et al. (2025)](https://causalml-book.org/)
+-   [Wager (2024)](http://web.stanford.edu/~swager/causal_inf_book.pdf)
 :::
+:::::
 
-:::
-
----
+------------------------------------------------------------------------
 
 ## Announcements
 
-::: {.callout-note}
+::: callout-note
 ## Week 1: January 7-14, 2026
 
 Welcome to HPM 883! Please complete the following before our first class:
 
-1. Review the [syllabus](course-syllabus.qmd)
-2. Complete [computing setup](computing.qmd)
-3. Join the Slack workspace (link in Canvas)
-4. [Accept Lab 0 on GitHub Classroom](https://classroom.github.com/a/PMGz700B) — due Jan 19
+1.  Review the [syllabus](course-syllabus.qmd)
+2.  Complete [computing setup](computing.qmd)
+3.  Join the Slack workspace (link in Canvas)
+4.  [Accept Lab 0 on GitHub Classroom](https://classroom.github.com/a/PMGz700B) — due Jan 19
 :::
 
----
+------------------------------------------------------------------------
 
 ## Course Units
 
 | Unit | Topic | Weeks | Core Question |
-|------|-------|-------|---------------|
+|---------------|---------------|---------------|---------------------------|
 | **0** | Foundations: Potential Outcomes & DAGs | 1 | Setup |
 | **1** | Experimental Design | 2-3 | Does it work? |
 | **2** | Double/Debiased ML & Doubly-Robust Estimation | 4-6 | Does it work? |
@@ -88,16 +82,16 @@ Welcome to HPM 883! Please complete the following before our first class:
 | **5** | Adaptive Experiments | 10-11 | What should we do? (dynamic) |
 | — | Capstone & Presentations | 12-14 | Integration |
 
----
+------------------------------------------------------------------------
 
 ## Assessment Overview
 
-| Component | Weight |
-|-----------|--------|
-| Labs | 30% |
-| Jigsaw Participation | 20% |
-| Capstone Project | 45% |
-| Peer Review | 5% |
+| Component            | Weight |
+|----------------------|--------|
+| Labs                 | 30%    |
+| Jigsaw Participation | 20%    |
+| Capstone Project     | 45%    |
+| Peer Review          | 5%     |
 
 Each unit ends with a **jigsaw paper session** where students teach each other about applied papers.
 

@@ -102,8 +102,6 @@ website:
         contents:
           - href: resources.qmd
             text: "Reference Materials"
-          - href: templates.qmd
-            text: "Templates"
 
 
   page-footer:
