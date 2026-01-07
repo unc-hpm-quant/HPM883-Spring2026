@@ -239,20 +239,24 @@ diagnosis_blocked
 ```{r}
 #| label: ex3-compare
 
-# Compare designs by diagnosing them separately
-# (DeclareDesign's + operator creates duplicate inquiry labels)
-diagnosis_simple_200 <- diagnose_design(redesign(design_simple, N = 200), sims = 200)
-diagnosis_blocked_200 <- diagnose_design(redesign(design_blocked, N = 200), sims = 200)
+# Compare designs by running diagnostics separately
+# Note: We compare via printed output rather than combining
+# (DeclareDesign's + operator creates duplicate inquiry labels when combining)
 
-# Extract diagnosands and combine for comparison
-# (diagnosis objects need to be converted to data frames first)
-bind_rows(
-  as.data.frame(diagnosis_simple_200$diagnosands_df) |> mutate(design = "Simple"),
-  as.data.frame(diagnosis_blocked_200$diagnosands_df) |> mutate(design = "Blocked")
-) |>
-  select(design, power, se_power, bias, sd_estimate) |>
-  knitr::kable(digits = 3, caption = "Simple vs. Blocked Randomization (N=200)")
+cat("=== Simple Randomization (N=200) ===\n")
+diag_simple <- diagnose_design(redesign(design_simple, N = 200), sims = 200)
+print(diag_simple)
+
+cat("\n=== Blocked Randomization (N=200) ===\n")
+diag_blocked <- diagnose_design(redesign(design_blocked, N = 200), sims = 200)
+print(diag_blocked)
 ```
+
+::: {.callout-note}
+## Comparing the Results
+Look at the **Power** and **SD Estimate** columns. Blocking should reduce variance
+(lower SD Estimate) when the blocking variable (education) is predictive of outcomes.
+:::
 
 ---
 
