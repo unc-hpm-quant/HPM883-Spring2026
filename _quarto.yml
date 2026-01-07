@@ -39,8 +39,8 @@ website:
         href: https://github.com/unc-hpm-quant/HPM883-Spring2026
         text: "GitHub"
       - icon: code-square
-        href: https://rstudio.cloud/
-        text: "Rstudio Cloud"
+        href: https://github.com/codespaces
+        text: "Codespaces"
       - icon: life-preserver
         text: Support
         menu:
@@ -85,12 +85,6 @@ website:
             text: "Computing"
           - href: Resources/setup-guide.qmd
             text: "Setup Guide"
-      - section: "Capstone Project"
-        contents:
-          - href: project.qmd
-            text: "Project Description"
-          - href: template-protocol.qmd
-            text: "PAP Template"
       - section: "Unit 0: Foundations"
         contents:
           - href: unit-0/unit-0-foundations-1.qmd
@@ -101,30 +95,6 @@ website:
             text: "Session 0.3: Potential Outcomes & DAGs"
           - href: labs/lab-0-setup.qmd
             text: "Lab 0: Environment Setup"
-      - text: "Unit 1: Experimental Design"
-        contents:
-          - text: "Coming Soon — Week 2-3"
-      - text: "Unit 2: DR & DML"
-        contents:
-          - text: "Coming Soon — Week 4-6"
-      - text: "Unit 3: HTE & Causal Forests"
-        contents:
-          - text: "Coming Soon — Week 7-8"
-      - text: "Unit 4: Policy Learning"
-        contents:
-          - text: "Coming Soon — Week 9"
-      - text: "Unit 5: Observational ML"
-        contents:
-          - text: "Coming Soon — Week 10"
-      - text: "Unit 6: DiD & Synthetic Controls"
-        contents:
-          - text: "Coming Soon — Week 11"
-      - text: "Unit 7: Advanced Topics"
-        contents:
-          - text: "Coming Soon — Week 12"
-      - text: "Unit 8: Capstone"
-        contents:
-          - text: "Coming Soon — Week 13-14"
       - section: "Resources"
         contents:
           - href: resources.qmd

@@ -23,63 +23,51 @@ HPM 883 uses a three-tier computing environment designed to minimize setup frict
 
 ---
 
-## Three-Tier Architecture
+## Two-Tier Architecture
 
 | Tier | Platform | When to Use | Cost |
 |------|----------|-------------|------|
-| **In-Class** | [Posit Cloud](https://posit.cloud) | Lectures, code-alongs, live demos | $5/month |
-| **Projects** | Local (Positron) + GitHub | Labs, capstone, independent work | Free |
-| **Submission** | GitHub Classroom | All graded assignments | Free |
+| **Primary** | [GitHub Codespaces](https://github.com/codespaces) | Labs, code-alongs, assignments | Free (180 core-hours/month) |
+| **Alternative** | Local (Positron/RStudio) + GitHub | Advanced users, offline work | Free |
 
-### Tier 1: Posit Cloud (In-Class)
+### Tier 1: GitHub Codespaces (Primary)
 
-For in-class exercises, we use **Posit Cloud** — a browser-based R environment with zero setup.
+For in-class exercises and all labs, we use **GitHub Codespaces** — a browser-based development environment that runs a full RStudio Server in your browser with zero local setup.
 
 **Benefits:**
 
-- Works on any computer with a browser
-- Pre-configured with all required packages
-- Instructor can see your work in real-time
-
-**Cost:** $5/month (Student plan) — [Sign up here](https://posit.cloud/plans)
+- Zero installation — works on any computer with a browser
+- Pre-configured with all required R packages
+- Professional workflow (Git/GitHub integrated)
+- Free for verified students (180 core-hours/month)
 
 **How it works:**
 
-1. Log into Posit Cloud
-2. Join the HPM 883 course workspace (link provided in class)
-3. Open the assignment project
-4. Code along with the instructor
+1. Accept an assignment via GitHub Classroom link
+2. Click "Open in Codespace" → browser-based RStudio launches
+3. Work on your assignment
+4. Commit and push when done — no download/upload needed
 
-### Tier 2: Local Development (Projects)
+**GitHub Organizations:**
 
-For labs and the capstone project, you'll work locally using **Positron** (recommended) or RStudio.
+| Organization | Purpose | Link |
+|--------------|---------|------|
+| **HPM-883-course** | Baseline materials (instructor-only) | [github.com/HPM-883-course](https://github.com/HPM-883-course) |
+| **HPM-883-2026** | Student-facing content for Spring 2026 | [github.com/HPM-883-2026](https://github.com/HPM-883-2026) |
+| **GitHub Classroom** | Assignment distribution & submission | [Classroom](https://classroom.github.com/classrooms/253497296-hpm-883-s26) |
+
+### Tier 2: Local Development (Alternative)
+
+For the capstone project or if you prefer working offline, you can work locally using **Positron** (recommended) or RStudio.
 
 **Why local development?**
 
-- Faster performance
-- Built-in AI assistance (Positron)
-- Learn real-world reproducible workflow
 - Works offline
+- Built-in AI assistance (Positron)
+- More computing power for large datasets
+- Full control over environment
 
-**Template Repositories:**
-
-| Template | Purpose | Link |
-|----------|---------|------|
-| Lab Template | Weekly lab assignments | [hpm883-lab-template](https://github.com/unc-hpm-quant/hpm883-lab-template) |
-| Capstone Template | Semester project | [hpm883-capstone-template](https://github.com/unc-hpm-quant/hpm883-capstone-template) |
-
-### Tier 3: GitHub Classroom (Submission)
-
-All graded work is submitted via **GitHub Classroom**.
-
-**Workflow:**
-
-1. Click the assignment link (provided on course website)
-2. Accept the assignment → creates your personal repo
-3. Clone to your computer
-4. Complete the work
-5. Commit and push to GitHub
-6. GitHub Classroom records your submission time
+**Setup required:** See [Local Setup Instructions](#local-setup) below.
 
 ---
 
@@ -157,29 +145,22 @@ quarto --version
 
 ### In-Class Code-Alongs
 
-**Platform:** Posit Cloud
+**Platform:** GitHub Codespaces
 
-1. Log into Posit Cloud
-2. Open the class project
+1. Accept the code-along assignment via GitHub Classroom link
+2. Click "Open in Codespace" — RStudio opens in your browser
 3. Follow along with instructor
-4. No submission needed
+4. Push your work when done (or discard if not needed)
 
-### Labs (Weekly)
+### Labs
 
-**Platform:** Local + GitHub Classroom
+**Platform:** GitHub Codespaces
 
-1. Accept assignment via GitHub Classroom link
-2. Clone to local machine:
-
-```bash
-git clone git@github.com:unc-hpm-quant/lab-X-yourusername.git
-```
-
-3. Open `.Rproj` file in Positron/RStudio
-4. Restore packages: `renv::restore()`
-5. Complete the lab in `analysis.qmd`
-6. Render to HTML
-7. Commit and push:
+1. Accept assignment via GitHub Classroom link (distributed via Canvas)
+2. Click "Open in Codespace" — RStudio opens in your browser
+3. Complete the lab in `analysis.qmd`
+4. Render to HTML: `quarto render`
+5. Commit and push from the RStudio Git pane (or terminal):
 
 ```bash
 git add .
@@ -189,14 +170,14 @@ git push
 
 ### Capstone Project
 
-**Platform:** Local + GitHub Classroom
+**Platform:** GitHub Codespaces or Local
 
-Same workflow as labs, but uses the capstone template with:
+For the capstone project, you may use either Codespaces or local development. The capstone template includes:
 
-- `_targets.R` — Analysis pipeline
 - `analysis/01-pap.qmd` — Pre-analysis plan
 - `analysis/02-analysis.qmd` — Main analysis
 - `analysis/03-results.qmd` — Results summary
+- `_targets.R` — Analysis pipeline (optional)
 
 ---
 
@@ -278,11 +259,17 @@ git push
 2. Look for unmatched brackets or quotes
 3. Run chunks one-by-one to find the error
 
-### Posit Cloud Running Slow
+### Codespaces Running Slow
 
-1. Close unused projects
-2. Increase RAM: Project Settings → Resources → RAM
+1. Stop unused Codespaces: [github.com/codespaces](https://github.com/codespaces) → Stop/Delete
+2. Use a larger machine type: ... menu → Change machine type → 4-core
 3. Clear old outputs: delete `_freeze/` folder
+
+### Codespaces Won't Start
+
+1. Check your monthly quota: [github.com/settings/billing](https://github.com/settings/billing)
+2. Delete unused Codespaces to free quota
+3. Verify GitHub Education status: [education.github.com/pack](https://education.github.com/pack)
 
 ### GitHub Authentication Issues
 

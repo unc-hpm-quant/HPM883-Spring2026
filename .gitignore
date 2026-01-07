@@ -85,3 +85,6 @@ mcp-servers/
 credentials*
 .env
 .env.*
+
+# Auto Claude data directory
+.auto-claude/

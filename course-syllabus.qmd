@@ -45,13 +45,15 @@ HPM 883 is an advanced graduate-level course designed to equip PhD students in H
 
 The course integrates experimental design principles with modern causal machine learning methods, following a three-layer framework: **Identification → Estimation → Decision**.
 
+**Core Narrative:** "Does it work?" → "For whom?" → "What should we do?"
+
 **Focus Areas:**
 
 - Experimental design and randomization inference
 - Double/Debiased Machine Learning (DML)
 - Heterogeneous treatment effects and causal forests
 - Policy learning and optimal treatment rules
-- Modern causal inference methods (DiD, synthetic controls)
+- Adaptive experiments and dynamic treatment decisions
 
 **Course Format:** This is a hybrid course combining in-person lectures (theory and discussion) with remote Zoom sessions (coding labs and implementation).
 
@@ -63,14 +65,14 @@ Upon successful completion of this course, students will be able to:
 
 | # | Learning Objective | Assessment Evidence |
 |---|-------------------|---------------------|
-| 1 | **Design** randomized experiments with appropriate power analysis, randomization strategies, and variance reduction techniques | Design Memo 1, PS 1, Capstone Project |
-| 2 | **Implement** Double/Debiased Machine Learning and doubly-robust estimators for causal inference | PS 2, Design Memo 2, Capstone Project |
-| 3 | **Estimate** heterogeneous treatment effects using causal forests and meta-learners | PS 3, Capstone Project |
-| 4 | **Evaluate** Conditional Average Treatment Effect (CATE) estimates using calibration diagnostics | PS 3, Capstone Project |
-| 5 | **Learn** optimal treatment policies from observational data using policy trees | PS 4, Capstone Project |
-| 6 | **Apply** modern difference-in-differences and synthetic control methods | PS 5, Capstone Project |
-| 7 | **Diagnose** common problems including overlap violations, confounding, and model misspecification | PS 2-5, Design Memos, Capstone Project |
-| 8 | **Produce** reproducible research using modern workflow tools (renv, targets, Quarto) | PS 0, All Problem Sets, Capstone Project |
+| 1 | **Design** randomized experiments with appropriate power analysis, randomization strategies, and variance reduction techniques | Labs, Jigsaw, Capstone Project |
+| 2 | **Implement** Double/Debiased Machine Learning and doubly-robust estimators for causal inference | Labs, Jigsaw, Capstone Project |
+| 3 | **Estimate** heterogeneous treatment effects using causal forests and meta-learners | Labs, Jigsaw, Capstone Project |
+| 4 | **Evaluate** Conditional Average Treatment Effect (CATE) estimates using calibration diagnostics | Labs, Capstone Project |
+| 5 | **Learn** optimal treatment policies using policy trees and off-policy evaluation | Labs, Capstone Project |
+| 6 | **Understand** adaptive experiments including bandits and Thompson sampling | Jigsaw, Capstone Project |
+| 7 | **Diagnose** common problems including overlap violations, confounding, and model misspecification | Labs, Jigsaw, Capstone Project |
+| 8 | **Produce** reproducible research using modern workflow tools (Git, Quarto, Codespaces) | Lab 0, All Labs, Capstone Project |
 
 ---
 
@@ -98,19 +100,19 @@ All software is free and open-source. See [Setup Guide](Resources/setup-guide.qm
 
 ## Course Structure
 
-The course is organized into 8 units over 14 weeks:
+The course is organized into 6 units over 14 weeks, following the core narrative arc:
 
-| Unit | Topic | Weeks | Content Focus |
+| Unit | Topic | Weeks | Core Question |
 |------|-------|-------|---------------|
-| 0 | Foundations: Potential Outcomes & DAGs | 1 | Framework foundations |
-| 1 | Experimental Design & Randomization | 2-3 | Design-based inference |
-| 2 | Double/Debiased Machine Learning | 4-6 | Semiparametric estimation |
-| 3 | HTE & Causal Forests | 7-8 | Treatment heterogeneity |
-| 4 | Policy Learning | 9 | Optimal decisions |
-| 5 | Observational Causal ML | 10 | Weighting and balance |
-| 6 | DiD & Synthetic Controls | 11 | Panel methods |
-| 7 | Advanced Topics | 12 | Student choice |
-| 8 | Integration & Capstone | 13-14 | Synthesis and presentations |
+| 0 | Foundations: Potential Outcomes & DAGs | 1 | Setup |
+| 1 | Experimental Design & Randomization | 2-3 | Does it work? |
+| 2 | Double/Debiased Machine Learning | 4-6 | Does it work? |
+| 3 | HTE & Causal Forests | 7-8 | For whom? |
+| 4 | Policy Learning | 9 | What should we do? (static) |
+| 5 | Adaptive Experiments | 10-11 | What should we do? (dynamic) |
+| — | Capstone & Presentations | 12-14 | Integration |
+
+Each unit concludes with a **jigsaw paper session** where students teach each other about applied papers.
 
 ---
 
@@ -120,11 +122,21 @@ The course is organized into 8 units over 14 weeks:
 
 | Component | Weight | Description |
 |-----------|--------|-------------|
-| Problem Sets | 30% | ~7 assignments, drop 3 lowest |
-| Design Memos | 20% | 2 written memos (10% each) |
-| Capstone Project | 40% | Paper + code + presentation |
-| Peer Review | 10% | Review of one peer's project |
+| Labs | 30% | 4 required labs |
+| Jigsaw Participation | 20% | ~5 sessions (one per unit) |
+| Capstone Project | 45% | Paper + code + presentation |
+| Peer Review | 5% | Review of one peer's project |
 | **Total** | **100%** | |
+
+### Jigsaw Sessions
+
+Each unit ends with a jigsaw paper presentation session. Students are assigned to **expert groups** to analyze an applied paper, then reshuffled into **teaching groups** to share their paper with peers. This provides:
+
+- Low-stakes participation credit (replaces written design memos)
+- Learning by teaching — evidence-based pedagogy
+- Exposure to diverse applications across health, economics, and policy
+
+**Grading:** Participation-based (40 points/session): Preparation (10), Expert Contribution (10), Engagement (10), Synthesis (10)
 
 ### Grading Scale
 

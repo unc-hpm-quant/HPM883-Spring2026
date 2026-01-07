@@ -14,15 +14,15 @@ format:
 This guide walks you through setting up your computing environment for HPM 883. Complete these steps **before the first class** or during the first week.
 
 ::: {.callout-important}
-## Required Software
+## Required Accounts
 
-You need to install:
+You need:
 
-1. **R** (version 4.3 or higher)
-2. **Positron** (recommended) or RStudio
-3. **Git** and a GitHub account
-4. **Posit Cloud** account ($5/month)
-5. **Quarto** (usually bundled with Positron/RStudio)
+1. **GitHub account** (with GitHub Education verified)
+2. **Git** (for local development, optional)
+3. **Positron or RStudio** (optional — Codespaces provides browser-based R)
+
+**No local R installation required!** We use GitHub Codespaces which provides a complete R environment in your browser.
 :::
 
 ---
@@ -142,29 +142,42 @@ You should see: "Hi username! You've successfully authenticated..."
 
 ---
 
-## Step 4: Set Up Posit Cloud
+## Step 4: Set Up GitHub Codespaces
 
-Posit Cloud provides a browser-based R environment for in-class exercises.
+GitHub Codespaces provides a browser-based R environment with zero local setup. This is our **primary computing environment** for labs and code-alongs.
 
-### Create Account
+### Verify GitHub Education
 
-1. Go to [posit.cloud](https://posit.cloud/)
-2. Sign up with your UNC email
-3. Subscribe to the **Student plan** ($5/month)
+1. Go to [education.github.com/pack](https://education.github.com/pack)
+2. Click "Get your Pack" and verify with your UNC email
+3. This gives you **180 core-hours/month** of free Codespaces
 
-::: {.callout-note}
-## Course Requirement
+::: {.callout-tip}
+## Free for Students
 
-The $5/month Posit Cloud subscription is a required course cost. This gives you:
+GitHub Education provides free Codespaces access. No subscription required! You get:
 
-- 75 project hours/month (plenty for class)
-- 4 GB RAM per project
-- Up to 20 projects
+- 180 core-hours/month (plenty for all coursework)
+- 2-core or 4-core machines
+- Pre-configured R environment with all packages
 :::
 
-### Join Course Workspace
+### How Codespaces Works
 
-After enrollment, you'll receive a link to join the HPM 883 course workspace. This gives you access to pre-configured projects for in-class exercises.
+When you accept a GitHub Classroom assignment:
+
+1. Click the assignment link → Creates your personal repository
+2. Click **"Open in Codespace"** → Browser-based RStudio launches
+3. Complete your work in the browser
+4. Commit and push when done — no file downloads needed
+
+### Managing Codespaces
+
+View and manage your Codespaces at [github.com/codespaces](https://github.com/codespaces):
+
+- **Stop** unused Codespaces to preserve hours
+- **Delete** completed Codespaces to free quota
+- **Rebuild** if environment issues occur
 
 ---
 
@@ -215,27 +228,33 @@ This installs all required packages in the correct versions.
 
 ## Workflow Summary
 
-### In-Class Exercises (Posit Cloud)
+### Labs & Code-Alongs (GitHub Codespaces — Primary)
 
-1. Log into Posit Cloud
-2. Open the class project
-3. Follow along with the instructor
-4. No submission needed (formative)
+1. Accept GitHub Classroom assignment (link in Canvas)
+2. Click **"Open in Codespace"** → RStudio launches in browser
+3. Complete the assignment in `analysis.qmd`
+4. Render to HTML: `quarto render`
+5. Commit and push from RStudio Git pane:
+   ```bash
+   git add .
+   git commit -m "Complete Lab X"
+   git push
+   ```
+6. Verify submission on GitHub
 
-### Labs & Assignments (Local + GitHub)
+### Local Development (Optional)
 
-1. Accept GitHub Classroom assignment
-2. Clone to local machine
-3. Open in Positron/RStudio
-4. Run `renv::restore()` (first time)
-5. Complete the assignment
-6. Render to HTML
-7. Commit and push to GitHub
-8. Verify submission on GitHub
+For offline work or the capstone project:
+
+1. Clone repository to local machine
+2. Open in Positron/RStudio
+3. Run `renv::restore()` (first time)
+4. Complete the assignment
+5. Render, commit, and push to GitHub
 
 ### Capstone Project
 
-Same as labs, but uses the extended capstone template with:
+Works in Codespaces or locally. Uses extended template with:
 
 - `targets` pipeline
 - Pre-analysis plan
@@ -254,7 +273,9 @@ Same as labs, but uses the extended capstone template with:
 | Git push rejected | Run `git pull` first, then push |
 | Quarto render fails | Check YAML header syntax |
 | GitHub auth fails | Regenerate SSH key, re-add to GitHub |
-| Posit Cloud slow | Increase project RAM in settings |
+| Codespaces slow | Stop unused Codespaces, use 4-core machine |
+| Codespaces won't start | Check quota at [github.com/settings/billing](https://github.com/settings/billing) |
+| "Open in Codespace" missing | Verify GitHub Education status |
 
 ### Getting Help
 
@@ -268,12 +289,16 @@ Same as labs, but uses the extended capstone template with:
 
 Before the first class, verify:
 
+- [ ] GitHub account created with UNC email
+- [ ] GitHub Education verified ([education.github.com/pack](https://education.github.com/pack))
+- [ ] Can open a Codespace ([github.com/codespaces](https://github.com/codespaces))
+
+**Optional for local development:**
+
 - [ ] R installed (version 4.3+)
 - [ ] Positron or RStudio installed
 - [ ] Git installed and configured
-- [ ] GitHub account created
 - [ ] SSH key added to GitHub
-- [ ] Posit Cloud account with Student plan
 - [ ] Quarto installed
 
 **Complete Lab 0 during Week 1 to verify everything works together.**

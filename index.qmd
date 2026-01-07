@@ -11,13 +11,15 @@ subtitle: "Spring 2026 | UNC Gillings School of Global Public Health"
 
 HPM 883 is an advanced graduate-level course designed to equip PhD students in Health Policy and Management with sophisticated quantitative research skills. This course is the third installment in the quantitative methods sequence, building on foundations from HPM 881 and HPM 882.
 
+**Core Narrative:** "Does it work?" → "For whom?" → "What should we do?"
+
 **Focus Areas:**
 
 - Experimental design and randomization inference
 - Double/Debiased Machine Learning (DML)
 - Heterogeneous treatment effects and causal forests
 - Policy learning and optimal treatment rules
-- Modern causal inference methods (DiD, synthetic controls)
+- Adaptive experiments and dynamic treatment decisions
 
 ### Course Details
 
@@ -42,10 +44,10 @@ HPM 883 is an advanced graduate-level course designed to equip PhD students in H
 
 ### Resources
 
-- [GitHub Classroom](https://classroom.github.com/classrooms/128099677-hpm-883-spring-2026)
-- [GitHub Organization](https://github.com/unc-hpm-quant)
+- [GitHub Classroom](https://classroom.github.com/classrooms/253497296-hpm-883-s26)
+- [Course GitHub Org](https://github.com/HPM-883-course)
+- [Semester GitHub Org](https://github.com/HPM-883-2026)
 - [Slack Workspace](https://hpm883.slack.com)
-- [Posit Cloud](https://posit.cloud)
 - [Canvas](https://canvas.unc.edu)
 
 ### Textbooks (Free)
@@ -76,17 +78,15 @@ Welcome to HPM 883! Please complete the following before our first class:
 
 ## Course Units
 
-| Unit | Topic | Weeks |
-|------|-------|-------|
-| **0** | Foundations: Potential Outcomes & DAGs | 1 |
-| **1** | Experimental Design | 2-3 |
-| **2** | Double/Debiased ML & Doubly-Robust Estimation | 4-6 |
-| **3** | Heterogeneous Treatment Effects & Causal Forests | 7-8 |
-| **4** | Policy Learning | 9 |
-| **5** | Observational Causal ML | 10 |
-| **6** | DiD & Synthetic Controls | 11 |
-| **7** | Advanced Topics | 12 |
-| **8** | Integration & Capstone | 13-14 |
+| Unit | Topic | Weeks | Core Question |
+|------|-------|-------|---------------|
+| **0** | Foundations: Potential Outcomes & DAGs | 1 | Setup |
+| **1** | Experimental Design | 2-3 | Does it work? |
+| **2** | Double/Debiased ML & Doubly-Robust Estimation | 4-6 | Does it work? |
+| **3** | Heterogeneous Treatment Effects & Causal Forests | 7-8 | For whom? |
+| **4** | Policy Learning | 9 | What should we do? (static) |
+| **5** | Adaptive Experiments | 10-11 | What should we do? (dynamic) |
+| — | Capstone & Presentations | 12-14 | Integration |
 
 ---
 
@@ -94,9 +94,11 @@ Welcome to HPM 883! Please complete the following before our first class:
 
 | Component | Weight |
 |-----------|--------|
-| Problem Sets | 30% |
-| Design Memos (2) | 20% |
-| Capstone Project | 40% |
-| Peer Review | 10% |
+| Labs | 30% |
+| Jigsaw Participation | 20% |
+| Capstone Project | 45% |
+| Peer Review | 5% |
+
+Each unit ends with a **jigsaw paper session** where students teach each other about applied papers.
 
 See [Syllabus](course-syllabus.qmd) for full details.

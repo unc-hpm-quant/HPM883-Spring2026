@@ -106,19 +106,19 @@ Check the schedule — some weeks are all in-person, some mix formats.
 
 ---
 
-## Unit Structure (8 Units, 14 Weeks)
+## Unit Structure (6 Units, 14 Weeks)
 
-| Unit | Topic | Weeks |
-|------|-------|-------|
-| 0 | Foundations | 1 |
-| 1 | Experimental Design | 2-3 |
-| 2 | DR & DML | 4-6 |
-| 3 | HTE & Causal Forests | 7-8 |
-| 4 | Policy Learning | 9 |
-| 5 | Observational ML | 10 |
-| 6 | DiD & Synthetic Controls | 11 |
-| 7 | Advanced Topics | 12 |
-| 8 | Capstone | 13-14 |
+### Core Narrative: "Does it work?" → "For whom?" → "What should we do?"
+
+| Unit | Topic | Weeks | Core Question |
+|------|-------|-------|---------------|
+| 0 | Foundations | 1 | Setup |
+| 1 | Experimental Design | 2-3 | Does it work? |
+| 2 | DR & DML | 4-6 | Does it work? |
+| 3 | HTE & Causal Forests | 7-8 | For whom? |
+| 4 | Policy Learning | 9 | What should we do? (static) |
+| 5 | Adaptive Experiments | 10-11 | What should we do? (dynamic) |
+| — | Capstone & Presentations | 12-14 | Integration |
 
 ---
 
@@ -209,14 +209,14 @@ One credit hour = 1 hour of direct instruction + **2 hours of out-of-class work*
 
 | Component | Weight | Description |
 |-----------|--------|-------------|
-| Problem Sets | 30% | ~7 assignments, **best 4 count** |
-| Design Memos | 20% | 2 memos (10% each) |
-| Capstone Project | 40% | PAP, replication, or comparison |
-| Peer Review | 10% | Review one peer's project |
+| Labs | 30% | 4 required labs |
+| Jigsaw Participation | 20% | ~5 sessions (one per unit) |
+| Capstone Project | 45% | PAP, replication, or comparison |
+| Peer Review | 5% | Review one peer's project |
 
 ::: {.callout-note}
-## Problem Set Policy
-You submit ~7 problem sets; lowest 3 are dropped. This allows flexibility for illness, travel, or competing deadlines.
+## Jigsaw Sessions
+Each unit ends with a **jigsaw paper session**: Expert groups analyze applied papers, then teach each other. Low-stakes participation credit.
 :::
 
 ---
@@ -374,7 +374,7 @@ This three-layer stack is our pedagogical framework for the course — a tool fo
 ### Course Coverage
 - Unit 0: Foundations
 - Unit 1: Experimental design
-- Unit 5-6: Observational strategies
+- Unit 2: DML identification
 :::
 :::
 
@@ -402,7 +402,6 @@ No amount of sophisticated estimation can rescue a study with flawed identificat
 ### Course Coverage
 - Unit 2: DR & DML
 - Unit 3: Heterogeneous effects
-- Units 5-6: Advanced methods
 :::
 :::
 
@@ -428,7 +427,8 @@ ML methods excel at high-dimensional nuisance estimation while preserving valid 
 ::: {.column width="50%"}
 ### Course Coverage
 - Unit 4: Policy learning
-- Unit 8: Capstone projects
+- Unit 5: Adaptive experiments
+- Capstone projects
 :::
 :::
 
@@ -764,7 +764,7 @@ Use Chernozhukov for implementation, Wager for deeper understanding of the theor
 ::: fragment
 ### R Packages
 
-`DoubleML` | `grf` | `policytree` | `did` | `Synth` | `DeclareDesign`
+`DoubleML` | `grf` | `policytree` | `DeclareDesign` | `contextual`
 :::
 
 # This Week {.center}
@@ -785,14 +785,14 @@ Use Chernozhukov for implementation, Wager for deeper understanding of the theor
 
 ### Reproducible Research Setup (Remote via Zoom)
 
-- R environment with `renv`
-- Workflow automation with `targets`
+- GitHub Codespaces setup
+- Git/GitHub fundamentals
 - Introduction to `DeclareDesign`
 - Simulating RCT data in R
 
 ::: {.callout-important}
 ## Preparation
-Install R and RStudio before Session 0.2. Instructions in syllabus.
+Accept Lab 0 on GitHub Classroom before Session 0.2. Link in Canvas.
 :::
 
 ---

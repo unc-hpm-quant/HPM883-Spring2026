@@ -60,7 +60,9 @@ subtitle: "HPM 883 Spring 2026"
 
 **Session 7 Key Concepts:** Model-Inquiry-Data-Answer (MIDA), blocking, stratification, variance reduction (CUPED, Lin regression), cluster randomization, design diagnosis
 
-**Problem Set 1 assigned:** Power Analysis by Simulation (due Feb 2)
+**Lab 1 assigned:** Power Analysis by Simulation (due Feb 2)
+
+**Jigsaw Session 0 (End of Unit 1):** Experimental Design Applications — Expert groups analyze RCT design papers
 
 ---
 
@@ -78,7 +80,6 @@ subtitle: "HPM 883 Spring 2026"
 **Session 9 (Guest Lecture):** Introduction to ML for causal inference from an applied health economics perspective. Bridge to Unit 2.
 
 **Due:** Problem Set 1
-**Design Memo 1 assigned** (due Feb 16)
 
 ---
 
@@ -109,8 +110,9 @@ subtitle: "HPM 883 Spring 2026"
 
 **Key Concepts:** Influence functions, EIF, Neyman orthogonality, partialling out, cross-fitting, sample splitting
 
-**Due:** Design Memo 1
 **Problem Set 2 assigned:** Double ML Implementation (due Feb 23)
+
+**Jigsaw Session 1 (End of Unit 2):** DML in Practice — Expert groups analyze applied DML papers
 
 ---
 
@@ -124,7 +126,6 @@ subtitle: "HPM 883 Spring 2026"
 **Key Concepts:** DoubleML package, nuisance estimation, AIPW, TMLE, semiparametric efficiency
 
 **Due:** Problem Set 2
-**Design Memo 2 assigned** (due Mar 9)
 
 ---
 
@@ -154,8 +155,10 @@ subtitle: "HPM 883 Spring 2026"
 
 **Key Concepts:** T-learner, S-learner, X-learner, R-learner, DR-learner, CATE calibration, targeting policies
 
-**Due:** Problem Set 3, Design Memo 2
+**Due:** Problem Set 3
 **Problem Set 4 assigned:** Meta-Learners and CATE (due Mar 25)
+
+**Jigsaw Session 2 (End of Unit 3):** Causal Forest Applications — Expert groups analyze HTE papers
 
 ---
 
@@ -177,43 +180,43 @@ subtitle: "HPM 883 Spring 2026"
 **Due:** Problem Set 4
 **Problem Set 5 assigned:** Policy Learning (due Apr 8)
 
+**Jigsaw Session 3 (End of Unit 4):** Policy Learning Case Studies — Expert groups analyze targeting papers
+
 ---
 
-### Week 11: ML for Quasi-Experimental Methods (Mar 30 - Apr 1)
+### Week 11: Adaptive Experiments I (Mar 30 - Apr 1)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 22 | Mon Mar 30 | ML-Enhanced Observational Causal Inference | In-Person |
-| 23 | Wed Apr 1 | ML for DiD & Synthetic Controls | Remote |
+| 22 | Mon Mar 30 | Multi-Armed Bandits & Thompson Sampling (Session 5.1) | In-Person |
+| 23 | Wed Apr 1 | Contextual Bandits & Personalization (Session 5.2) | Remote |
 
-**Key Concepts:** ML propensity scores, double-robust weighting, balancing weights, sensitivity analysis, ML-augmented DiD, synthetic control with regularization
+**Key Concepts:** Exploration vs. exploitation, regret, multi-armed bandits, Thompson sampling, contextual bandits, personalized treatment assignment
 
-**Prerequisites:** Assumes familiarity with basic quasi-experimental methods (DiD, IV, RDD) from prior coursework. See [Causal Inference: The Mixtape](https://mixtape.scunning.com/) for review.
+**Readings:**
+- Susan Athey: [Analysis and Design of Multi-Armed Bandit Experiments (NBER 2024)](https://www.nber.org/research/videos/2024-methods-lecture-susan-athey-analysis-and-design-multi-armed-bandit-experiments-and-policy)
+- Stanford SIL: [Adaptive Iterative Experimentation](https://www.gsb.stanford.edu/faculty-research/labs-initiatives/sil/research/methods/adaptive-iterative-experimentation)
 
 *Note: April 2 is Well-Being Day (Thursday) — No impact on M/W schedule*
 
-**Problem Set 6 assigned:** ML for Quasi-Experimental Methods (due Apr 15)
+**Due:** Problem Set 5
 
 ---
 
-### Week 12: Applied Causal ML & Integration (Apr 6-8)
+### Week 12: Adaptive Experiments II & Integration (Apr 6-8)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 24 | Mon Apr 6 | Sensitivity Analysis & Robustness | In-Person |
+| 24 | Mon Apr 6 | Adaptive Clinical Trials & Platform Designs (Session 5.3) | In-Person |
 | 25 | Wed Apr 8 | Causal ML Integration & Frontiers | Remote |
 
-**Session 24 Key Concepts:** Sensitivity analysis for unobserved confounding (E-values, Rosenbaum bounds), robustness checks across estimators, choosing the right method
+**Session 24 Key Concepts:** Response-adaptive randomization, platform trials, batch vs. sequential decisions, connection to policy learning, statistical inference under adaptation
 
-**Session 25 Key Concepts:** End-to-end causal ML workflow, reporting best practices, **Frontiers: Adaptive Experimentation** (bandits, Thompson sampling, contextual bandits, targeted treatment assignment)
+**Session 25 Key Concepts:** End-to-end causal ML workflow, reporting best practices, course synthesis
 
-**Frontiers Reading (Optional):**
-- [Susan Athey NBER 2024 Methods Lecture](https://www.nber.org/research/videos/2024-methods-lecture-susan-athey-analysis-and-design-multi-armed-bandit-experiments-and-policy) on bandits and policy learning
-- [Stanford SIL Adaptive Experimentation](https://www.gsb.stanford.edu/faculty-research/labs-initiatives/sil/research/methods/adaptive-iterative-experimentation)
+**Jigsaw Session 4 (End of Unit 5):** Adaptive Experiments in Action — Expert groups analyze bandit/adaptive trial papers
 
-**Due:** Problem Set 5
 **Capstone Proposal assigned** (due Apr 13)
-**Problem Set 7 assigned:** Causal ML Workflow (due Apr 20)
 
 ---
 
@@ -226,7 +229,6 @@ subtitle: "HPM 883 Spring 2026"
 
 **Due:** Capstone Proposal
 **Peer Review Report assigned** (due Apr 22)
-**Due:** Problem Set 6
 
 ---
 
@@ -237,7 +239,7 @@ subtitle: "HPM 883 Spring 2026"
 | 28 | Mon Apr 20 | Final Capstone Presentations | In-Person |
 | 29 | Wed Apr 22 | Course Wrap-Up & Future Directions | In-Person |
 
-**Due:** Problem Set 7, Peer Review Report
+**Due:** Peer Review Report
 
 ---
 
@@ -254,22 +256,21 @@ subtitle: "HPM 883 Spring 2026"
 
 | Deliverable | Due Date | Weight |
 |-------------|----------|--------|
-| Problem Set 0: Reproducible Research Setup | Jan 19 | 5% |
-| Problem Set 1: Power Analysis by Simulation | Feb 2 | 5% |
-| Design Memo 1: Experimental Design Plan | Feb 16 | 10% |
-| Problem Set 2: Double ML Implementation | Feb 23 | — |
-| Design Memo 2: DML Analysis Plan | Mar 9 | 10% |
-| Problem Set 3: DR & DML Estimation | Mar 9 | — |
-| Problem Set 4: Causal Forests | Mar 11 | — |
-| Problem Set 5: Meta-Learners and CATE | Mar 25 | — |
-| Problem Set 6: Policy Learning | Apr 8 | — |
-| Problem Set 7: ML for Quasi-Experimental Methods | Apr 15 | — |
-| Problem Set 8: Causal ML Workflow | Apr 20 | — |
-| Capstone Proposal | Apr 13 | (part of capstone) |
+| Lab 0: Git/GitHub Fundamentals | Jan 19 | (part of Labs) |
+| Lab 1: Power Analysis by Simulation | Feb 2 | (part of Labs) |
+| Jigsaw Session 1: DML Applications | Feb 18 | (part of Jigsaw) |
+| Lab 2: Double ML Implementation | Feb 23 | (part of Labs) |
+| Jigsaw Session 2: Causal Forest Applications | Mar 11 | (part of Jigsaw) |
+| Lab 3: HTE & Meta-Learners | Mar 25 | (part of Labs) |
+| Jigsaw Session 3: Policy Learning Case Studies | Mar 25 | (part of Jigsaw) |
+| Lab 4: Policy Learning | Apr 8 | (part of Labs) |
+| Jigsaw Session 4: Adaptive Experiments | Apr 8 | (part of Jigsaw) |
+| Capstone Proposal | Apr 13 | (part of Capstone) |
 | Peer Review Report | Apr 22 | 5% |
 | Capstone Project Package | May 1 | 45% |
 
-**Problem Sets (25% total):** All 8 problem sets are required. Your best 5 scores count toward your grade (lowest 3 dropped).
+**Labs (30% total):** 4 required labs covering key skills.
+**Jigsaw Participation (20% total):** ~5 sessions, low-stakes participation credit.
 
 ---
 
