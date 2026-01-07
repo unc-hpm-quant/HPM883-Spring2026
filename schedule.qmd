@@ -29,7 +29,7 @@ subtitle: "HPM 883 Spring 2026"
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
 | 1 | Wed Jan 7 | Course Overview & Causal Inference Foundations | In-Person |
-| 2 | Mon Jan 12 | Reproducible Research Setup | Remote |
+| 2 | Mon Jan 12 | Reproducible Research Setup | [Remote](https://zoom.us/j/93346316978) |
 | 3 | Wed Jan 14 | Potential Outcomes & Structural Causal Models | In-Person |
 
 **Problem Set 0 assigned:** Reproducible Research Setup (due Jan 19)
@@ -73,7 +73,7 @@ subtitle: "HPM 883 Spring 2026"
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
 | 8 | Mon Feb 2 | Power Analysis by Simulation Lab (Session 1.6) | Async |
-| 9 | Wed Feb 4 | **Guest Lecture:** Tara Templin (Stanford) (Session 2.0) | Remote |
+| 9 | Wed Feb 4 | **Guest Lecture:** Tara Templin (Stanford) (Session 2.0) | [Remote](https://zoom.us/j/93346316978) |
 
 **Session 8 (Async Lab):** Code-along lab on power analysis by simulation using DeclareDesign. Capstone of Unit 1 experimental design sequence.
 
@@ -106,7 +106,7 @@ subtitle: "HPM 883 Spring 2026"
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
 | 12 | Mon Feb 16 | Influence Functions & Neyman Orthogonality (Session 2.2) | In-Person |
-| 13 | Wed Feb 18 | DML Theory: Partialling Out & Cross-Fitting (Session 2.3) | Remote |
+| 13 | Wed Feb 18 | DML Theory: Partialling Out & Cross-Fitting (Session 2.3) | [Remote](https://zoom.us/j/93346316978) |
 
 **Key Concepts:** Influence functions, EIF, Neyman orthogonality, partialling out, cross-fitting, sample splitting
 
@@ -121,7 +121,7 @@ subtitle: "HPM 883 Spring 2026"
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
 | 14 | Mon Feb 23 | DML Implementation with DoubleML (Session 2.4) | In-Person |
-| 15 | Wed Feb 25 | Doubly-Robust Estimation: AIPW & TMLE (Session 2.5) | Remote |
+| 15 | Wed Feb 25 | Doubly-Robust Estimation: AIPW & TMLE (Session 2.5) | [Remote](https://zoom.us/j/93346316978) |
 
 **Key Concepts:** DoubleML package, nuisance estimation, AIPW, TMLE, semiparametric efficiency
 
@@ -151,7 +151,7 @@ subtitle: "HPM 883 Spring 2026"
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
 | 18 | Mon Mar 9 | Meta-Learners for HTE | In-Person |
-| 19 | Wed Mar 11 | CATE Calibration & Meta-Learners Lab | Remote |
+| 19 | Wed Mar 11 | CATE Calibration & Meta-Learners Lab | [Remote](https://zoom.us/j/93346316978) |
 
 **Key Concepts:** T-learner, S-learner, X-learner, R-learner, DR-learner, CATE calibration, targeting policies
 
@@ -173,7 +173,7 @@ subtitle: "HPM 883 Spring 2026"
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
 | 20 | Mon Mar 23 | From CATE to Treatment Policy | In-Person |
-| 21 | Wed Mar 25 | Policy Learning & Off-Policy Evaluation | Remote |
+| 21 | Wed Mar 25 | Policy Learning & Off-Policy Evaluation | [Remote](https://zoom.us/j/93346316978) |
 
 **Key Concepts:** Policy trees, optimal treatment rules, off-policy evaluation, budget constraints, policytree package
 
@@ -189,7 +189,7 @@ subtitle: "HPM 883 Spring 2026"
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
 | 22 | Mon Mar 30 | Multi-Armed Bandits & Thompson Sampling (Session 5.1) | In-Person |
-| 23 | Wed Apr 1 | Contextual Bandits & Personalization (Session 5.2) | Remote |
+| 23 | Wed Apr 1 | Contextual Bandits & Personalization (Session 5.2) | [Remote](https://zoom.us/j/93346316978) |
 
 **Key Concepts:** Exploration vs. exploitation, regret, multi-armed bandits, Thompson sampling, contextual bandits, personalized treatment assignment
 
@@ -208,7 +208,7 @@ subtitle: "HPM 883 Spring 2026"
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
 | 24 | Mon Apr 6 | Adaptive Clinical Trials & Platform Designs (Session 5.3) | In-Person |
-| 25 | Wed Apr 8 | Causal ML Integration & Frontiers | Remote |
+| 25 | Wed Apr 8 | Causal ML Integration & Frontiers | [Remote](https://zoom.us/j/93346316978) |
 
 **Session 24 Key Concepts:** Response-adaptive randomization, platform trials, batch vs. sequential decisions, connection to policy learning, statistical inference under adaptation
 
@@ -279,7 +279,7 @@ subtitle: "HPM 883 Spring 2026"
 | Symbol | Meaning |
 |--------|---------|
 | **In-Person** | Lecture, discussion, collaborative work in Rosenau 228 |
-| **Remote** | Zoom session for coding labs and implementation |
+| **Remote** | [Zoom](https://zoom.us/j/93346316978) session for coding labs and implementation |
 | **Async** | Self-paced study, no live class |
 | **—** | No class (holiday or break) |
 
