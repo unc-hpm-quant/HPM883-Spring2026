@@ -5,7 +5,7 @@ subtitle: "HPM 883: Advanced Quantitative Methods — Spring 2026"
 
 ::: {.callout-tip}
 ## Official Syllabus
-**[Download Complete Syllabus (PDF)](Resources/Syllabus-HPM883-2026.pdf)**
+*Official PDF syllabus coming soon*
 :::
 
 ---
@@ -227,5 +227,5 @@ I encourage you to work in groups and discuss approaches. However, you must do y
 
 ::: {.callout-note}
 ## Complete Details
-For full course policies, institutional requirements, and detailed schedule, please download the [complete syllabus (PDF)](Resources/Syllabus-HPM883-2026.pdf).
+For full course policies, institutional requirements, and detailed schedule, the official PDF syllabus will be available soon.
 :::
