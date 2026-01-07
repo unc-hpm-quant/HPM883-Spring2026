@@ -37,12 +37,78 @@ Welcome students. This is the third course in the quantitative methods sequence.
 
 ---
 
-## Today's Journey
+## Your Professor {.center}
 
-![Session 0.1 Roadmap](media/session-0-1-roadmap.png){fig-alt="Session roadmap showing today's flow: Course Overview, Assessment & Grading, Causal Inference Foundations, Course Framework, Next Steps" width="100%"}
+### Sean Sylvia, PhD
 
-::: {.notes}
-Let me walk you through what we'll cover today. We'll start with course logistics and assessment, then dive into the core of what this course is about — causal inference foundations. We'll close with the three-layer framework that structures the entire course.
+::: {.columns}
+::: {.column width="50%"}
+**Contact**
+
+- 📧 sean.sylvia@unc.edu
+- 🏢 McGavran-Greenberg 1101-D
+- 🌐 [ssylvia.io](https://ssylvia.io)
+:::
+
+::: {.column width="50%"}
+**Research Areas**
+
+- Health economics & policy
+- AI/ML in clinical decision-making
+- Digital health interventions
+- Global health systems
+:::
+:::
+
+::: fragment
+**Personal:** Husband and father of 2 middle-schoolers (Zoe and Owen) and a 1-year-old golden retriever (Mochi) 🐕
+:::
+
+---
+
+## Your TA {.center}
+
+### Bryan Nice, MPH
+
+- 📧 bnice@email.unc.edu
+- 📅 Office hours by appointment
+
+::: fragment
+Bryan will help with:
+
+- Lab assignments and code debugging
+- GitHub Classroom issues
+- General course questions
+:::
+
+---
+
+## Today's Agenda
+
+1. **Introductions** — Meet your instructor and TA
+2. **Course Logistics** — Websites, software, communication
+3. **Assessment & Grading** — Labs, jigsaw, capstone
+4. **Causal Inference Foundations** — The central question
+5. **Course Framework** — The three-layer stack
+6. **Next Steps** — This week's tasks
+
+---
+
+## Course Preliminaries
+
+| Resource | Link |
+|----------|------|
+| **Course Website** | [hpm883.ssylvia.io](https://hpm883.ssylvia.io) |
+| **Canvas** | [uncch.instructure.com/courses/108894](https://uncch.instructure.com/courses/108894) |
+| **GitHub Classroom** | [classroom.github.com](https://classroom.github.com/classrooms/253497296-hpm-883-s26) |
+
+::: fragment
+### Schedule
+
+- **Lectures:** Monday & Wednesday, 11:15am - 12:30pm
+- **Location:** Rosenau 228 / Zoom (hybrid)
+- **Office Hours:** Tue 1-2pm, Wed 3-4pm via Zoom
+  - [Book appointment](https://calendly.com/placeholder/hpm883-office-hours) — **2 days advance required**
 :::
 
 # Course Overview {.center}
@@ -149,38 +215,67 @@ One credit hour = 1 hour of direct instruction + **2 hours of out-of-class work*
 
 ::: {.columns}
 ::: {.column width="33%"}
-### Slack
-**Primary channel**
+### Canvas Discussions
+**Course questions**
 
-- Quick questions
-- Peer discussion
-- Code help
+- Problem set help
+- Clarifications
+- Code issues
+- Public Q&A
+
+*Everyone benefits!*
+:::
+
+::: {.column width="33%"}
+### Slack
+**Quick chat**
+
 - Announcements
+- Peer discussion
+- Links & resources
 
 *Response: < 24 hrs*
 :::
 
 ::: {.column width="33%"}
-### Canvas
-**Official platform**
-
-- Submissions
-- Grades
-- Course materials
-- Gradescope
-
-*Check daily*
-:::
-
-::: {.column width="33%"}
 ### Email
-**When needed**
+**Personal matters only**
 
 - Scheduling
-- Personal matters
+- Confidential issues
 - Administrative
 
-*Response: 48 hrs*
+*Non-personal? → Canvas*
+:::
+:::
+
+---
+
+## Software
+
+::: {.columns}
+::: {.column width="50%"}
+### You Can Use
+
+- **R** (recommended)
+- **Python** (also supported)
+
+*No Stata or other pre-packaged solutions*
+:::
+
+::: {.column width="50%"}
+### I Will Use
+
+- R for all demonstrations
+- RStudio / Positron IDE
+- Quarto for reproducible documents
+:::
+:::
+
+::: fragment
+::: {.callout-note}
+## Next Session (0.2)
+We'll cover computing setup: GitHub Codespaces, R environment, and `DeclareDesign`.
 :::
 :::
 
@@ -190,8 +285,7 @@ One credit hour = 1 hour of direct instruction + **2 hours of out-of-class work*
 
 | Resource | When | Where |
 |----------|------|-------|
-| **Office Hours** | Wed 2:00-4:00pm | McGavran-Greenberg 1101-D or Zoom |
-| **Coding Support** | Fri 10:00-11:00am | Zoom |
+| **Office Hours** | Tue 1-2pm, Wed 3-4pm | Zoom ([Book](https://calendly.com/placeholder/hpm883-office-hours)) |
 | **TA** | By appointment | Email Bryan Nice |
 
 ::: fragment
@@ -696,7 +790,7 @@ This distinction is crucial. Many people talk about "human in the loop" for AI s
 
 ::: {.callout-important}
 ## Course Policy
-You may use AI tools, but you are responsible for all submitted work. You must understand and be able to explain every line of code and every claim.
+You may use AI tools, but you must **disclose which AI model(s) you used and how** for any assignment. You are responsible for all submitted work. You must understand and be able to explain every line of code and every claim.
 :::
 
 # Course Materials {.center}
@@ -829,14 +923,9 @@ Accept Lab 0 on GitHub Classroom before Session 0.2. Link in Canvas.
 
 ## Questions? {.center}
 
-::: {.callout-tip}
-## After Class
-Complete the [Introductory Survey](https://unc.az1.qualtrics.com/jfe/form/SV_07iqDZtdRC5PIJE) by January 15.
-:::
-
 ::: {.callout-note}
 ## Office Hours
-Wednesday 2:00-4:00pm — McGavran-Greenberg 1101-D or Zoom
+Tue 1-2pm, Wed 3-4pm via Zoom — [Book appointment](https://calendly.com/placeholder/hpm883-office-hours)
 :::
 
 ::: {.notes}
