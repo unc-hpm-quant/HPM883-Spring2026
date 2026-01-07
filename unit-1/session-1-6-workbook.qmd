@@ -244,10 +244,11 @@ diagnosis_blocked
 diagnosis_simple_200 <- diagnose_design(redesign(design_simple, N = 200), sims = 200)
 diagnosis_blocked_200 <- diagnose_design(redesign(design_blocked, N = 200), sims = 200)
 
-# Combine results for comparison
+# Extract diagnosands and combine for comparison
+# (diagnosis objects need to be converted to data frames first)
 bind_rows(
-  diagnosis_simple_200 |> mutate(design = "Simple"),
-  diagnosis_blocked_200 |> mutate(design = "Blocked")
+  as.data.frame(diagnosis_simple_200$diagnosands_df) |> mutate(design = "Simple"),
+  as.data.frame(diagnosis_blocked_200$diagnosands_df) |> mutate(design = "Blocked")
 ) |>
   select(design, power, se_power, bias, sd_estimate) |>
   knitr::kable(digits = 3, caption = "Simple vs. Blocked Randomization (N=200)")
