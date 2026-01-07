@@ -40,10 +40,7 @@ HPM 883 is an advanced graduate-level course designed to equip PhD students in H
 
 ### Resources
 
--   [GitHub Classroom](https://classroom.github.com/classrooms/253497296-hpm-883-s26)
--   [Course GitHub Org](https://github.com/HPM-883-course)
--   [Semester GitHub Org](https://github.com/HPM-883-2026)
--   [Slack Workspace](https://hpm883.slack.com)
+-   [GitHub Org](https://github.com/HPM-883-2026)
 -   [Canvas](https://uncch.instructure.com/courses/108894)
 
 ### Textbooks (Free)
@@ -53,27 +50,13 @@ HPM 883 is an advanced graduate-level course designed to equip PhD students in H
 :::
 :::::
 
-------------------------------------------------------------------------
-
-## Announcements
-
-::: callout-note
-## Week 1: January 7-14, 2026
-
-Welcome to HPM 883! Please complete the following before our first class:
-
-1.  Review the [syllabus](course-syllabus.qmd)
-2.  Complete [computing setup](computing.qmd)
-3.  Join the Slack workspace (link in Canvas)
-4.  [Accept Lab 0 on GitHub Classroom](https://classroom.github.com/a/PMGz700B) — due Jan 19
-:::
 
 ------------------------------------------------------------------------
 
 ## Course Units
 
 | Unit | Topic | Weeks | Core Question |
-|---------------|---------------|---------------|---------------------------|
+|----------------|----------------|----------------|------------------------|
 | **0** | Foundations: Potential Outcomes & DAGs | 1 | Setup |
 | **1** | Experimental Design | 2-3 | Does it work? |
 | **2** | Double/Debiased ML & Doubly-Robust Estimation | 4-6 | Does it work? |
