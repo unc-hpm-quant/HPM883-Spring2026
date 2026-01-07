@@ -77,7 +77,6 @@ package-lock.json
 
 # SAFETY: Prevent accidental push of personal AI infrastructure
 .claude/
-CLAUDE.md
 Helix-Vault/
 mcp-servers/
 .helix*/
