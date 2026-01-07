@@ -275,8 +275,9 @@ designs_N <- redesign(design_simple, N = c(50, 100, 150, 200, 300, 400))
 # Diagnose all designs
 diagnosis_N <- diagnose_design(designs_N, sims = 200)
 
-# Plot power curve
-diagnosis_N |>
+# Extract diagnosands data frame and plot power curve
+# (diagnosis objects need conversion to data frame for ggplot)
+diagnosis_N$diagnosands_df |>
   ggplot(aes(x = N, y = power)) +
   geom_line(color = "#4B9CD3", linewidth = 1) +
   geom_point(color = "#4B9CD3", size = 3) +
