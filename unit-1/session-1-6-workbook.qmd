@@ -239,12 +239,18 @@ diagnosis_blocked
 ```{r}
 #| label: ex3-compare
 
-# Combine for comparison
-designs_compare <- redesign(design_simple, N = 200) +
-                   redesign(design_blocked, N = 200)
+# Compare designs by diagnosing them separately
+# (DeclareDesign's + operator creates duplicate inquiry labels)
+diagnosis_simple_200 <- diagnose_design(redesign(design_simple, N = 200), sims = 200)
+diagnosis_blocked_200 <- diagnose_design(redesign(design_blocked, N = 200), sims = 200)
 
-# Note: In practice, you'd want to compare these more carefully
-# This is illustrative of the comparison approach
+# Combine results for comparison
+bind_rows(
+  diagnosis_simple_200 |> mutate(design = "Simple"),
+  diagnosis_blocked_200 |> mutate(design = "Blocked")
+) |>
+  select(design, power, se_power, bias, sd_estimate) |>
+  knitr::kable(digits = 3, caption = "Simple vs. Blocked Randomization (N=200)")
 ```
 
 ---
