@@ -13,7 +13,7 @@ This session establishes the computing environment and reproducible research pra
 ::: callout-note
 ## Remote Session
 
-Join via Zoom: \[Link TBD\]
+Join via Zoom: <https://zoom.us/j/93346316978>
 :::
 
 **Learning Objectives:**
@@ -109,20 +109,10 @@ To ensure a smooth experience during class, **complete these steps before Januar
 
 ## After Class
 
-### Lab 0 Assigned
-
-**Lab 0: Reproducible Research Setup**
-
--   Fork the [RCT Analysis Template](https://github.com/unc-hpm-quant/rct-analysis-template)
--   Complete the setup checklist
--   Submit verification by **January 19**
-
-See [Lab 0 Instructions](/labs/lab-0-setup.qmd)
-
 ### Next Session
 
--   Session 0.3 (Jan 14): Potential Outcomes & Structural Causal Models — **In-Person**
--   Complete Chernozhukov Chapter 2 reading
+-   **Unit 1 Session 1.1** (Jan 21): Randomization & Design-Based Inference — **In-Person**
+-   Complete Chernozhukov et al. Chapters 1-2 and Wager Chapter 1
 
 ------------------------------------------------------------------------
 
