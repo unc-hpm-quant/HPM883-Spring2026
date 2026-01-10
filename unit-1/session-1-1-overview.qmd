@@ -8,7 +8,7 @@ date: "January 21, 2026"
 
 This session establishes the foundations of experimental design: why randomization works, what it identifies, and how to think about causal estimands in randomized controlled trials. We build on the potential outcomes framework from Unit 0 to understand how randomization solves the fundamental problem of causal inference.
 
-**Format:** In-Person (Rosenau 228)
+**Format:** In-Person (2304 MC)
 
 ::: callout-note
 ## Note: January 19 is MLK Day (No Class)

@@ -11,7 +11,7 @@
 **Semester:** Spring 2026
 **Credits:** 3
 **Meeting Time:** Monday & Wednesday, 11:15am - 12:30pm
-**Location:** Rosenau 228 / Zoom (Hybrid format)
+**Location:** 2304 MC / Zoom (Hybrid format)
 **Prerequisites:** HPM 881, HPM 882, or permission of instructor
 
 ---
@@ -227,12 +227,13 @@ The goal is to prepare you for a world where AI tools are standard practice whil
 
 ### Communication
 
-- **Primary:** Course Slack workspace for questions, discussion, and announcements
+- **Canvas Discussion Board:** For course questions about problem sets, exercises, and other class materials. This ensures everyone benefits from the answers.
 - **Email:** For private matters (grades, accommodations, personal circumstances)
 - **Office Hours:** For detailed questions, project guidance, and coding help
 - **Canvas:** Grade posting and official announcements
+- **Course Website:** For updates on class materials (check regularly, NOT Canvas)
 
-Response times: Slack/email within 24-48 hours on weekdays; longer on weekends.
+Response times: Email within 24-48 hours on weekdays; longer on weekends.
 
 ---
 
@@ -272,7 +273,7 @@ All supplementary materials are freely available online.
 
 ## DISCLAIMER
 
-The instructor reserves the right to make changes to the syllabus as needed. Students will be notified of any changes via Canvas announcement and Slack.
+The instructor reserves the right to make changes to the syllabus as needed. Students will be notified of any changes via Canvas announcement and email.
 
 ---
 

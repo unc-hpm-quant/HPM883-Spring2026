@@ -8,7 +8,7 @@ date: "January 28, 2026"
 
 This session introduces the Model-Inquiry-Data-Answer (MIDA) framework for declaring and diagnosing research designs. We'll cover advanced randomization techniques including blocking, stratification, and cluster randomization, and explore variance reduction methods like CUPED and ANCOVA.
 
-**Format:** In-Person (Rosenau 228)
+**Format:** In-Person (2304 MC)
 
 **Learning Objectives:**
 

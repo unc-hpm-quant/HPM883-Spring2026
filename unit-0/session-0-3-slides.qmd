@@ -758,9 +758,9 @@ Causal inference requires **assumptions**. These assumptions are often untestabl
 
 ## Questions? {.center}
 
-Office Hours: Wednesday 2-4pm
+Office Hours: Tuesday 1-2pm, Wednesday 3-4pm
 
-Slack: #hpm883-help
+Canvas Discussion: For all course questions
 
 ::: {.notes}
 This is dense material. Expect questions. Encourage students to come to office hours if confused about DAGs.

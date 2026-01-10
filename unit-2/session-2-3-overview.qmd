@@ -8,7 +8,7 @@ date: "February 18, 2026"
 
 This session covers the core Double Machine Learning (DML) algorithm. We formalize the partialling-out approach, understand why cross-fitting is essential, and see how these pieces combine to enable valid causal inference with flexible ML methods. By the end, you'll understand the DML "recipe" that makes modern causal ML possible.
 
-**Format:** In-Person (Rosenau 228)
+**Format:** In-Person (2304 MC)
 
 **Learning Objectives:**
 

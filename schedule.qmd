@@ -278,7 +278,7 @@ subtitle: "HPM 883 Spring 2026"
 
 | Symbol | Meaning |
 |--------|---------|
-| **In-Person** | Lecture, discussion, collaborative work in Rosenau 228 |
+| **In-Person** | Lecture, discussion, collaborative work in 2304 MC |
 | **Remote** | [Zoom](https://zoom.us/j/93346316978) session for coding labs and implementation |
 | **Async** | Self-paced study, no live class |
 | **—** | No class (holiday or break) |

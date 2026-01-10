@@ -285,6 +285,6 @@ Before submitting, verify:
 If you encounter issues:
 
 1. Check the troubleshooting guide on the course website
-2. Post in Slack #hpm883-help
+2. Post in Canvas Discussion Board
 3. Attend office hours (see course schedule)
 :::

@@ -106,7 +106,7 @@ Bryan will help with:
 ### Schedule
 
 - **Lectures:** Monday & Wednesday, 11:15am - 12:30pm
-- **Location:** Rosenau 228 / Zoom (hybrid)
+- **Location:** 2304 MC / Zoom (hybrid)
 - **Office Hours:** Tue 1-2pm, Wed 3-4pm via Zoom
   - [Book appointment](https://calendly.com/sean-sylvia/hpm-883-office-hours-1) — **2 days advance required**
 :::
@@ -151,7 +151,7 @@ Set expectations early. This is an advanced course that builds on prior quantita
 
 - Lectures and theory
 - Discussion and Q&A
-- Location: Rosenau 228
+- Location: 2304 MC
 :::
 
 ::: {.column width="50%"}
@@ -227,14 +227,14 @@ One credit hour = 1 hour of direct instruction + **2 hours of out-of-class work*
 :::
 
 ::: {.column width="33%"}
-### Slack
-**Quick chat**
+### Course Website
+**Updates & materials**
 
-- Announcements
-- Peer discussion
-- Links & resources
+- Schedule changes
+- Slides & readings
+- Lab materials
 
-*Response: < 24 hrs*
+*Check regularly!*
 :::
 
 ::: {.column width="33%"}
@@ -292,7 +292,7 @@ We'll cover computing setup: GitHub Codespaces, R environment, and `DeclareDesig
 ::: {.callout-tip}
 ## Best Practices
 - Come with specific questions or code snippets
-- Check Slack first — someone may have answered already
+- Check Canvas Discussion first — someone may have answered already
 - Don't wait until the deadline to ask for help
 :::
 :::

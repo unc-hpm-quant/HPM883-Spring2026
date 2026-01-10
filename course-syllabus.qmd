@@ -20,7 +20,7 @@ subtitle: "HPM 883: Advanced Quantitative Methods — Spring 2026"
 | **Semester** | Spring 2026 |
 | **Credits** | 3 |
 | **Meeting Time** | Monday & Wednesday, 11:15am - 12:30pm |
-| **Location** | Rosenau 228 / Zoom (Hybrid format) |
+| **Location** | 2304 MC / Zoom (Hybrid format) |
 | **Prerequisites** | HPM 881, HPM 882, or permission of instructor |
 
 ------------------------------------------------------------------------

@@ -279,7 +279,7 @@ Works in Codespaces or locally. Uses extended template with:
 
 ### Getting Help
 
-1. **Slack #hpm883-help** — Post questions, classmates can help
+1. **Canvas Discussion Board** — Post questions, classmates can help
 2. **Office Hours** — See course schedule
 3. **GitHub Issues** — For persistent technical problems
 

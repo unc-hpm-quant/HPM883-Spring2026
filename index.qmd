@@ -25,7 +25,7 @@ HPM 883 is an advanced graduate-level course designed to equip PhD students in H
 |------------------------------------|------------------------------------|
 | **Instructor** | Sean Sylvia |
 | **Meeting Time** | Mon/Wed 11:15am - 12:30pm |
-| **Location** | Rosenau 228 / Zoom (hybrid) |
+| **Location** | 2304 MC / Zoom (hybrid) |
 | **Office Hours** | Tue 1-2pm, Wed 3-4pm ([Book appointment](https://calendly.com/sean-sylvia/hpm-883-office-hours-1)) |
 | **Credits** | 3 |
 :::

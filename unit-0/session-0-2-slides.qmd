@@ -28,46 +28,45 @@ execute:
 
 ## Today's Agenda {.center}
 
-1. Reproducible research principles
-2. Computing environment setup
-3. Introduction to DeclareDesign
-4. Simulating your first RCT
+1.  Reproducible research principles
+2.  Computing environment setup
+3.  Introduction to DeclareDesign
+4.  Simulating your first RCT
 
-::: {.notes}
+::: notes
 This is a hands-on session. Have your laptops ready. We'll be coding together.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Why Reproducibility Matters
 
-::: {.columns}
+::::: columns
 ::: {.column width="50%"}
 ### The Reproducibility Crisis
 
-- 70%+ of researchers have failed to reproduce another's work
-- 50%+ have failed to reproduce their *own* work
-- Retractions increasing exponentially
-
+-   70%+ of researchers have failed to reproduce another's work
+-   50%+ have failed to reproduce their *own* work
+-   Retractions increasing exponentially
 :::
 
 ::: {.column width="50%"}
 ### Our Solution
 
-- Version control (Git)
-- Package management (renv)
-- Pipeline automation (targets)
-- Literate programming (Quarto)
-
+-   Version control (Git)
+-   Package management (renv)
+-   Pipeline automation (targets)
+-   Literate programming (Quarto)
 :::
-:::
+:::::
 
-::: {.callout-important}
+::: callout-important
 ## Course Requirement
+
 All submitted work must be reproducible. If we can't run your code, we can't grade it.
 :::
 
----
+------------------------------------------------------------------------
 
 ## The Reproducibility Stack
 
@@ -95,21 +94,21 @@ flowchart TB
     L2 --> L1
 ```
 
----
+------------------------------------------------------------------------
 
 ## Git & GitHub
 
 ### Why Version Control?
 
-- **Track changes**: See exactly what changed when
-- **Collaborate**: Multiple people, same codebase
-- **Backup**: Your work lives in the cloud
-- **Submission**: GitHub Classroom for assignments
+-   **Track changes**: See exactly what changed when
+-   **Collaborate**: Multiple people, same codebase
+-   **Backup**: Your work lives in the cloud
+-   **Submission**: GitHub Classroom for assignments
 
-::: {.fragment}
+::: fragment
 ### Basic Workflow
 
-```bash
+``` bash
 git clone <repo-url>    # Copy repo to local
 git add .               # Stage changes
 git commit -m "message" # Save snapshot
@@ -117,13 +116,13 @@ git push                # Upload to GitHub
 ```
 :::
 
----
+------------------------------------------------------------------------
 
 ## Package Management with renv
 
 ### The Problem
 
-```r
+``` r
 # Works on your machine...
 install.packages("dplyr")  # Version 1.1.4
 
@@ -131,10 +130,10 @@ install.packages("dplyr")  # Version 1.1.4
 # I have dplyr 0.8.3
 ```
 
-::: {.fragment}
+::: fragment
 ### The Solution: renv
 
-```r
+``` r
 # First time setup (already done in templates)
 renv::init()
 
@@ -146,20 +145,20 @@ renv::snapshot()
 ```
 :::
 
----
+------------------------------------------------------------------------
 
 ## Pipeline Automation with targets
 
 ### Why targets?
 
-- Only re-run what changed
-- Document dependencies automatically
-- Scale to complex analyses
+-   Only re-run what changed
+-   Document dependencies automatically
+-   Scale to complex analyses
 
-::: {.fragment}
+::: fragment
 ### Basic Structure
 
-```r
+``` r
 # _targets.R
 list(
   tar_target(raw_data, read_csv("data/raw.csv")),
@@ -170,17 +169,17 @@ list(
 ```
 :::
 
-::: {.callout-tip}
+::: callout-tip
 We'll use targets for the capstone project. Labs use simpler structure.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Literate Programming with Quarto
 
 ### Code + Narrative = Reproducible Report
 
-```{.markdown}
+``` markdown
 ## Methods
 
 We estimate the treatment effect using:
@@ -192,43 +191,44 @@ model <- lm_robust(outcome ~ treatment, data = df)
 The estimated effect is 0.42.
 ```
 
-::: {.fragment}
+::: fragment
 **Output:** A document where code, results, and interpretation live together.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Your Computing Environment
 
 ### Two-Tier Architecture
 
-| Tier | Platform | When to Use |
-|------|----------|-------------|
-| **Primary** | GitHub Codespaces | Labs, code-alongs, assignments |
-| **Alternative** | Local (Positron/RStudio) | Capstone, offline work |
+| Tier            | Platform                 | When to Use                    |
+|-----------------|--------------------------|--------------------------------|
+| **Primary**     | GitHub Codespaces        | Labs, code-alongs, assignments |
+| **Alternative** | Local (Positron/RStudio) | Capstone, offline work         |
 
-::: {.callout-note}
+::: callout-note
 ## Zero Local Setup Required
+
 GitHub Codespaces runs a full RStudio Server in your browser. No installation needed!
 :::
 
----
+------------------------------------------------------------------------
 
 ## Live Demo: GitHub Codespaces
 
 Let's walk through:
 
-1. Accept assignment via GitHub Classroom link
-2. Click "Open in Codespace" → browser-based RStudio launches
-3. Run `renv::restore()` to install packages
-4. Work on your code
-5. Commit and push when done — no download needed
+1.  Accept assignment via GitHub Classroom link
+2.  Click "Open in Codespace" → browser-based RStudio launches
+3.  Run `renv::restore()` to install packages
+4.  Work on your code
+5.  Commit and push when done — no download needed
 
-::: {.notes}
+::: notes
 Walk through the demo slowly. Pause for questions. This is where students often get stuck.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Introduction to DeclareDesign
 
@@ -236,12 +236,12 @@ Walk through the demo slowly. Pause for questions. This is where students often 
 
 DeclareDesign provides a unified framework:
 
-- **Model (M)**: Data generating process
-- **Inquiry (I)**: What we want to learn
-- **Data Strategy (D)**: How we collect data
-- **Answer Strategy (A)**: How we estimate
+-   **Model (M)**: Data generating process
+-   **Inquiry (I)**: What we want to learn
+-   **Data Strategy (D)**: How we collect data
+-   **Answer Strategy (A)**: How we estimate
 
-```r
+``` r
 design <- declare_model(...) +
           declare_inquiry(...) +
           declare_sampling(...) +
@@ -249,7 +249,7 @@ design <- declare_model(...) +
           declare_estimator(...)
 ```
 
----
+------------------------------------------------------------------------
 
 ## The MIDA Framework
 
@@ -262,17 +262,17 @@ flowchart LR
     A --> |"Diagnosis"| M
 ```
 
-::: {.fragment}
+::: fragment
 ### Key Insight
 
 Design declaration **before** data collection forces clear thinking about:
 
-- What we're trying to learn (estimand)
-- What assumptions we're making (model)
-- How we'll analyze the data (estimator)
+-   What we're trying to learn (estimand)
+-   What assumptions we're making (model)
+-   How we'll analyze the data (estimator)
 :::
 
----
+------------------------------------------------------------------------
 
 ## Example: Simple RCT
 
@@ -295,7 +295,7 @@ declare_measurement(Y = reveal_outcomes(Y ~ Z)) +
 declare_estimator(Y ~ Z, .method = lm_robust)
 ```
 
----
+------------------------------------------------------------------------
 
 ## Running the Design
 
@@ -308,16 +308,16 @@ run_design(simple_rct) |>
   head(1)
 ```
 
-::: {.fragment}
+::: fragment
 ### What just happened?
 
-1. Generated 100 units with potential outcomes
-2. Randomly assigned to treatment
-3. Revealed observed outcomes
-4. Estimated ATE with robust SEs
+1.  Generated 100 units with potential outcomes
+2.  Randomly assigned to treatment
+3.  Revealed observed outcomes
+4.  Estimated ATE with robust SEs
 :::
 
----
+------------------------------------------------------------------------
 
 ## Diagnosing the Design
 
@@ -336,39 +336,36 @@ diagnosis |>
   select(Bias, RMSE, Power, Coverage)
 ```
 
----
+------------------------------------------------------------------------
 
 ## Interpretation
 
-| Metric | Value | Target |
-|--------|-------|--------|
-| **Bias** | ~0 | Near 0 |
-| **RMSE** | ~0.20 | Low |
-| **Power** | ~0.60 | ≥ 0.80 |
-| **Coverage** | ~0.95 | 0.95 |
+| Metric       | Value  | Target |
+|--------------|--------|--------|
+| **Bias**     | \~0    | Near 0 |
+| **RMSE**     | \~0.20 | Low    |
+| **Power**    | \~0.60 | ≥ 0.80 |
+| **Coverage** | \~0.95 | 0.95   |
 
-::: {.fragment}
+::: fragment
 ### Problem: Underpowered!
 
-With N=100 and true effect of 0.5, we only have ~60% power.
+With N=100 and true effect of 0.5, we only have \~60% power.
 
-**Solutions:**
-- Increase sample size
-- Block on predictive covariates
-- Use CUPED/regression adjustment
+**Solutions:** - Increase sample size - Block on predictive covariates - Use CUPED/regression adjustment
 :::
 
----
+------------------------------------------------------------------------
 
 ## Your Turn: Modify the Design
 
 Try changing:
 
-1. `N = 200` — What happens to power?
-2. `potential_outcomes(Y ~ 0.3 * Z + U)` — Smaller effect?
-3. `complete_ra(N, prob = 0.3)` — Unequal allocation?
+1.  `N = 200` — What happens to power?
+2.  `potential_outcomes(Y ~ 0.3 * Z + U)` — Smaller effect?
+3.  `complete_ra(N, prob = 0.3)` — Unequal allocation?
 
-```r
+``` r
 # Template
 my_design <- declare_model(
   N = ???,
@@ -381,38 +378,39 @@ declare_measurement(Y = reveal_outcomes(Y ~ Z)) +
 declare_estimator(Y ~ Z, .method = lm_robust)
 ```
 
----
+------------------------------------------------------------------------
 
 ## Getting Help
 
 ### When Stuck
 
-1. **Slack #hpm883-help** — Quick questions
-2. **Office Hours** — Wednesday 2-4pm
-3. **Email** — For private concerns
+1.  **Canvas Discussion Board** — Quick questions
+2.  **Office Hours** — Tuesday 1-2pm, Wednesday 3-4pm
+3.  **Email** — For private concerns
 
 ### Troubleshooting Guide
 
 See [Computing Page](../computing.qmd#troubleshooting) for common issues.
 
-::: {.callout-tip}
+::: callout-tip
 ## Pro Tip
+
 Google error messages. Stack Overflow has solved most R problems.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Key Takeaways
 
-1. **Reproducibility** is non-negotiable — renv + Git + Quarto
+1.  **Reproducibility** is non-negotiable — renv + Git + Quarto
 
-2. **DeclareDesign** lets us simulate designs *before* collecting data
+2.  **DeclareDesign** lets us simulate designs *before* collecting data
 
-3. **Diagnose before you analyze** — Power, bias, coverage
+3.  **Diagnose before you analyze** — Power, bias, coverage
 
-4. **GitHub Codespaces** = zero local setup required
+4.  **GitHub Codespaces** = zero local setup required
 
----
+------------------------------------------------------------------------
 
 ## For Next Time
 
@@ -420,26 +418,26 @@ Google error messages. Stack Overflow has solved most R problems.
 
 **Readings:**
 
-- Chernozhukov et al. Ch. 1-2 — Foundations of causal inference
-- Wager Ch. 1 — Potential outcomes framework
+-   Chernozhukov et al. Ch. 1-2 — Foundations of causal inference
+-   Wager Ch. 1 — Potential outcomes framework
 
 **Prepare:**
 
-- Review course computing setup if needed
-- Bring questions about Codespaces workflow
+-   Review course computing setup if needed
+-   Bring questions about Codespaces workflow
 
-::: {.notes}
+::: notes
 Remind students to familiarize themselves with the GitHub workflow before Unit 1.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Questions? {.center}
 
-Office Hours: Wednesday 2-4pm
+Office Hours: Tuesday 1-2pm, Wednesday 3-4pm
 
-Slack: #hpm883-help
+Canvas Discussion: For all course questions
 
-::: {.notes}
+::: notes
 Open floor for questions. This is usually when students reveal confusion about setup.
 :::

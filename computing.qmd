@@ -276,9 +276,9 @@ ssh-keygen -t ed25519 -C "your.email@unc.edu"
 
 ## Getting Help
 
-1.  **Slack #hpm883-help** — Quick questions, classmates can help
+1.  **Canvas Discussion Board** — Post questions about technical issues, classmates can help
 2.  **Office Hours** — See [course schedule](index.qmd)
-3.  **GitHub Issues** — For persistent technical problems
+3.  **GitHub Issues** — For persistent technical problems with course repos
 
 ------------------------------------------------------------------------
 

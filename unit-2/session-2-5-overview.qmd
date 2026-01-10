@@ -8,7 +8,7 @@ date: "February 25, 2026"
 
 This session covers doubly-robust (DR) estimators that combine propensity score weighting with outcome regression. We focus on Augmented Inverse Propensity Weighting (AIPW) and Targeted Maximum Likelihood Estimation (TMLE) — methods that provide valid inference when *either* the propensity model or outcome model is correctly specified.
 
-**Format:** In-Person (Rosenau 228)
+**Format:** In-Person (2304 MC)
 
 **Learning Objectives:**
 

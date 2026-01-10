@@ -8,7 +8,7 @@ date: "February 16, 2026"
 
 This session introduces the theoretical foundations that make Double Machine Learning possible: influence functions and Neyman orthogonality. We'll understand why standard ML methods fail for causal inference and how orthogonal scores solve this problem by making treatment effect estimates insensitive to first-stage estimation error.
 
-**Format:** In-Person (Rosenau 228)
+**Format:** In-Person (2304 MC)
 
 ::: callout-note
 ## Note: February 9 is Well-Being Day (No Class)
