@@ -87,8 +87,8 @@ All software is free and open-source. Detailed installation instructions are pro
 
 ### Computing Access
 
-- **Posit Cloud:** Backup computing environment (free tier available)
-- **GitHub:** Version control and assignment submission via GitHub Classroom
+- **GitHub Codespaces:** Primary computing environment (free for students, 180 core-hours/month)
+- **GitHub Classroom:** Assignment distribution and submission
 
 ---
 

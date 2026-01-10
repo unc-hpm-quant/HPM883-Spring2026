@@ -32,7 +32,6 @@ execute:
 2. Computing environment setup
 3. Introduction to DeclareDesign
 4. Simulating your first RCT
-5. Lab 0 overview
 
 ::: {.notes}
 This is a hands-on session. Have your laptops ready. We'll be coding together.
@@ -201,30 +200,29 @@ The estimated effect is 0.42.
 
 ## Your Computing Environment
 
-### Three Tiers
+### Two-Tier Architecture
 
-| Tier | Platform | When |
-|------|----------|------|
-| In-Class | Posit Cloud | Today, lectures |
-| Projects | Positron/RStudio + GitHub | Labs, capstone |
-| Submission | GitHub Classroom | All graded work |
+| Tier | Platform | When to Use |
+|------|----------|-------------|
+| **Primary** | GitHub Codespaces | Labs, code-alongs, assignments |
+| **Alternative** | Local (Positron/RStudio) | Capstone, offline work |
 
 ::: {.callout-note}
-## Setup Guide
-See [Student Setup Guide](../Resources/setup-guide.qmd) for detailed installation instructions.
+## Zero Local Setup Required
+GitHub Codespaces runs a full RStudio Server in your browser. No installation needed!
 :::
 
 ---
 
-## Live Demo: Posit Cloud
+## Live Demo: GitHub Codespaces
 
 Let's walk through:
 
-1. Log into posit.cloud
-2. Join HPM 883 workspace
-3. Open today's project
-4. Run `renv::restore()`
-5. Verify packages load
+1. Accept assignment via GitHub Classroom link
+2. Click "Open in Codespace" → browser-based RStudio launches
+3. Run `renv::restore()` to install packages
+4. Work on your code
+5. Commit and push when done — no download needed
 
 ::: {.notes}
 Walk through the demo slowly. Pause for questions. This is where students often get stuck.
@@ -385,45 +383,6 @@ declare_estimator(Y ~ Z, .method = lm_robust)
 
 ---
 
-## Lab 0: Environment Setup
-
-### Objectives
-
-Verify your computing environment works:
-
-1. Clone repo from GitHub Classroom
-2. Restore packages with renv
-3. Load and summarize data
-4. Run a simple regression
-5. Render to HTML and push to GitHub
-
-::: {.callout-important}
-## Due Date
-**Sunday, January 19** (end of Week 1)
-:::
-
----
-
-## Lab 0 Walkthrough
-
-### Step 1: Accept Assignment
-
-1. Click GitHub Classroom link (in Slack)
-2. Accept assignment → creates your repo
-
-### Step 2: Clone Locally
-
-```bash
-git clone git@github.com:unc-hpm-quant/lab-0-yourusername.git
-```
-
-### Step 3: Open & Restore
-
-1. Open `.Rproj` in Positron
-2. Run `renv::restore()` in console
-
----
-
 ## Getting Help
 
 ### When Stuck
@@ -451,25 +410,26 @@ Google error messages. Stack Overflow has solved most R problems.
 
 3. **Diagnose before you analyze** — Power, bias, coverage
 
-4. **Lab 0** verifies your setup works — Do it early!
+4. **GitHub Codespaces** = zero local setup required
 
 ---
 
 ## For Next Time
 
-### Session 0.3: Potential Outcomes & DAGs
+### Unit 1: Experimental Design
 
 **Readings:**
 
-- [Hernán & Robins Ch. 1-2](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/) — Primary source for potential outcomes and DAGs
+- Chernozhukov et al. Ch. 1-2 — Foundations of causal inference
+- Wager Ch. 1 — Potential outcomes framework
 
 **Prepare:**
 
-- Complete Lab 0
-- Bring questions about setup
+- Review course computing setup if needed
+- Bring questions about Codespaces workflow
 
 ::: {.notes}
-Emphasize that Lab 0 must be done before Session 0.3. We won't spend class time on setup issues.
+Remind students to familiarize themselves with the GitHub workflow before Unit 1.
 :::
 
 ---

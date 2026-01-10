@@ -36,7 +36,6 @@ HPM 883 is an advanced graduate-level course designed to equip PhD students in H
 -   [Schedule](schedule.qmd)
 -   [Syllabus](course-syllabus.qmd)
 -   [Computing Setup](computing.qmd)
--   [Lab 0: Environment Setup](labs/lab-0-setup.qmd)
 
 ### Resources
 

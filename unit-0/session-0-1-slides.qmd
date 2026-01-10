@@ -886,24 +886,22 @@ Use Chernozhukov for implementation, Wager for deeper understanding of the theor
 
 ::: {.callout-important}
 ## Preparation
-Accept Lab 0 on GitHub Classroom before Session 0.2. Link in Canvas.
+Create a GitHub account if you don't have one. We'll use GitHub Codespaces in Session 0.2.
 :::
 
 ---
 
 ## Reading Assignment
 
-### For Session 0.3 (Thursday)
+### For Session 0.2 (Monday — Zoom)
 
 **Required:**
 
-- [Hernán & Robins Ch. 1-2](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/) — ~18 pages
-  - Primary source for potential outcomes, counterfactuals, and DAGs
+- Review [Computing Setup](../computing.qmd) page on course website
 
 **Optional:**
 
 - [Chernozhukov Ch. 0 (Sneak Peek)](http://chapters.causalml-book.org/CausalML_chap_0.pdf) — ~10 pages (course roadmap)
-- [Brady Neal Ch. 1-2](https://www.bradyneal.com/Introduction_to_Causal_Inference-Dec17_2020-Neal.pdf) (ML-first perspective)
 - [R for Data Science Ch. 1-5](https://r4ds.hadley.nz/) (R refresher)
 
 ---

@@ -17,7 +17,6 @@ HPM 883 uses a three-tier computing environment designed to minimize setup frict
 ## Quick Links
 
 - [Student Setup Guide](Resources/setup-guide.qmd) — Complete installation instructions
-- [Lab 0: Environment Verification](labs/lab-0-setup.qmd) — Verify your setup works
 - [Troubleshooting](#troubleshooting) — Common problems and solutions
 :::
 
@@ -287,11 +286,6 @@ ssh-keygen -t ed25519 -C "your.email@unc.edu"
 2. **Office Hours** — See [course schedule](index.qmd)
 3. **GitHub Issues** — For persistent technical problems
 
-::: {.callout-note}
-## Lab 0
-
-Complete [Lab 0](labs/lab-0-setup.qmd) during Week 1 to verify your environment is correctly configured. If you encounter issues, bring them to office hours.
-:::
 
 ---
 

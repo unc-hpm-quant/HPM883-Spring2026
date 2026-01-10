@@ -94,10 +94,6 @@ website:
             text: "Session 0.1: Course Overview"
           - href: unit-0/unit-0-foundations-2.qmd
             text: "Session 0.2: Reproducible Research"
-          - href: unit-0/unit-0-foundations-3.qmd
-            text: "Session 0.3: Potential Outcomes & DAGs"
-          - href: labs/lab-0-setup.qmd
-            text: "Lab 0: Environment Setup"
       - section: "Resources"
         contents:
           - href: resources.qmd
