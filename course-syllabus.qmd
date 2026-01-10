@@ -3,17 +3,18 @@ title: "Course Syllabus"
 subtitle: "HPM 883: Advanced Quantitative Methods — Spring 2026"
 ---
 
-::: {.callout-tip}
+::: callout-tip
 ## Official Syllabus
+
 *Official PDF syllabus coming soon*
 :::
 
----
+------------------------------------------------------------------------
 
 ## Course Information
 
-| | |
-|---|---|
+|  |  |
+|------------------------------------|------------------------------------|
 | **Course Number** | HPM 883 |
 | **Course Title** | Advanced Quantitative Methods for Health Policy and Management |
 | **Semester** | Spring 2026 |
@@ -22,22 +23,22 @@ subtitle: "HPM 883: Advanced Quantitative Methods — Spring 2026"
 | **Location** | Rosenau 228 / Zoom (Hybrid format) |
 | **Prerequisites** | HPM 881, HPM 882, or permission of instructor |
 
----
+------------------------------------------------------------------------
 
 ## Instructor
 
-| | |
-|---|---|
+|  |  |
+|------------------------------------|------------------------------------|
 | **Instructor** | Sean Sylvia, PhD |
 | **Title** | Associate Professor, Health Policy and Management |
 | **Office** | McGavran-Greenberg 1101-D |
-| **Email** | sysylvia@email.unc.edu |
+| **Email** | sysylvia\@email.unc.edu |
 | **Office Hours** | Tuesday 1-2pm, Wednesday 3-4pm (Zoom: [unc.zoom.us/my/seansylvia](https://unc.zoom.us/my/seansylvia)) |
 | **Book Appointment** | [Calendly](https://calendly.com/sean-sylvia/hpm-883-office-hours-1) — Book at least 2 days in advance |
 
-**Teaching Assistant:** Bryan Nice, MPH (bnice@email.unc.edu)
+**Teaching Assistant:** Bryan Nice, MPH (bnice\@email.unc.edu)
 
----
+------------------------------------------------------------------------
 
 ## Course Description
 
@@ -49,22 +50,22 @@ The course integrates experimental design principles with modern causal machine 
 
 **Focus Areas:**
 
-- Experimental design and randomization inference
-- Double/Debiased Machine Learning (DML)
-- Heterogeneous treatment effects and causal forests
-- Policy learning and optimal treatment rules
-- Adaptive experiments and dynamic treatment decisions
+-   Experimental design and randomization inference
+-   Double/Debiased Machine Learning (DML)
+-   Heterogeneous treatment effects and causal forests
+-   Policy learning and optimal treatment rules
+-   Adaptive experiments and dynamic treatment decisions
 
 **Course Format:** This is a hybrid course combining in-person lectures (theory and discussion) with remote Zoom sessions (coding labs and implementation).
 
----
+------------------------------------------------------------------------
 
 ## Learning Objectives
 
 Upon successful completion of this course, students will be able to:
 
-| # | Learning Objective | Assessment Evidence |
-|---|-------------------|---------------------|
+| \# | Learning Objective | Assessment Evidence |
+|--------------|---------------------------|-------------------------------|
 | 1 | **Design** randomized experiments with appropriate power analysis, randomization strategies, and variance reduction techniques | Labs, Jigsaw, Capstone Project |
 | 2 | **Implement** Double/Debiased Machine Learning and doubly-robust estimators for causal inference | Labs, Jigsaw, Capstone Project |
 | 3 | **Estimate** heterogeneous treatment effects using causal forests and meta-learners | Labs, Jigsaw, Capstone Project |
@@ -74,36 +75,32 @@ Upon successful completion of this course, students will be able to:
 | 7 | **Diagnose** common problems including overlap violations, confounding, and model misspecification | Labs, Jigsaw, Capstone Project |
 | 8 | **Produce** reproducible research using modern workflow tools (Git, Quarto, Codespaces) | Lab 0, All Labs, Capstone Project |
 
----
+------------------------------------------------------------------------
 
 ## Required Materials
 
 ### Textbooks (Both FREE Online)
 
-1. **Chernozhukov, V., Hansen, C., Kallus, N., Spindler, M., & Syrgkanis, V. (2025)**
-   *Applied Causal Inference Powered by ML and AI*
-   Available free at: [causalml-book.org](https://causalml-book.org/)
+1.  **Chernozhukov, V., Hansen, C., Kallus, N., Spindler, M., & Syrgkanis, V. (2025)** *Applied Causal Inference Powered by ML and AI* Available free at: [causalml-book.org](https://causalml-book.org/)
 
-2. **Wager, S. (2024)**
-   *Causal Inference: A Statistical Learning Approach*
-   Available free at: [Stanford PDF](http://web.stanford.edu/~swager/causal_inf_book.pdf)
+2.  **Wager, S. (2024)** *Causal Inference: A Statistical Learning Approach* Available free at: [Stanford PDF](http://web.stanford.edu/~swager/causal_inf_book.pdf)
 
 ### Software
 
-- **R** (version 4.3 or higher)
-- **RStudio** or **Positron** IDE
-- **Key R Packages:** tidyverse, renv, targets, DeclareDesign, estimatr, DoubleML, grf, policytree, did, Synth, cobalt, WeightIt
+-   **R** (version 4.3 or higher)
+-   **RStudio** or **Positron** IDE
+-   **Key R Packages:** tidyverse, renv, targets, DeclareDesign, estimatr, DoubleML, grf, policytree, did, Synth, cobalt, WeightIt
 
 All software is free and open-source. See [Setup Guide](Resources/setup-guide.qmd) for installation instructions.
 
----
+------------------------------------------------------------------------
 
 ## Course Structure
 
 The course is organized into 6 units over 14 weeks, following the core narrative arc:
 
 | Unit | Topic | Weeks | Core Question |
-|------|-------|-------|---------------|
+|----|----|----|----|
 | 0 | Foundations: Potential Outcomes & DAGs | 1 | Setup |
 | 1 | Experimental Design & Randomization | 2-3 | Does it work? |
 | 2 | Double/Debiased Machine Learning | 4-6 | Does it work? |
@@ -112,56 +109,45 @@ The course is organized into 6 units over 14 weeks, following the core narrative
 | 5 | Adaptive Experiments | 10-11 | What should we do? (dynamic) |
 | — | Capstone & Presentations | 12-14 | Integration |
 
-Each unit concludes with a **jigsaw paper session** where students teach each other about applied papers.
-
----
+------------------------------------------------------------------------
 
 ## Assessment & Grading
 
 ### Grade Composition
 
-| Component | Weight | Description |
-|-----------|--------|-------------|
-| Labs | 30% | 4 required labs |
-| Jigsaw Participation | 20% | ~5 sessions (one per unit) |
-| Capstone Project | 45% | Paper + code + presentation |
-| Peer Review | 5% | Review of one peer's project |
-| **Total** | **100%** | |
+| Component            | Weight   | Description                  |
+|----------------------|----------|------------------------------|
+| Labs                 | 30%      | 4 required labs              |
+| Jigsaw Participation | 20%      | \~5 sessions (one per unit)  |
+| Capstone Project     | 45%      | Paper + code + presentation  |
+| Peer Review          | 5%       | Review of one peer's project |
+| **Total**            | **100%** |                              |
 
-### Jigsaw Sessions
-
-Each unit ends with a jigsaw paper presentation session. Students are assigned to **expert groups** to analyze an applied paper, then reshuffled into **teaching groups** to share their paper with peers. This provides:
-
-- Low-stakes participation credit (replaces written design memos)
-- Learning by teaching — evidence-based pedagogy
-- Exposure to diverse applications across health, economics, and policy
-
-**Grading:** Participation-based (40 points/session): Preparation (10), Expert Contribution (10), Engagement (10), Synthesis (10)
 
 ### Grading Scale
 
 Final course grades follow the [UNC Graduate School grading scale](https://handbook.unc.edu/grading.html):
 
-- **H** — High Pass (93-100): Clear excellence
-- **P** — Pass (80-92): Entirely satisfactory graduate work
-- **L** — Low Pass (70-79): Inadequate graduate work
-- **F** — Fail (0-69)
+-   **H** — High Pass (93-100): Clear excellence
+-   **P** — Pass (80-92): Entirely satisfactory graduate work
+-   **L** — Low Pass (70-79): Inadequate graduate work
+-   **F** — Fail (0-69)
 
----
+------------------------------------------------------------------------
 
 ## Key Dates
 
-| Date | Event |
-|------|-------|
-| **Wed, January 7** | First Day of Class |
-| **Mon, January 19** | MLK Day (No Class) |
+| Date                | Event                     |
+|---------------------|---------------------------|
+| **Wed, January 7**  | First Day of Class        |
+| **Mon, January 19** | MLK Day (No Class)        |
 | **Mon, February 9** | Well-Being Day (No Class) |
-| **March 13-22** | Spring Break (No Classes) |
-| **Thu, April 2** | Well-Being Day (No Class) |
-| **Mon, April 27** | Last Day of Class |
-| **Fri, May 1** | Capstone Project Due |
+| **March 13-22**     | Spring Break (No Classes) |
+| **Thu, April 2**    | Well-Being Day (No Class) |
+| **Mon, April 27**   | Last Day of Class         |
+| **Fri, May 1**      | Capstone Project Due      |
 
----
+------------------------------------------------------------------------
 
 ## Policies
 
@@ -169,8 +155,9 @@ Final course grades follow the [UNC Graduate School grading scale](https://handb
 
 **Course Questions:** Please use the [Canvas Discussion Board](https://uncch.instructure.com/courses/108894/discussion_topics) to ask questions about problem sets, exercises, and other class materials. This ensures everyone benefits from the answers. If you email me or the TA a question that is not personal in nature, we will ask you to post it to Canvas instead.
 
-::: {.callout-tip}
+::: callout-tip
 ## Participation Bonus
+
 If you are "on the bubble" for your final grade, your participation in helping answer classmates' questions on the discussion board will be carefully considered!
 :::
 
@@ -178,26 +165,26 @@ If you are "on the bubble" for your final grade, your participation in helping a
 
 **Anonymous Feedback:** I am continuously trying to improve the course. Please share feedback anytime via the [anonymous feedback form](https://unc.az1.qualtrics.com/jfe/form/SV_b3O2k8IV6hVLn9k) — don't be shy!
 
----
+------------------------------------------------------------------------
 
 ### Attendance
 
-- Attendance is **not** formally taken, but participation in jigsaw activities will be recorded
-- You do **not** need to email the instructor or TA if you will be absent
-- For jigsaw discussions, you may drop your **lowest 2** session scores
-- When possible, class recordings will be provided
-- For sessions marked as **in-person**, there will not be a live Zoom option for remote attendance
+-   Attendance is **not** formally taken, but participation in jigsaw activities will be recorded
+-   You do **not** need to email the instructor or TA if you will be absent
+-   For jigsaw discussions, you may drop your **lowest 2** session scores
+-   When possible, class recordings will be provided
+-   For sessions marked as **in-person**, there will not be a live Zoom option for remote attendance
 
----
+------------------------------------------------------------------------
 
 ### AI Use Policy
 
 The use of AI tools (such as ChatGPT, GitHub Copilot, or Claude) is **permitted and encouraged** for:
 
-- Debugging code
-- Understanding error messages
-- Learning syntax and package functions
-- Generating code snippets for adaptation
+-   Debugging code
+-   Understanding error messages
+-   Learning syntax and package functions
+-   Generating code snippets for adaptation
 
 However, you are responsible for all code you submit — AI-generated code must be understood, tested, and verified. Conceptual understanding cannot be outsourced.
 
@@ -209,9 +196,9 @@ Labs are intentionally challenging and combine theoretical and empirical (coding
 
 **Submission Requirements:**
 
-- Submit both a **PDF report** and the **code** used to generate results via GitHub Classroom
-- Late submissions will **not** be accepted
-- You may use either **R or Python** (Stata and other pre-packaged solutions beyond the basics are not permitted)
+-   Submit both a **PDF report** and the **code** used to generate results via GitHub Classroom
+-   Late submissions will **not** be accepted
+-   You may use either **R or Python** (Stata and other pre-packaged solutions beyond the basics are not permitted)
 
 **Collaboration Policy:**
 
@@ -219,13 +206,14 @@ I encourage you to work in groups and discuss approaches. However, you must do y
 
 ### Late Work (Capstone Only)
 
-- Late submissions: -10% per 24 hours
-- After 48 hours: No credit without prior arrangement
-- Extensions may be granted for documented circumstances if requested before the deadline
+-   Late submissions: -10% per 24 hours
+-   After 48 hours: No credit without prior arrangement
+-   Extensions may be granted for documented circumstances if requested before the deadline
 
----
+------------------------------------------------------------------------
 
-::: {.callout-note}
+::: callout-note
 ## Complete Details
+
 For full course policies, institutional requirements, and detailed schedule, the official PDF syllabus will be available soon.
 :::

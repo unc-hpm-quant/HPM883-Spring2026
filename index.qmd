@@ -49,13 +49,12 @@ HPM 883 is an advanced graduate-level course designed to equip PhD students in H
 :::
 :::::
 
-
 ------------------------------------------------------------------------
 
 ## Course Units
 
 | Unit | Topic | Weeks | Core Question |
-|----------------|----------------|----------------|------------------------|
+|-----------------|-----------------|-----------------|----------------------|
 | **0** | Foundations: Potential Outcomes & DAGs | 1 | Setup |
 | **1** | Experimental Design | 2-3 | Does it work? |
 | **2** | Double/Debiased ML & Doubly-Robust Estimation | 4-6 | Does it work? |
@@ -74,7 +73,5 @@ HPM 883 is an advanced graduate-level course designed to equip PhD students in H
 | Jigsaw Participation | 20%    |
 | Capstone Project     | 45%    |
 | Peer Review          | 5%     |
-
-Each unit ends with a **jigsaw paper session** where students teach each other about applied papers.
 
 See [Syllabus](course-syllabus.qmd) for full details.

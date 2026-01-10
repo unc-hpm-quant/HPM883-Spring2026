@@ -13,19 +13,19 @@ format:
 
 HPM 883 uses a three-tier computing environment designed to minimize setup friction while teaching reproducible research workflows.
 
-::: {.callout-tip}
+::: callout-tip
 ## Quick Links
 
-- [Student Setup Guide](Resources/setup-guide.qmd) — Complete installation instructions
-- [Troubleshooting](#troubleshooting) — Common problems and solutions
+-   [Student Setup Guide](Resources/setup-guide.qmd) — Complete installation instructions
+-   [Troubleshooting](#troubleshooting) — Common problems and solutions
 :::
 
----
+------------------------------------------------------------------------
 
 ## Two-Tier Architecture
 
 | Tier | Platform | When to Use | Cost |
-|------|----------|-------------|------|
+|-----------------|-----------------|----------------------|-----------------|
 | **Primary** | [GitHub Codespaces](https://github.com/codespaces) | Labs, code-alongs, assignments | Free (180 core-hours/month) |
 | **Alternative** | Local (Positron/RStudio) + GitHub | Advanced users, offline work | Free |
 
@@ -35,40 +35,34 @@ For in-class exercises and all labs, we use **GitHub Codespaces** — a browser-
 
 **Benefits:**
 
-- Zero installation — works on any computer with a browser
-- Pre-configured with all required R packages
-- Professional workflow (Git/GitHub integrated)
-- Free for verified students (180 core-hours/month)
+-   Zero installation — works on any computer with a browser
+-   Pre-configured with all required R packages
+-   Professional workflow (Git/GitHub integrated)
+-   Free for verified students (180 core-hours/month)
 
 **How it works:**
 
-1. Accept an assignment via GitHub Classroom link
-2. Click "Open in Codespace" → browser-based RStudio launches
-3. Work on your assignment
-4. Commit and push when done — no download/upload needed
+1.  Accept an assignment via GitHub Classroom link
+2.  Click "Open in Codespace" → browser-based RStudio launches
+3.  Work on your assignment
+4.  Commit and push when done — no download/upload needed
 
-**GitHub Organizations:**
-
-| Organization | Purpose | Link |
-|--------------|---------|------|
-| **HPM-883-course** | Baseline materials (instructor-only) | [github.com/HPM-883-course](https://github.com/HPM-883-course) |
-| **HPM-883-2026** | Student-facing content for Spring 2026 | [github.com/HPM-883-2026](https://github.com/HPM-883-2026) |
-| **GitHub Classroom** | Assignment distribution & submission | [Classroom](https://classroom.github.com/classrooms/253497296-hpm-883-s26) |
+**GitHub Organization Link:** <https://github.com/HPM-883-2026>
 
 ### Tier 2: Local Development (Alternative)
 
-For the capstone project or if you prefer working offline, you can work locally using **Positron** (recommended) or RStudio.
+For the capstone project or if you prefer working offline, you can work locally using VS Code, **Positron** (recommended) or RStudio.
 
 **Why local development?**
 
-- Works offline
-- Built-in AI assistance (Positron)
-- More computing power for large datasets
-- Full control over environment
+-   Works offline
+-   Built-in AI assistance (Positron)
+-   More computing power for large datasets
+-   Full control over environment
 
 **Setup required:** See [Local Setup Instructions](#local-setup) below.
 
----
+------------------------------------------------------------------------
 
 ## Required Software
 
@@ -78,13 +72,13 @@ R is our primary analysis language.
 
 **Windows:**
 
-```bash
+``` bash
 winget install --id R-project.R
 ```
 
 **macOS:**
 
-```bash
+``` bash
 brew install --cask r
 ```
 
@@ -92,12 +86,12 @@ brew install --cask r
 
 [Positron](https://positron.posit.co/) is Posit's new IDE with built-in AI assistance.
 
-| Feature | Positron | RStudio |
-|---------|----------|---------|
-| Built-in AI assistant | ✓ | ✗ |
-| Active development | ✓ | Maintenance only |
-| VS Code extensions | ✓ | Limited |
-| Price | Free | Free |
+| Feature               | Positron | RStudio          |
+|-----------------------|----------|------------------|
+| Built-in AI assistant | ✓        | ✗                |
+| Active development    | ✓        | Maintenance only |
+| VS Code extensions    | ✓        | Limited          |
+| Price                 | Free     | Free             |
 
 **Download:** [positron.posit.co](https://positron.posit.co/)
 
@@ -109,19 +103,19 @@ Version control for all assignments.
 
 **Windows:**
 
-```bash
+``` bash
 winget install Git.Git
 ```
 
 **macOS:**
 
-```bash
+``` bash
 brew install git
 ```
 
 **Configure:**
 
-```bash
+``` bash
 git config --global user.name "Your Name"
 git config --global user.email "your.email@unc.edu"
 ```
@@ -132,36 +126,36 @@ Publishing system for labs and reports. Usually bundled with Positron/RStudio.
 
 **Verify installation:**
 
-```bash
+``` bash
 quarto --version
 ```
 
 **If not installed:** [quarto.org/docs/get-started](https://quarto.org/docs/get-started/)
 
----
+------------------------------------------------------------------------
 
 ## Workflow by Assignment Type
 
-### In-Class Code-Alongs
+### In-Class Labs 
 
 **Platform:** GitHub Codespaces
 
-1. Accept the code-along assignment via GitHub Classroom link
-2. Click "Open in Codespace" — RStudio opens in your browser
-3. Follow along with instructor
-4. Push your work when done (or discard if not needed)
+1.  Accept the code-along assignment via GitHub Classroom link
+2.  Click "Open in Codespace" — RStudio opens in your browser
+3.  Follow along with instructor
+4.  Push your work when done (or discard if not needed)
 
-### Labs
+### Problem Sets
 
 **Platform:** GitHub Codespaces
 
-1. Accept assignment via GitHub Classroom link (distributed via Canvas)
-2. Click "Open in Codespace" — RStudio opens in your browser
-3. Complete the lab in `analysis.qmd`
-4. Render to HTML: `quarto render`
-5. Commit and push from the RStudio Git pane (or terminal):
+1.  Accept assignment via GitHub Classroom link (distributed via Canvas)
+2.  Click "Open in Codespace" — RStudio opens in your browser
+3.  Complete the lab in `analysis.qmd`
+4.  Render to HTML: `quarto render`
+5.  Commit and push from the RStudio Git pane (or terminal):
 
-```bash
+``` bash
 git add .
 git commit -m "Complete Lab X"
 git push
@@ -173,12 +167,12 @@ git push
 
 For the capstone project, you may use either Codespaces or local development. The capstone template includes:
 
-- `analysis/01-pap.qmd` — Pre-analysis plan
-- `analysis/02-analysis.qmd` — Main analysis
-- `analysis/03-results.qmd` — Results summary
-- `_targets.R` — Analysis pipeline (optional)
+-   `analysis/01-pap.qmd` — Pre-analysis plan
+-   `analysis/02-analysis.qmd` — Main analysis
+-   `analysis/03-results.qmd` — Results summary
+-   `_targets.R` — Analysis pipeline (optional)
 
----
+------------------------------------------------------------------------
 
 ## Key R Packages
 
@@ -186,32 +180,32 @@ These packages are pre-installed in all course templates:
 
 ### Core
 
-| Package | Purpose |
-|---------|---------|
+| Package     | Purpose                             |
+|-------------|-------------------------------------|
 | `tidyverse` | Data manipulation and visualization |
-| `estimatr` | Robust standard errors |
-| `gt` | Publication-quality tables |
-| `knitr` | Document rendering |
+| `estimatr`  | Robust standard errors              |
+| `gt`        | Publication-quality tables          |
+| `knitr`     | Document rendering                  |
 
 ### Causal Inference
 
-| Package | Purpose |
-|---------|---------|
-| `DoubleML` | Double/Debiased Machine Learning |
-| `grf` | Generalized Random Forests (causal forests) |
-| `policytree` | Policy learning and decision trees |
-| `did` | Difference-in-Differences |
-| `Synth` | Synthetic Control Method |
+| Package      | Purpose                                     |
+|--------------|---------------------------------------------|
+| `DoubleML`   | Double/Debiased Machine Learning            |
+| `grf`        | Generalized Random Forests (causal forests) |
+| `policytree` | Policy learning and decision trees          |
+| `did`        | Difference-in-Differences                   |
+| `Synth`      | Synthetic Control Method                    |
 
 ### Experimental Design
 
-| Package | Purpose |
-|---------|---------|
+| Package         | Purpose                     |
+|-----------------|-----------------------------|
 | `DeclareDesign` | Research design declaration |
-| `fabricatr` | Data simulation |
-| `randomizr` | Randomization |
+| `fabricatr`     | Data simulation             |
+| `randomizr`     | Randomization               |
 
----
+------------------------------------------------------------------------
 
 ## Reproducibility with renv
 
@@ -219,7 +213,7 @@ All course projects use [renv](https://rstudio.github.io/renv/) for package mana
 
 **First time opening a project:**
 
-```r
+``` r
 renv::restore()
 ```
 
@@ -227,18 +221,18 @@ This installs the exact package versions used to create the project.
 
 **If you add new packages:**
 
-```r
+``` r
 install.packages("new_package")
 renv::snapshot()
 ```
 
----
+------------------------------------------------------------------------
 
 ## Troubleshooting {#troubleshooting}
 
 ### Package Installation Fails
 
-```r
+``` r
 # Delete cached packages and retry
 unlink("renv/library", recursive = TRUE)
 renv::restore()
@@ -246,7 +240,7 @@ renv::restore()
 
 ### Git Push Rejected
 
-```bash
+``` bash
 # Pull remote changes first
 git pull --rebase
 git push
@@ -254,65 +248,64 @@ git push
 
 ### Quarto Render Fails
 
-1. Check YAML header for syntax errors
-2. Look for unmatched brackets or quotes
-3. Run chunks one-by-one to find the error
+1.  Check YAML header for syntax errors
+2.  Look for unmatched brackets or quotes
+3.  Run chunks one-by-one to find the error
 
 ### Codespaces Running Slow
 
-1. Stop unused Codespaces: [github.com/codespaces](https://github.com/codespaces) → Stop/Delete
-2. Use a larger machine type: ... menu → Change machine type → 4-core
-3. Clear old outputs: delete `_freeze/` folder
+1.  Stop unused Codespaces: [github.com/codespaces](https://github.com/codespaces) → Stop/Delete
+2.  Use a larger machine type: ... menu → Change machine type → 4-core
+3.  Clear old outputs: delete `_freeze/` folder
 
 ### Codespaces Won't Start
 
-1. Check your monthly quota: [github.com/settings/billing](https://github.com/settings/billing)
-2. Delete unused Codespaces to free quota
-3. Verify GitHub Education status: [education.github.com/pack](https://education.github.com/pack)
+1.  Check your monthly quota: [github.com/settings/billing](https://github.com/settings/billing)
+2.  Delete unused Codespaces to free quota
+3.  Verify GitHub Education status: [education.github.com/pack](https://education.github.com/pack)
 
 ### GitHub Authentication Issues
 
-```bash
+``` bash
 # Regenerate SSH key
 ssh-keygen -t ed25519 -C "your.email@unc.edu"
 # Add to GitHub: Settings → SSH Keys → New
 ```
 
----
+------------------------------------------------------------------------
 
 ## Getting Help
 
-1. **Slack #hpm883-help** — Quick questions, classmates can help
-2. **Office Hours** — See [course schedule](index.qmd)
-3. **GitHub Issues** — For persistent technical problems
+1.  **Slack #hpm883-help** — Quick questions, classmates can help
+2.  **Office Hours** — See [course schedule](index.qmd)
+3.  **GitHub Issues** — For persistent technical problems
 
-
----
+------------------------------------------------------------------------
 
 ## Additional Resources
 
 ### Learning R
 
-- [R for Data Science](https://r4ds.had.co.nz/) — Comprehensive introduction
-- [Stata2R](https://stata2r.github.io/) — For Stata users transitioning to R
-- [Coding for Economists](https://aeturrell.github.io/coding-for-economists/) — Practical coding guide
+-   [R for Data Science](https://r4ds.had.co.nz/) — Comprehensive introduction
+-   [Stata2R](https://stata2r.github.io/) — For Stata users transitioning to R
+-   [Coding for Economists](https://aeturrell.github.io/coding-for-economists/) — Practical coding guide
 
 ### Git and GitHub
 
-- [Happy Git with R](https://happygitwithr.com/) — Complete guide
-- [Git Cheat Sheet](https://education.github.com/git-cheat-sheet-education.pdf) — Quick reference
+-   [Happy Git with R](https://happygitwithr.com/) — Complete guide
+-   [Git Cheat Sheet](https://education.github.com/git-cheat-sheet-education.pdf) — Quick reference
 
 ### Quarto
 
-- [Quarto Documentation](https://quarto.org/docs/guide/) — Official guide
-- [Quarto for R Users](https://quarto.org/docs/computations/r.html) — R-specific features
+-   [Quarto Documentation](https://quarto.org/docs/guide/) — Official guide
+-   [Quarto for R Users](https://quarto.org/docs/computations/r.html) — R-specific features
 
 ### Positron
 
-- [Positron Documentation](https://positron.posit.co/docs) — IDE guide
-- [Migrating from RStudio](https://positron.posit.co/migrate-rstudio-compare.html) — Comparison
+-   [Positron Documentation](https://positron.posit.co/docs) — IDE guide
+-   [Migrating from RStudio](https://positron.posit.co/migrate-rstudio-compare.html) — Comparison
 
 ### Best Practices
 
-- [IPA Data Handbook](https://povertyaction.github.io/ipa-data-tech-handbook/) — Research data management
-- [The Turing Way](https://the-turing-way.netlify.app/) — Reproducible research guide
+-   [IPA Data Handbook](https://povertyaction.github.io/ipa-data-tech-handbook/) — Research data management
+-   [The Turing Way](https://the-turing-way.netlify.app/) — Reproducible research guide
