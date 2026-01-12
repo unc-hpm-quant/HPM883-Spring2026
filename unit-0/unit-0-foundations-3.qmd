@@ -12,13 +12,13 @@ This session establishes the theoretical foundations for causal inference that w
 
 **Learning Objectives:**
 
-1. Define causal effects using the potential outcomes framework
-2. Understand the fundamental problem of causal inference
-3. Read and interpret directed acyclic graphs (DAGs)
-4. Identify confounding, colliders, and mediators in causal graphs
-5. Connect DAGs to identification strategies
+1.  Define causal effects using the potential outcomes framework
+2.  Understand the fundamental problem of causal inference
+3.  Read and interpret directed acyclic graphs (DAGs)
+4.  Identify confounding, colliders, and mediators in causal graphs
+5.  Connect DAGs to identification strategies
 
----
+------------------------------------------------------------------------
 
 ## Preparation
 
@@ -26,84 +26,82 @@ This session establishes the theoretical foundations for causal inference that w
 
 **Hernán & Robins (2020)** — *Causal Inference: What If*
 
-- **Chapter 1-2:** Potential Outcomes and Randomized Experiments (~18 pages)
-  - [Online Book](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/)
-  - Focus: Potential outcomes, counterfactuals, DAGs, SCMs
+-   **Chapter 1-2:** Potential Outcomes and Randomized Experiments (\~18 pages)
+    -   [Online Book](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/)
+    -   Focus: Potential outcomes, counterfactuals, DAGs, SCMs
 
 ### Recommended
 
-- Pearl (2009) — "Causal inference in statistics: An overview" *Statistics Surveys*, Vol 3, 96-146
-- Imbens & Rubin (2015) — *Causal Inference* — Chapter 1: The Basic Framework
-- [Brady Neal Ch. 1-2](https://www.bradyneal.com/Introduction_to_Causal_Inference-Dec17_2020-Neal.pdf) — ML-first perspective
+-   Pearl (2009) — "Causal inference in statistics: An overview" *Statistics Surveys*, Vol 3, 96-146
+-   Imbens & Rubin (2015) — *Causal Inference* — Chapter 1: The Basic Framework
+-   [Brady Neal Ch. 1-2](https://www.bradyneal.com/Introduction_to_Causal_Inference-Dec17_2020-Neal.pdf) — ML-first perspective
 
 **Estimated Reading Time:** 45-60 minutes
 
----
+------------------------------------------------------------------------
 
 ## In Class
 
-- [Lecture Slides](session-0-3-slides.qmd)
+-   [Lecture Slides](session-0-3-slides.qmd)
 
 **Topics Covered:**
 
-1. **Potential Outcomes Framework**
-   - Notation: $Y_i(1)$, $Y_i(0)$, treatment effects
-   - Individual vs. average treatment effects (ITE, ATE, ATT)
-   - The fundamental problem of causal inference
-   - SUTVA assumptions
-
-2. **Structural Causal Models**
-   - Directed Acyclic Graphs (DAGs)
-   - Confounders, colliders, mediators
-   - d-separation and conditional independence
-   - Front-door and back-door criteria
-
-3. **Connecting the Frameworks**
-   - When to use PO vs. DAGs
-   - From identification to estimation
-   - Preview: How ML enters the picture
+1.  **Potential Outcomes Framework**
+    -   Notation: $Y_i(1)$, $Y_i(0)$, treatment effects
+    -   Individual vs. average treatment effects (ITE, ATE, ATT)
+    -   The fundamental problem of causal inference
+    -   SUTVA assumptions
+2.  **Structural Causal Models**
+    -   Directed Acyclic Graphs (DAGs)
+    -   Confounders, colliders, mediators
+    -   d-separation and conditional independence
+    -   Front-door and back-door criteria
+3.  **Connecting the Frameworks**
+    -   When to use PO vs. DAGs
+    -   From identification to estimation
+    -   Preview: How ML enters the picture
 
 **Discussion:**
 
-- Draw DAGs for health policy scenarios
-- Identify what must be controlled for identification
+-   Draw DAGs for health policy scenarios
+-   Identify what must be controlled for identification
 
----
+------------------------------------------------------------------------
 
 ## After Class
 
 ### Continue Lab 0
 
-- Lab 0 due: **January 19** (next week)
-- Complete GitHub setup and first commit
+-   Lab 0 due: **January 19** (next week)
+-   Complete GitHub setup and first commit
 
 ### Looking Ahead
 
-- **Week 2:** Experimental Design (power, blocking, variance reduction)
-- Complete Chernozhukov Chapter 2 reading (Causal Inference via Randomized Experiments)
-- Note: January 19 is MLK Day (no class)
+-   **Week 2:** Experimental Design (power, blocking, variance reduction)
+-   Complete Chernozhukov Chapter 2 reading (Causal Inference via Randomized Experiments)
+-   Note: January 19 is MLK Day (no class)
 
----
+------------------------------------------------------------------------
 
 ## Additional Resources
 
 ### Potential Outcomes
 
-- Holland (1986) — "Statistics and Causal Inference" *JASA* — Classic paper on the fundamental problem
-- Rubin (2005) — "Causal Inference Using Potential Outcomes" *JASA*
+-   Holland (1986) — "Statistics and Causal Inference" *JASA* — Classic paper on the fundamental problem
+-   Rubin (2005) — "Causal Inference Using Potential Outcomes" *JASA*
 
 ### DAGs and SCMs
 
-- [DAGitty](http://www.dagitty.net/) — Interactive DAG drawing tool
-- [ggdag Package](https://ggdag.malco.io/) — DAGs in R
-- Pearl (2009) — "Causal inference in statistics: An overview" *Statistics Surveys*
+-   [DAGitty](http://www.dagitty.net/) — Interactive DAG drawing tool
+-   [ggdag Package](https://ggdag.malco.io/) — DAGs in R
+-   Pearl (2009) — "Causal inference in statistics: An overview" *Statistics Surveys*
 
 ### Video Resources
 
-- Brady Neal — [Introduction to Causal Inference](https://www.bradyneal.com/causal-inference-course) — Chapters 1-2
-- Miguel Hernán — [Causal Diagrams](https://www.edx.org/course/causal-diagrams-draw-your-assumptions-before-your) (edX)
+-   Brady Neal — [Introduction to Causal Inference](https://www.bradyneal.com/causal-inference-course) — Chapters 1-2
+-   Miguel Hernán — [Causal Diagrams](https://www.edx.org/course/causal-diagrams-draw-your-assumptions-before-your) (edX)
 
 ### Interactive Learning
 
-- [Seeing Theory: Causal Inference](https://seeing-theory.brown.edu/) — Visual explanations
-- [DAGitty Tutorial](http://www.dagitty.net/learn/) — Practice with DAGs
+-   [Seeing Theory: Causal Inference](https://seeing-theory.brown.edu/) — Visual explanations
+-   [DAGitty Tutorial](http://www.dagitty.net/learn/) — Practice with DAGs
