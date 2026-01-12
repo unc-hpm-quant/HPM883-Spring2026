@@ -112,8 +112,8 @@ Columns: 5
 $ id        <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, ...
 $ treatment <dbl> 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, ...
 $ age       <dbl> 48, 39, 44, 56, 39, 50, 41, 58, 48, 35, ...
-$ baseline  <dbl> 114.06, 103.99, 110.44, 82.96, 113.59, ...
-$ outcome   <dbl> 78.74, 91.95, 82.87, 72.99, 79.23, ...
+$ baseline_score  <dbl> 114.06, 103.99, 110.44, 82.96, 113.59, ...
+$ outcome_score   <dbl> 78.74, 91.95, 82.87, 72.99, 79.23, ...
 ```
 
 ### 2.3 Summary Statistics
@@ -149,7 +149,7 @@ table(data$treatment)
 ```{r}
 #| label: basic-model
 
-model <- lm_robust(outcome ~ treatment, data = data)
+model <- lm_robust(outcome_score ~ treatment, data = data)
 tidy(model)
 ```
 
@@ -184,7 +184,7 @@ summary(model)
 ```{r}
 #| label: model-covariates
 
-model_adj <- lm_robust(outcome ~ treatment + baseline, data = data)
+model_adj <- lm_robust(outcome_score ~ treatment + baseline_score, data = data)
 tidy(model_adj)
 ```
 
@@ -223,14 +223,14 @@ data.frame(
 #| fig-cap: "Outcome by Treatment Status"
 #| fig-alt: "Boxplot showing outcome distribution for treatment and control groups"
 
-ggplot(data, aes(x = factor(treatment), y = outcome, fill = factor(treatment))) +
+ggplot(data, aes(x = factor(treatment), y = outcome_score, fill = factor(treatment))) +
   geom_boxplot(alpha = 0.7) +
   scale_fill_manual(values = c("0" = "#4BACC6", "1" = "#9BBB59"),
                     labels = c("Control", "Treatment")) +
   labs(
     title = "Treatment Effect on Outcome",
     x = "Treatment Status",
-    y = "Outcome",
+    y = "Outcome Score",
     fill = "Group"
   ) +
   theme_minimal() +
@@ -246,15 +246,15 @@ ggplot(data, aes(x = factor(treatment), y = outcome, fill = factor(treatment))) 
 #| fig-cap: "Baseline vs Outcome by Treatment"
 #| fig-alt: "Scatter plot showing relationship between baseline and outcome, colored by treatment"
 
-ggplot(data, aes(x = baseline, y = outcome, color = factor(treatment))) +
+ggplot(data, aes(x = baseline_score, y = outcome_score, color = factor(treatment))) +
   geom_point(alpha = 0.6, size = 2) +
   geom_smooth(method = "lm", se = TRUE) +
   scale_color_manual(values = c("0" = "#4BACC6", "1" = "#9BBB59"),
                      labels = c("Control", "Treatment")) +
   labs(
     title = "Baseline vs Outcome by Treatment Status",
-    x = "Baseline Value",
-    y = "Outcome",
+    x = "Baseline Score",
+    y = "Outcome Score",
     color = "Group"
   ) +
   theme_minimal() +
