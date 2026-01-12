@@ -219,13 +219,40 @@ GitHub Codespaces runs a full RStudio Server in your browser. No installation ne
 Let's walk through:
 
 1.  Accept assignment via GitHub Classroom link
-2.  Click "Open in Codespace" → browser-based RStudio launches
-3.  Run `renv::restore()` to install packages
-4.  Work on your code
-5.  Commit and push when done — no download needed
+2.  Click "Open in Codespace" → VS Code opens in browser
+3.  Choose your IDE (VS Code or RStudio via port 8787)
+4.  Run `renv::restore()` to install packages
+5.  Work on your code
+6.  Commit and push when done — no download needed
 
 ::: notes
 Walk through the demo slowly. Pause for questions. This is where students often get stuck.
+:::
+
+------------------------------------------------------------------------
+
+## Lab 0: Environment Setup {.center}
+
+::: {.callout-important}
+## Accept the Assignment
+
+**[https://classroom.github.com/a/ER_VlloZ](https://classroom.github.com/a/ER_VlloZ)**
+:::
+
+**Due:** Sunday, January 19, 2026
+
+**Points:** 25 (Pass/Fail)
+
+**What you'll verify:**
+
+1.  Environment check (R version, packages load)
+2.  Data loading and exploration
+3.  Basic regression analysis
+4.  Visualization
+5.  Render to HTML and push to GitHub
+
+::: notes
+Have everyone click the link now while we're together. This creates their personal repository.
 :::
 
 ------------------------------------------------------------------------

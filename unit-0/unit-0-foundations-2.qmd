@@ -90,6 +90,14 @@ To ensure a smooth experience during class, **complete these steps before Januar
 
 -   [Lecture Slides](session-0-2-slides.qmd)
 
+::: callout-important
+## Lab 0: Environment Setup
+
+**[Accept Lab 0 on GitHub Classroom](https://classroom.github.com/a/ER_VlloZ)**
+
+Due: Sunday, January 19, 2026
+:::
+
 **Topics Covered:**
 
 1.  The reproducibility crisis and why it matters
