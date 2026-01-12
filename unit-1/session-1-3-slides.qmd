@@ -63,6 +63,7 @@ design <- declare_model(...) +
 ## The MIDA Framework
 
 ```{mermaid}
+%%| echo: false
 %%| fig-alt: "MIDA framework showing Model, Inquiry, Data Strategy, and Answer Strategy as connected components"
 flowchart LR
     M["Model<br>(DGP)"] --> I["Inquiry<br>(Estimand)"]

@@ -79,6 +79,7 @@ All submitted work must be reproducible. If we can't run your code, we can't gra
 ## The Reproducibility Stack
 
 ```{mermaid}
+%%| echo: false
 %%| fig-alt: "Four layers of reproducibility: Quarto (reports) on top, targets (pipeline), renv (packages), Git (version control) at bottom"
 flowchart TB
     subgraph L4["Literate Programming"]
