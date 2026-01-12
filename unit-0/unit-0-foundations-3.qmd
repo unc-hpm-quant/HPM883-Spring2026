@@ -72,8 +72,8 @@ This session establishes the theoretical foundations for causal inference that w
 
 ### Continue Lab 0
 
--   Lab 0 due: **January 19** (next week)
--   Complete GitHub setup and first commit
+-   Complete Lab 0 to verify your environment works
+-   Solutions released the day after the lab — run `git pull` to access
 
 ### Looking Ahead
 

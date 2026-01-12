@@ -94,14 +94,12 @@ To ensure a smooth experience during class, **complete these steps before Januar
 ## Lab 0: Environment Setup
 
 **[Accept Lab 0 on GitHub Classroom](https://classroom.github.com/a/ER_VlloZ)**
-
-Due: Sunday, January 19, 2026
 :::
 
 ::: callout-tip
 ## Accessing Solutions
 
-After the lab deadline, solutions are released. Run `git pull` in your repository to access `analysis-sols.qmd`.
+Solutions are released the day after each lab. Run `git pull` in your repository to access `analysis-sols.qmd`. Labs are for practice, not grading.
 :::
 
 **Topics Covered:**

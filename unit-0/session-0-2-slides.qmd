@@ -376,17 +376,17 @@ Walk through the demo slowly. Pause for questions. This is where students often 
 **[https://classroom.github.com/a/ER_VlloZ](https://classroom.github.com/a/ER_VlloZ)**
 :::
 
-**Due:** Sunday, January 19, 2026
-
-**Points:** 25 (Pass/Fail)
-
 **What you'll verify:**
 
 1.  Environment check (R version, packages load)
 2.  Data loading and exploration
 3.  Basic regression analysis
 4.  Visualization
-5.  Render to HTML and push to GitHub
+5.  Render to HTML
+
+::: {.callout-note}
+Labs are for practice — not graded. Solutions released the next day.
+:::
 
 ::: notes
 Have everyone click the link now while we're together. This creates their personal repository.
@@ -396,7 +396,7 @@ Have everyone click the link now while we're together. This creates their person
 
 ## Accessing Lab Solutions
 
-After each lab deadline, solutions are released.
+Solutions are released the day after each lab session.
 
 **To get solutions:**
 
@@ -406,8 +406,8 @@ git pull
 
 ::: fragment
 -   `analysis-sols.qmd` will appear in your repo
--   Review solutions to check your work
--   Solutions released ~24 hours after deadline
+-   Review solutions to check your understanding
+-   Labs are for learning, not grading!
 :::
 
 ::: notes

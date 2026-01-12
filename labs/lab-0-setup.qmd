@@ -17,8 +17,6 @@ execute:
 
 **Objective:** Verify that your computing environment is correctly configured for HPM 883.
 
-**Due Date:** End of Week 1 (Sunday, January 19, 2026)
-
 ::: {.callout-important}
 ## Accept the Assignment
 
@@ -26,8 +24,6 @@ execute:
 
 This will create your personal repository for this lab.
 :::
-
-**Points:** 25 (Pass/Fail on each component)
 
 ::: {.callout-note}
 ## What This Lab Tests
@@ -38,7 +34,7 @@ This lab verifies that you can:
 2. Restore R packages with `renv`
 3. Load and manipulate data
 4. Run a basic regression
-5. Render Quarto to HTML and submit via GitHub
+5. Render Quarto to HTML
 :::
 
 ---
@@ -218,7 +214,7 @@ ggplot(data, aes(x = baseline, y = outcome, color = factor(treatment))) +
 
 ---
 
-## Part 5: Render & Submit (5 points)
+## Part 5: Render & Review
 
 ### 5.1 Render to HTML
 
@@ -230,44 +226,22 @@ Verify that:
 - [ ] All code chunks executed without errors
 - [ ] All figures appear correctly
 
-### 5.2 Commit and Push
+### 5.2 Accessing Solutions
 
-In the terminal:
+Solutions are released the day after each lab session.
 
-```bash
-git add .
-git commit -m "Complete Lab 0 - Environment Setup"
-git push
-```
-
-Or use the Git pane in your IDE:
-
-1. Stage all changes
-2. Write commit message: "Complete Lab 0 - Environment Setup"
-3. Commit
-4. Push
-
-### 5.3 Verify Submission
-
-Go to your GitHub repository and confirm:
-
-- [ ] Your latest commit appears
-- [ ] The rendered HTML file is present
-- [ ] The commit timestamp is before the deadline
-
----
-
-## Accessing Solutions
-
-After the submission deadline, solutions will be released.
-
-**To get solutions:**
+**To get solutions, run in your terminal:**
 
 ```bash
 git pull
 ```
 
 The file `analysis-sols.qmd` will appear in your repository with complete solutions and explanations.
+
+::: {.callout-tip}
+## Compare Your Work
+Review the solutions to check your understanding. Labs are for learning, not grading!
+:::
 
 ---
 
@@ -283,15 +257,14 @@ sessionInfo()
 
 ---
 
-## Submission Checklist
+## Completion Checklist
 
-Before submitting, verify:
+Before moving on, verify:
 
 - [ ] All code chunks run without errors
 - [ ] All questions have written answers
 - [ ] HTML renders correctly
-- [ ] Changes are committed and pushed to GitHub
-- [ ] Submission is before the deadline
+- [ ] You understand the workflow (edit → render → review)
 
 ::: {.callout-important}
 ## Getting Help

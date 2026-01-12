@@ -76,9 +76,9 @@ This session covers the foundations of statistical inference in experiments: how
 
 ## After Class
 
-### Due This Week
+### Lab 0 Solutions
 
--   **Lab 0** due Sunday, January 19
+-   **Lab 0** solutions available — run `git pull` to access
 
 ### Looking Ahead
 
