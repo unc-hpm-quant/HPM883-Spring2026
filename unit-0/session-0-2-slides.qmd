@@ -193,6 +193,14 @@ Everyone messes up Git. The good news: almost everything is recoverable.
 | Merge conflict | Edit file, remove `<<<<` markers, commit |
 | Pushed sensitive data | Contact me immediately |
 
+::: {.fragment}
+![xkcd: Git](../images/xkcd-git.png){fig-alt="xkcd comic showing someone explaining Git's beautiful distributed graph theory tree model, then admitting they just memorize commands and delete/re-clone when things go wrong" width="55%"}
+
+::: {.aside}
+xkcd #1597
+:::
+:::
+
 ------------------------------------------------------------------------
 
 ## Clean Code Principles
