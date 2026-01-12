@@ -100,7 +100,7 @@ If packages fail to load:
 #| label: load-data
 
 # Load the sample dataset
-data <- read_csv("data/sample_data.csv")
+data <- read_csv("data/lab0_rct_data.csv")
 ```
 
 ### 2.2 Explore the Data

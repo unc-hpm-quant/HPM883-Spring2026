@@ -30,7 +30,7 @@ By the end of this unit, students will be able to:
 
 ::: callout-note
 ## Note: January 19 is MLK Day (No Class)
-Problem Set 0 is due January 19.
+Lab 0 is due January 19.
 :::
 
 ## Required Readings
@@ -70,7 +70,7 @@ library(fabricatr)      # Data simulation
 
 ## Assessment
 
-- **Problem Set 0:** Reproducible Research Setup — Due January 19
+- **Lab 0:** Environment Setup & Verification — Due January 19
 - **Problem Set 1:** Power Analysis by Simulation — Due February 2
 - **Participation:** In-class discussion and code exercises
 
