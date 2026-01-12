@@ -257,6 +257,20 @@ Go to your GitHub repository and confirm:
 
 ---
 
+## Accessing Solutions
+
+After the submission deadline, solutions will be released.
+
+**To get solutions:**
+
+```bash
+git pull
+```
+
+The file `analysis-sols.qmd` will appear in your repository with complete solutions and explanations.
+
+---
+
 ## Session Info
 
 Always include session info at the end of your analysis for reproducibility:

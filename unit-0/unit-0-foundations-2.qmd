@@ -98,6 +98,12 @@ To ensure a smooth experience during class, **complete these steps before Januar
 Due: Sunday, January 19, 2026
 :::
 
+::: callout-tip
+## Accessing Solutions
+
+After the lab deadline, solutions are released. Run `git pull` in your repository to access `analysis-sols.qmd`.
+:::
+
 **Topics Covered:**
 
 1.  The reproducibility crisis and why it matters

@@ -257,6 +257,28 @@ Have everyone click the link now while we're together. This creates their person
 
 ------------------------------------------------------------------------
 
+## Accessing Lab Solutions
+
+After each lab deadline, solutions are released.
+
+**To get solutions:**
+
+``` bash
+git pull
+```
+
+::: fragment
+-   `analysis-sols.qmd` will appear in your repo
+-   Review solutions to check your work
+-   Solutions released ~24 hours after deadline
+:::
+
+::: notes
+Students often forget this step. Remind them that solutions aren't automatically pushed — they need to pull.
+:::
+
+------------------------------------------------------------------------
+
 ## Introduction to DeclareDesign
 
 ### A Grammar for Research Design
