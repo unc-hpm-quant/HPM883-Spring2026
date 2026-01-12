@@ -307,5 +307,6 @@ ssh-keygen -t ed25519 -C "your.email@unc.edu"
 
 ### Best Practices
 
+-   **[Reproducible Research Guide](/reproducible-research.qmd)** — Course reference for reproducibility principles
 -   [IPA Data Handbook](https://povertyaction.github.io/ipa-data-tech-handbook/) — Research data management
 -   [The Turing Way](https://the-turing-way.netlify.app/) — Reproducible research guide

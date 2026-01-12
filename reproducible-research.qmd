@@ -1,0 +1,247 @@
+---
+title: "Reproducible Research Workflow"
+author: "Sean Sylvia"
+date: "2026-01-13"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+---
+
+# Reproducible Research Workflow
+
+This guide provides a reference for reproducible research practices used throughout HPM 883. Bookmark this page and return to it as needed throughout the semester.
+
+::: callout-note
+## Why This Matters
+
+Reproducibility means another researcher—or your future self—can take the same data and code and arrive at the same results. No secret incantations, arcane folder structures, or chanting under the full moon required.
+:::
+
+------------------------------------------------------------------------
+
+## Quick Reference: Seven Principles
+
+These principles are adapted from [Gentzkow & Shapiro's "Code and Data for the Social Sciences"](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf), a foundational guide for empirical researchers.
+
+| Principle | What It Means | Example |
+|-----------------|------------------------|--------------------------------|
+| **Automate** | Scripts over manual steps | `source("01_import.R")` not copy-paste |
+| **Version Control** | Track changes with Git | Meaningful commits, clear history |
+| **Abstract** | Functions over copy-paste | `clean_data()` not repeated code blocks |
+| **Document** | Explain the "why" | Comments, README, commit messages |
+| **Manage Environment** | Lock dependencies | `renv::snapshot()` captures package versions |
+| **Organize** | Consistent folder structure | `data/`, `code/`, `output/` |
+| **Test** | Verify results | Assertions, code review, sanity checks |
+
+------------------------------------------------------------------------
+
+## Project Structure Template
+
+A well-organized project makes your work easier to understand, reproduce, and share.
+
+```
+my-project/
+├── README.md           # Project overview and instructions
+├── .gitignore          # Files Git should ignore
+├── renv.lock           # Package versions (reproducibility)
+├── data/
+│   ├── raw/            # Original data (NEVER modify!)
+│   └── processed/      # Cleaned/transformed data
+├── code/
+│   ├── 01_import.R     # Data import
+│   ├── 02_clean.R      # Data cleaning
+│   └── 03_analyze.R    # Analysis
+├── output/
+│   ├── figures/        # Generated plots
+│   └── tables/         # Generated tables
+└── docs/
+    └── analysis.qmd    # Main analysis document
+```
+
+### Key Rules
+
+1.  **Never modify raw data** — Keep originals untouched in `data/raw/`
+2.  **Number your scripts** — Shows execution order (01, 02, 03...)
+3.  **Use relative paths** — `data/file.csv` not `/Users/me/project/data/file.csv`
+4.  **Separate code from output** — Generated files go in `output/`
+
+------------------------------------------------------------------------
+
+## Git Workflow for Research
+
+### The Basic Cycle
+
+```
+Clone → Edit → Stage → Commit → Push
+```
+
+| Step | What It Does | Command/Action |
+|-----------------|---------------------------|-------------------------|
+| **Clone** | Copy repo to your machine | `git clone <url>` |
+| **Edit** | Make changes to files | Work in RStudio |
+| **Stage** | Select changes to save | Check boxes in Git pane |
+| **Commit** | Save snapshot with message | Click "Commit" button |
+| **Push** | Upload to GitHub | Click "Push" button |
+
+### Commit Message Best Practices
+
+**Good commit messages:**
+
+-   `Add treatment effect regression`
+-   `Fix missing data handling in clean script`
+-   `Update visualization colors per feedback`
+
+**Bad commit messages:**
+
+-   `Update stuff`
+-   `Changes`
+-   `asdfasdf`
+
+**Format tips:**
+
+-   Use **imperative mood**: "Add analysis" not "Added analysis"
+-   First line: **50 characters max**, summary of change
+-   Body (optional): Explain *why*, not *what*
+
+### Common Scenarios
+
+| Situation | Solution |
+|---------------------------------|---------------------------------------|
+| "I broke something" | `git diff` to see changes, `git checkout <file>` to revert |
+| "I want to experiment" | Create a branch: `git checkout -b experiment` |
+| "Merge conflict!" | Don't panic — look for `<<<<<<<` markers, resolve manually |
+| "I committed too soon" | `git commit --amend` (before push only!) |
+| "I need yesterday's version" | `git log` to find commit, `git checkout <hash> <file>` |
+
+### Git Pane in RStudio
+
+| Icon | Meaning |
+|------|---------|
+| **M** | Modified (changed since last commit) |
+| **A** | Added (new file, staged) |
+| **?** | Untracked (not yet in Git) |
+| **D** | Deleted |
+
+------------------------------------------------------------------------
+
+## renv for Package Management
+
+[renv](https://rstudio.github.io/renv/) ensures your project uses the same package versions every time, on every machine.
+
+### The Lockfile
+
+`renv.lock` is a snapshot of all packages and their versions:
+
+```json
+{
+  "R": { "Version": "4.3.0" },
+  "Packages": {
+    "tidyverse": { "Version": "2.0.0" },
+    "estimatr": { "Version": "1.0.6" }
+  }
+}
+```
+
+### Key Commands
+
+| Command | When to Use |
+|---------------------------------|---------------------------------------|
+| `renv::restore()` | First time opening a project — install packages from lockfile |
+| `renv::snapshot()` | After adding new packages — update the lockfile |
+| `renv::status()` | Check if lockfile matches installed packages |
+
+### Workflow
+
+1.  **Clone project** → Run `renv::restore()` to install exact package versions
+2.  **Add new package** → `install.packages("newpkg")` then `renv::snapshot()`
+3.  **Share project** → Colleague runs `renv::restore()` to get same environment
+
+------------------------------------------------------------------------
+
+## Quarto for Literate Programming
+
+[Quarto](https://quarto.org/) lets you combine code, narrative, and results in one document.
+
+### Why Literate Programming?
+
+-   **No copy-paste errors** — Results update automatically when code changes
+-   **Single source of truth** — Code and narrative live together
+-   **Reproducible outputs** — Re-render anytime to recreate results
+
+### Document Structure
+
+```yaml
+---
+title: "My Analysis"
+author: "Your Name"
+format: html
+---
+
+## Introduction
+
+This is narrative text explaining the analysis.
+
+```{{r}}
+# This is a code chunk that will execute
+library(tidyverse)
+df <- read_csv("data/mydata.csv")
+```
+
+## Results
+
+The analysis found interesting patterns.
+
+```{{r}}
+ggplot(df, aes(x = treatment, y = outcome)) +
+  geom_boxplot()
+```
+```
+
+### Rendering
+
+-   **RStudio:** Click "Render" button or `Cmd+Shift+K`
+-   **Terminal:** `quarto render analysis.qmd`
+
+------------------------------------------------------------------------
+
+## Five Habits Checklist
+
+Before submitting any analysis, verify:
+
+- [ ] **Relative paths only** — No `/Users/yourname/...` anywhere
+- [ ] **Scripts are numbered** — Clear execution order
+- [ ] **Raw data untouched** — Original files in `data/raw/`
+- [ ] **Commits are meaningful** — Descriptive messages, logical chunks
+- [ ] **Fresh session test** — Restart R, run from scratch, same results?
+
+------------------------------------------------------------------------
+
+## Resources
+
+### Essential Reading
+
+-   [Code and Data for the Social Sciences](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf) — Gentzkow & Shapiro (foundational guide)
+-   [The Turing Way](https://the-turing-way.netlify.app/) — Comprehensive reproducibility handbook
+-   [IPA Data Handbook](https://povertyaction.github.io/ipa-data-tech-handbook/) — Research data management best practices
+
+### Git and GitHub
+
+-   [Happy Git with R](https://happygitwithr.com/) — Complete guide for R users
+-   [Git Cheat Sheet](https://education.github.com/git-cheat-sheet-education.pdf) — Quick reference
+-   [Oh Shit, Git!?!](https://ohshitgit.com/) — Fixing common Git mistakes
+
+### R and Quarto
+
+-   [R for Data Science](https://r4ds.had.co.nz/) — Comprehensive R introduction
+-   [Quarto Documentation](https://quarto.org/docs/guide/) — Official guide
+-   [renv Documentation](https://rstudio.github.io/renv/) — Package management
+
+### For Stata Users
+
+-   [Stata2R](https://stata2r.github.io/) — Transition guide from Stata to R
+
+------------------------------------------------------------------------
+
+*This guide is a living document. Suggestions welcome!*

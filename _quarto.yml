@@ -86,6 +86,8 @@ website:
             text: "Syllabus"
           - href: computing.qmd
             text: "Computing"
+          - href: reproducible-research.qmd
+            text: "Reproducibility Guide"
           - href: Resources/setup-guide.qmd
             text: "Setup Guide"
       - section: "Unit 0: Foundations"
