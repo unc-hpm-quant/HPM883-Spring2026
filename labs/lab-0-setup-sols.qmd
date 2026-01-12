@@ -92,7 +92,7 @@ library(gt)
 ```{r}
 #| label: load-data
 
-data <- read_csv("data/sample_data.csv")
+data <- read_csv("data/lab0_rct_data.csv")
 ```
 
 **Expected output:** Data loads with column specification message.
