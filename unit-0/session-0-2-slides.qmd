@@ -29,8 +29,9 @@ execute:
 ## Today's Agenda {.center}
 
 1.  Reproducible research principles
-2.  Computing environment setup
-3.  Lab 0: Environment verification
+2.  Git & version control deep dive
+3.  Clean code for research
+4.  Lab 0: Environment verification
 
 ::: notes
 This is a hands-on session. Have your laptops ready. We'll be coding together.
@@ -58,6 +59,14 @@ This is a hands-on session. Have your laptops ready. We'll be coding together.
 -   Literate programming (Quarto)
 :::
 :::::
+
+::: {.fragment}
+![xkcd: Replication Crisis](../images/xkcd-replication-crisis.png){fig-alt="xkcd comic about the replication crisis - researchers trying to reproduce reproduction crisis studies" width="50%"}
+
+::: {.aside}
+xkcd #3117
+:::
+:::
 
 ::: callout-important
 ## Course Requirement
@@ -113,6 +122,127 @@ git add .               # Stage changes
 git commit -m "message" # Save snapshot
 git push                # Upload to GitHub
 ```
+:::
+
+------------------------------------------------------------------------
+
+## The Problem Before Git
+
+::::: columns
+::: {.column width="60%"}
+![PhD Comics: "FINAL.doc"](../images/phdcomics-final-doc.gif){fig-alt="PhD Comics showing chaotic file naming: FINAL.doc, FINAL_rev2.doc, FINAL_rev6." width="100%"}
+:::
+
+::: {.column width="40%"}
+### Sound Familiar?
+
+-   `analysis_final.R`
+-   `analysis_final_v2.R`
+-   `analysis_ACTUALLY_FINAL.R`
+
+::: fragment
+> "Imagine if Dropbox and 'Track Changes' in Word had a baby... Git would be that baby."
+:::
+:::
+:::::
+
+::: notes
+Source: PhD Comics by Jorge Cham (phdcomics.com/comics/archive.php?comicid=1531)
+:::
+
+------------------------------------------------------------------------
+
+## Git Mental Model
+
+### The 4 Commands You'll Use 90% of the Time
+
+| Command | What It Does | Analogy |
+|---------|--------------|---------|
+| `git add .` | Stage changes | "I want to save these" |
+| `git commit -m "msg"` | Record snapshot | "Here's what I did" |
+| `git pull` | Get updates | "What did others do?" |
+| `git push` | Send to GitHub | "Share my work" |
+
+::: fragment
+**Pro tip:** Write commit messages that explain *why*, not just *what*.
+
+❌ "Updated code"
+
+✅ "Fix power calculation to use correct sample size formula"
+:::
+
+------------------------------------------------------------------------
+
+## When Git Goes Wrong
+
+::: {.callout-tip}
+## Don't Panic
+Everyone messes up Git. The good news: almost everything is recoverable.
+:::
+
+### Your Rescue Resource
+
+**[ohshitgit.com](https://ohshitgit.com/)** — Solutions for common Git disasters
+
+### Common Issues
+
+| Problem | Quick Fix |
+|---------|-----------|
+| Committed to wrong branch | `git reset HEAD~1` then re-commit |
+| Need to undo last commit | `git reset --soft HEAD~1` |
+| Merge conflict | Edit file, remove `<<<<` markers, commit |
+| Pushed sensitive data | Contact me immediately |
+
+------------------------------------------------------------------------
+
+## Clean Code Principles
+
+### Definition
+
+> "Clean code is **easy to understand**, **easy to modify**, and hence **easy to debug**."
+
+### The Gentzkow-Shapiro Rules
+
+1. **Abstract to eliminate redundancy** — DRY (Don't Repeat Yourself)
+2. **Abstract to improve clarity** — Name things well
+3. **Otherwise, don't abstract** — Simplicity wins
+
+::: fragment
+### The Dishwasher Analogy
+
+A dishwasher user needs to know:
+
+- How to load dishes
+- Which button to press
+
+They don't need to understand the plumbing or electrical wiring.
+
+**Your functions should work the same way.**
+:::
+
+------------------------------------------------------------------------
+
+## Writing Research Code
+
+### Professional Standards
+
+-   **Unit testing** = "what washing hands are to surgeons"
+-   **Code review** improves quality and spreads knowledge
+-   **Documentation** = gift to your future self
+
+### For This Course
+
+::: {.callout-tip}
+## Encouraged Practices
+-   **Pair programming** on problem sets
+-   **README files** as project landing pages
+-   **Commit often** with meaningful messages
+:::
+
+::: fragment
+### Remember
+
+> Your most important collaborator is **future you** — six months from now, trying to remember why the code works.
 :::
 
 ------------------------------------------------------------------------
@@ -302,11 +432,13 @@ Google error messages. Stack Overflow has solved most R problems.
 
 1.  **Reproducibility** is non-negotiable — renv + Git + Quarto
 
-2.  **GitHub Codespaces** = zero local setup required
+2.  **Git** = 4 commands for 90% of your needs (add, commit, pull, push)
 
-3.  **Lab 0** verifies your environment works end-to-end
+3.  **Clean code** = easy to understand, modify, and debug
 
-4.  **Solutions** available via `git pull` after deadline
+4.  **GitHub Codespaces** = zero local setup required
+
+5.  **Lab 0** verifies your environment works
 
 ------------------------------------------------------------------------
 
