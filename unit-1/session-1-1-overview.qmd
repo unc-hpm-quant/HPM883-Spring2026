@@ -36,10 +36,10 @@ Lab 0 solutions released Tuesday — run `git pull` to access.
     -   [Online PDF](https://causalml-book.org/assets/chapters/CausalML_chap_2.pdf)
     -   Focus: Randomization, estimands, design-based inference
 
-**Gerber & Green (2012)** — *Field Experiments* (excerpts)
+**DeclareDesign Overview**
 
--   **Chapter 2:** Causal Inference and Experimentation
--   Classic treatment of randomization inference
+-   [DeclareDesign: An R Package for Design Declaration](https://declaredesign.org/getting-started)
+    -   Focus: Declaring, diagnosing, and redesigning experiments
 
 ### Recommended
 
