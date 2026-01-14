@@ -43,8 +43,6 @@ subtitle: "HPM 883 Spring 2026"
 
 **Key Concepts:** Why randomization works, potential outcomes ⊥ treatment, ATE/ATT/ITT/LATE estimands, design-based vs. model-based inference, assignment mechanisms
 
-**Due:** Problem Set 0
-
 ---
 
 ### Week 3: Power & Optimal Design (Jan 26-28)
