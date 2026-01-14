@@ -90,6 +90,20 @@ website:
             text: "Reproducibility Guide"
           - href: Resources/setup-guide.qmd
             text: "Setup Guide"
+      - section: "Jigsaw Sessions"
+        contents:
+          - href: jigsaw/index.qmd
+            text: "Overview & Instructions"
+          - href: jigsaw/papers/unit-1-experimental-design.qmd
+            text: "Jigsaw 1: Experimental Design"
+          - href: jigsaw/papers/unit-2-dml.qmd
+            text: "Jigsaw 2: Double ML"
+          - href: jigsaw/papers/unit-3-causal-forests.qmd
+            text: "Jigsaw 3: Causal Forests"
+          - href: jigsaw/papers/unit-4-policy-learning.qmd
+            text: "Jigsaw 4: Policy Learning"
+          - href: jigsaw/papers/unit-5-quasi-experimental.qmd
+            text: "Jigsaw 5: Quasi-Experimental ML"
       - section: "Unit 0: Foundations"
         contents:
           - href: unit-0/unit-0-foundations-1.qmd
@@ -102,6 +116,12 @@ website:
             text: "↳ Slides: Internal Validity"
           - href: unit-0/doctor-animation/index.qmd
             text: "↳ Doctor Animation"
+      - section: "Unit 1: Experimental Design"
+        contents:
+          - href: unit-1/session-1-1-overview.qmd
+            text: "Session 1.1: Randomization & RCTs"
+          - href: unit-1/session-1-2-overview.qmd
+            text: "Session 1.2: Power & Validity"
       - section: "Resources"
         contents:
           - href: resources.qmd
