@@ -32,8 +32,6 @@ subtitle: "HPM 883 Spring 2026"
 | 2 | Mon Jan 12 | Reproducible Research Setup | [Remote](https://zoom.us/j/93346316978) |
 | 3 | Wed Jan 14 | Potential Outcomes & Structural Causal Models | In-Person |
 
-**Problem Set 0 assigned:** Reproducible Research Setup (due Jan 19)
-
 ---
 
 ### Week 2: Randomization & RCTs (Jan 19-21)
