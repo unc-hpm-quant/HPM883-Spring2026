@@ -1,0 +1,109 @@
+---
+title: "Jigsaw 3: Causal Forests"
+subtitle: "Papers for March 11"
+toc: true
+---
+
+## Overview
+
+These papers use causal forests and related methods to estimate heterogeneous treatment effects (HTE). Understanding who benefits most from interventions is central to precision medicine and targeted policy.
+
+## Paper Assignments
+
+Your paper assignment will be posted on Canvas one week before the session.
+
+::: {.callout-tip}
+## Finding Your Own Paper
+
+Expert groups may propose an alternative paper if they find one that better fits their interests. **Requirements:**
+
+1. The paper must apply the unit's method
+2. Health economics or health policy focus preferred
+3. Submit the paper to Dr. Sylvia **by the Friday before the session** for approval
+4. All group members must agree on the alternative paper
+
+If approved, your group reads and presents the alternative paper instead of the assigned one.
+:::
+
+---
+
+## Paper 1: Causal Forests for Youth Employment
+
+**Citation:** Davis, J. M., & Heller, S. B. (2017). Using causal forests to predict treatment heterogeneity: An application to summer jobs. *American Economic Review*, 107(5), 546-550.
+
+**Why this paper?** This accessible paper applies causal forests to a youth summer jobs RCT, demonstrating how to identify which youth benefit most from employment programs.
+
+**Key methodological features:**
+
+- Honest causal forests
+- Targeting based on predicted CATE
+- Policy implications of heterogeneity
+- Connection between HTE and program design
+
+[Access via UNC Libraries](https://www.aeaweb.org/articles?id=10.1257/aer.p20171000)
+
+---
+
+## Paper 2: Precision Medicine with Causal Forests
+
+**Citation:** Athey, S., & Wager, S. (2019). Estimating treatment effects with causal forests: An application. *Observational Studies*, 5(2), 37-51.
+
+**Why this paper?** This paper demonstrates causal forests for identifying patient subgroups who benefit from surgical interventions, directly relevant to precision health economics.
+
+**Key methodological features:**
+
+- Variable importance for HTE drivers
+- Confidence intervals for CATEs
+- Best linear projection for interpretation
+- Subgroup analysis vs. continuous heterogeneity
+
+[Access via UNC Libraries](https://muse.jhu.edu/article/793358)
+
+---
+
+## Paper 3: HTE in Health Insurance
+
+**Citation:** Basu, A., Heckman, J. J., Navarro-Lozano, S., & Urzua, S. (2007). Use of instrumental variables in the presence of heterogeneity and self-selection: An application to treatments of breast cancer patients. *Health Economics*, 16(11), 1133-1157.
+
+**Supplementary:** Compare with modern causal forest approaches.
+
+**Why this paper?** While predating causal forests, this paper on breast cancer treatment heterogeneity provides excellent context for why ML-based HTE methods matter in health.
+
+**Key methodological features:**
+
+- Essential vs. preference heterogeneity
+- Selection on gains
+- Implications for treatment guidelines
+- Welfare analysis with heterogeneous effects
+
+[Access via UNC Libraries](https://pubmed.ncbi.nlm.nih.gov/17428697/)
+
+---
+
+## Paper 4: Overfitting and Subgroup Hunting (Critical Analysis)
+
+**Citation:** Athey, S., & Imbens, G. (2016). Recursive partitioning for heterogeneous causal effects. *Proceedings of the National Academy of Sciences*, 113(27), 7353-7360.
+
+**Why this paper?** The original "honest" causal trees paper—essential for understanding why sample splitting matters for valid inference on heterogeneity.
+
+**Key methodological features (for critique):**
+
+- Dangers of "data dredging" for subgroups
+- Honest vs. adaptive estimation
+- Multiple testing concerns
+- When heterogeneity is real vs. spurious
+
+[Access via UNC Libraries](https://www.pnas.org/doi/10.1073/pnas.1510489113)
+
+---
+
+## Reading Tips
+
+For each paper, focus on:
+
+1. **Heterogeneity sources:** What variables drive treatment effect variation?
+2. **Policy implications:** How would you target the intervention based on HTE?
+3. **Inference:** How confident are we in the subgroup effects?
+4. **Overfitting risks:** Could the heterogeneity be spurious?
+
+Be skeptical of dramatic subgroup findings—heterogeneity is often smaller than it first appears when properly evaluated.

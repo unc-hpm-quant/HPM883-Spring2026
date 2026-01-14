@@ -1,0 +1,47 @@
+---
+title: "Jigsaw 1 Groups"
+subtitle: "Experimental Design (Jan 28)"
+date: "Generated: 2026-01-14"
+draft: true
+---
+
+## Paper Assignments
+
+| Paper | Title | Assigned Group |
+|-------|-------|----------------|
+| **Paper 1** | Finkelstein et al. (2020) — Health care hotspotting | Cristina, Jose, Korie, Nicolle |
+| **Paper 2** | Dupas & Miguel (2017) — Factorial design in global health | Aniruddhan, Camille, Takhona, Tarini |
+| **Paper 3** | Sylvia et al. (2022) — Ordeal mechanisms & cost-effectiveness | Audrey, Doyoung, Oguz, Yumeng |
+| **Paper 4** | Banerjee et al. (2010) — Immunization incentives (Critical) | Haiyi, Lillian, Mario, Raquel |
+
+::: {.callout-note}
+**Paper 5** (Angus et al. 2020 — REMAP-CAP adaptive trial) is available as an alternative if any group prefers it. Contact Dr. Sylvia by Friday Jan 24 to switch.
+:::
+
+See [Paper Details](../papers/unit-1-experimental-design.qmd) for full citations and reading tips.
+
+---
+
+## Expert Groups (Phase 1)
+
+In this phase, you meet with classmates who read the **same paper**.
+
+| Paper | Students |
+|:------|:---------|
+| Paper 1 | Cristina Lee, Jose Lopez, Korie Rice, Nicolle Wagner Gutierrez |
+| Paper 2 | Aniruddhan Ganesaraman, Camille Murray, Takhona Hlatshwako, Tarini Goyal |
+| Paper 3 | Audrey Yao, Doyoung Kim, Oguz Eren, Yumeng Du |
+| Paper 4 | Haiyi Chen, Lillian Feingold, Mario Rojas, Raquel Davis |
+
+---
+
+## Teaching Groups (Phase 2)
+
+In this phase, groups reshuffle so each group has **one expert from each paper**.
+
+| Group | Members (Paper) |
+|:------|:----------------|
+| Group A | Cristina Lee (P1), Aniruddhan Ganesaraman (P2), Audrey Yao (P3), Haiyi Chen (P4) |
+| Group B | Jose Lopez (P1), Camille Murray (P2), Doyoung Kim (P3), Lillian Feingold (P4) |
+| Group C | Korie Rice (P1), Takhona Hlatshwako (P2), Oguz Eren (P3), Mario Rojas (P4) |
+| Group D | Nicolle Wagner Gutierrez (P1), Tarini Goyal (P2), Yumeng Du (P3), Raquel Davis (P4) |

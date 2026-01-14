@@ -1,0 +1,107 @@
+---
+title: "Jigsaw 5: Quasi-Experimental ML"
+subtitle: "Papers for April 8"
+toc: true
+---
+
+## Overview
+
+These papers combine machine learning with quasi-experimental designs—difference-in-differences, synthetic control, and regression discontinuity. ML can strengthen these designs by improving covariate adjustment, constructing better controls, and relaxing parametric assumptions.
+
+## Paper Assignments
+
+Your paper assignment will be posted on Canvas one week before the session.
+
+::: {.callout-tip}
+## Finding Your Own Paper
+
+Expert groups may propose an alternative paper if they find one that better fits their interests. **Requirements:**
+
+1. The paper must apply the unit's method
+2. Health economics or health policy focus preferred
+3. Submit the paper to Dr. Sylvia **by the Friday before the session** for approval
+4. All group members must agree on the alternative paper
+
+If approved, your group reads and presents the alternative paper instead of the assigned one.
+:::
+
+---
+
+## Paper 1: Synthetic Control with ML
+
+**Citation:** Arkhangelsky, D., Athey, S., Hirshberg, D. A., Imbens, G. W., & Wager, S. (2021). Synthetic difference-in-differences. *American Economic Review*, 111(12), 4088-4118.
+
+**Why this paper?** This influential paper proposes Synthetic DiD, which combines the strengths of difference-in-differences and synthetic control. Applied to California's Proposition 99.
+
+**Key methodological features:**
+
+- Unit and time weights
+- Doubly-robust identification
+- Comparison with traditional DiD and SC
+- Inference with few treated units
+
+[Access via UNC Libraries](https://www.aeaweb.org/articles?id=10.1257/aer.20190159)
+
+---
+
+## Paper 2: ML-Enhanced DiD for Health Policy
+
+**Citation:** Wang, G., Hamad, R., & White, J. S. (2024). Advances in difference-in-differences methods for policy evaluation research. *Epidemiology*, 35(5), 628-637.
+
+**Why this paper?** This methodological primer reviews recent advances in DiD, including heterogeneity-robust estimators and ML-based covariate adjustment, with health policy applications.
+
+**Key methodological features:**
+
+- Staggered adoption and heterogeneous effects
+- Callaway-Sant'Anna and related estimators
+- Event study designs
+- Pre-trends testing and sensitivity analysis
+
+[Access via UNC Libraries](https://pubmed.ncbi.nlm.nih.gov/38968376/)
+
+---
+
+## Paper 3: Generalized Synthetic Control
+
+**Citation:** Xu, Y. (2017). Generalized synthetic control method: Causal inference with interactive fixed effects models. *Political Analysis*, 25(1), 57-76.
+
+**Why this paper?** The generalized synthetic control method handles multiple treated units and relaxes the parallel trends assumption through interactive fixed effects—widely used in health policy evaluation.
+
+**Key methodological features:**
+
+- Interactive fixed effects model
+- Cross-validation for factor selection
+- Multiple treated units
+- Uncertainty quantification
+
+[Access via UNC Libraries](https://www.cambridge.org/core/journals/political-analysis/article/generalized-synthetic-control-method-causal-inference-with-interactive-fixed-effects-models/B63A8BD7C239DD4141C67DA10CD0E4F3)
+
+---
+
+## Paper 4: Quasi-Experimental Pitfalls (Critical Analysis)
+
+**Citation:** Rambachan, A., & Roth, J. (2023). A more credible approach to parallel trends. *Review of Economic Studies*, 90(5), 2555-2591.
+
+**Why this paper?** This paper challenges common practices in DiD analysis, showing that pre-trend tests have low power and proposing sensitivity analysis for parallel trends violations.
+
+**Key methodological features (for critique):**
+
+- Pre-testing bias
+- Sensitivity to trends assumptions
+- Honest confidence intervals
+- When DiD fails silently
+
+[Access via UNC Libraries](https://academic.oup.com/restud/article/90/5/2555/7039335)
+
+---
+
+## Reading Tips
+
+For each paper, focus on:
+
+1. **Identification strategy:** What makes the design credible?
+2. **ML contribution:** How does ML improve on traditional methods?
+3. **Assumptions:** What must hold for causal interpretation?
+4. **Sensitivity:** How robust are results to assumption violations?
+
+Quasi-experimental methods are powerful but require careful attention to assumptions—ML can help but cannot substitute for good research design.

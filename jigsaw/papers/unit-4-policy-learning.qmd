@@ -1,0 +1,107 @@
+---
+title: "Jigsaw 4: Policy Learning"
+subtitle: "Papers for March 25"
+toc: true
+---
+
+## Overview
+
+These papers move beyond estimating heterogeneous treatment effects to *learning optimal policies*—using HTE estimates to design targeting rules that maximize welfare or health outcomes.
+
+## Paper Assignments
+
+Your paper assignment will be posted on Canvas one week before the session.
+
+::: {.callout-tip}
+## Finding Your Own Paper
+
+Expert groups may propose an alternative paper if they find one that better fits their interests. **Requirements:**
+
+1. The paper must apply the unit's method
+2. Health economics or health policy focus preferred
+3. Submit the paper to Dr. Sylvia **by the Friday before the session** for approval
+4. All group members must agree on the alternative paper
+
+If approved, your group reads and presents the alternative paper instead of the assigned one.
+:::
+
+---
+
+## Paper 1: Policy Trees for Treatment Assignment
+
+**Citation:** Athey, S., & Wager, S. (2021). Policy learning with observational data. *Econometrica*, 89(1), 133-161.
+
+**Why this paper?** The foundational paper on policy learning with doubly-robust scores. Demonstrates how to learn interpretable decision trees for treatment assignment.
+
+**Key methodological features:**
+
+- Doubly-robust policy evaluation
+- Policy tree estimation
+- Regret bounds and optimality
+- Interpretability vs. optimality tradeoffs
+
+[Access via UNC Libraries](https://onlinelibrary.wiley.com/doi/10.3982/ECTA15732)
+
+---
+
+## Paper 2: Health Insurance Targeting in Indonesia
+
+**Citation:** Shah, V. (2023). Machine learning-based allocation rules for subsidised health insurance: Evidence from Indonesia. Working paper.
+
+**Why this paper?** This paper applies policy learning to health insurance targeting in a developing country, demonstrating real-world policy design with equity considerations.
+
+**Key methodological features:**
+
+- Budget-constrained policy optimization
+- Super learner for policy selection
+- Comparison: learned rules vs. current allocation
+- Equity and efficiency tradeoffs
+
+[Access: Conference paper from iHEA 2023](https://healtheconomics.confex.com/healtheconomics/2023/meetingapp.cgi/Paper/9719)
+
+---
+
+## Paper 3: Personalized Treatment Rules in Oncology
+
+**Citation:** Zhao, Y., Zeng, D., Rush, A. J., & Kosorok, M. R. (2012). Estimating individualized treatment rules using outcome weighted learning. *Journal of the American Statistical Association*, 107(499), 1106-1118.
+
+**Why this paper?** This paper introduces outcome-weighted learning for personalized medicine, with applications to depression treatment sequencing.
+
+**Key methodological features:**
+
+- Classification-based policy learning
+- Weighted classification formulation
+- Cross-validation for tuning
+- Sequential treatment decisions
+
+[Access via UNC Libraries](https://www.tandfonline.com/doi/abs/10.1080/01621459.2012.695674)
+
+---
+
+## Paper 4: Fairness in Algorithmic Policy (Critical Analysis)
+
+**Citation:** Corbett-Davies, S., & Goel, S. (2018). The measure and mismeasure of fairness: A critical review of fair machine learning. *arXiv preprint arXiv:1808.00023*.
+
+**Why this paper?** Policy learning raises profound ethical questions about algorithmic fairness in healthcare. This paper critically examines competing fairness definitions.
+
+**Key methodological features (for critique):**
+
+- Impossibility results in fairness
+- Individual vs. group fairness
+- Disparate impact of optimized policies
+- When efficiency and equity conflict
+
+[Access via arXiv](https://arxiv.org/abs/1808.00023)
+
+---
+
+## Reading Tips
+
+For each paper, focus on:
+
+1. **Objective function:** What is being maximized/minimized?
+2. **Constraints:** Budget, capacity, fairness constraints?
+3. **Interpretability:** Can practitioners understand and implement the rule?
+4. **Welfare analysis:** Who gains, who loses under the optimal policy?
+
+Policy learning is powerful but raises important ethical questions—be prepared to discuss both technical and normative dimensions.

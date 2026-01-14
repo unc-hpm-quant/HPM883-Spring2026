@@ -1,0 +1,25 @@
+---
+title: "Jigsaw 3 Groups"
+subtitle: "Causal Forests (Mar 11)"
+date: "Generated: 2026-01-14 10:04:14.959316"
+draft: true
+---
+
+## Expert Groups (Phase 1)
+
+|Paper   |Students                                                             |
+|:-------|:--------------------------------------------------------------------|
+|Paper 1 |Aniruddhan Ganesaraman, Cristina Lee, Mario Rojas, Yumeng Du         |
+|Paper 2 |Audrey Yao, Camille Murray, Doyoung Kim, Lillian Feingold            |
+|Paper 3 |Jose Lopez, Oguz Eren, Raquel Davis, Tarini Goyal                    |
+|Paper 4 |Haiyi Chen, Korie Rice, Nicolle Wagner Gutierrez, Takhona Hlatshwako |
+
+## Teaching Groups (Phase 2)
+
+|Group   |Members (Paper Assignment)                                                           |
+|:-------|:------------------------------------------------------------------------------------|
+|Group A |Aniruddhan Ganesaraman (P1), Audrey Yao (P2), Jose Lopez (P3), Haiyi Chen (P4)       |
+|Group B |Cristina Lee (P1), Camille Murray (P2), Oguz Eren (P3), Korie Rice (P4)              |
+|Group C |Mario Rojas (P1), Doyoung Kim (P2), Raquel Davis (P3), Nicolle Wagner Gutierrez (P4) |
+|Group D |Yumeng Du (P1), Lillian Feingold (P2), Tarini Goyal (P3), Takhona Hlatshwako (P4)    |
+

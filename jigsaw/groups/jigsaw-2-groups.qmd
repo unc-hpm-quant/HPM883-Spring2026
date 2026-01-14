@@ -1,0 +1,25 @@
+---
+title: "Jigsaw 2 Groups"
+subtitle: "Double ML (Feb 18)"
+date: "Generated: 2026-01-14 10:04:14.945121"
+draft: true
+---
+
+## Expert Groups (Phase 1)
+
+|Paper   |Students                                                          |
+|:-------|:-----------------------------------------------------------------|
+|Paper 1 |Doyoung Kim, Haiyi Chen, Nicolle Wagner Gutierrez, Oguz Eren      |
+|Paper 2 |Cristina Lee, Lillian Feingold, Tarini Goyal, Yumeng Du           |
+|Paper 3 |Aniruddhan Ganesaraman, Camille Murray, Mario Rojas, Raquel Davis |
+|Paper 4 |Audrey Yao, Jose Lopez, Korie Rice, Takhona Hlatshwako            |
+
+## Teaching Groups (Phase 2)
+
+|Group   |Members (Paper Assignment)                                                          |
+|:-------|:-----------------------------------------------------------------------------------|
+|Group A |Doyoung Kim (P1), Cristina Lee (P2), Aniruddhan Ganesaraman (P3), Audrey Yao (P4)   |
+|Group B |Haiyi Chen (P1), Lillian Feingold (P2), Camille Murray (P3), Jose Lopez (P4)        |
+|Group C |Nicolle Wagner Gutierrez (P1), Tarini Goyal (P2), Mario Rojas (P3), Korie Rice (P4) |
+|Group D |Oguz Eren (P1), Yumeng Du (P2), Raquel Davis (P3), Takhona Hlatshwako (P4)          |
+

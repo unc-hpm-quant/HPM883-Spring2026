@@ -1,0 +1,183 @@
+---
+title: "Jigsaw Instructions"
+subtitle: "Complete Guide for Students"
+toc: true
+toc-depth: 3
+---
+
+## Overview
+
+Jigsaw sessions are collaborative learning exercises where you become an expert on one application paper and teach your insights to classmates. This approach is grounded in learning science: teaching others is one of the most effective ways to deepen your own understanding.
+
+**Time commitment per jigsaw:**
+
+- Before class: ~60-90 minutes (reading + preparation)
+- In class: 75 minutes (structured group work)
+
+## Before Class: Paper Preparation {#preparation}
+
+You will receive your paper assignment **1 week before** each jigsaw session. Complete the following preparation before coming to class.
+
+### Reading Guide
+
+As you read your assigned paper, answer these questions:
+
+::: {.callout-note appearance="simple"}
+## Reading Guide Template
+
+**Paper Citation:** ________________________________________________
+
+**1. Research Question** (1-2 sentences)
+What is the study trying to answer?
+
+**2. Method Application**
+How does this paper apply the method from our unit?
+
+- What is the treatment/intervention?
+- What is the primary outcome?
+- What covariates or confounders are addressed?
+
+**3. Data & Setting**
+What data do they use? What is the context (healthcare, policy, etc.)?
+
+**4. Key Findings**
+What are the main results? Include effect sizes if reported.
+
+**5. Strengths**
+What does this paper do particularly well?
+
+**6. Limitations** (identify at least one)
+What are the weaknesses or concerns?
+
+**7. Connection to Course**
+How does this paper illustrate concepts from our lectures?
+:::
+
+**Tip:** You don't need to understand every technical detail. Focus on the big picture: what question, what method, what findings, what limitations.
+
+## Phase 1: Expert Groups (20-25 min) {#phase1}
+
+You'll meet with 3-4 classmates who read the **same paper**. Together, work through the Expert Group Analysis Template.
+
+### Expert Group Analysis Template
+
+::: {.callout-tip appearance="simple"}
+## Expert Group Analysis Template
+
+**Paper:** ________________________________________________
+
+**Expert Group Members:** ________________________________
+
+---
+
+**1. In 2 sentences, what is this paper about?**
+
+<br>
+
+**2. The METHOD: How does this paper apply [unit method]?**
+
+- Treatment/intervention:
+- Outcome:
+- Key methodological choices:
+
+**3. The FINDINGS: What did they find?**
+
+- Primary effect:
+- Heterogeneity (if any):
+- Robustness:
+
+**4. STRENGTHS: What does this paper do well?**
+
+<br>
+
+**5. CRITIQUE: What would you push back on?**
+
+<br>
+
+**6. CONNECTION: How does this illustrate concepts from Unit [N]?**
+
+<br>
+:::
+
+**Goal:** Reach consensus as a group. You'll each teach this paper to different classmates, so ensure everyone understands the key points.
+
+## Phase 2: Teaching Groups (25-30 min) {#phase2}
+
+Groups reshuffle so each new group has **one expert from each paper**.
+
+### Your Teaching Task
+
+You have **5-7 minutes** to teach your paper. Use these prompts:
+
+1. "My paper studied [research question] by applying [method]..."
+2. "The key insight is..."
+3. "What I found interesting was..."
+4. "What I would critique is..."
+5. "This connects to our course because..."
+
+### After All Presentations
+
+Discuss as a group:
+
+- What patterns do you see across the papers?
+- How do the methods differ in their application?
+- Which paper would you want to replicate or extend?
+
+## Phase 3: Synthesis (15-20 min) {#phase3}
+
+The instructor leads a whole-class discussion to:
+
+- Highlight key insights from each paper
+- Address common misconceptions
+- Connect the applications back to course concepts
+- Preview how these methods extend in future units
+
+**Synthesis questions** (be prepared to discuss):
+
+1. What did we learn about [method] from these applications?
+2. Where does [method] work well? Where does it struggle?
+3. How might you apply [method] in your own research?
+
+## Grading Rubric {#grading}
+
+Each jigsaw session is worth **40 points**.
+
+| Component | Points | Criteria |
+|-----------|--------|----------|
+| **Preparation** | 10 | Came to class having read the paper; completed reading guide |
+| **Expert Contribution** | 10 | Contributed meaningfully to expert group discussion |
+| **Teaching** | 10 | Clearly and accurately explained paper to teaching group |
+| **Synthesis** | 10 | Connected paper to course concepts; engaged with others' papers |
+
+### Grading Scale
+
+- **36-40 points:** Full credit — Excellent preparation and participation
+- **28-35 points:** Partial credit — Adequate participation with some gaps
+- **< 28 points:** Minimal credit — Limited participation or preparation
+
+### Dropping Scores
+
+You may drop your **2 lowest** jigsaw scores. This policy accounts for illness, travel, or days when you're simply not at your best.
+
+## Tips for Success
+
+::: {.callout-tip}
+## Do's
+
+- Start reading 2-3 days before (not the night before)
+- Take notes as you read — you'll thank yourself in class
+- In expert groups, listen to others' interpretations
+- In teaching groups, explain as if to a smart friend who hasn't read the paper
+:::
+
+::: {.callout-warning}
+## Don'ts
+
+- Don't try to understand every equation — focus on the intuition
+- Don't dominate the conversation — ensure everyone contributes
+- Don't be afraid to say "I'm not sure" — uncertainty is part of learning
+:::
+
+## Questions?
+
+Contact the teaching team via Slack or office hours if you have questions about jigsaw assignments.

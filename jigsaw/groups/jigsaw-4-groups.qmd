@@ -1,0 +1,25 @@
+---
+title: "Jigsaw 4 Groups"
+subtitle: "Policy Learning (Mar 25)"
+date: "Generated: 2026-01-14 10:04:14.970971"
+draft: true
+---
+
+## Expert Groups (Phase 1)
+
+|Paper   |Students                                                         |
+|:-------|:----------------------------------------------------------------|
+|Paper 1 |Lillian Feingold, Mario Rojas, Tarini Goyal, Yumeng Du           |
+|Paper 2 |Cristina Lee, Korie Rice, Nicolle Wagner Gutierrez, Raquel Davis |
+|Paper 3 |Audrey Yao, Haiyi Chen, Jose Lopez, Takhona Hlatshwako           |
+|Paper 4 |Aniruddhan Ganesaraman, Camille Murray, Doyoung Kim, Oguz Eren   |
+
+## Teaching Groups (Phase 2)
+
+|Group   |Members (Paper Assignment)                                                             |
+|:-------|:--------------------------------------------------------------------------------------|
+|Group A |Lillian Feingold (P1), Cristina Lee (P2), Audrey Yao (P3), Aniruddhan Ganesaraman (P4) |
+|Group B |Mario Rojas (P1), Korie Rice (P2), Haiyi Chen (P3), Camille Murray (P4)                |
+|Group C |Tarini Goyal (P1), Nicolle Wagner Gutierrez (P2), Jose Lopez (P3), Doyoung Kim (P4)    |
+|Group D |Yumeng Du (P1), Raquel Davis (P2), Takhona Hlatshwako (P3), Oguz Eren (P4)             |
+

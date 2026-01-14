@@ -1,0 +1,25 @@
+---
+title: "Jigsaw 5 Groups"
+subtitle: "Quasi-Experimental ML (Apr 8)"
+date: "Generated: 2026-01-14 10:04:14.98195"
+draft: true
+---
+
+## Expert Groups (Phase 1)
+
+|Paper   |Students                                                          |
+|:-------|:-----------------------------------------------------------------|
+|Paper 1 |Camille Murray, Haiyi Chen, Jose Lopez, Mario Rojas               |
+|Paper 2 |Audrey Yao, Oguz Eren, Raquel Davis, Takhona Hlatshwako           |
+|Paper 3 |Aniruddhan Ganesaraman, Lillian Feingold, Tarini Goyal, Yumeng Du |
+|Paper 4 |Cristina Lee, Doyoung Kim, Korie Rice, Nicolle Wagner Gutierrez   |
+
+## Teaching Groups (Phase 2)
+
+|Group   |Members (Paper Assignment)                                                               |
+|:-------|:----------------------------------------------------------------------------------------|
+|Group A |Camille Murray (P1), Audrey Yao (P2), Aniruddhan Ganesaraman (P3), Cristina Lee (P4)     |
+|Group B |Haiyi Chen (P1), Oguz Eren (P2), Lillian Feingold (P3), Doyoung Kim (P4)                 |
+|Group C |Jose Lopez (P1), Raquel Davis (P2), Tarini Goyal (P3), Korie Rice (P4)                   |
+|Group D |Mario Rojas (P1), Takhona Hlatshwako (P2), Yumeng Du (P3), Nicolle Wagner Gutierrez (P4) |
+

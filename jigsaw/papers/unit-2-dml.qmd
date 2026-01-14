@@ -1,0 +1,109 @@
+---
+title: "Jigsaw 2: Double Machine Learning"
+subtitle: "Papers for February 18"
+toc: true
+---
+
+## Overview
+
+These papers apply Double Machine Learning (DML) methods to estimate causal effects while controlling for high-dimensional confounders. Each demonstrates how DML enables credible causal inference in observational settings with rich covariate sets.
+
+## Paper Assignments
+
+Your paper assignment will be posted on Canvas one week before the session.
+
+::: {.callout-tip}
+## Finding Your Own Paper
+
+Expert groups may propose an alternative paper if they find one that better fits their interests. **Requirements:**
+
+1. The paper must apply the unit's method
+2. Health economics or health policy focus preferred
+3. Submit the paper to Dr. Sylvia **by the Friday before the session** for approval
+4. All group members must agree on the alternative paper
+
+If approved, your group reads and presents the alternative paper instead of the assigned one.
+:::
+
+---
+
+## Paper 1: DML for Returns to Education
+
+**Citation:** Chernozhukov, V., Chetverikov, D., Demirer, M., et al. (2018). Double/debiased machine learning for treatment and structural parameters. *The Econometrics Journal*, 21(1), C1-C68.
+
+**Focus Section:** Section 5 (Empirical Application), which applies DML to estimate returns to schooling using the NLSY data.
+
+**Why this paper?** This is the foundational DML paper, and the empirical application is accessible and directly relevant to health economics (education → health pathway).
+
+**Key methodological features:**
+
+- Neyman orthogonality and cross-fitting
+- Comparison of ML methods (LASSO, random forests)
+- Sensitivity to tuning parameters
+- Sample splitting strategies
+
+[Access via UNC Libraries](https://academic.oup.com/ectj/article/21/1/C1/5056401)
+
+---
+
+## Paper 2: DML in Healthcare Spending
+
+**Citation:** Rose, S., Ash, A., Ellis, R. P., & Zaslavsky, A. M. (2020). Machine learning methods for risk adjustment: Combining high-dimensional features with causal inference in health economics. *Health Services Research*, 55(4), 608-617.
+
+**Why this paper?** This paper applies DML-style approaches to healthcare spending prediction and causal inference, directly relevant to value-based care and risk adjustment.
+
+**Key methodological features:**
+
+- High-dimensional diagnosis codes as confounders
+- Comparison with traditional risk adjustment
+- Double-robust estimation
+- Policy implications for payment reform
+
+[Access via UNC Libraries](https://pubmed.ncbi.nlm.nih.gov/32524619/)
+
+---
+
+## Paper 3: DML for Policy Evaluation
+
+**Citation:** Knaus, M. C. (2022). Double machine learning-based programme evaluation under unconfoundedness. *The Econometrics Journal*, 25(3), 602-627.
+
+**Why this paper?** This paper provides practical guidance on implementing DML for program evaluation with an application to active labor market policies (with health outcomes implications).
+
+**Key methodological features:**
+
+- Effect heterogeneity exploration
+- Group Average Treatment Effects (GATEs)
+- Best Linear Predictor of CATE
+- Inference and confidence intervals
+
+[Access via UNC Libraries](https://academic.oup.com/ectj/article/25/3/602/6604901)
+
+---
+
+## Paper 4: Overlap and Positivity Violations (Critical Analysis)
+
+**Citation:** D'Amour, A., Ding, P., Feller, A., Lei, L., & Sekhon, J. (2021). Overlap in observational studies with high-dimensional covariates. *Journal of Econometrics*, 221(2), 644-654.
+
+**Why this paper?** This paper highlights a critical challenge when using DML: overlap violations become more severe in high-dimensional settings. It's essential for understanding when DML may fail.
+
+**Key methodological features (for critique):**
+
+- Curse of dimensionality for overlap
+- Propensity score concentration
+- Trimming and truncation tradeoffs
+- When DML assumptions break down
+
+[Access via UNC Libraries](https://www.sciencedirect.com/science/article/pii/S0304407620303560)
+
+---
+
+## Reading Tips
+
+For each paper, focus on:
+
+1. **The DML recipe:** How do they implement cross-fitting and debiasing?
+2. **ML method choices:** Which learners do they use for nuisance functions?
+3. **Overlap assessment:** Do they examine propensity score distributions?
+4. **Sensitivity:** How do results change with different specifications?
+
+Remember: DML doesn't solve the fundamental identification problem—it just handles high-dimensional nuisance parameters better than traditional methods.
