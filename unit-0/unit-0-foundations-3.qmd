@@ -1,22 +1,22 @@
 ---
 title: "Unit 0: Foundations"
-subtitle: "Session 0.3: Potential Outcomes & Structural Causal Models"
+subtitle: "Session 0.3: Internal Validity & Potential Outcomes"
 date: "January 14, 2026"
 ---
 
 ## Session Overview
 
-This session establishes the theoretical foundations for causal inference that we'll build upon throughout the course. We'll cover the potential outcomes framework (Rubin causal model) and structural causal models (DAGs), understanding when each framework is most useful.
+This session establishes the theoretical foundations for causal inference. We focus on **internal validity** and the **potential outcomes framework** — the core tools you'll use throughout this course. We'll explore why observational associations fail for causal inference and how experiments solve the selection problem.
 
 **Format:** In-Person (2304 MC)
 
 **Learning Objectives:**
 
-1.  Define causal effects using the potential outcomes framework
-2.  Understand the fundamental problem of causal inference
-3.  Read and interpret directed acyclic graphs (DAGs)
-4.  Identify confounding, colliders, and mediators in causal graphs
-5.  Connect DAGs to identification strategies
+1.  Explain why observational associations can fail for causal inference
+2.  Define causal effects using the potential outcomes framework
+3.  Understand the fundamental problem of causal inference
+4.  Articulate why randomized experiments are the "ideal" for internal validity
+5.  Connect selection bias to the SDO decomposition
 
 ------------------------------------------------------------------------
 
@@ -24,17 +24,15 @@ This session establishes the theoretical foundations for causal inference that w
 
 ### Required Readings
 
-**Hernán & Robins (2020)** — *Causal Inference: What If*
+**Cunningham (2021)** — *Causal Inference: The Mixtape*
 
--   **Chapter 1-2:** Potential Outcomes and Randomized Experiments (\~18 pages)
-    -   [Online Book](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/)
-    -   Focus: Potential outcomes, counterfactuals, DAGs, SCMs
+-   **[Chapter 3: Directed Acyclic Graphs](https://mixtape.scunning.com/03-directed_acyclical_graphs)** — Visual approach to causality
+-   **[Chapter 4: Potential Outcomes](https://mixtape.scunning.com/04-potential_outcomes)** — The Rubin causal model
 
-### Recommended
+### Optional (Advanced)
 
+-   **[Chernozhukov et al. Ch. 7: Causal Graphs](https://chapters.causalml-book.org/CausalML_chap_7.pdf)** — Formal treatment of DAGs and SCMs
 -   Pearl (2009) — "Causal inference in statistics: An overview" *Statistics Surveys*, Vol 3, 96-146
--   Imbens & Rubin (2015) — *Causal Inference* — Chapter 1: The Basic Framework
--   [Brady Neal Ch. 1-2](https://www.bradyneal.com/Introduction_to_Causal_Inference-Dec17_2020-Neal.pdf) — ML-first perspective
 
 **Estimated Reading Time:** 45-60 minutes
 
@@ -46,25 +44,32 @@ This session establishes the theoretical foundations for causal inference that w
 
 **Topics Covered:**
 
-1.  **Potential Outcomes Framework**
+1.  **Lab Recap: Reproducibility**
+    -   Key takeaways from Session 0.2
+    -   Why reproducibility matters for causal inference
+
+2.  **Internal Validity**
+    -   Why observational associations can mislead (motivating scenarios)
+    -   The missing counterfactual problem
+    -   Conditions for valid causal inference
+
+3.  **Potential Outcomes Framework**
     -   Notation: $Y_i(1)$, $Y_i(0)$, treatment effects
-    -   Individual vs. average treatment effects (ITE, ATE, ATT)
+    -   Individual vs. average treatment effects (ITE, ATE, ATT, ATU)
     -   The fundamental problem of causal inference
-    -   SUTVA assumptions
-2.  **Structural Causal Models**
-    -   Directed Acyclic Graphs (DAGs)
-    -   Confounders, colliders, mediators
-    -   d-separation and conditional independence
-    -   Front-door and back-door criteria
-3.  **Connecting the Frameworks**
-    -   When to use PO vs. DAGs
-    -   From identification to estimation
-    -   Preview: How ML enters the picture
+    -   The switching equation
 
-**Discussion:**
+4.  **Experiments as the Ideal**
+    -   Why randomization solves selection
+    -   Assignment mechanism conditions
+    -   Exclusion restrictions (SUTVA, compliance, etc.)
 
--   Draw DAGs for health policy scenarios
--   Identify what must be controlled for identification
+5.  **Selection Bias in Action: Perfect Doctor, Bad Doctor**
+    -   Interactive exercise demonstrating selection bias
+    -   SDO decomposition: SDO = ATE + Selection Bias + (1-π)(ATT - ATU)
+    -   [Doctor Animation](doctor-animation/)
+
+**Note on DAGs:** We won't cover DAGs in depth, but the readings provide excellent background. See the Additional Resources for more.
 
 ------------------------------------------------------------------------
 
@@ -85,23 +90,19 @@ This session establishes the theoretical foundations for causal inference that w
 
 ## Additional Resources
 
-### Potential Outcomes
+### Potential Outcomes & Internal Validity
 
 -   Holland (1986) — "Statistics and Causal Inference" *JASA* — Classic paper on the fundamental problem
 -   Rubin (2005) — "Causal Inference Using Potential Outcomes" *JASA*
+-   Imbens & Rubin (2015) — *Causal Inference* — Chapter 1: The Basic Framework
 
-### DAGs and SCMs
+### DAGs and Graphical Approaches
 
+-   **Pearl & Mackenzie (2018)** — [*The Book of Why*](https://www.basicbooks.com/titles/judea-pearl/the-book-of-why/9780465097616/) — Accessible introduction to causal reasoning
 -   [DAGitty](http://www.dagitty.net/) — Interactive DAG drawing tool
 -   [ggdag Package](https://ggdag.malco.io/) — DAGs in R
--   Pearl (2009) — "Causal inference in statistics: An overview" *Statistics Surveys*
 
 ### Video Resources
 
 -   Brady Neal — [Introduction to Causal Inference](https://www.bradyneal.com/causal-inference-course) — Chapters 1-2
 -   Miguel Hernán — [Causal Diagrams](https://www.edx.org/course/causal-diagrams-draw-your-assumptions-before-your) (edX)
-
-### Interactive Learning
-
--   [Seeing Theory: Causal Inference](https://seeing-theory.brown.edu/) — Visual explanations
--   [DAGitty Tutorial](http://www.dagitty.net/learn/) — Practice with DAGs

@@ -96,6 +96,12 @@ website:
             text: "Session 0.1: Course Overview"
           - href: unit-0/unit-0-foundations-2.qmd
             text: "Session 0.2: Reproducible Research"
+          - href: unit-0/unit-0-foundations-3.qmd
+            text: "Session 0.3: Internal Validity"
+          - href: unit-0/session-0-3-slides.qmd
+            text: "↳ Slides: Internal Validity"
+          - href: unit-0/doctor-animation/index.qmd
+            text: "↳ Doctor Animation"
       - section: "Resources"
         contents:
           - href: resources.qmd

@@ -60,13 +60,13 @@ This is a hands-on session. Have your laptops ready. We'll be coding together.
 :::
 :::::
 
-::: {.fragment}
+:::: fragment
 ![xkcd: Replication Crisis](../images/xkcd-replication-crisis.png){fig-alt="xkcd comic about the replication crisis - researchers trying to reproduce reproduction crisis studies" width="50%"}
 
-::: {.aside}
+::: aside
 xkcd #3117
 :::
-:::
+::::
 
 ::: callout-important
 ## Course Requirement
@@ -129,12 +129,12 @@ git push                # Upload to GitHub
 
 ## The Problem Before Git
 
-::::: columns
+:::::: columns
 ::: {.column width="60%"}
 ![PhD Comics: "FINAL.doc"](../images/phdcomics-final-doc.gif){fig-alt="PhD Comics showing chaotic file naming: FINAL.doc, FINAL_rev2.doc, FINAL_rev6." width="100%"}
 :::
 
-::: {.column width="40%"}
+:::: {.column width="40%"}
 ### Sound Familiar?
 
 -   `analysis_final.R`
@@ -144,8 +144,8 @@ git push                # Upload to GitHub
 ::: fragment
 > "Imagine if Dropbox and 'Track Changes' in Word had a baby... Git would be that baby."
 :::
-:::
-:::::
+::::
+::::::
 
 ::: notes
 Source: PhD Comics by Jorge Cham (phdcomics.com/comics/archive.php?comicid=1531)
@@ -157,12 +157,12 @@ Source: PhD Comics by Jorge Cham (phdcomics.com/comics/archive.php?comicid=1531)
 
 ### The 4 Commands You'll Use 90% of the Time
 
-| Command | What It Does | Analogy |
-|---------|--------------|---------|
-| `git add .` | Stage changes | "I want to save these" |
-| `git commit -m "msg"` | Record snapshot | "Here's what I did" |
-| `git pull` | Get updates | "What did others do?" |
-| `git push` | Send to GitHub | "Share my work" |
+| Command               | What It Does    | Analogy                |
+|-----------------------|-----------------|------------------------|
+| `git add .`           | Stage changes   | "I want to save these" |
+| `git commit -m "msg"` | Record snapshot | "Here's what I did"    |
+| `git pull`            | Get updates     | "What did others do?"  |
+| `git push`            | Send to GitHub  | "Share my work"        |
 
 ::: fragment
 **Pro tip:** Write commit messages that explain *why*, not just *what*.
@@ -176,31 +176,32 @@ Source: PhD Comics by Jorge Cham (phdcomics.com/comics/archive.php?comicid=1531)
 
 ## When Git Goes Wrong
 
-::: {.callout-tip}
+::: callout-tip
 ## Don't Panic
+
 Everyone messes up Git. The good news: almost everything is recoverable.
 :::
 
 ### Your Rescue Resource
 
-**[ohshitgit.com](https://ohshitgit.com/)** — Solutions for common Git disasters
+[**ohshitgit.com**](https://ohshitgit.com/) — Solutions for common Git disasters
 
 ### Common Issues
 
-| Problem | Quick Fix |
-|---------|-----------|
-| Committed to wrong branch | `git reset HEAD~1` then re-commit |
-| Need to undo last commit | `git reset --soft HEAD~1` |
-| Merge conflict | Edit file, remove `<<<<` markers, commit |
-| Pushed sensitive data | Contact me immediately |
+| Problem                   | Quick Fix                                |
+|---------------------------|------------------------------------------|
+| Committed to wrong branch | `git reset HEAD~1` then re-commit        |
+| Need to undo last commit  | `git reset --soft HEAD~1`                |
+| Merge conflict            | Edit file, remove `<<<<` markers, commit |
+| Pushed sensitive data     | Contact me immediately                   |
 
-::: {.fragment}
+:::: fragment
 ![xkcd: Git](../images/xkcd-git.png){fig-alt="xkcd comic showing someone explaining Git's beautiful distributed graph theory tree model, then admitting they just memorize commands and delete/re-clone when things go wrong" width="55%"}
 
-::: {.aside}
+::: aside
 xkcd #1597
 :::
-:::
+::::
 
 ------------------------------------------------------------------------
 
@@ -212,17 +213,17 @@ xkcd #1597
 
 ### The Gentzkow-Shapiro Rules
 
-1. **Abstract to eliminate redundancy** — DRY (Don't Repeat Yourself)
-2. **Abstract to improve clarity** — Name things well
-3. **Otherwise, don't abstract** — Simplicity wins
+1.  **Abstract to eliminate redundancy** — DRY (Don't Repeat Yourself)
+2.  **Abstract to improve clarity** — Name things well
+3.  **Otherwise, don't abstract** — Simplicity wins
 
 ::: fragment
 ### The Dishwasher Analogy
 
 A dishwasher user needs to know:
 
-- How to load dishes
-- Which button to press
+-   How to load dishes
+-   Which button to press
 
 They don't need to understand the plumbing or electrical wiring.
 
@@ -241,8 +242,9 @@ They don't need to understand the plumbing or electrical wiring.
 
 ### For This Course
 
-::: {.callout-tip}
+::: callout-tip
 ## Encouraged Practices
+
 -   **Pair programming** on problem sets
 -   **README files** as project landing pages
 -   **Commit often** with meaningful messages
@@ -340,7 +342,7 @@ The estimated effect is 0.42.
 ### Two-Tier Architecture
 
 | Tier            | Platform                 | When to Use                    |
-|-----------------|--------------------------|--------------------------------|
+|------------------|------------------------|------------------------------|
 | **Primary**     | GitHub Codespaces        | Labs, code-alongs, assignments |
 | **Alternative** | Local (Positron/RStudio) | Capstone, offline work         |
 
@@ -371,10 +373,10 @@ Walk through the demo slowly. Pause for questions. This is where students often 
 
 ## Lab 0: Environment Setup {.center}
 
-::: {.callout-important}
+::: callout-important
 ## Accept the Assignment
 
-**[https://classroom.github.com/a/ER_VlloZ](https://classroom.github.com/a/ER_VlloZ)**
+[**https://classroom.github.com/a/ER_VlloZ**](https://classroom.github.com/a/ER_VlloZ)
 :::
 
 **What you'll verify:**
@@ -385,7 +387,7 @@ Walk through the demo slowly. Pause for questions. This is where students often 
 4.  Visualization
 5.  Render to HTML
 
-::: {.callout-note}
+::: callout-note
 Labs are for practice — not graded. Solutions released the next day.
 :::
 

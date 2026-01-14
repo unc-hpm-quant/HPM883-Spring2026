@@ -1,5 +1,5 @@
 ---
-title: "Session 0.3: Potential Outcomes & Structural Causal Models"
+title: "Session 0.3: Internal Validity & Potential Outcomes"
 subtitle: "Unit 0: Foundations"
 author: "Sean Sylvia"
 date: "January 14, 2026"
@@ -21,747 +21,745 @@ format:
     code-fold: false
     highlight-style: github
 execute:
-  echo: true
+  echo: false
   warning: false
   message: false
 ---
 
 ## Today's Agenda {.center}
 
-1. Deep dive into potential outcomes
-2. Counterfactual reasoning
-3. Directed Acyclic Graphs (DAGs)
-4. d-Separation and identification
-5. Confounding vs. selection bias
+1. **Lab Recap** — Key takeaways from reproducibility
+2. **Internal Validity Framework** — Why association ≠ causation
+3. **Potential Outcomes** — Formalizing counterfactuals
+4. **Experiments as the Ideal** — Randomization and conditions
+5. **DAGs & Complementary Frameworks** — Brief note
+6. **Perfect Doctor Exercise** — Selection bias in action
 
-::: {.notes}
-This is conceptual and mathematical. Heavy on notation but essential for everything that follows.
+::: notes
+This session builds on Session 0.1's conceptual introduction. We're now diving deeper into the formal potential outcomes framework and understanding internal validity.
 :::
 
----
+------------------------------------------------------------------------
 
-## The Fundamental Problem of Causal Inference
+# Section 1: Lab Recap {.center}
 
-### Patient i receives treatment
+## Reproducibility Recap {.center}
 
-| | Treated (Z=1) | Control (Z=0) |
-|---|:---:|:---:|
-| **Observed** | $Y_i(1)$ | ? |
-| **Counterfactual** | ? | $Y_i(0)$ |
-
-::: {.fragment}
-### The Problem
-
-We can never observe both $Y_i(1)$ and $Y_i(0)$ for the same unit.
-
-Individual treatment effect $\tau_i = Y_i(1) - Y_i(0)$ is **unobservable**.
-:::
-
----
-
-## Potential Outcomes Notation
-
-### Definition
-
-For each unit $i$:
-
-- $Y_i(1)$ = outcome if treated (potential outcome under treatment)
-- $Y_i(0)$ = outcome if control (potential outcome under control)
-- $Z_i$ = treatment indicator (1 = treated, 0 = control)
-
-::: {.fragment}
-### Observed Outcome
-
-$$Y_i = Z_i \cdot Y_i(1) + (1 - Z_i) \cdot Y_i(0)$$
-
-We only see *one* potential outcome for each unit.
-:::
-
----
-
-## Treatment Effects
-
-### Individual Treatment Effect (ITE)
-
-$$\tau_i = Y_i(1) - Y_i(0)$$
-
-**Unobservable** — would need to see same unit in both states
-
-::: {.fragment}
-### Average Treatment Effect (ATE)
-
-$$\tau_{ATE} = E[Y_i(1) - Y_i(0)] = E[Y_i(1)] - E[Y_i(0)]$$
-
-**Observable** — with the right design
-:::
-
-::: {.fragment}
-### Other Estimands
-
-- **ATT**: $E[Y(1) - Y(0) | Z = 1]$
-- **ATU**: $E[Y(1) - Y(0) | Z = 0]$
-- **CATE**: $E[Y(1) - Y(0) | X = x]$
-:::
-
----
-
-## The Selection Problem
-
-### Naive Comparison
-
-$$\hat{\tau}_{naive} = E[Y | Z=1] - E[Y | Z=0]$$
-
-::: {.fragment}
-### Decomposition
-
-$$
-\begin{aligned}
-E[Y | Z=1] - E[Y | Z=0] &= \underbrace{E[Y(1) | Z=1] - E[Y(0) | Z=1]}_{\text{ATT}} \\
-&+ \underbrace{E[Y(0) | Z=1] - E[Y(0) | Z=0]}_{\text{Selection Bias}}
-\end{aligned}
-$$
-:::
-
-::: {.callout-warning}
-## Key Insight
-Naive comparison = Treatment effect + Selection bias
-
-Without randomization, we can't separate them.
-:::
-
----
-
-## Randomization Solves Selection
-
-### Under Randomization
-
-$$Z \perp\!\!\!\perp \{Y(0), Y(1)\}$$
-
-Treatment is **independent** of potential outcomes.
-
-::: {.fragment}
-### Consequence
-
-$$
-\begin{aligned}
-E[Y(0) | Z=1] &= E[Y(0) | Z=0] = E[Y(0)] \\
-E[Y(1) | Z=1] &= E[Y(1) | Z=0] = E[Y(1)]
-\end{aligned}
-$$
-
-Selection bias = 0!
-:::
-
----
-
-## The Identification Assumption
-
-### Unconfoundedness (Ignorability)
-
-$$\{Y(0), Y(1)\} \perp\!\!\!\perp Z | X$$
-
-Given covariates $X$, treatment is as-if random.
-
-::: {.fragment}
-### What This Means
-
-- All confounders are measured
-- No unmeasured common causes
-- Allows causal interpretation in observational data
-- **Strong and untestable assumption**
-:::
-
----
-
-## Stability Assumption (SUTVA)
-
-### Stable Unit Treatment Value Assumption
-
-Two components:
-
-1. **No interference**: $Y_i$ depends only on $Z_i$, not $Z_j$ for $j \neq i$
-
-2. **No hidden versions**: Treatment is well-defined
-
-::: {.fragment}
-### When SUTVA Fails
-
-- **Interference**: Vaccines (herd immunity)
-- **Hidden versions**: "Job training" means many things
-- **Spillovers**: Treated patients share rooms with controls
-:::
-
----
-
-## Directed Acyclic Graphs (DAGs)
-
-### A Visual Language for Causal Assumptions
-
-```{r}
-#| echo: false
-#| fig-width: 4
-#| fig-height: 2
-#| fig-align: center
-library(ggplot2)
-library(ggdag)
-library(dagitty)
-
-# Gillings brand colors
-gillings_navy <- "#13294B"
-gillings_carolina <- "#4B9CD3"
-
-dag_simple <- dagify(
-  Y ~ Z,
-  exposure = "Z",
-  outcome = "Y",
-  labels = c(Z = "Treatment (Z)", Y = "Outcome (Y)"),
-  coords = list(x = c(Z = 0, Y = 2), y = c(Z = 0, Y = 0))
-)
-
-ggdag(dag_simple, text = FALSE, use_labels = "label", node_size = 20) +
-  geom_dag_point(color = gillings_navy, size = 20) +
-  geom_dag_text(color = "white", size = 3.5) +
-  geom_dag_edges(edge_color = gillings_navy, edge_width = 1.2) +
-  theme_dag() +
-  theme(legend.position = "none")
-```
-
-**Notation:**
-- Nodes = Variables
-- Arrows = Direct causal effects
-- Missing arrows = No direct effect
-
----
-
-## DAG Elements
-
-### Confounding
-
-```{r}
-#| echo: false
-#| fig-width: 4
-#| fig-height: 3
-#| fig-align: center
-
-dag_confounding <- dagify(
-  Y ~ Z + X,
-  Z ~ X,
-  exposure = "Z",
-  outcome = "Y",
-  labels = c(X = "Confounder (X)", Z = "Treatment (Z)", Y = "Outcome (Y)"),
-  coords = list(x = c(X = 1, Z = 0, Y = 2), y = c(X = 1, Z = 0, Y = 0))
-)
-
-ggdag(dag_confounding, text = FALSE, use_labels = "label", node_size = 18) +
-  geom_dag_point(color = gillings_navy, size = 18) +
-  geom_dag_text(color = "white", size = 3) +
-  geom_dag_edges(edge_color = gillings_navy, edge_width = 1.2) +
-  theme_dag() +
-  theme(legend.position = "none")
-```
-
-$X$ creates **spurious association** between $Z$ and $Y$
-
-::: {.fragment}
-### Solution
-
-Adjust for $X$ (conditioning, regression, matching, weighting)
-:::
-
----
-
-## Mediator
-
-```{r}
-#| echo: false
-#| fig-width: 4
-#| fig-height: 2
-#| fig-align: center
-
-dag_mediator <- dagify(
-  Y ~ M,
-  M ~ Z,
-  exposure = "Z",
-  outcome = "Y",
-  labels = c(Z = "Treatment (Z)", M = "Mediator (M)", Y = "Outcome (Y)"),
-  coords = list(x = c(Z = 0, M = 1, Y = 2), y = c(Z = 0, M = 0, Y = 0))
-)
-
-ggdag(dag_mediator, text = FALSE, use_labels = "label", node_size = 18) +
-  geom_dag_point(color = gillings_navy, size = 18) +
-  geom_dag_text(color = "white", size = 3) +
-  geom_dag_edges(edge_color = gillings_navy, edge_width = 1.2) +
-  theme_dag() +
-  theme(legend.position = "none")
-```
-
-$M$ is on the causal pathway from $Z$ to $Y$
-
-::: {.callout-warning}
-## Do NOT Adjust for Mediators
-Adjusting for $M$ blocks the causal effect you're trying to estimate!
-:::
-
----
-
-## Collider
-
-```{r}
-#| echo: false
-#| fig-width: 4
-#| fig-height: 3
-#| fig-align: center
-
-dag_collider <- dagify(
-  C ~ Z + Y,
-  exposure = "Z",
-  outcome = "Y",
-  labels = c(Z = "Treatment (Z)", C = "Collider (C)", Y = "Outcome (Y)"),
-  coords = list(x = c(Z = 0, C = 1, Y = 2), y = c(Z = 1, C = 0, Y = 1))
-)
-
-ggdag(dag_collider, text = FALSE, use_labels = "label", node_size = 18) +
-  geom_dag_point(color = gillings_navy, size = 18) +
-  geom_dag_text(color = "white", size = 3) +
-  geom_dag_edges(edge_color = gillings_navy, edge_width = 1.2) +
-  theme_dag() +
-  theme(legend.position = "none")
-```
-
-$C$ is caused by both $Z$ and $Y$
-
-::: {.callout-danger}
-## Collider Bias
-Adjusting for $C$ **creates** spurious association between $Z$ and $Y$!
-
-Classic mistake in observational studies.
-:::
-
----
-
-## d-Separation
-
-### Rules for Reading DAGs
-
-A path is **blocked** if it contains:
-
-1. A chain $A \rightarrow B \rightarrow C$ and we condition on $B$
-2. A fork $A \leftarrow B \rightarrow C$ and we condition on $B$
-3. A collider $A \rightarrow B \leftarrow C$ and we **don't** condition on $B$
-
-::: {.fragment}
-### Two Variables are d-Separated
-
-If **all paths** between them are blocked.
-
-d-Separated variables are **conditionally independent**.
-:::
-
----
-
-## Example: Complex DAG
-
-```{r}
-#| echo: false
-#| fig-width: 5
-#| fig-height: 4
-#| fig-align: center
-
-dag_complex <- dagify(
-  Y ~ Z + U + X + M,
-  Z ~ U + X,
-  M ~ Z,
-  exposure = "Z",
-  outcome = "Y",
-  latent = "U",
-  labels = c(U = "Unobserved\nConfounder", Z = "Treatment", Y = "Outcome",
-             M = "Mediator", X = "Observed\nCovariate"),
-  coords = list(
-    x = c(U = 0, X = 0, Z = 1, M = 2, Y = 2),
-    y = c(U = 2, X = 0, Z = 1, M = 2, Y = 0)
-  )
-)
-
-ggdag(dag_complex, text = FALSE, use_labels = "label", node_size = 16) +
-  geom_dag_point(color = gillings_navy, size = 16) +
-  geom_dag_text(color = "white", size = 2.5) +
-  geom_dag_edges(edge_color = gillings_navy, edge_width = 1.2) +
-  theme_dag() +
-  theme(legend.position = "none")
-```
-
-::: {.fragment}
-### Analysis
-
-- **Confounding path**: $Z \leftarrow U \rightarrow Y$ (blocked by conditioning on $U$, but $U$ unobserved!)
-- **Adjustment set**: Must include $X$; cannot adjust for unobserved $U$
-- **Problem**: Causal effect not identified without more assumptions
-:::
-
----
-
-## Confounding vs. Selection Bias
+### Key Takeaways from Session 0.2
 
 ::: {.columns}
 ::: {.column width="50%"}
-### Confounding
+**Technical Skills**
 
-```{r}
-#| echo: false
-#| fig-width: 3
-#| fig-height: 2.5
-
-dag_conf <- dagify(
-  Y ~ Z + X,
-  Z ~ X,
-  coords = list(x = c(X = 1, Z = 0, Y = 2), y = c(X = 1, Z = 0, Y = 0))
-)
-
-ggdag(dag_conf, text = FALSE, node_size = 16) +
-  geom_dag_point(color = gillings_navy, size = 16) +
-  geom_dag_text(color = "white", size = 4, fontface = "bold") +
-  geom_dag_edges(edge_color = gillings_navy, edge_width = 1.2) +
-  theme_dag() +
-  theme(legend.position = "none")
-```
-
-A common **cause** creates spurious association
+- Git workflow: add, commit, push
+- renv for package management
+- Quarto for literate programming
+- GitHub Codespaces setup
 :::
 
 ::: {.column width="50%"}
-### Selection Bias (Collider)
+**Connection to Causal Inference**
 
-```{r}
-#| echo: false
-#| fig-width: 3
-#| fig-height: 2.5
-
-dag_sel <- dagify(
-  S ~ Z + Y,
-  Y ~ Z,
-  labels = c(S = "Selection"),
-  coords = list(x = c(Z = 0, S = 1, Y = 2), y = c(Z = 1, S = 0, Y = 1))
-)
-
-ggdag(dag_sel, text = FALSE, node_size = 16) +
-  geom_dag_point(color = gillings_navy, size = 16) +
-  geom_dag_text(color = "white", size = 4, fontface = "bold") +
-  geom_dag_edges(edge_color = gillings_navy, edge_width = 1.2) +
-  theme_dag() +
-  theme(legend.position = "none")
-```
-
-Conditioning on a common **effect** creates spurious association
+- **Reproducibility** = others can verify your results
+- **Internal validity** = results are causally correct
+- Both require rigorous methods
+- Clean code → clear thinking
 :::
 :::
 
----
-
-## Example: Selection Bias
-
-### "Hospital patients who receive treatment X have worse outcomes"
-
-```{r}
-#| echo: false
-#| fig-width: 5
-#| fig-height: 3
-#| fig-align: center
-
-dag_hospital <- dagify(
-  H ~ D + T,
-  Y ~ D + T,
-  exposure = "T",
-  outcome = "Y",
-  labels = c(D = "Disease\nSeverity", H = "Hospital\nAdmission",
-             T = "Treatment", Y = "Outcome"),
-  coords = list(
-    x = c(D = 2, T = 0, H = 1, Y = 1),
-    y = c(D = 1, T = 1, H = 0, Y = 2)
-  )
-)
-
-ggdag(dag_hospital, text = FALSE, use_labels = "label", node_size = 16) +
-  geom_dag_point(color = gillings_navy, size = 16) +
-  geom_dag_text(color = "white", size = 2.5) +
-  geom_dag_edges(edge_color = gillings_navy, edge_width = 1.2) +
-  theme_dag() +
-  theme(legend.position = "none")
-```
-
-::: {.fragment}
-### The Problem
-
-By studying only hospital patients, we **condition on admission** (a collider).
-
-This creates spurious negative association between treatment and outcomes.
-:::
-
----
-
-## Structural Causal Models (SCMs)
-
-### Beyond DAGs: The Math
-
-An SCM specifies:
-
-1. **Endogenous variables**: $V = \{Y, Z, X, ...\}$
-2. **Exogenous variables**: $U = \{U_Y, U_Z, ...\}$
-3. **Structural equations**: $Y = f_Y(pa(Y), U_Y)$
-
-::: {.callout-note}
-## Foundation
-SCMs and the do() operator were developed by [Pearl (2009)](https://doi.org/10.1017/CBO9780511803161), building on his earlier work on Bayesian networks and causal reasoning.
-:::
-
-::: {.fragment}
-### Example
-
-$$
-\begin{aligned}
-X &= U_X \\
-Z &= g(X) + U_Z \\
-Y &= \beta Z + \gamma X + U_Y
-\end{aligned}
-$$
-:::
-
----
-
-## Interventions in SCMs
-
-### The do() Operator
-
-$P(Y | do(Z=1))$ ≠ $P(Y | Z=1)$
-
-**do(Z=1)**: Set $Z=1$ by intervention, breaking all arrows into $Z$
-
-**Z=1**: Observe that $Z=1$, preserving all relationships
-
-::: {.fragment}
-### Graphically
-
-```{r}
-#| echo: false
-#| fig-width: 4
-#| fig-height: 3
-#| fig-align: center
-
-# Show the intervened graph (arrows into Z removed)
-dag_do <- dagify(
-  Y ~ Z + X,
-  # Note: No arrow from X to Z after do(Z)
-  coords = list(x = c(X = 0, Z = 1, Y = 2), y = c(X = 1, Z = 0, Y = 1))
-)
-
-ggdag(dag_do, text = FALSE, node_size = 18) +
-  geom_dag_point(color = gillings_navy, size = 18) +
-  geom_dag_text(color = "white", size = 4, fontface = "bold") +
-  geom_dag_edges(edge_color = gillings_navy, edge_width = 1.2) +
-  theme_dag() +
-  theme(legend.position = "none") +
-  annotate("text", x = 0.5, y = 0.6, label = "✗", size = 8, color = "#C4122F") +
-  labs(caption = "Arrow from X to Z is cut by do(Z)")
-```
-
-$do(Z=1)$ removes all arrows into $Z$
-:::
-
----
-
-## The Adjustment Formula
-
-### Backdoor Criterion
-
-If $X$ blocks all backdoor paths from $Z$ to $Y$:
-
-$$P(Y | do(Z)) = \sum_x P(Y | Z, X=x) P(X=x)$$
-
-::: {.fragment}
-### In Practice
-
-1. Draw DAG
-2. Find adjustment set (backdoor criterion)
-3. Condition on adjustment set
-4. Estimate effect (regression, matching, weighting)
-:::
-
----
-
-## Code Example: Simulating Confounding
-
-```{r}
-#| echo: true
-#| code-fold: false
-
-library(tidyverse)
-set.seed(883)
-
-n <- 1000
-
-# Generate data with confounding
-df <- tibble(
-  X = rnorm(n),                    # Confounder
-  Z = rbinom(n, 1, plogis(0.5*X)), # Treatment depends on X
-  Y0 = 2 + 1*X + rnorm(n),         # Potential outcome under control
-  Y1 = Y0 + 0.5,                   # True effect = 0.5
-  Y = ifelse(Z == 1, Y1, Y0)       # Observed outcome
-)
-```
-
----
-
-## Naive vs. Adjusted Estimate
-
-```{r}
-#| echo: true
-
-library(estimatr)
-
-# Naive estimate (biased)
-naive <- lm_robust(Y ~ Z, data = df)
-
-# Adjusted estimate (unbiased)
-adjusted <- lm_robust(Y ~ Z + X, data = df)
-
-tribble(
-  ~Estimator, ~Estimate, ~SE, ~True,
-  "Naive", coef(naive)["Z"], naive$std.error["Z"], 0.5,
-  "Adjusted", coef(adjusted)["Z"], adjusted$std.error["Z"], 0.5
-)
-```
-
-::: {.fragment}
-**Lesson**: Adjusting for confounders removes bias!
-:::
-
----
-
-## Visualizing Confounding
-
-```{r}
-#| echo: true
-#| fig-height: 4
-
-ggplot(df, aes(x = X, y = Y, color = factor(Z))) +
-  geom_point(alpha = 0.5) +
-  geom_smooth(method = "lm", se = FALSE) +
-  labs(title = "Confounding: Treated units have higher X",
-       color = "Treatment") +
-  theme_minimal()
-```
-
----
-
-## DAG Tools in R
-
-### Using ggdag
-
-```{r}
-#| echo: true
-#| fig-height: 4
-
-library(ggdag)
-
-dag <- dagify(
-  Y ~ Z + X,
-  Z ~ X,
-  exposure = "Z",
-  outcome = "Y"
-)
-
-ggdag_adjustment_set(dag, node_size = 16) +
-  geom_dag_point(aes(color = adjusted), size = 16) +
-  scale_color_manual(values = c("unadjusted" = gillings_navy, "adjusted" = gillings_carolina)) +
-  theme_dag() +
-  theme(legend.position = "bottom")
-```
-
----
-
-## Key Assumptions Summary
-
-| Assumption | Meaning | Testable? |
-|------------|---------|-----------|
-| SUTVA | No interference, well-defined treatment | Partially |
-| Unconfoundedness | No unmeasured confounders | No |
-| Positivity | All units have chance of treatment | Yes |
-| Consistency | Potential outcome = observed if treated | No |
-
+::: fragment
 ::: {.callout-important}
-## Critical Insight
-Causal inference requires **assumptions**. These assumptions are often untestable. Be explicit about what you're assuming.
+## The Link
+If an analysis isn't reproducible, we can't verify its internal validity. Reproducibility is *necessary* but not *sufficient* for causal claims.
+:::
 :::
 
----
+::: notes
+Bridge from last session's technical focus to today's conceptual focus. Both are about scientific rigor.
+:::
 
-## Practical Guidelines
+------------------------------------------------------------------------
 
-### When Drawing DAGs
+# Section 2: Internal Validity Framework {.center}
 
-1. Include all common causes you can think of
-2. Ask domain experts
-3. Be explicit about what's unobserved
-4. Don't include mediators unless studying mechanisms
-5. Check for colliders before conditioning
+## What is Internal Validity?
 
-### When Making Assumptions
+**Definition:** The degree to which observed effects can be confidently attributed to the treatment rather than other confounding factors.
 
-1. State them clearly
-2. Justify them substantively
-3. Test robustness to violations
-4. Be honest about limitations
+::: fragment
+### The Central Question
 
----
+> "Did the treatment *cause* the outcome to change?"
 
-## Connection to Course
+Not: "Are they associated?" or "Can we predict one from the other?"
+:::
 
-### This Foundation Enables:
+::: fragment
+### Why It Matters
 
-| Unit | Method | Key Assumption |
-|------|--------|----------------|
-| 1 | RCTs | Randomization |
-| 2 | DML | Unconfoundedness + correct functional form |
-| 3 | Causal Forests | Unconfoundedness |
-| 5 | Observational ML | Strong ignorability |
-| 6 | DiD | Parallel trends |
+- **Policy decisions** depend on causal effects
+- **Resource allocation** requires knowing what works
+- **Scientific progress** builds on valid causal claims
+:::
 
-**Everything builds on potential outcomes and DAGs!**
+::: notes
+Internal validity is the cornerstone of experimental design. Without it, we're just documenting associations.
+:::
 
----
+------------------------------------------------------------------------
 
-## Key Takeaways
+## Two Scenarios {.center}
 
-1. **Potential outcomes** define causal effects as contrasts between possible worlds
+Let's examine two cases where association led to wrong policy conclusions.
 
-2. **Selection bias** arises when treatment is related to outcomes
+::: notes
+These scenarios illustrate the fundamental problem: we can't observe counterfactuals in observational data.
+:::
 
-3. **DAGs** visualize causal assumptions and guide identification
+------------------------------------------------------------------------
 
-4. **d-Separation** tells us what we must adjust for (and what we must not!)
+## Scenario 1: Diet & Arthritis
 
-5. **SCMs** formalize interventions with the do() operator
+Suppose you are considering whether a new diet is linked to lower risk of inflammatory arthritis.
 
----
+::: fragment
+**Observation:**
 
-## For Next Time
+- A **small fraction** of individuals on the diet have inflammatory arthritis
+- A **large fraction** of individuals not on the diet have inflammatory arthritis
+:::
 
-### Session 1.1: Statistical Conclusion Validity & Power (Wed Jan 21)
+::: fragment
+**Action Taken:**
 
+You recommend that everyone pursue this new diet.
+:::
+
+::: fragment
+**Result:**
+
+Rates of inflammatory arthritis are **unaffected**.
+
+**What happened?** 🤔
+:::
+
+::: notes
+Pause here and ask students to think about what might explain this. Common answer: selection bias.
+:::
+
+------------------------------------------------------------------------
+
+## Scenario 2: Preventive Care
+
+Consider a policy designed to reduce emergency room visits by offering free preventive care check-ups.
+
+::: fragment
+**Observation:**
+
+Policymakers observed that communities with higher uptake of preventive care have **fewer emergency visits**.
+:::
+
+::: fragment
+**Action Taken:**
+
+They implement the policy nationwide, expecting a significant reduction in emergency room visits.
+:::
+
+::: fragment
+**Result:**
+
+The policy shows **no measurable impact**.
+
+**What happened?** 🤔
+:::
+
+::: notes
+Similar pattern: association in observational data doesn't translate to causal effect when intervention is scaled.
+:::
+
+------------------------------------------------------------------------
+
+## The Missing Counterfactual Problem
+
+### Why the Policies Failed
+
+::: {.columns}
+::: {.column width="50%"}
+**Scenario 1: Diet & Arthritis**
+
+Individuals who chose the diet may already have:
+
+- Healthier lifestyles
+- Better exercise habits
+- Reduced stress levels
+
+These factors independently reduce arthritis risk.
+:::
+
+::: {.column width="50%"}
+**Scenario 2: Preventive Care**
+
+Communities with higher preventive care uptake might already have:
+
+- Better healthcare access
+- Higher socioeconomic status
+- Greater health awareness
+
+These factors independently reduce ER visits.
+:::
+:::
+
+::: fragment
+::: {.callout-important}
+## The Key Problem
+**The lack of counterfactual information is what prevents inference about causation from association.**
+
+We couldn't see what would have happened to each individual if the alternative action had been applied.
+:::
+:::
+
+::: notes
+This is the fundamental problem of causal inference. We can only observe one potential outcome per unit.
+:::
+
+------------------------------------------------------------------------
+
+# Section 3: Potential Outcomes Framework {.center}
+
+## Formalizing Counterfactuals
+
+The unseen information about each individual is the **counterfactual**.
+
+::: fragment
+Without reasoning about the counterfactual, we can't draw causal inferences—or worse, we draw the **wrong** causal inferences!
+:::
+
+::: fragment
+### The Solution
+
+The **potential outcomes framework** is a way to formally think about counterfactuals and causal inference.
+
+Let's formalize this framework.
+:::
+
+::: notes
+Now we move from intuition to formal notation. This framework was developed by Rubin, building on Neyman's work.
+:::
+
+------------------------------------------------------------------------
+
+## Treatment Assignment Notation
+
+Suppose there are two possible actions that can be assigned to an individual:
+
+$$
+D_{i,t} =
+\begin{cases}
+1 \text{ if "Treatment"} \\
+0 \text{ if "Control"}
+\end{cases}
+$$
+
+Where:
+
+- $D_{i,t}$ is a binary variable defining treatment
+- $i$ indexes an individual unit
+- $t$ indexes time
+
+::: fragment
+### Example: Diet Scenario
+
+$$
+D_{i,t} =
+\begin{cases}
+1 \text{ if placed on diet at time } t \\
+0 \text{ if not placed on diet at time } t
+\end{cases}
+$$
+:::
+
+::: notes
+Start with the treatment indicator. This is straightforward: 1 for treatment, 0 for control.
+:::
+
+------------------------------------------------------------------------
+
+## Potential Outcomes
+
+**Critical insight:** *Prior to treatment* there are two **Potential Outcomes** for an individual:
+
+$$
+Y_{i,t}^j =
+\begin{cases}
+Y_{i,t}^1 \text{: outcome if assigned to "Treatment" at time } t \\
+Y_{i,t}^0 \text{: outcome if assigned to "Control" at time } t
+\end{cases}
+$$
+
+::: fragment
+### Example: Diet Scenario
+
+$$
+Y_{i,t}^j =
+\begin{cases}
+Y_{i,t}^1 \text{: health if placed on diet at time } t \\
+Y_{i,t}^0 \text{: health if not placed on diet at time } t
+\end{cases}
+$$
+:::
+
+::: fragment
+::: {.callout-note}
+## Both Exist *Before* Treatment
+Potential outcomes are defined even *prior to treatment assignment*. They represent what *would* happen under each scenario, not what *did* happen.
+:::
+:::
+
+::: notes
+This is the key conceptual shift: both outcomes exist in potential before we assign treatment. Only one is realized.
+:::
+
+------------------------------------------------------------------------
+
+## Individual Treatment Effect
+
+The **individual treatment effect** for unit $i$ is:
+
+$$\delta_{i} = Y_{i,t}^1 - Y_{i,t}^0$$
+
+::: fragment
+The individual's **observed outcome** is determined by the **switching equation**:
+
+$$Y_{i} = D_{i}Y_{i,t}^1 + (1 - D_{i})Y_{i,t}^0$$
+
+Where:
+
+- $Y_{i} = Y_{i,t}^1$ if $D_{i} = 1$ (treated)
+- $Y_{i} = Y_{i,t}^0$ if $D_{i} = 0$ (control)
+:::
+
+::: fragment
+::: {.callout-warning}
+## The Fundamental Problem
+Because $D_{i}$ can only be 1 or 0, we **cannot directly observe** $\delta_{i}$.
+
+This is the **Fundamental Problem of Causal Inference**: it is a problem of **missing data**.
+:::
+:::
+
+::: notes
+The switching equation is elegant: only one potential outcome is revealed by treatment status. The other remains counterfactual.
+:::
+
+------------------------------------------------------------------------
+
+## Average Treatment Effect
+
+In a population, we are interested in the **average treatment effect (ATE)**, $E[\delta]$:
+
+$$
+\begin{align}
+E[\delta] &= E[Y^1 - Y^0] \\
+&= E[Y^1] - E[Y^0]
+\end{align}
+$$
+
+::: fragment
+**The Problem:**
+
+We cannot calculate this because $Y_{i}^1$ and $Y_{i}^0$ do not exist for the same individual $i$.
+
+- For treated units: we observe $Y_i^1$ but not $Y_i^0$
+- For control units: we observe $Y_i^0$ but not $Y_i^1$
+:::
+
+::: fragment
+**The Solution:**
+
+We need a strategy to recover $E[Y^1]$ and $E[Y^0]$ from observed data.
+
+That strategy is **randomization** (or valid identification in observational studies).
+:::
+
+::: notes
+The ATE is what we typically want for policy. We move from individual effects (unobservable) to average effects (identifiable under assumptions).
+:::
+
+------------------------------------------------------------------------
+
+# Section 4: Experiments as the Ideal {.center}
+
+## Randomization Solves Selection
+
+### The Key Source of Bias
+
+Bias arises from the **assignment mechanism**—*why* a unit is assigned to treatment or control.
+
+::: fragment
+### Two Approaches to Dealing with Endogeneity
+
+1. **Model-based methods:** Model the selection bias and then remove it mechanically
+2. **Design-based methods:** Use randomization to remove selection bias
+
+::: {.callout-tip}
+## This Course
+We'll cover both, but **design-based methods** (experiments) are the "gold standard."
+:::
+:::
+
+::: fragment
+### Why Randomization Works
+
+**In randomized experiments, the assignment mechanism is controlled by the researcher.**
+
+This ensures that assignment is **independent** of individual characteristics:
+
+$$W_i \perp\!\!\!\perp (Y_i^0, Y_i^1)$$
+:::
+
+::: notes
+Independence notation: treatment assignment is orthogonal to potential outcomes. This is what randomization buys us.
+:::
+
+------------------------------------------------------------------------
+
+## Three Conditions for Valid Assignment
+
+To ensure randomization eliminates bias, three conditions must hold:
+
+::: fragment
+### 1. Non-zero Probability
+
+Each individual has a **positive probability** of being assigned to treatment or control.
+
+$$0 < P(D_i = 1 \mid X_i) < 1$$
+
+If any unit has zero probability of treatment, we can't learn about treatment effects for that subgroup.
+:::
+
+::: fragment
+### 2. Individualism
+
+Assignments are **independent across individuals** and do not depend on others' potential outcomes.
+
+My treatment assignment doesn't depend on your potential outcomes.
+:::
+
+::: fragment
+### 3. Unconfoundedness
+
+Treatment assignment is **orthogonal to potential outcomes**.
+
+$$D_i \perp\!\!\!\perp (Y_i^0, Y_i^1) \mid X_i$$
+
+This is what randomization gives us automatically.
+:::
+
+::: notes
+These three conditions ensure observed differences between groups are attributable to treatment, not pre-existing differences.
+:::
+
+------------------------------------------------------------------------
+
+## Four Key Exclusion Restrictions
+
+Even with valid assignment, four additional restrictions must be satisfied:
+
+::: fragment
+### 1. Stable Unit Treatment Value Assumption (SUTVA)
+
+The treatment of one individual must **not affect** another's outcomes.
+
+- No interference between units
+- No spillovers or general equilibrium effects
+- Treatment is well-defined and consistent
+:::
+
+::: fragment
+### 2. Observability
+
+Outcomes must be **observed for all individuals**.
+
+- Missing data can bias estimates
+- Attrition is a threat to this assumption
+:::
+
+::: notes
+SUTVA is actually two assumptions: no interference, and stable treatment. Both are needed for valid inference.
+:::
+
+------------------------------------------------------------------------
+
+## Four Key Exclusion Restrictions (cont'd)
+
+### 3. Complete Compliance
+
+- Those **assigned to treatment** must receive it
+- Those **assigned to control** must not receive it
+
+::: fragment
+**Violations:**
+
+- Non-compliance: assigned to treatment but don't take it
+- Contamination: assigned to control but obtain treatment
+:::
+
+::: fragment
+### 4. Statistical Independence
+
+Treatment assignment is **independent** of potential outcomes.
+
+$$D_i \perp\!\!\!\perp (Y_i^0, Y_i^1)$$
+
+This is satisfied by randomization.
+:::
+
+::: fragment
+::: {.callout-note}
+## Later in the Course
+We'll cover strategies for addressing violations of these assumptions: attrition (observability), non-compliance, and spillovers (SUTVA).
+:::
+:::
+
+::: notes
+When all four exclusion restrictions are met, we can confidently attribute differences to treatment. Violations compromise internal validity.
+:::
+
+------------------------------------------------------------------------
+
+# Section 5: DAGs & Complementary Frameworks {.center}
+
+## A Note on Graphical Approaches
+
+### Directed Acyclic Graphs (DAGs)
+
+::: {.columns}
+::: {.column width="60%"}
+DAGs provide a **complementary framework** to potential outcomes:
+
+- **Visual representation** of causal relationships
+- **Identify confounders** and paths
+- **Guide variable selection** for conditioning
+
+::: fragment
+**Relationship to Potential Outcomes:**
+
+- DAGs help *visualize* what potential outcomes framework *formalizes*
+- Both address the same fundamental problem
+- Different strengths for different audiences
+:::
+:::
+
+::: {.column width="40%"}
+![](../images/book-of-why.jpg){fig-alt="Cover of The Book of Why by Judea Pearl" width="80%"}
+:::
+:::
+
+::: fragment
+::: {.callout-note}
+## Course Coverage
+We **won't** cover DAGs in depth in this course, but they're valuable for causal reasoning.
+
+**Excellent resources:**
+
+- Mixtape Ch. 3 (Scott Cunningham)
+- Chernozhukov Ch. 7 (optional)
+- *The Book of Why* by Judea Pearl (highly recommended!)
+:::
+:::
+
+::: notes
+DAGs and potential outcomes are complementary. Pearl's framework is more intuitive for some, Rubin's more rigorous for estimation. We focus on potential outcomes but students should be aware of DAGs.
+:::
+
+------------------------------------------------------------------------
+
+# Section 6: Perfect Doctor, Bad Doctor Exercise {.center}
+
+## Selection Bias in Action
+
+### Setup: A Thought Experiment
+
+::: fragment
+Imagine a doctor who:
+
+- Sees patients with varying health conditions
+- Knows each patient's potential outcomes (counterfactuals!)
+- Assigns treatment based on expected benefit
+:::
+
+::: fragment
+### Two Assignment Rules
+
+1. **Perfect Doctor:** Assigns treatment only if $Y_i^1 > Y_i^0$ (positive benefit)
+2. **Bad Doctor:** Assigns treatment only if $Y_i^1 < Y_i^0$ (negative benefit!)
+:::
+
+::: fragment
+**Question:** What happens to our simple difference-in-means estimate?
+
+$$\text{SDO} = E[Y \mid D=1] - E[Y \mid D=0]$$
+
+Does it equal the ATE?
+:::
+
+::: notes
+This is the classic Rubin example, adapted by Cunningham in Mixtape. Students will work through this in the animation.
+:::
+
+------------------------------------------------------------------------
+
+## SDO Decomposition Preview
+
+The **Simple Difference in Outcomes (SDO)** can be decomposed as:
+
+$$\text{SDO} = E[Y \mid D=1] - E[Y \mid D=0]$$
+
+$$= \color{blue}{E[Y^1 - Y^0]} + \color{red}{(E[Y^0 \mid D=1] - E[Y^0 \mid D=0])} + \color{green}{(1-\pi)(\text{ATT} - \text{ATU})}$$
+
+::: {style="display: flex; justify-content: space-around; font-size: 0.9em; margin-top: -0.5em;"}
+[**ATE**]{style="color: blue;"} | [**Selection Bias**]{style="color: red;"} | [**Heterogeneity**]{style="color: green;"}
+:::
+
+Where:
+
+- **ATE** = Average Treatment Effect (what we want!)
+- **Selection Bias** = Difference in baseline outcomes between groups
+- **ATT** = Average Treatment Effect on the Treated
+- **ATU** = Average Treatment Effect on the Untreated
+- $\pi$ = Proportion treated
+
+::: fragment
+::: {.callout-important}
+## The Problem
+Unless selection bias = 0 (randomization!), SDO ≠ ATE.
+:::
+:::
+
+::: notes
+This decomposition shows exactly how selection bias contaminates the simple comparison. The animation will make this concrete.
+:::
+
+------------------------------------------------------------------------
+
+## Let's See It in Action {.center}
+
+### Interactive Animation: Doctor Assignment
+
+Navigate to: `doctor-animation/`
+
+::: fragment
+**What you'll explore:**
+
+1. Perfect Doctor (assigns when beneficial)
+2. Bad Doctor (assigns when harmful)
+3. Random assignment (the ideal!)
+:::
+
+::: fragment
+**Questions to consider:**
+
+- How does the SDO compare to the true ATE?
+- What drives the selection bias?
+- Why does randomization solve the problem?
+:::
+
+::: fragment
+::: {.callout-tip}
+## Interactive Learning
+Work through the scenarios. Observe how assignment rules create bias. This intuition will carry through the entire course.
+:::
+:::
+
+::: notes
+Have students open the animation and work through each scenario. This is hands-on learning—pause for discussion after each one.
+:::
+
+------------------------------------------------------------------------
+
+## Summary
+
+### Key Takeaways
+
+::: fragment
+1. **Internal validity** requires attributing effects to treatment, not confounders
+:::
+
+::: fragment
+2. **Potential outcomes framework** formalizes counterfactual reasoning:
+   - $Y_i^1$ and $Y_i^0$ both exist before treatment
+   - We only observe one per unit
+   - Individual effects $\delta_i$ are unobservable
+:::
+
+::: fragment
+3. **Randomization solves selection** by making $D_i \perp\!\!\!\perp (Y_i^0, Y_i^1)$
+:::
+
+::: fragment
+4. **Valid inference requires:**
+   - Three conditions for valid assignment
+   - Four exclusion restrictions (SUTVA, observability, compliance, independence)
+:::
+
+::: fragment
+5. **Selection bias** contaminates observational comparisons
+:::
+
+::: notes
+Bring it all together. This session laid the theoretical foundation. Unit 1 will build on this with experimental design.
+:::
+
+------------------------------------------------------------------------
+
+## Next Steps
+
+### Unit 1: Experimental Design (Starting Week 2)
+
+::: {.columns}
+::: {.column width="50%"}
+**Topics:**
+
+- Power analysis
+- Randomization strategies
+- Blocking and stratification
+- Variance reduction techniques
+:::
+
+::: {.column width="50%"}
 **Readings:**
 
-- [Chernozhukov Ch. 2 (RCTs)](http://chapters.causalml-book.org/CausalML_chap_2.pdf) — Causal Inference via Randomized Experiments
-- [Gelman & Carlin (2014)](https://doi.org/10.1177/1745691614551642) on power analysis
+- Chernozhukov Ch. 1-2
+- Wager Ch. 1
+- DeclareDesign vignettes
+:::
+:::
 
-**Note:** No class Monday (MLK Day). Lab 0 solutions released Tuesday.
+::: fragment
+### Before Week 2
 
----
+- Complete Lab 0 if not finished
+- Review potential outcomes notation
+- Bring questions about counterfactuals
+:::
+
+::: notes
+Unit 1 takes these foundations and shows how to design experiments that maximize power and precision.
+:::
+
+------------------------------------------------------------------------
 
 ## Questions? {.center}
 
-Office Hours: Tuesday 1-2pm, Wednesday 3-4pm
+::: {.callout-note}
+## Office Hours
+Tuesday 1-2pm, Wednesday 3-4pm via Zoom
 
-Canvas Discussion: For all course questions
+[Book appointment](https://calendly.com/sean-sylvia/hpm-883-office-hours-1)
+:::
 
-::: {.notes}
-This is dense material. Expect questions. Encourage students to come to office hours if confused about DAGs.
+**Canvas Discussion:** For all course questions
+
+::: notes
+Open floor for questions. This is dense material—expect confusion about notation and counterfactuals.
 :::
