@@ -32,7 +32,7 @@ This is the only session this week due to the Well-Being Day on Monday.
 **Chernozhukov et al. (2025)** — *Applied Causal Inference Powered by ML and AI*
 
 -   **Chapter 5:** Causal Inference via Conditional Ignorability (~30 pages)
-    -   [Online PDF](https://causalml-book.org/assets/chapters/CausalML_chap_5.pdf)
+    -   [Online PDF](https://chapters.causalml-book.org/CausalML_chap_5.pdf)
     -   Focus: Selection on observables, propensity scores, doubly-robust estimators
 
 **Kennedy (2016)** — "Semiparametric Theory and Empirical Processes in Causal Inference"

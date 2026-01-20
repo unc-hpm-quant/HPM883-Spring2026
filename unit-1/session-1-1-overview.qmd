@@ -33,7 +33,7 @@ Lab 0 solutions released Tuesday — run `git pull` to access.
 **Chernozhukov et al. (2025)** — *Applied Causal Inference Powered by ML and AI*
 
 -   **Chapter 2:** Causal Inference via Randomized Experiments (~25 pages)
-    -   [Online PDF](https://causalml-book.org/assets/chapters/CausalML_chap_2.pdf)
+    -   [Online PDF](https://chapters.causalml-book.org/CausalML_chap_2.pdf)
     -   Focus: Randomization, estimands, design-based inference
 
 **DeclareDesign Overview**

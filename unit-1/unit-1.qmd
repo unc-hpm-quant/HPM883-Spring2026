@@ -21,17 +21,19 @@ By the end of this unit, students will be able to:
 
 ## Sessions
 
-| Session | Date | Topic | Materials |
-|---------|------|-------|-----------|
-| 1.1 | Jan 21 | Randomization & RCTs | [overview](session-1-1-overview.qmd), [slides](session-1-1-slides.qmd) |
-| 1.2 | Jan 26 | Statistical Conclusion Validity & Power | [overview](session-1-2-overview.qmd), [slides](session-1-2-slides.qmd) |
-| 1.3 | Jan 28 | Optimal Experimental Design & MIDA | [overview](session-1-3-overview.qmd), [slides](session-1-3-slides.qmd) |
-| 1.6 | Feb 2 | Power Analysis by Simulation Lab (Async) | [overview](session-1-6-overview.qmd), [workbook](session-1-6-workbook.qmd) |
+| Session | Date | Topic | Format | Materials |
+|---------|------|-------|--------|-----------|
+| 1.1 + 1.2 | Wed Jan 21 | Randomization, RCTs, Power | In-Person | [1.1 overview](session-1-1-overview.qmd), [1.1 slides](session-1-1-slides.qmd), [1.2 overview](session-1-2-overview.qmd), [1.2 slides](session-1-2-slides.qmd) |
+| Lab 1 | Mon Jan 26 | Power Analysis with DeclareDesign | **Remote** | [lab](../labs/lab-1-design.qmd) |
+| 1.3 | Wed Jan 28 | Optimal Experimental Design & MIDA | In-Person | [overview](session-1-3-overview.qmd), [slides](session-1-3-slides.qmd) |
 
 ::: callout-note
-## Note: January 19 is MLK Day (No Class)
+## Schedule Notes
 
-Lab 0 solutions released Tuesday — run `git pull` to access.
+- **January 19 (MLK Day):** No class
+- **January 21:** Combined Session 1.1 + 1.2 (covers both randomization foundations and power analysis)
+- **January 26:** Remote lab day — complete Lab 1 asynchronously
+- Lab 0 solutions released Tuesday — run `git pull` to access
 :::
 
 ## Required Readings
@@ -39,7 +41,7 @@ Lab 0 solutions released Tuesday — run `git pull` to access.
 ### Primary
 
 - **Chernozhukov et al. (2025)** — Chapter 2: Causal Inference via Randomized Experiments
-  - [Online PDF](https://causalml-book.org/assets/chapters/CausalML_chap_2.pdf)
+  - [Online PDF](https://chapters.causalml-book.org/CausalML_chap_2.pdf)
 - **Lin (2013)** — "Agnostic notes on regression adjustments to experimental data" *Statistics, Politics, and Policy*
 - **Duflo, Glennerster, & Kremer (2007)** — "Using Randomization in Development Economics" *Handbook of Development Economics*
 - **Bruhn & McKenzie (2009)** — "In Pursuit of Balance" *Journal of Development Economics*
