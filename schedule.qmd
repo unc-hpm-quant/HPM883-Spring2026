@@ -49,14 +49,14 @@ subtitle: "HPM 883 Spring 2026"
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 6 | Mon Jan 26 | Statistical Conclusion Validity & Power (Session 1.2) | In-Person |
+| 6 | Mon Jan 26 | Lab 1: Experimental Design & Power (Session 1.2) | [Remote](https://zoom.us/j/93346316978) |
 | 7 | Wed Jan 28 | Optimal Experimental Design & MIDA (Session 1.3) | In-Person |
 
-**Session 6 Key Concepts:** Type I/II errors, power analysis (analytical + simulation), effect size considerations, MDE, Lin (2013) regression adjustment, multiple testing
+**Session 6 (Remote Lab):** Asynchronous lab applying MIDA framework and DeclareDesign. Covers power analysis by simulation, blocking vs. simple randomization, MDE calculations, and Lin (2013) regression adjustment. No in-person class — use this time for the lab.
 
 **Session 7 Key Concepts:** Model-Inquiry-Data-Answer (MIDA), blocking, stratification, variance reduction (CUPED, Lin regression), cluster randomization, design diagnosis
 
-**Lab 1 assigned:** Power Analysis by Simulation (due Feb 2)
+**Lab 1 due:** February 2, 2026
 
 **Jigsaw Session 0 (End of Unit 1):** Experimental Design Applications — Expert groups analyze RCT design papers
 
@@ -253,7 +253,7 @@ subtitle: "HPM 883 Spring 2026"
 | Deliverable | Due Date | Weight |
 |-------------|----------|--------|
 | Lab 0: Git/GitHub Fundamentals | Jan 19 | (part of Labs) |
-| Lab 1: Power Analysis by Simulation | Feb 2 | (part of Labs) |
+| Lab 1: Experimental Design & Power | Feb 2 | (part of Labs) |
 | Jigsaw Session 1: DML Applications | Feb 18 | (part of Jigsaw) |
 | Lab 2: Double ML Implementation | Feb 23 | (part of Labs) |
 | Jigsaw Session 2: Causal Forest Applications | Mar 11 | (part of Jigsaw) |
