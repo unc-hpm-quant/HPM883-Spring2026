@@ -1,0 +1,160 @@
+---
+title: "Problem Set 5"
+subtitle: "Observational Causal ML"
+author: "HPM 883: Advanced Quantitative Methods"
+date: "Due: April 15, 2026"
+slug: "ps-5"
+categories: [Problem Set, Observational, DiD, Propensity Scores, Sensitivity Analysis]
+description: "Apply ML-enhanced methods to observational data: propensity score weighting, modern staggered DiD, and sensitivity analysis."
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-tools: true
+editor: visual
+execute:
+  eval: false
+  echo: true
+---
+
+## Introduction
+
+A state implemented **telehealth expansion** across counties in a staggered rollout from 2018-2022. Some counties adopted early, others late, and some never adopted. Using administrative claims data, you must estimate the causal effect of telehealth expansion on healthcare utilization.
+
+### The Situation
+
+Unlike the RCTs in previous problem sets, this is **purely observational data**. Counties chose when (or whether) to adopt telehealth based on local conditions. Dr. Doub R. Obust warns:
+
+> "Selection bias is our enemy. Counties that adopted early may differ systematically from late/never adopters. We need robust quasi-experimental methods."
+
+### Study Parameters
+
+| Parameter | Value |
+|-----------|-------|
+| Units | 200 counties |
+| Time periods | 2016-2023 (8 years) |
+| Treatment | Telehealth expansion (binary, by county-year) |
+| Outcome | Outpatient visits per 1,000 population |
+| Staggered adoption | 2018, 2019, 2020, 2021, 2022, Never |
+
+### Data
+
+```{r}
+#| label: load-data
+#| eval: true
+
+telehealth_data <- read.csv("data/ps-5-telehealth.csv")
+```
+
+Panel data with:
+- `county_id`: County identifier
+- `year`: Year (2016-2023)
+- `treated`: Treatment indicator (1 = telehealth active)
+- `first_treat_year`: Year of adoption (NA if never)
+- `Y`: Outpatient visits per 1,000
+- `X1`-`X15`: County characteristics (demographics, SES, healthcare infrastructure)
+
+---
+
+## Task 1: Conceptual Foundation (20 points)
+
+### 1.1 Quasi-Experimental Methods (10 points)
+
+a) **TWFE problems:** Explain why standard two-way fixed effects (TWFE) regression can produce biased estimates with staggered adoption. What is the "negative weighting" problem?
+
+b) **Callaway-Sant'Anna:** How does the Callaway & Sant'Anna (2021) approach address TWFE limitations? What are "group-time average treatment effects"?
+
+### 1.2 ML-Enhanced Methods (10 points)
+
+c) **ML propensity scores:** When might using Random Forest or XGBoost for propensity score estimation outperform logistic regression? What are the risks?
+
+d) **Sensitivity analysis:** Explain the concept of the "E-value" for sensitivity analysis. What does an E-value of 2.0 tell you about robustness to unmeasured confounding?
+
+---
+
+## Task 2: Cross-Sectional Analysis (25 points)
+
+Focus on a single cross-section: 2023 (post-treatment for all adopters).
+
+**Packages:** `WeightIt`, `cobalt`, `ggplot2`
+
+### 2.1 Propensity Score Estimation (10 points)
+
+Estimate propensity scores (probability of *ever* adopting telehealth) using:
+- Logistic regression
+- Random Forest
+
+Compare the two approaches:
+- Overlap diagnostics (histograms by treatment status)
+- Balance tables before/after weighting
+
+### 2.2 Weighted Estimation (15 points)
+
+Using your preferred propensity model:
+
+a) Estimate the ATT using **IPW weighting**
+b) Estimate the ATT using **overlap weighting**
+c) Compare to naive difference-in-means
+
+Create a Love plot showing covariate balance improvement.
+
+---
+
+## Task 3: Staggered Difference-in-Differences (25 points)
+
+**Packages:** `did`, `ggplot2`
+
+### 3.1 Callaway-Sant'Anna DiD (15 points)
+
+Using the `did` package:
+
+a) Estimate group-time ATT(g,t) for each adoption cohort
+b) Aggregate to an overall ATT estimate
+c) Create an event study plot showing dynamic treatment effects
+
+### 3.2 Parallel Trends (10 points)
+
+Assess the parallel trends assumption:
+
+a) Conduct a formal pre-trends test using pre-treatment periods
+b) Visualize pre-treatment trends by adoption cohort
+c) Discuss whether parallel trends is plausible
+
+---
+
+## Task 4: Sensitivity Analysis (15 points)
+
+**Packages:** `sensemakr`
+
+### 4.1 E-Values (10 points)
+
+Calculate E-values for your main estimate:
+
+a) What unmeasured confounder strength would be needed to explain away the effect?
+b) What unmeasured confounder strength would be needed to move the CI to include zero?
+
+### 4.2 Robustness Discussion (5 points)
+
+Discuss the plausibility of confounders strong enough to invalidate your findings. What unmeasured factors might bias your estimates?
+
+---
+
+## Task 5: Policy Brief (15 points)
+
+Write a 400-word policy brief for state health officials summarizing:
+
+1. **Main finding:** Effect of telehealth expansion on utilization
+2. **Robustness:** How confident should they be? What were the key threats?
+3. **Policy implications:** Should other states adopt similar policies?
+
+---
+
+## Evaluation Criteria
+
+| Component | Points |
+|-----------|--------|
+| Task 1: Conceptual | 20 |
+| Task 2: Cross-sectional | 25 |
+| Task 3: Staggered DiD | 25 |
+| Task 4: Sensitivity | 15 |
+| Task 5: Policy Brief | 15 |

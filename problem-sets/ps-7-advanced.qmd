@@ -1,0 +1,192 @@
+---
+title: "Problem Set 7"
+subtitle: "Advanced Topics (Optional)"
+author: "HPM 883: Advanced Quantitative Methods"
+date: "Due: Finals Week"
+slug: "ps-7"
+categories: [Problem Set, Advanced, Networks, IV, Transportability]
+description: "Explore frontier methods in causal ML. Choose one of three advanced topics: network interference, instrumental variables + ML, or transportability."
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-tools: true
+editor: visual
+execute:
+  eval: false
+  echo: true
+---
+
+## Introduction
+
+This optional problem set explores **frontier methods** beyond the core curriculum. It can replace any lower-scoring PS 1-6.
+
+St. Null's Memorial Hospital faces methodological challenges that require advanced techniques. **Choose ONE** of the following three options.
+
+---
+
+## Option A: Network Interference
+
+### Scenario
+
+The Patient Engagement App shows **spillover effects** — patients influence each other within hospital units. Your task is to estimate treatment effects accounting for interference.
+
+### Data
+
+```{r}
+#| label: load-option-a
+#| eval: false
+
+network_data <- read.csv("data/ps-7-network.csv")
+```
+
+- `Y`: Outcome
+- `W`: Individual treatment
+- `unit_id`: Hospital unit (cluster)
+- `unit_treated_frac`: Fraction of unit receiving treatment
+- Network adjacency matrix provided separately
+
+### Tasks (100 points)
+
+1. **Conceptual (20 points)**
+   - Define direct and indirect (spillover) effects
+   - Explain why SUTVA violations bias standard estimates
+   - Describe the "exposure mapping" approach to interference
+
+2. **Implementation (40 points)**
+   - Estimate direct treatment effect using exposure-marginalized estimators
+   - Estimate spillover effect (effect of peer treatment)
+   - Compare to naive estimate ignoring interference
+
+3. **Diagnostics (20 points)**
+   - Test for presence of interference
+   - Visualize how effects vary by unit treatment saturation
+
+4. **Interpretation (20 points)**
+   - What are the implications for program design?
+   - Should the hospital treat individuals or whole units?
+
+### Key References
+- Aronow & Samii (2017) - Estimating average causal effects under interference
+- Athey et al. (2018) - Exact p-values for network interference
+
+---
+
+## Option B: Instrumental Variables + ML
+
+### Scenario
+
+A natural experiment provides instrumental variable(s) for studying the effect of specialist care on outcomes. Distance to the nearest specialist hospital serves as an instrument.
+
+### Data
+
+```{r}
+#| label: load-option-b
+#| eval: false
+
+iv_data <- read.csv("data/ps-7-iv.csv")
+```
+
+- `Y`: Health outcome
+- `D`: Received specialist care (endogenous)
+- `Z1`-`Z5`: Candidate instruments (distance, local capacity, etc.)
+- `X1`-`X30`: Covariates
+
+### Tasks (100 points)
+
+1. **Conceptual (20 points)**
+   - Explain LATE interpretation in the IV setting
+   - Why might multiple weak instruments be problematic?
+   - How does regularization help with many instruments?
+
+2. **Implementation (40 points)**
+   - Standard 2SLS with single best instrument
+   - Lasso-IV with all candidate instruments
+   - Compare estimates and standard errors
+
+3. **Diagnostics (20 points)**
+   - First-stage F-statistics
+   - Weak instrument diagnostics
+   - Over-identification tests (if applicable)
+
+4. **Interpretation (20 points)**
+   - Who are the compliers? How generalizable is LATE?
+   - Policy recommendations given the estimates
+
+### Key References
+- Chernozhukov et al. Ch 11-12 - IV with many instruments
+- Belloni et al. (2012) - Sparse models and LATE
+
+---
+
+## Option C: Transportability
+
+### Scenario
+
+The RCT was conducted at St. Null's main campus. Leadership wants to know if effects generalize to their rural affiliate network, which has different patient demographics.
+
+### Data
+
+```{r}
+#| label: load-option-c
+#| eval: false
+
+# RCT data (source population)
+rct_data <- read.csv("data/ps-7-transport-rct.csv")
+
+# Target population survey
+target_data <- read.csv("data/ps-7-transport-target.csv")
+```
+
+RCT has outcomes; target population has covariates only.
+
+### Tasks (100 points)
+
+1. **Conceptual (20 points)**
+   - Define the PATE (population ATE) vs SATE (sample ATE)
+   - Explain the transportability assumptions (S-ignorability)
+   - When might effects not transport? Give examples.
+
+2. **Implementation (40 points)**
+   - Estimate SATE from RCT data
+   - Estimate PATE using inverse probability of selection weighting (IPSW)
+   - Use ML for the selection model
+
+3. **Diagnostics (20 points)**
+   - Compare covariate distributions between source and target
+   - Assess overlap in selection scores
+   - Sensitivity to selection model choice
+
+4. **Interpretation (20 points)**
+   - How different are SATE and PATE?
+   - What covariates drive the difference?
+   - Should the hospital expect similar effects at rural affiliates?
+
+### Key References
+- Dahabreh et al. (2020) - Extending inferences from RCTs
+- Stuart et al. (2018) - Generalizability of randomized trial results
+- Bareinboim & Pearl (2016) - Causal inference and data-fusion
+
+---
+
+## Submission Requirements
+
+Submit to Gradescope by **Finals Week deadline**:
+
+1. Clearly indicate which option (A, B, or C) you completed
+2. Rendered HTML and source .qmd file
+
+---
+
+## Evaluation Criteria
+
+Each option is graded on the same scale:
+
+| Component | Points |
+|-----------|--------|
+| Conceptual | 20 |
+| Implementation | 40 |
+| Diagnostics | 20 |
+| Interpretation | 20 |
+
+**Note:** This PS can replace your lowest-scoring PS 1-6 if the score is higher.

@@ -1,0 +1,247 @@
+---
+title: "Problem Set 1"
+subtitle: "Experimental Design & Power"
+author: "HPM 883: Advanced Quantitative Methods"
+date: "Due: February 9, 2026"
+slug: "ps-1"
+categories: [Problem Set, Experimental Design, Power, MIDA, DeclareDesign]
+description: "Design a cluster-randomized trial using the MIDA framework, optimize allocation under budget constraints, and communicate recommendations to stakeholders."
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-tools: true
+editor: visual
+execute:
+  eval: false
+  echo: true
+---
+
+## Introduction
+
+Welcome to **St. Null's Memorial Hospital**, a large academic medical center serving a diverse patient population across 30 primary care clinics. You have been hired as a biostatistician to design a rigorous evaluation of their new **Integrated Care Coordination Program (ICCP)** — a complex intervention targeting patients with poorly controlled Type 2 diabetes.
+
+### The Situation
+
+Dr. P-Hacker, the hospital's lead analyst, has proposed the following power calculation:
+
+> "We'll randomize 400 patients, assume σ = 1.2 HbA1c points, and with an expected effect of 0.5 points, we should have about 90% power. Easy!"
+
+Nurse Random, the hospital's quality improvement director, is skeptical. She points out that:
+
+1. Randomization will occur at the **clinic level**, not the patient level
+2. Patients within clinics share common exposures (same care team, local demographics)
+3. The budget allows for either **more clinics** or **more patients per clinic** — but not unlimited resources
+
+Your task is to demonstrate why Dr. P-Hacker's naive calculation is wrong, design an optimal trial using the MIDA framework, and present recommendations to hospital leadership.
+
+### Study Parameters
+
+| Parameter | Value |
+|-----------|-------|
+| Available clinics | 30 |
+| Patients per clinic (range) | 10-40 |
+| Baseline HbA1c | Mean = 8.5%, SD = 1.2% |
+| Expected treatment effect | -0.5% (reduction) |
+| Clinically meaningful difference | -0.3% |
+| Budget | $150,000 total |
+| Cost per patient | $500 |
+| Clinic startup cost | $2,000 |
+
+### Data
+
+Load the provided baseline data to inform your design:
+
+```{r}
+#| label: load-data
+#| eval: true
+
+# Load baseline clinic-level data
+clinic_data <- read.csv("data/ps-1-clinic-data.csv")
+```
+
+This dataset contains baseline information from the 30 clinics, including:
+
+- `clinic_id`: Unique clinic identifier
+- `n_eligible`: Number of eligible patients per clinic
+- `mean_hba1c`: Mean baseline HbA1c at clinic
+- `sd_hba1c`: Within-clinic SD of HbA1c
+- `pct_medicare`: Percentage of patients on Medicare
+- `urban`: Urban (1) vs rural (0) location
+
+---
+
+## Task 1: Conceptual Foundation (20 points)
+
+*No code required for this task. Write clear, technical explanations.*
+
+### 1.1 The Design Effect Problem (8 points)
+
+Dr. P-Hacker ignored clustering in the power calculation. Explain:
+
+a) **Define the intraclass correlation coefficient (ICC)** and write the formula for it in terms of between-cluster and within-cluster variance components.
+
+b) **Write the design effect formula** for a cluster-randomized trial. What happens to the effective sample size as ICC increases?
+
+c) If ICC = 0.15 and there are 20 patients per clinic, what is the design effect? How many patients is your clustered sample "worth" in effective sample size terms?
+
+### 1.2 Variance Reduction Strategies (6 points)
+
+d) The **Lin (2013) estimator** is recommended for covariate adjustment in RCTs. Explain *why* including treatment × covariate interactions (after centering) guarantees variance reduction, unlike standard ANCOVA.
+
+e) What is **CUPED** (Controlled Experiments Using Pre-Experiment Data), and under what conditions does it provide the largest variance reduction?
+
+### 1.3 Optimal Allocation (6 points)
+
+f) Given a fixed budget with costs per patient ($c_p$) and per cluster ($c_c$), derive the formula for the **optimal number of individuals per cluster** that minimizes variance. How does this optimal allocation depend on the ICC?
+
+---
+
+## Task 2: Design Declaration and Diagnosis (30 points)
+
+Using the `DeclareDesign` framework, declare and diagnose three experimental designs for the ICCP evaluation.
+
+**Packages:** `DeclareDesign`, `fabricatr`, `randomizr`, `estimatr`
+
+### 2.1 Simple Cluster RCT (10 points)
+
+Declare a complete design (Model-Inquiry-Data-Answer) for a cluster-randomized trial with:
+
+- 20 clinics (10 treatment, 10 control)
+- 20 patients per clinic (400 total)
+- ICC = 0.15
+- Difference-in-means estimator
+
+Diagnose the design with at least 500 simulations. Report:
+- Estimated power
+- Bias
+- RMSE
+- 95% CI coverage
+
+### 2.2 Blocked Cluster RCT (10 points)
+
+Now declare a design that **blocks on clinic characteristics** before randomization:
+
+- Block by urban/rural status
+- Block randomization within strata
+- Include block fixed effects in the estimator
+
+Compare power and RMSE to the simple design. Does blocking help?
+
+### 2.3 Covariate-Adjusted Design (10 points)
+
+Add the **Lin estimator** with baseline HbA1c adjustment:
+
+- Measure baseline HbA1c for each patient (correlated with outcome)
+- Apply Lin's fully-interacted regression adjustment
+- Compare power to unadjusted designs
+
+What is the power gain from covariate adjustment?
+
+---
+
+## Task 3: Design Diagnostics (20 points)
+
+### 3.1 ICC Sensitivity Analysis (10 points)
+
+The true ICC is unknown. Create a **power curve** showing how power varies as ICC ranges from 0.05 to 0.30.
+
+- Hold sample size fixed (400 patients, 20 clinics)
+- Use both unadjusted and Lin-adjusted estimators
+- Create a clear visualization with power on the y-axis, ICC on the x-axis
+- Add a horizontal reference line at 80% power
+
+At what ICC does your design drop below 80% power (without adjustment)? With adjustment?
+
+### 3.2 Sample Size Requirements (10 points)
+
+For your best design (with Lin adjustment), create a **sample size determination plot**:
+
+- Fix ICC = 0.15
+- Vary the number of clinics from 10 to 50
+- Fix 20 patients per clinic
+- Plot power vs. number of clinics
+- Identify the minimum number of clinics needed for 80% power
+
+Repeat holding clinics fixed at 20 and varying patients per clinic from 10 to 50. Which dimension (more clinics vs. more patients per clinic) gives more "bang for your buck" in power?
+
+---
+
+## Task 4: Budget-Constrained Optimization (15 points)
+
+The hospital has a fixed budget of $150,000. Given:
+
+- Cost per patient: $500
+- Clinic startup cost: $2,000
+
+### 4.1 Feasible Designs
+
+Calculate all feasible (cluster, patients/cluster) combinations that satisfy the budget constraint. Present this as a table or heatmap showing which designs are affordable.
+
+### 4.2 Optimal Allocation
+
+Using `DeclareDesign`, diagnose power for a grid of feasible allocations (e.g., 15-25 clinics × 15-25 patients/clinic). Create a contour plot or heatmap of power across the design space.
+
+**What is the optimal allocation that maximizes power under the budget constraint?**
+
+### 4.3 Analytical vs. Simulation Comparison
+
+Compare your simulation-based optimal allocation to the analytical formula from Task 1.3f. Do they agree? Explain any discrepancies.
+
+---
+
+## Task 5: Executive Summary (15 points)
+
+Write a 400-500 word executive summary for St. Null's Hospital leadership (CEO Barnaby Beta and the Board of Directors). Your summary should:
+
+1. **Explain the problem** with Dr. P-Hacker's original calculation (in plain language)
+
+2. **Present your recommended design** with specific numbers:
+   - Number of clinics
+   - Patients per clinic
+   - Total budget
+   - Expected power
+
+3. **Describe key assumptions** and what would change your recommendation
+
+4. **Provide a clear recommendation** with caveats
+
+Use appropriate language for a non-technical audience. Avoid jargon. Focus on decisions and implications, not methods.
+
+---
+
+## Submission Requirements
+
+Submit to Gradescope by **February 9, 2026 at 11:59 PM**:
+
+1. **Rendered HTML** of your completed .qmd file
+2. **Source .qmd file**
+
+Your submission should include:
+
+- All code with `eval: true` so results are visible
+- Clear written answers to conceptual questions
+- Well-formatted tables and visualizations
+- The executive summary as a separate section
+
+---
+
+## Evaluation Criteria
+
+| Component | Points | Criteria |
+|-----------|--------|----------|
+| Task 1: Conceptual | 20 | Accurate technical explanations, correct formulas |
+| Task 2: Implementation | 30 | Correct MIDA declarations, proper use of packages |
+| Task 3: Diagnostics | 20 | Appropriate sensitivity analyses, clear visualizations |
+| Task 4: Optimization | 15 | Correct budget calculations, sound optimization |
+| Task 5: Communication | 15 | Clear, appropriate for audience, actionable |
+
+---
+
+## Hints
+
+- Start with `DeclareDesign`'s [two-arm trial](https://declaredesign.org/r/designlibrary/articles/two_arm.html) and [cluster RCT](https://declaredesign.org/r/designlibrary/articles/cluster_randomized.html) vignettes
+- Use `fabricatr::add_level()` to create hierarchical data
+- Use `randomizr::cluster_ra()` and `randomizr::block_ra()` for randomization
+- The `estimatr::lm_robust()` function with `clusters = ` handles cluster-robust SEs
+- For the Lin estimator, center covariates and include treatment × covariate interactions

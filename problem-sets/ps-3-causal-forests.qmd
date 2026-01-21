@@ -1,0 +1,259 @@
+---
+title: "Problem Set 3"
+subtitle: "Causal Forests & Heterogeneous Treatment Effects"
+author: "HPM 883: Advanced Quantitative Methods"
+date: "Due: March 25, 2026"
+slug: "ps-3"
+categories: [Problem Set, Causal Forests, HTEs, grf, Meta-learners]
+description: "Estimate heterogeneous treatment effects using causal forests and meta-learners, calibrate estimates, and identify who benefits most from treatment."
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-tools: true
+editor: visual
+execute:
+  eval: false
+  echo: true
+---
+
+## Introduction
+
+St. Null's Memorial Hospital piloted a **Patient Engagement App** designed to help patients with chronic conditions better manage their health. The pilot was a randomized trial with 5,000 patients, and while the average effect was positive, hospital leadership suspects that **effects vary substantially across patients**.
+
+### The Situation
+
+Dr. Hetty Geneous, the hospital's newly hired HTE specialist, has been brought in to investigate treatment effect heterogeneity:
+
+> "The average effect of 2.5 quality-adjusted life days is nice, but I bet we have winners and losers. Some patients might benefit enormously while others see no effect—or even harm. We need to understand who benefits most."
+
+CEO Barnaby Beta adds a practical constraint:
+
+> "We can't afford to give the app to everyone. If we can identify who benefits most, we could target our rollout and maximize impact within our budget."
+
+Your task is to estimate Conditional Average Treatment Effects (CATEs) using causal forests and meta-learners, validate your estimates, and provide targeting recommendations.
+
+### Study Parameters
+
+| Parameter | Value |
+|-----------|-------|
+| Sample size | 5,000 patients |
+| Design | Individual-level RCT |
+| Treatment | Patient Engagement App (binary) |
+| Outcome | Quality-adjusted life days (continuous) |
+| Moderators | 20 patient characteristics |
+| True ATE | 2.5 days |
+| True CATE function | Known (for validation) |
+
+### Data
+
+Load the provided RCT data:
+
+```{r}
+#| label: load-data
+#| eval: true
+
+# Load the patient engagement app RCT data
+app_data <- read.csv("data/ps-3-app-rct.csv")
+```
+
+The dataset contains:
+
+- `Y`: Quality-adjusted life days (outcome)
+- `W`: Treatment assignment (1 = received app)
+- `X1`-`X20`: Patient characteristics (potential effect moderators)
+  - `X1`: Age (years)
+  - `X2`: Baseline health score (0-100)
+  - `X3`: Tech literacy (1-5 scale)
+  - `X4`: Social support (1-5 scale)
+  - `X5`: Disease severity (1 = mild, 2 = moderate, 3 = severe)
+  - `X6`-`X20`: Additional characteristics
+
+---
+
+## Task 1: Conceptual Foundation (20 points)
+
+*No code required for this task. Write clear, technical explanations.*
+
+### 1.1 Causal Forests Fundamentals (10 points)
+
+a) **Honest splitting:** Explain what "honest" estimation means in the context of causal forests. Why is honest splitting important, and what problem does it solve compared to standard random forests?
+
+b) **CATE estimation:** The causal forest estimates $\tau(x) = E[Y(1) - Y(0) | X = x]$. Explain the key insight of how causal forests use local weighting to estimate treatment effects at each point, and how this differs from simply running separate regressions in treated and control groups.
+
+c) **Variance estimation:** Causal forests provide uncertainty quantification for CATE estimates. Briefly explain how the forest structure enables variance estimation through the infinitesimal jackknife.
+
+### 1.2 Meta-learners (10 points)
+
+d) **T-learner vs S-learner:** Explain the difference between T-learner and S-learner approaches. Under what conditions might the T-learner outperform the S-learner, and vice versa?
+
+e) **X-learner:** The X-learner uses a two-stage procedure. Describe the two stages and explain why this approach might be preferable when treatment and control groups have very different sizes.
+
+---
+
+## Task 2: Causal Forest Estimation (30 points)
+
+Implement causal forest estimation using the `grf` package.
+
+**Packages:** `grf`, `ggplot2`, `data.table`
+
+### 2.1 Basic Causal Forest (10 points)
+
+Fit a causal forest using `grf::causal_forest()` with:
+
+- All 20 covariates as potential moderators
+- Honest splitting enabled
+- At least 2,000 trees
+- Tuning enabled for key parameters
+
+Report:
+- Estimated ATE (forest average of CATEs)
+- Standard error of ATE
+- 95% confidence interval
+
+Compare the forest-based ATE to a simple difference-in-means estimate.
+
+### 2.2 CATE Distribution (10 points)
+
+Examine the distribution of estimated CATEs:
+
+a) Create a histogram of predicted $\hat{\tau}(X_i)$ values across all individuals.
+
+b) Report the 10th, 25th, 50th, 75th, and 90th percentiles of the CATE distribution.
+
+c) What fraction of individuals have estimated treatment effects below zero? Above 5 days?
+
+### 2.3 Variable Importance (10 points)
+
+Assess which covariates drive treatment effect heterogeneity:
+
+a) Extract and visualize variable importance from the causal forest.
+
+b) Identify the top 5 most important moderators.
+
+c) Create partial dependence plots for the top 2 moderators showing how the estimated CATE varies across their range.
+
+---
+
+## Task 3: Meta-learner Comparison (20 points)
+
+### 3.1 Implement Meta-learners (15 points)
+
+Using `ranger` as the base learner, implement:
+
+a) **T-learner:** Fit separate outcome models for treated and control groups, then compute CATE as the difference.
+
+b) **X-learner:** Implement the two-stage X-learner:
+   - Stage 1: Fit $\hat{\mu}_0(x)$ and $\hat{\mu}_1(x)$
+   - Stage 2: Impute treatment effects, then fit CATE models
+
+For each meta-learner:
+- Compute CATE predictions for all individuals
+- Report the correlation between meta-learner CATEs and causal forest CATEs
+
+### 3.2 Method Agreement (5 points)
+
+Create a scatter plot matrix comparing CATE estimates from:
+- Causal Forest
+- T-learner
+- X-learner
+
+Discuss: Do the methods agree on who benefits most? Where do they disagree most?
+
+---
+
+## Task 4: Validation and Calibration (15 points)
+
+### 4.1 BLP Calibration Test (10 points)
+
+Implement the Best Linear Predictor (BLP) test from Chernozhukov et al. (2020):
+
+Regress the "scores" on the forest predictions:
+$$Y_i - \hat{m}(X_i) = \alpha + \beta_1 \cdot (W_i - \hat{e}(X_i)) + \beta_2 \cdot (W_i - \hat{e}(X_i)) \cdot (\hat{\tau}(X_i) - \bar{\tau}) + \epsilon_i$$
+
+Where:
+- $\hat{m}(X_i)$ is the marginal outcome prediction
+- $\hat{e}(X_i)$ is the propensity score (should be 0.5 in RCT)
+- $\hat{\tau}(X_i)$ is the CATE prediction
+
+Interpret:
+- $\beta_1$: Does the ATE differ from zero?
+- $\beta_2$: Is there detectable heterogeneity in the direction predicted by $\hat{\tau}$?
+
+*Hint: Use `grf::test_calibration()`*
+
+### 4.2 Calibration Plot (5 points)
+
+Create a calibration plot:
+- Bin observations by predicted CATE quintiles
+- For each bin, compute the actual ATE (difference-in-means within bin)
+- Plot predicted vs. actual ATE by bin
+- Add a 45-degree reference line
+
+Is the causal forest well-calibrated?
+
+---
+
+## Task 5: Targeting Recommendations (15 points)
+
+### 5.1 Subgroup Analysis (10 points)
+
+Dr. Hetty Geneous wants treatment effect estimates for three clinically relevant subgroups:
+
+1. **Age groups:** Young (<40), Middle (40-60), Older (>60)
+2. **Disease severity:** Mild, Moderate, Severe
+3. **Tech literacy:** Low (1-2), Medium (3), High (4-5)
+
+For each subgroup:
+- Estimate the subgroup-specific ATE using the causal forest
+- Report point estimates and 95% CIs
+- Create a forest plot comparing subgroup effects
+
+### 5.2 Targeting Strategy (5 points)
+
+Given a budget constraint that allows treatment of only **40% of patients**, recommend a targeting strategy:
+
+a) What CATE threshold would you use to select patients?
+
+b) What is the expected average treatment effect among treated under your targeting strategy?
+
+c) How does this compare to the population ATE if everyone were treated?
+
+Write a brief recommendation (200 words) for CEO Barnaby Beta explaining your targeting approach.
+
+---
+
+## Submission Requirements
+
+Submit to Gradescope by **March 25, 2026 at 11:59 PM**:
+
+1. **Rendered HTML** of your completed .qmd file
+2. **Source .qmd file**
+
+Your submission should include:
+
+- All code with `eval: true` so results are visible
+- Clear written answers to conceptual questions
+- Well-formatted tables and visualizations
+
+---
+
+## Evaluation Criteria
+
+| Component | Points | Criteria |
+|-----------|--------|----------|
+| Task 1: Conceptual | 20 | Accurate explanations of CF and meta-learners |
+| Task 2: Causal Forest | 30 | Correct implementation, distribution analysis |
+| Task 3: Meta-learners | 20 | Correct implementation, method comparison |
+| Task 4: Validation | 15 | Proper calibration testing |
+| Task 5: Targeting | 15 | Sound subgroup analysis and recommendations |
+
+---
+
+## Hints
+
+- Start with `grf`'s [Getting Started](https://grf-labs.github.io/grf/) vignette
+- For meta-learners, use `ranger` with `probability = FALSE` for regression
+- The `test_calibration()` function in `grf` performs the BLP test
+- For the X-learner, remember to weight the final CATE by propensity scores
+- In an RCT with 50-50 randomization, the propensity score is 0.5 for everyone

@@ -1,0 +1,171 @@
+---
+title: "Problem Set 6"
+subtitle: "Causal ML Integration"
+author: "HPM 883: Advanced Quantitative Methods"
+date: "Due: April 20, 2026"
+slug: "ps-6"
+categories: [Problem Set, Integration, Robustness, Communication]
+description: "Design a complete causal ML workflow, compare experimental vs observational estimates, and communicate results to non-technical stakeholders."
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-tools: true
+editor: visual
+execute:
+  eval: false
+  echo: true
+---
+
+## Introduction
+
+This capstone problem set brings together everything you've learned. You're a consultant preparing a comprehensive causal analysis report for St. Null's Board of Directors.
+
+### The Situation
+
+St. Null's has collected **two sources of data** on the Patient Engagement App:
+
+1. **Experimental data:** The pilot RCT (N = 5,000) from PS 3
+2. **Observational data:** Administrative claims data (N = 50,000) from a broader rollout
+
+CEO Barnaby Beta wants a definitive answer:
+
+> "Does this app work? For whom? And should we invest in a system-wide rollout? The board meeting is next week. I need answers with appropriate caveats."
+
+### Data
+
+```{r}
+#| label: load-data
+#| eval: true
+
+# Experimental data (RCT)
+rct_data <- read.csv("data/ps-6-rct.csv")
+
+# Observational data (admin claims)
+obs_data <- read.csv("data/ps-6-observational.csv")
+```
+
+Both datasets have the same covariates (X1-X20), treatment (W), and outcome (Y).
+
+---
+
+## Task 1: Conceptual Foundation (15 points)
+
+### 1.1 Experimental vs. Observational (10 points)
+
+a) **When to trust experiments:** Under what conditions should we prefer the experimental estimate, even if the observational sample is larger?
+
+b) **When might they disagree:** List three reasons why experimental and observational estimates of the same intervention might differ.
+
+### 1.2 Reconciliation (5 points)
+
+c) If the estimates disagree substantially, what investigation strategies would you pursue to understand why?
+
+---
+
+## Task 2: Complete Analysis Pipeline (35 points)
+
+Apply the full causal ML workflow to BOTH datasets.
+
+### 2.1 Experimental Analysis (15 points)
+
+Using the RCT data:
+- DML estimate of ATE
+- Causal forest for CATE estimation
+- Policy tree for targeting
+
+Report point estimates, CIs, and key heterogeneity findings.
+
+### 2.2 Observational Analysis (15 points)
+
+Using the observational data:
+- DML with propensity adjustment
+- Causal forest (with propensity weighting)
+- Policy tree
+
+Report point estimates, CIs, and key heterogeneity findings.
+
+### 2.3 Comparison (5 points)
+
+Create a side-by-side comparison table:
+
+| Quantity | RCT Estimate | Observational Estimate | Difference |
+|----------|--------------|----------------------|------------|
+| ATE | | | |
+| CATE SD | | | |
+| Top moderator | | | |
+
+Discuss agreement or disagreement.
+
+---
+
+## Task 3: Robustness Analysis (25 points)
+
+### 3.1 Specification Table (15 points)
+
+Create a robustness table with at least **6 specifications**:
+
+1. DML-Lasso (baseline)
+2. DML-Random Forest
+3. DML-XGBoost
+4. Different covariate sets
+5. Trimmed sample (propensity overlap)
+6. Different outcome transformation
+
+Report ATE for each specification. Are results robust?
+
+### 3.2 Sensitivity Analysis (10 points)
+
+Using the observational estimates:
+- Calculate E-values
+- Discuss plausibility of confounders that could explain away the effect
+
+---
+
+## Task 4: Executive Summary (25 points)
+
+Write a **1-page (500-word maximum) executive summary** for the St. Null's Board. Include:
+
+1. **The question:** What are we trying to learn?
+
+2. **The answer:** What is our best estimate of the treatment effect? Who benefits most?
+
+3. **Confidence:** How robust is this conclusion?
+   - Do experimental and observational analyses agree?
+   - What is the range of plausible estimates across methods?
+
+4. **Recommendation:** Should St. Null's expand the program?
+
+5. **What could change this recommendation:** What information would cause you to revise?
+
+**Format requirements:**
+- No technical jargon (explain any necessary terms)
+- Include one simple visualization
+- Focus on decisions, not methods
+
+---
+
+## Submission Requirements
+
+Submit to Gradescope by **April 20, 2026 at 11:59 PM**:
+- Rendered HTML and source .qmd file
+
+---
+
+## Evaluation Criteria
+
+| Component | Points |
+|-----------|--------|
+| Task 1: Conceptual | 15 |
+| Task 2: Analysis Pipeline | 35 |
+| Task 3: Robustness | 25 |
+| Task 4: Executive Summary | 25 |
+
+---
+
+## Hints
+
+- The `targets` package can help organize complex workflows
+- For the executive summary, imagine you're presenting to someone who has never taken a statistics class
+- A good robustness table shows stability, not perfection
+- If experimental and observational estimates disagree, this is interesting and worth exploring (not a failure)

@@ -1,0 +1,194 @@
+---
+title: "Problem Set 4"
+subtitle: "Policy Learning"
+author: "HPM 883: Advanced Quantitative Methods"
+date: "Due: April 8, 2026"
+slug: "ps-4"
+categories: [Problem Set, Policy Learning, Policy Trees, OPE]
+description: "Learn optimal treatment policies from CATE estimates, conduct off-policy evaluation, and optimize resource allocation under budget constraints."
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-tools: true
+editor: visual
+execute:
+  eval: false
+  echo: true
+---
+
+## Introduction
+
+Building on PS 3, St. Null's Memorial Hospital now needs to make a **resource allocation decision**. CEO Barnaby Beta has approved a scaled rollout of the Patient Engagement App, but with constraints:
+
+> "We can only afford to provide the app to 40% of patients. I want maximum 'bang for buck.' Who should get it?"
+
+**Policy Pete**, the hospital's new decision scientist, has been brought in to design an optimal targeting policy.
+
+### The Setup
+
+You will use CATE estimates from PS 3 (or re-estimate them) to:
+1. Learn an interpretable policy tree
+2. Conduct off-policy evaluation
+3. Compare policies under different budget constraints
+
+### Data
+
+Use the same data from PS 3, with CATE estimates included:
+
+```{r}
+#| label: load-data
+#| eval: true
+
+# Load PS 3 data with CATE estimates
+app_data <- read.csv("data/ps-4-policy-data.csv")
+```
+
+The dataset contains the original RCT data plus:
+- `tau_hat`: CATE estimates from a causal forest
+- `Y`, `W`, `X1`-`X20`: Same as PS 3
+
+---
+
+## Task 1: Conceptual Foundation (20 points)
+
+### 1.1 From CATEs to Policies (10 points)
+
+a) **Optimal policy:** Define the optimal treatment policy $\pi^*(x)$ in terms of the CATE $\tau(x)$. Under what condition should we treat an individual?
+
+b) **Regret:** Define the policy regret $R(\pi)$. Why might minimizing regret be preferable to maximizing value?
+
+c) **Budget constraints:** How does the optimal policy change when we can only treat a fraction $\alpha$ of the population? What additional information do we need?
+
+### 1.2 Policy Trees (10 points)
+
+d) **Interpretability vs. optimality:** Policy trees sacrifice some optimality for interpretability. Explain why a hospital administrator might prefer a depth-2 policy tree over a complex "treat if CATE > 0" rule.
+
+e) **Doubly-robust policy learning:** The `policytree` package uses doubly-robust scores. Explain why this is important for valid policy learning from observational or experimental data.
+
+---
+
+## Task 2: Policy Tree Learning (30 points)
+
+**Packages:** `policytree`, `grf`, `ggplot2`
+
+### 2.1 Learn Policy Trees (15 points)
+
+Using `policytree`, learn optimal policy trees with:
+
+a) **Depth-2 tree:** Learn a depth-2 policy tree using the doubly-robust scores from a causal forest.
+
+b) **Depth-3 tree:** Learn a depth-3 policy tree.
+
+For each tree:
+- Visualize the tree structure
+- Report which covariates are used for splitting
+- Calculate the fraction of population recommended for treatment
+
+### 2.2 Policy Comparison (15 points)
+
+Compare four policies:
+1. **Treat All:** Give app to everyone ($\pi(x) = 1$)
+2. **Treat None:** Give app to no one ($\pi(x) = 0$)
+3. **CATE > 0:** Treat if $\hat{\tau}(x) > 0$
+4. **Policy Tree (Depth-2):** Learned policy
+
+For each policy:
+- Calculate the expected value using doubly-robust estimation
+- Report 95% confidence intervals
+- Create a bar chart comparing policy values
+
+---
+
+## Task 3: Off-Policy Evaluation (20 points)
+
+### 3.1 Doubly-Robust Evaluation (10 points)
+
+Implement the doubly-robust (DR) policy value estimator:
+
+$$\hat{V}_{DR}(\pi) = \frac{1}{n}\sum_{i=1}^{n} \left[ \hat{\mu}_{\pi(X_i)}(X_i) + \frac{\mathbb{1}(W_i = \pi(X_i))}{\hat{e}_{\pi(X_i)}(X_i)} (Y_i - \hat{\mu}_{\pi(X_i)}(X_i)) \right]$$
+
+Evaluate the depth-2 policy tree using:
+- Direct method (plug-in)
+- IPW method
+- Doubly-robust method
+
+Compare the three estimates. Which is most reliable and why?
+
+### 3.2 Policy Value Curve (10 points)
+
+Create a **policy value curve** showing expected value as the treatment budget varies:
+
+- X-axis: Fraction treated (0% to 100%)
+- Y-axis: Expected policy value
+- Compare: Random selection vs. CATE-based targeting
+
+At what budget level do you achieve 90% of the maximum possible value?
+
+---
+
+## Task 4: Budget-Constrained Optimization (15 points)
+
+### 4.1 Threshold Selection (10 points)
+
+Given a budget to treat 40% of patients:
+
+a) Find the CATE threshold $c$ such that exactly 40% of patients have $\hat{\tau}(x) > c$.
+
+b) Characterize the selected patients: What are their average characteristics (age, health score, tech literacy)?
+
+c) What is the expected average treatment effect among the selected patients?
+
+### 4.2 Sensitivity Analysis (5 points)
+
+How sensitive is the optimal policy to:
+- Budget constraints (30%, 40%, 50%)?
+- Uncertainty in CATE estimates?
+
+Create a table showing expected policy value at different budget levels.
+
+---
+
+## Task 5: Executive Recommendation (15 points)
+
+Write a 400-word recommendation to CEO Barnaby Beta that includes:
+
+1. **The recommended policy:** Who should receive the app? (Provide simple, actionable criteria)
+
+2. **Expected impact:** What is the expected benefit compared to:
+   - Treating everyone
+   - Random selection at the same budget
+
+3. **Implementation guidance:** How would staff identify eligible patients?
+
+4. **Caveats:** What assumptions underlie this recommendation? What could go wrong?
+
+Use language appropriate for a hospital executive. Avoid technical jargon.
+
+---
+
+## Submission Requirements
+
+Submit to Gradescope by **April 8, 2026 at 11:59 PM**:
+- Rendered HTML and source .qmd file
+
+---
+
+## Evaluation Criteria
+
+| Component | Points |
+|-----------|--------|
+| Task 1: Conceptual | 20 |
+| Task 2: Policy Trees | 30 |
+| Task 3: OPE | 20 |
+| Task 4: Budget Optimization | 15 |
+| Task 5: Recommendation | 15 |
+
+---
+
+## Hints
+
+- Use `grf::causal_forest()` to get doubly-robust scores via `get_scores()`
+- `policytree::policy_tree()` learns optimal trees from scores
+- For OPE, remember the propensity is 0.5 in this RCT
+- The value of treating everyone is just the ATE
