@@ -17,6 +17,14 @@ execute:
 ---
 
 ::: {.callout-important}
+## Accept the Assignment
+
+**[Click here to accept Lab 1 on GitHub Classroom](https://classroom.github.com/a/TZ3rVxcj)**
+
+This will create your personal repository for this lab.
+:::
+
+::: {.callout-important}
 ## Remote Lab — January 26, 2026
 This lab is designed to be completed **asynchronously**. Work through the exercises at your own pace. Office hours and Slack support are available if you get stuck.
 
