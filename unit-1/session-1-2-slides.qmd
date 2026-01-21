@@ -1,0 +1,723 @@
+---
+title: "Session 1.2: Statistical Conclusion Validity & Power"
+subtitle: "HPM 883: Advanced Quantitative Methods"
+author: "Sean Sylvia"
+date: "January 21, 2026"
+date-format: long
+format:
+  revealjs:
+    theme: [default, ../style/gillings.scss]
+    slide-number: true
+    transition: fade
+    progress: true
+    chalkboard: true
+    smaller: true
+    scrollable: true
+    logo: ../images/logo.png
+    footer: "HPM 883 | Session 1.2"
+    toc: true
+    toc-depth: 1
+    preview-links: auto
+    incremental: false
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r setup}
+#| include: false
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(DeclareDesign)
+library(estimatr)
+set.seed(883)
+```
+
+# Introduction
+
+## From Session 1.1: What We Learned
+
+::: {.callout-note}
+## Randomization Solves the Identification Problem
+Under randomization: $\mathbb{E}[Y|D=1] - \mathbb{E}[Y|D=0] = \text{ATE}$
+
+We can identify the causal effect without selection bias.
+:::
+
+. . .
+
+**But identification isn't everything...**
+
+::: {.fragment}
+- Can we **detect** the effect if it exists?
+- How **precise** will our estimate be?
+- What **sample size** do we need?
+:::
+
+## Two Types of Validity
+
+::: {.columns}
+::: {.column width="50%"}
+### Internal Validity
+**Is the estimate unbiased?**
+
+- Does $\mathbb{E}[\hat{\tau}] = \tau$?
+- Randomization ensures this
+- Session 1.1 focused here
+:::
+
+::: {.column width="50%"}
+### Statistical Conclusion Validity
+**Can we reliably detect effects?**
+
+- Will we reject $H_0$ when effect exists?
+- Depends on power, sample size, variance
+- Today's focus
+:::
+:::
+
+. . .
+
+::: {.callout-tip}
+## The Goal
+An experiment with **both**: unbiased estimation (internal validity) AND adequate precision (statistical conclusion validity).
+:::
+
+## Session Roadmap
+
+| Section | Topic | Time |
+|---------|-------|------|
+| 1 | Type I & Type II Errors | 10 min |
+| 2 | Power Analysis | 20 min |
+| 3 | Power by Simulation | 20 min |
+| 4 | Variance Reduction | 15 min |
+| 5 | Clustering & Multiple Testing | 10 min |
+
+# Type I and Type II Errors
+
+## The Hypothesis Testing Framework
+
+::: {.callout-note}
+## Setup
+- **Null hypothesis:** $H_0: \tau = 0$ (no treatment effect)
+- **Alternative:** $H_1: \tau \neq 0$ (effect exists)
+- **Decision rule:** Reject $H_0$ if p-value $< \alpha$
+:::
+
+. . .
+
+**Two ways to be wrong:**
+
+| Truth | Reject $H_0$ | Fail to Reject $H_0$ |
+|-------|--------------|----------------------|
+| $H_0$ true (no effect) | **Type I Error** ($\alpha$) | Correct |
+| $H_1$ true (effect exists) | Correct | **Type II Error** ($\beta$) |
+
+## Visualizing the Errors
+
+```{r error-viz}
+#| fig-height: 4
+#| fig-width: 10
+#| echo: false
+
+# Simulate distributions under H0 and H1
+n <- 200
+se <- 0.15
+true_effect <- 0.5
+
+x <- seq(-0.6, 1.2, length.out = 1000)
+h0_dist <- dnorm(x, mean = 0, sd = se)
+h1_dist <- dnorm(x, mean = true_effect, sd = se)
+
+# Critical value
+alpha <- 0.05
+crit <- qnorm(1 - alpha/2, mean = 0, sd = se)
+
+df <- tibble(x = x, H0 = h0_dist, H1 = h1_dist) %>%
+  pivot_longer(-x, names_to = "hypothesis", values_to = "density")
+
+ggplot() +
+  # H0 distribution
+  geom_area(data = filter(df, hypothesis == "H0" & x > crit),
+            aes(x = x, y = density), fill = "red", alpha = 0.4) +
+  geom_line(data = filter(df, hypothesis == "H0"),
+            aes(x = x, y = density), color = "darkblue", linewidth = 1) +
+  # H1 distribution
+  geom_area(data = filter(df, hypothesis == "H1" & x < crit),
+            aes(x = x, y = density), fill = "orange", alpha = 0.4) +
+  geom_line(data = filter(df, hypothesis == "H1"),
+            aes(x = x, y = density), color = "darkgreen", linewidth = 1) +
+  # Critical value
+  geom_vline(xintercept = crit, linetype = "dashed", color = "black") +
+  annotate("text", x = 0, y = max(h0_dist) * 1.1, label = "H₀: τ = 0", color = "darkblue") +
+  annotate("text", x = true_effect, y = max(h1_dist) * 1.1, label = "H₁: τ = 0.5", color = "darkgreen") +
+  annotate("text", x = crit + 0.08, y = 0.5, label = "α (Type I)", color = "red") +
+  annotate("text", x = crit - 0.15, y = 0.5, label = "β (Type II)", color = "orange") +
+  labs(x = "Estimated Effect", y = "Density",
+       title = "Type I and Type II Error Regions") +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "none")
+```
+
+## Power: The Probability of Detection
+
+::: {.callout-important}
+## Definition
+**Power** = $1 - \beta$ = P(reject $H_0$ | $H_1$ is true)
+
+The probability of detecting an effect **when it exists**.
+:::
+
+. . .
+
+**Conventional targets:**
+
+| Field | Minimum Power |
+|-------|---------------|
+| Medical trials | 80% (often 90%) |
+| Social science | 80% |
+| Psychology replication | 95%+ recommended |
+
+. . .
+
+::: {.callout-warning}
+## Underpowered Studies
+- High false negative rate
+- Estimates conditional on significance are biased upward
+- Wastes resources, unethical if treatment could help
+:::
+
+## What Determines Power?
+
+Power increases with:
+
+::: {.incremental}
+1. **Larger effect size** ($\tau$) — easier to detect big effects
+2. **Larger sample size** ($n$) — reduces sampling variance
+3. **Lower outcome variance** ($\sigma^2$) — cleaner signal
+4. **Higher significance level** ($\alpha$) — accept more Type I risk
+5. **One-sided test** — (but usually inappropriate)
+:::
+
+. . .
+
+::: {.callout-note}
+## The Key Tradeoff
+We control $n$, $\alpha$, and design (which affects variance).
+
+Effect size is determined by nature. Sample size is limited by budget.
+:::
+
+# Power Analysis
+
+## The Variance of the Treatment Effect Estimator
+
+For a simple RCT with difference-in-means:
+
+$$\hat{\tau} = \bar{Y}_1 - \bar{Y}_0$$
+
+. . .
+
+**Variance under randomization:**
+
+$$\text{Var}(\hat{\tau}) = \frac{\sigma_1^2}{n_1} + \frac{\sigma_0^2}{n_0}$$
+
+where:
+
+- $\sigma_1^2$ = variance of $Y(1)$
+- $\sigma_0^2$ = variance of $Y(0)$
+- $n_1, n_0$ = sample sizes in each arm
+
+## Simplifying with Equal Allocation
+
+If $n_1 = n_0 = n/2$ and $\sigma_1^2 = \sigma_0^2 = \sigma^2$:
+
+$$\text{Var}(\hat{\tau}) = \frac{2\sigma^2}{n/2} = \frac{4\sigma^2}{n}$$
+
+. . .
+
+**Standard error:**
+
+$$\text{SE}(\hat{\tau}) = \sigma\sqrt{\frac{4}{n}} = \frac{2\sigma}{\sqrt{n}}$$
+
+. . .
+
+::: {.callout-tip}
+## Key Insight
+Standard error decreases with $\sqrt{n}$, not $n$.
+
+To halve SE, you need 4× the sample size!
+:::
+
+## Deriving the Power Formula
+
+**Reject $H_0$ when:** $|\hat{\tau}|/\text{SE} > z_{1-\alpha/2}$
+
+. . .
+
+**Under $H_1$** (true effect = $\tau$):
+
+$$\frac{\hat{\tau}}{\text{SE}} \sim N\left(\frac{\tau}{\text{SE}}, 1\right)$$
+
+. . .
+
+**Power:**
+
+$$\text{Power} = \Phi\left(\frac{\tau}{\text{SE}} - z_{1-\alpha/2}\right) + \Phi\left(-\frac{\tau}{\text{SE}} - z_{1-\alpha/2}\right)$$
+
+For practical purposes (one-sided approximation):
+
+$$\text{Power} \approx \Phi\left(\frac{\tau}{\text{SE}} - z_{1-\alpha/2}\right)$$
+
+## Minimum Detectable Effect (MDE)
+
+::: {.callout-important}
+## Definition
+**MDE** = smallest effect detectable with power $1-\beta$ at significance $\alpha$
+:::
+
+. . .
+
+**Formula:**
+
+$$\text{MDE} = (z_{1-\alpha/2} + z_{1-\beta}) \times \text{SE}$$
+
+For a two-arm RCT with equal allocation:
+
+$$\text{MDE} = (z_{1-\alpha/2} + z_{1-\beta}) \times \sigma\sqrt{\frac{4}{n}}$$
+
+. . .
+
+**With $\alpha = 0.05$, power = 80%:**
+
+$$\text{MDE} \approx 2.8 \times \sigma\sqrt{\frac{4}{n}} = \frac{5.6\sigma}{\sqrt{n}}$$
+
+## MDE Calculator
+
+```{r mde-calc}
+#| echo: true
+calculate_mde <- function(n, sigma, alpha = 0.05, power = 0.80) {
+  z_alpha <- qnorm(1 - alpha/2)
+  z_beta <- qnorm(power)
+  se <- sigma * sqrt(4/n)
+  mde <- (z_alpha + z_beta) * se
+  return(mde)
+}
+
+# Example: HbA1c study
+sigma <- 1.2  # SD of HbA1c
+n_total <- 400
+
+mde <- calculate_mde(n = n_total, sigma = sigma)
+cat("With N =", n_total, "and SD =", sigma, "\n")
+cat("MDE =", round(mde, 3), "% HbA1c\n")
+```
+
+## Power Curve: Sample Size vs Power
+
+```{r power-curve}
+#| fig-height: 4
+#| fig-width: 9
+#| echo: false
+
+# Calculate power for different sample sizes
+power_data <- tibble(
+  n = seq(50, 600, by = 25)
+) %>%
+  mutate(
+    se = 1.2 * sqrt(4/n),
+    power = pnorm(0.5/se - qnorm(0.975))  # effect = 0.5
+  )
+
+ggplot(power_data, aes(x = n, y = power)) +
+  geom_line(linewidth = 1.2, color = "#4a90a4") +
+  geom_hline(yintercept = 0.80, linetype = "dashed", color = "red") +
+  geom_point(data = filter(power_data, abs(power - 0.8) == min(abs(power - 0.8))),
+             size = 4, color = "red") +
+  annotate("text", x = 500, y = 0.82, label = "80% Power", color = "red") +
+  labs(
+    x = "Total Sample Size",
+    y = "Statistical Power",
+    title = "Power by Sample Size",
+    subtitle = "Effect = 0.5, SD = 1.2, α = 0.05"
+  ) +
+  theme_minimal(base_size = 14) +
+  scale_y_continuous(limits = c(0, 1), labels = scales::percent)
+```
+
+# Power by Simulation
+
+## Why Simulate?
+
+Analytical formulas work for simple designs, but...
+
+::: {.incremental}
+- **Blocking** changes the variance formula
+- **Clustering** introduces ICC
+- **Covariate adjustment** reduces variance (but by how much?)
+- **Complex estimands** (LATE, ATT) have different variances
+- **Nonlinear models** (logistic) don't have clean formulas
+:::
+
+. . .
+
+::: {.callout-tip}
+## The Solution
+**Simulate your experiment many times** and see how often you reject $H_0$.
+
+Power = proportion of simulations where you reject.
+:::
+
+## Introduction to DeclareDesign
+
+::: {.callout-note}
+## The MIDA Framework
+**M**odel → **I**nquiry → **D**ata Strategy → **A**nswer Strategy
+
+A complete research design declaration.
+:::
+
+```{r dd-intro}
+#| echo: true
+#| eval: false
+library(DeclareDesign)
+
+# 1. Model: How does the world work?
+model <- declare_model(...)
+
+# 2. Inquiry: What do we want to know?
+inquiry <- declare_inquiry(...)
+
+# 3. Data: How do we collect data?
+data_strategy <- declare_assignment(...) + declare_measurement(...)
+
+# 4. Answer: How do we estimate?
+answer <- declare_estimator(...)
+
+# Combine into a design
+design <- model + inquiry + data_strategy + answer
+```
+
+## Building a Design Step-by-Step
+
+```{r dd-design}
+#| echo: true
+# Parameters
+N <- 400
+effect <- -0.5
+sigma <- 1.2
+
+# Model: Potential outcomes
+model <- declare_model(
+  N = N,
+  U = rnorm(N, 0, sigma),
+  Y_Z_0 = 8.5 + U,
+  Y_Z_1 = 8.5 + effect + U
+)
+
+# Inquiry: ATE
+inquiry <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
+
+# Data: Random assignment and measurement
+assignment <- declare_assignment(Z = complete_ra(N, prob = 0.5))
+measurement <- declare_measurement(Y = reveal_outcomes(Y ~ Z))
+
+# Answer: Difference-in-means
+estimator <- declare_estimator(Y ~ Z, inquiry = "ATE",
+                                .method = lm_robust, label = "DIM")
+
+# Combine
+design <- model + inquiry + assignment + measurement + estimator
+```
+
+## Diagnosing the Design
+
+```{r dd-diagnose}
+#| echo: true
+#| cache: true
+# Run 500 simulations
+diagnosis <- diagnose_design(design, sims = 500)
+
+# Key diagnosands
+diagnosis$diagnosands_df %>%
+  select(estimator, bias, sd_estimate, power, coverage) %>%
+  kable(digits = 3)
+```
+
+. . .
+
+::: {.callout-note}
+## Interpretation
+- **Bias ≈ 0**: Difference-in-means is unbiased ✓
+- **Power**: Probability of rejecting $H_0$ when effect exists
+- **Coverage ≈ 0.95**: CI contains true value 95% of the time ✓
+:::
+
+## Comparing Designs: Blocked vs Simple
+
+```{r dd-blocked}
+#| echo: true
+#| cache: true
+# Add clinic blocking variable
+model_blocked <- declare_model(
+  N = N,
+  clinic = sample(1:20, N, replace = TRUE),
+  clinic_effect = rnorm(20, 0, 0.4)[clinic],
+  U = rnorm(N, 0, 1.0),
+  Y_Z_0 = 8.5 + clinic_effect + U,
+  Y_Z_1 = 8.5 + effect + clinic_effect + U
+)
+
+# Blocked assignment
+assign_blocked <- declare_assignment(Z = block_ra(blocks = clinic))
+
+# Estimator with clinic fixed effects
+est_blocked <- declare_estimator(Y ~ Z + factor(clinic), inquiry = "ATE",
+                                  term = "Z", .method = lm_robust,
+                                  label = "Blocked + FE")
+
+design_blocked <- model_blocked + inquiry + assign_blocked + measurement + est_blocked
+design_simple <- model_blocked + inquiry + assignment + measurement + estimator
+
+comparison <- diagnose_designs(
+  list(Simple = design_simple, Blocked = design_blocked), sims = 500
+)
+```
+
+## Comparison Results
+
+```{r dd-compare-results}
+#| echo: false
+comparison$diagnosands_df %>%
+  select(design, estimator, sd_estimate, power, coverage) %>%
+  kable(digits = 3, caption = "Simple vs Blocked Randomization")
+```
+
+. . .
+
+::: {.callout-tip}
+## Why Blocking Helps
+Blocking removes between-clinic variance from the error term.
+
+Lower variance → smaller SE → more power!
+:::
+
+# Variance Reduction
+
+## Lin (2013): Proper Covariate Adjustment
+
+::: {.callout-important}
+## The Problem
+Freedman (2008) showed that ANCOVA can be biased in finite samples.
+
+Lin (2013) provided the fix.
+:::
+
+. . .
+
+**Lin's Recommendation:**
+
+1. **Center** covariates at their sample means
+2. **Include** covariate × treatment interactions
+3. **Use HC2** robust standard errors
+
+$$Y_i = \alpha + \tau Z_i + \beta (X_i - \bar{X}) + \gamma Z_i(X_i - \bar{X}) + \varepsilon_i$$
+
+## Why Lin Adjustment Works
+
+```{r lin-demo}
+#| echo: true
+# Design with baseline covariate
+model_cov <- declare_model(
+  N = 400,
+  X = rnorm(N, 8.5, 0.5),  # Baseline HbA1c
+  U = 0.7 * (X - 8.5) + rnorm(N, 0, 0.8),  # Correlated error
+  Y_Z_0 = 8.5 + U,
+  Y_Z_1 = 8.5 + effect + U
+)
+
+# Unadjusted
+est_unadj <- declare_estimator(Y ~ Z, inquiry = "ATE",
+                                .method = lm_robust, label = "Unadjusted")
+
+# Lin-adjusted
+est_lin <- declare_estimator(Y ~ Z * I(X - mean(X)), inquiry = "ATE",
+                              term = "Z", .method = lm_robust, label = "Lin")
+
+design_unadj <- model_cov + inquiry + assignment + measurement + est_unadj
+design_lin <- model_cov + inquiry + assignment + measurement + est_lin
+```
+
+## Lin Adjustment Results
+
+```{r lin-results}
+#| echo: false
+#| cache: true
+lin_comparison <- diagnose_designs(
+  list(Unadjusted = design_unadj, Lin = design_lin), sims = 500
+)
+
+lin_comparison$diagnosands_df %>%
+  select(design, bias, sd_estimate, power, coverage) %>%
+  kable(digits = 3, caption = "Effect of Lin Adjustment")
+```
+
+. . .
+
+::: {.callout-note}
+## Key Takeaway
+Lin adjustment **never hurts** (asymptotically) and often substantially increases power.
+
+**Always pre-register your adjustment strategy!**
+:::
+
+# Clustering and Multiple Testing (Preview)
+
+## Cluster Randomization: The Problem
+
+::: {.callout-warning}
+## When Units Aren't Independent
+- Randomize clinics, not patients
+- Students within classrooms
+- Villages in development RCTs
+:::
+
+. . .
+
+**Effective sample size:**
+
+$$n_{\text{eff}} = \frac{n}{1 + (m-1)\rho}$$
+
+where:
+
+- $n$ = total observations
+- $m$ = cluster size
+- $\rho$ = intra-cluster correlation (ICC)
+
+## Design Effect
+
+::: {.callout-important}
+## Design Effect (DEFF)
+$$\text{DEFF} = 1 + (m - 1) \times \rho$$
+
+Multiplier on required sample size due to clustering.
+:::
+
+. . .
+
+**Example:**
+
+- 20 clinics, 20 patients each ($n = 400$, $m = 20$)
+- ICC = 0.05
+
+$$\text{DEFF} = 1 + (20-1)(0.05) = 1.95$$
+
+Effective $n \approx 205$, not 400!
+
+. . .
+
+::: {.callout-tip}
+**We'll cover clustering in depth in Session 1.3.**
+:::
+
+## Multiple Testing: A Brief Preview
+
+::: {.columns}
+::: {.column width="50%"}
+**Family-wise Error Rate (FWER)**
+
+P(at least one false positive)
+
+Bonferroni: $\alpha_{\text{adj}} = \alpha / k$
+:::
+
+::: {.column width="50%"}
+**False Discovery Rate (FDR)**
+
+Expected proportion of false positives
+
+Benjamini-Hochberg: control FDR at $q$
+:::
+:::
+
+. . .
+
+::: {.callout-note}
+## Best Practice
+**Pre-specify a single primary outcome** in your analysis plan.
+
+Secondary outcomes should be explicitly labeled as exploratory.
+:::
+
+# Wrap-Up
+
+## Key Takeaways
+
+::: {.incremental}
+1. **Statistical conclusion validity** asks: can we detect effects with adequate precision?
+2. **Power** = P(reject $H_0$ | effect exists) — aim for ≥ 80%
+3. **MDE formula**: $(z_\alpha + z_\beta) \times \text{SE}$
+4. **Power by simulation** handles complex designs DeclareDesign can't solve analytically
+5. **Lin adjustment** reduces variance without introducing bias
+6. **Clustering** reduces effective sample size — account for it!
+:::
+
+## For the Remote Lab (Monday)
+
+::: {.callout-note}
+## Lab 1: Power Analysis with DeclareDesign
+You will:
+
+1. Declare a complete experimental design (MIDA)
+2. Diagnose power across sample sizes
+3. Compare simple vs blocked randomization
+4. Calculate MDEs
+5. Design a smoking cessation trial
+
+**Submit by Feb 2** via Gradescope.
+:::
+
+## Questions?
+
+::: {.callout-note appearance="minimal"}
+**Office Hours:** Tuesdays 2-3pm or by appointment
+
+**Slack:** #hpm883-questions
+
+**Readings for Session 1.3:** Duflo et al. (2007), Bruhn & McKenzie (2009)
+:::
+
+# Appendix {visibility="uncounted"}
+
+## References {visibility="uncounted"}
+
+- Chernozhukov et al. (2025). Chapter 2: Causal Inference via Randomized Experiments.
+- Lin, W. (2013). Agnostic notes on regression adjustments. *Statistics, Politics, and Policy*.
+- Blair et al. (2019). Declaring and Diagnosing Research Designs. *APSR*.
+- Freedman, D. (2008). On regression adjustments in experiments. *Annals of Applied Statistics*.
+
+## Power Formula Derivation {visibility="uncounted"}
+
+Under $H_0: \tau = 0$:
+$$T = \frac{\hat{\tau}}{\text{SE}} \sim N(0, 1)$$
+
+Under $H_1: \tau = \tau^*$:
+$$T = \frac{\hat{\tau}}{\text{SE}} \sim N\left(\frac{\tau^*}{\text{SE}}, 1\right)$$
+
+Power = P(|T| > $z_{1-\alpha/2}$ | $H_1$)
+
+$$= \Phi\left(\frac{\tau^*}{\text{SE}} - z_{1-\alpha/2}\right) + \Phi\left(-\frac{\tau^*}{\text{SE}} - z_{1-\alpha/2}\right)$$
+
+## Sample Size Formula {visibility="uncounted"}
+
+Rearranging the MDE formula to solve for $n$:
+
+$$n = \frac{4\sigma^2(z_{1-\alpha/2} + z_{1-\beta})^2}{\text{MDE}^2}$$
+
+**Example:** To detect MDE = 0.5 with $\sigma = 1.2$:
+
+$$n = \frac{4(1.2)^2(1.96 + 0.84)^2}{(0.5)^2} = \frac{4 \times 1.44 \times 7.84}{0.25} \approx 181$$
+
+(Per arm, so $N \approx 362$ total)

@@ -50,7 +50,7 @@ subtitle: "HPM 883 Spring 2026"
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
 | 6 | Mon Jan 26 | Lab 1: Experimental Design & Power (Session 1.2) | [Remote](https://zoom.us/j/93346316978) |
-| 7 | Wed Jan 28 | Optimal Experimental Design & MIDA (Session 1.3) | In-Person |
+| 7 | Wed Jan 28 | Optimal Experimental Design & MIDA + **Jigsaw 1** (Session 1.3) | In-Person |
 
 **Session 6 (Remote Lab):** Asynchronous lab applying MIDA framework and DeclareDesign. Covers power analysis by simulation, blocking vs. simple randomization, MDE calculations, and Lin (2013) regression adjustment. No in-person class — use this time for the lab.
 
@@ -58,7 +58,17 @@ subtitle: "HPM 883 Spring 2026"
 
 **Lab 1 due:** February 2, 2026
 
-**Jigsaw Session 0 (End of Unit 1):** Experimental Design Applications — Expert groups analyze RCT design papers
+::: {.callout-important}
+## Jigsaw 1: Experimental Design (Jan 28)
+
+Your paper and group assignments are now posted:
+
+- **[View Your Paper Assignment](jigsaw/groups/jigsaw-1-groups.qmd)** — Find your expert group and teaching group
+- **[Paper Details & Reading Tips](jigsaw/papers/unit-1-experimental-design.qmd)** — Full citations and what to focus on
+- **[Jigsaw Instructions](jigsaw/jigsaw-instructions.qmd)** — How the session works
+
+**Preparation:** Read your assigned paper before Jan 28. Complete the reading guide (60-90 min).
+:::
 
 ---
 
@@ -108,7 +118,7 @@ subtitle: "HPM 883 Spring 2026"
 
 **Problem Set 2 assigned:** Double ML Implementation (due Feb 23)
 
-**Jigsaw Session 1 (End of Unit 2):** DML in Practice — Expert groups analyze applied DML papers
+**Jigsaw 2 (End of Unit 2):** DML in Practice — Expert groups analyze applied DML papers
 
 ---
 
@@ -154,7 +164,7 @@ subtitle: "HPM 883 Spring 2026"
 **Due:** Problem Set 3
 **Problem Set 4 assigned:** Meta-Learners and CATE (due Mar 25)
 
-**Jigsaw Session 2 (End of Unit 3):** Causal Forest Applications — Expert groups analyze HTE papers
+**Jigsaw 3 (End of Unit 3):** Causal Forest Applications — Expert groups analyze HTE papers
 
 ---
 
@@ -176,7 +186,7 @@ subtitle: "HPM 883 Spring 2026"
 **Due:** Problem Set 4
 **Problem Set 5 assigned:** Policy Learning (due Apr 8)
 
-**Jigsaw Session 3 (End of Unit 4):** Policy Learning Case Studies — Expert groups analyze targeting papers
+**Jigsaw 4 (End of Unit 4):** Policy Learning Case Studies — Expert groups analyze targeting papers
 
 ---
 
@@ -210,7 +220,7 @@ subtitle: "HPM 883 Spring 2026"
 
 **Session 25 Key Concepts:** End-to-end causal ML workflow, reporting best practices, course synthesis
 
-**Jigsaw Session 4 (End of Unit 5):** Adaptive Experiments in Action — Expert groups analyze bandit/adaptive trial papers
+**Jigsaw 5 (End of Unit 5):** Adaptive Experiments in Action — Expert groups analyze bandit/adaptive trial papers
 
 **Capstone Proposal assigned** (due Apr 13)
 
@@ -253,20 +263,21 @@ subtitle: "HPM 883 Spring 2026"
 | Deliverable | Due Date | Weight |
 |-------------|----------|--------|
 | Lab 0: Git/GitHub Fundamentals | Jan 19 | (part of Labs) |
+| **Jigsaw 1: Experimental Design** | **Jan 28** | (part of Jigsaw) |
 | Lab 1: Experimental Design & Power | Feb 2 | (part of Labs) |
-| Jigsaw Session 1: DML Applications | Feb 18 | (part of Jigsaw) |
+| Jigsaw 2: DML Applications | Feb 18 | (part of Jigsaw) |
 | Lab 2: Double ML Implementation | Feb 23 | (part of Labs) |
-| Jigsaw Session 2: Causal Forest Applications | Mar 11 | (part of Jigsaw) |
+| Jigsaw 3: Causal Forest Applications | Mar 11 | (part of Jigsaw) |
 | Lab 3: HTE & Meta-Learners | Mar 25 | (part of Labs) |
-| Jigsaw Session 3: Policy Learning Case Studies | Mar 25 | (part of Jigsaw) |
+| Jigsaw 4: Policy Learning Case Studies | Mar 25 | (part of Jigsaw) |
 | Lab 4: Policy Learning | Apr 8 | (part of Labs) |
-| Jigsaw Session 4: Adaptive Experiments | Apr 8 | (part of Jigsaw) |
+| Jigsaw 5: Adaptive Experiments | Apr 8 | (part of Jigsaw) |
 | Capstone Proposal | Apr 13 | (part of Capstone) |
 | Peer Review Report | Apr 22 | 5% |
 | Capstone Project Package | May 1 | 45% |
 
 **Labs (30% total):** 4 required labs covering key skills.
-**Jigsaw Participation (20% total):** ~5 sessions, low-stakes participation credit.
+**Jigsaw Participation (20% total):** 5 sessions, low-stakes participation credit.
 
 ---
 

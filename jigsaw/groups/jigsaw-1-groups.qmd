@@ -2,7 +2,6 @@
 title: "Jigsaw 1 Groups"
 subtitle: "Experimental Design (Jan 28)"
 date: "Generated: 2026-01-14"
-draft: true
 ---
 
 ## Paper Assignments

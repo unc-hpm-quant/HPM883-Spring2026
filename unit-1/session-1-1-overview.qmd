@@ -8,10 +8,23 @@ date: "January 21, 2026"
 
 This session establishes the foundations of experimental design: why randomization works, what it identifies, and how to think about causal estimands in randomized controlled trials. We build on the potential outcomes framework from Unit 0 to understand how randomization solves the fundamental problem of causal inference.
 
+**Today we cover both Session 1.1 (Randomization & RCTs) and Session 1.2 (Statistical Conclusion Validity & Power).** This combined session provides the complete foundation for next week's power analysis lab.
+
 **Format:** In-Person (2304 MC)
 
+::: callout-important
+## Jigsaw 1 Assignments Posted
+
+Your paper and group assignments for the January 28 jigsaw session are now available:
+
+- **[View Your Paper Assignment](../jigsaw/groups/jigsaw-1-groups.qmd)** — Find your expert group
+- **[Paper Details](../jigsaw/papers/unit-1-experimental-design.qmd)** — Full citations and reading tips
+
+Read your assigned paper before January 28 (60-90 min preparation).
+:::
+
 ::: callout-note
-## Note: January 19 is MLK Day (No Class)
+## Note: January 19 was MLK Day (No Class)
 
 Lab 0 solutions released Tuesday — run `git pull` to access.
 :::
@@ -81,10 +94,23 @@ Lab 0 solutions released Tuesday — run `git pull` to access.
     -   Block/stratified randomization (preview)
     -   Cluster randomization (preview)
 
+5.  **Case Study: Healthy Futures RCT** *(NEW)*
+    -   Cluster randomization in rural China
+    -   Why randomize townships, not families
+    -   SUTVA considerations in cluster designs
+    -   Real-world design tradeoffs
+
+6.  **Statistical Conclusion Validity** (Session 1.2 content)
+    -   Type I and Type II errors
+    -   Power analysis fundamentals
+    -   Minimum Detectable Effect (MDE)
+    -   Power by simulation with DeclareDesign
+
 **Discussion:**
 
 -   What assumptions does randomization buy us?
 -   When might an RCT still fail to identify causal effects?
+-   How do we determine if our study is adequately powered?
 
 ------------------------------------------------------------------------
 
@@ -96,8 +122,11 @@ Lab 0 solutions released Tuesday — run `git pull` to access.
 
 ### Looking Ahead
 
--   **Session 1.2 (Jan 26):** Power & Statistical Validity
--   Read Lin (2013) and Gelman & Carlin (2014)
+-   **Lab 1 (Jan 26, Remote):** Power Analysis with DeclareDesign
+    -   Apply MIDA framework to design experiments
+    -   Calculate power by simulation
+-   **Session 1.3 + Jigsaw 1 (Jan 28):** Optimal Design & MIDA
+-   Read your assigned jigsaw paper before Jan 28
 
 ------------------------------------------------------------------------
 
