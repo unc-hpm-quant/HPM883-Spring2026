@@ -504,6 +504,41 @@ Reality is messier—we'll discuss this in later sessions.
 - Maternal mental health
 :::
 
+## Trial Profile
+
+![CONSORT flow diagram showing cluster randomization and study flow](../images/HFTrialProfile.png){fig-alt="Trial profile showing 119 townships randomized to 40 treatment vs 79 control clusters, with enrollment, follow-up, and analysis sample sizes" width="95%"}
+
+::: {.callout-note}
+## Reading a Trial Profile
+- **Randomization**: 40 vs 79 clusters (townships)
+- **Enrollment**: 562 treatment, 744 control families
+- **Analysis**: ~460 families per arm at follow-up
+:::
+
+## The Healthy Futures App
+
+::: {.callout-tip}
+## Watch: mHealth Platform in Action
+[**View the Healthy Futures App Demo** →](https://www.canva.com/design/DAG_D0qj1Ec/jv1UuoK_JNEK8PZM6CMg0g/view){target="_blank"}
+:::
+
+. . .
+
+**What you'll see:**
+
+- CHW interface for home visits
+- Stage-based content delivery
+- Data collection and monitoring
+
+## The Intervention: Stage-Based Modules
+
+![Healthy Futures intervention modules delivered across child development stages](../images/HF-Fig1.png){fig-alt="Timeline showing 12 intervention modules from pregnancy through 18 months" width="95%"}
+
+::: {.callout-note}
+## Stage-Based Design
+Modules activated at developmentally appropriate times — CHWs guided by mobile app
+:::
+
 ## Why Cluster Randomization?
 
 ::: {.callout-warning}
@@ -546,6 +581,29 @@ Why 40:79 instead of 50:50?
 - Power calculation showed acceptable tradeoff
 :::
 
+## Did Randomization Work?
+
+![Baseline characteristics balance table](../images/HF-Table1.png){fig-alt="Table showing baseline balance with all p-values > 0.05" width="80%"}
+
+. . .
+
+::: {.fragment}
+**All p-values > 0.05** → Randomization achieved balance on observables
+:::
+
+## Did Families Actually Participate?
+
+![Home visit completion statistics](../images/HF-Table2.png){fig-alt="Table showing 82% participation rate and module completion statistics" width="85%"}
+
+. . .
+
+::: {.callout-tip}
+## ITT vs TOT
+- **82% ever participated** — high take-up
+- Avg **10.5 home visits** per family (of ~14 possible)
+- ITT estimates effect of *offer*; TOT estimates effect of *receiving*
+:::
+
 ## SUTVA in Cluster RCTs
 
 ::: {.columns}
@@ -573,6 +631,31 @@ Why 40:79 instead of 50:50?
 - **Independence** achieved at township level
 - **SUTVA** redefined: potential outcomes depend on *cluster* assignment
 - Analysis must account for **correlation within clusters**
+:::
+
+## What Did We Find?
+
+![Forest plot of treatment effects on child and caregiver outcomes](../images/HF-Fig3.png){fig-alt="Forest plot showing significant positive effects on breastfeeding, complementary feeding, caregiving knowledge, and caregiver mental health" width="90%"}
+
+. . .
+
+::: {.fragment}
+**Significant improvements** in caregiving practices and maternal mental health
+
+*Child health index: positive but not statistically significant*
+:::
+
+## Does Earlier Enrollment Help?
+
+![Treatment effects by stage at first exposure](../images/HF-Fig4.png){fig-alt="Four panels showing effects vary by when families enrolled, with pregnancy enrollment showing stronger effects" width="90%"}
+
+. . .
+
+::: {.callout-note}
+## Heterogeneous Treatment Effects (Preview of Unit 3)
+- Effects vary by timing of enrollment
+- Earlier enrollment → more exposure → larger effects?
+- We'll learn methods to analyze this systematically in Unit 3
 :::
 
 ## Lessons for Your Research
