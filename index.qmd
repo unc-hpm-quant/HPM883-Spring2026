@@ -69,7 +69,7 @@ HPM 883 is an advanced graduate-level course designed to equip PhD students in H
 
 | Component            | Weight |
 |----------------------|--------|
-| Labs                 | 30%    |
+| Problem Sets         | 30%    |
 | Jigsaw Participation | 20%    |
 | Capstone Project     | 45%    |
 | Peer Review          | 5%     |

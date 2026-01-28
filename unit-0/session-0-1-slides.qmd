@@ -303,7 +303,7 @@ We'll cover computing setup: GitHub Codespaces, R environment, and `DeclareDesig
 
 | Component | Weight | Description |
 |-----------|--------|-------------|
-| Labs | 30% | 4 required labs |
+| Problem Sets | 30% | 4 required problem sets |
 | Jigsaw Participation | 20% | ~5 sessions (one per unit) |
 | Capstone Project | 45% | PAP, replication, or comparison |
 | Peer Review | 5% | Review one peer's project |

@@ -115,13 +115,13 @@ The course is organized into 6 units over 14 weeks, following the core narrative
 
 ### Grade Composition
 
-| Component            | Weight   | Description                  |
-|----------------------|----------|------------------------------|
-| Labs                 | 30%      | 4 required labs              |
-| Jigsaw Participation | 20%      | \~5 sessions (one per unit)  |
-| Capstone Project     | 45%      | Paper + code + presentation  |
-| Peer Review          | 5%       | Review of one peer's project |
-| **Total**            | **100%** |                              |
+| Component            | Weight   | Description                      |
+|----------------------|----------|----------------------------------|
+| Problem Sets         | 30%      | 4 required problem sets          |
+| Jigsaw Participation | 20%      | \~5 sessions (one per unit)      |
+| Capstone Project     | 45%      | Paper + code + presentation      |
+| Peer Review          | 5%       | Review of one peer's project     |
+| **Total**            | **100%** |                                  |
 
 
 ### Grading Scale

@@ -45,18 +45,16 @@ subtitle: "HPM 883 Spring 2026"
 
 ---
 
-### Week 3: Power & Optimal Design (Jan 26-28)
+### Week 3: MIDA & Jigsaw 1 (Jan 27-28)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 6 | Mon Jan 26 | Lab 1: Experimental Design & Power (Session 1.2) | [Remote](https://zoom.us/j/93346316978) |
-| 7 | Wed Jan 28 | Optimal Experimental Design & MIDA + **Jigsaw 1** (Session 1.3) | In-Person |
+| — | Mon Jan 27 | **CLASS CANCELLED** | — |
+| 6 | Wed Jan 28 | Optimal Experimental Design & MIDA + **Jigsaw 1** (Session 1.3) | In-Person |
 
-**Session 6 (Remote Lab):** Asynchronous lab applying MIDA framework and DeclareDesign. Covers power analysis by simulation, blocking vs. simple randomization, MDE calculations, and Lin (2013) regression adjustment. No in-person class — use this time for the lab.
+**Session 6 Key Concepts:** Model-Inquiry-Data-Answer (MIDA), blocking, stratification, variance reduction (CUPED, Lin regression), cluster randomization, design diagnosis
 
-**Session 7 Key Concepts:** Model-Inquiry-Data-Answer (MIDA), blocking, stratification, variance reduction (CUPED, Lin regression), cluster randomization, design diagnosis
-
-**Lab 1 due:** February 2, 2026
+**Problem Set 1 assigned:** Due February 11, 2026 at 11:15am
 
 ::: {.callout-important}
 ## Jigsaw 1: Experimental Design (Jan 28)
@@ -72,20 +70,18 @@ Your paper and group assignments are now posted:
 
 ---
 
-### Week 4: Power Lab & Guest Lecture (Feb 2-4)
+### Week 4: Lab 1 & Guest Lecture (Feb 2-4)
 
 *Instructor traveling — Unit 1 concludes, Unit 2 begins*
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 8 | Mon Feb 2 | Power Analysis by Simulation Lab (Session 1.6) | Async |
-| 9 | Wed Feb 4 | **Guest Lecture:** Tara Templin (Stanford) (Session 2.0) | [Remote](https://zoom.us/j/93346316978) |
+| 7 | Mon Feb 2 | Lab 1: Experimental Design & Power (ungraded in-class activity) | Async |
+| 8 | Wed Feb 4 | **Guest Lecture:** Tara Templin (Stanford) (Session 2.0) | [Remote](https://zoom.us/j/93346316978) |
 
-**Session 8 (Async Lab):** Code-along lab on power analysis by simulation using DeclareDesign. Capstone of Unit 1 experimental design sequence.
+**Session 7 (Async Lab):** Code-along lab on power analysis by simulation using DeclareDesign. Applies MIDA framework, blocking vs. simple randomization, MDE calculations, and Lin (2013) regression adjustment. *Ungraded in-class activity — complete at your own pace.*
 
-**Session 9 (Guest Lecture):** Introduction to ML for causal inference from an applied health economics perspective. Bridge to Unit 2.
-
-**Due:** Problem Set 1
+**Session 8 (Guest Lecture):** Introduction to ML for causal inference from an applied health economics perspective. Bridge to Unit 2.
 
 ---
 
@@ -93,8 +89,10 @@ Your paper and group assignments are now posted:
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 10 | Mon Feb 9 | **NO CLASS — Well-Being Day** | — |
-| 11 | Wed Feb 11 | ML Foundations for Causal Inference (Session 2.1) | In-Person |
+| — | Mon Feb 9 | **NO CLASS — Well-Being Day** | — |
+| 9 | Wed Feb 11 | ML Foundations for Causal Inference (Session 2.1) | In-Person |
+
+**Due:** Problem Set 1 (February 11 at 11:15am)
 
 **Preparation (Required):**
 - Watch: Jann Spiess videos (~90 min total)
@@ -111,8 +109,8 @@ Your paper and group assignments are now posted:
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 12 | Mon Feb 16 | Influence Functions & Neyman Orthogonality (Session 2.2) | In-Person |
-| 13 | Wed Feb 18 | DML Theory: Partialling Out & Cross-Fitting (Session 2.3) | [Remote](https://zoom.us/j/93346316978) |
+| 10 | Mon Feb 16 | Influence Functions & Neyman Orthogonality (Session 2.2) | In-Person |
+| 11 | Wed Feb 18 | DML Theory: Partialling Out & Cross-Fitting (Session 2.3) | [Remote](https://zoom.us/j/93346316978) |
 
 **Key Concepts:** Influence functions, EIF, Neyman orthogonality, partialling out, cross-fitting, sample splitting
 
@@ -126,8 +124,8 @@ Your paper and group assignments are now posted:
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 14 | Mon Feb 23 | DML Implementation with DoubleML (Session 2.4) | In-Person |
-| 15 | Wed Feb 25 | Doubly-Robust Estimation: AIPW & TMLE (Session 2.5) | [Remote](https://zoom.us/j/93346316978) |
+| 12 | Mon Feb 23 | DML Implementation with DoubleML (Session 2.4) | In-Person |
+| 13 | Wed Feb 25 | Doubly-Robust Estimation: AIPW & TMLE (Session 2.5) | [Remote](https://zoom.us/j/93346316978) |
 
 **Key Concepts:** DoubleML package, nuisance estimation, AIPW, TMLE, semiparametric efficiency
 
@@ -139,12 +137,12 @@ Your paper and group assignments are now posted:
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 16 | Mon Mar 2 | DR Estimation Lab (Session 2.6) | In-Person |
-| 17 | Wed Mar 4 | Causal Random Forests & Honest Inference (Session 3.0) | In-Person |
+| 14 | Mon Mar 2 | DR Estimation Lab (Session 2.6) | In-Person |
+| 15 | Wed Mar 4 | Causal Random Forests & Honest Inference (Session 3.0) | In-Person |
 
-**Session 16:** Hands-on lab implementing AIPW and TMLE in R. Capstone of Unit 2.
+**Session 14:** Hands-on lab implementing AIPW and TMLE in R. Capstone of Unit 2.
 
-**Session 17:** Unit 3 begins — Introduction to causal forests and honest inference.
+**Session 15:** Unit 3 begins — Introduction to causal forests and honest inference.
 
 **Key Concepts:** TMLE diagnostics, overlap, honest splitting, local centering, grf package
 
@@ -156,8 +154,8 @@ Your paper and group assignments are now posted:
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 18 | Mon Mar 9 | Meta-Learners for HTE | In-Person |
-| 19 | Wed Mar 11 | CATE Calibration & Meta-Learners Lab | [Remote](https://zoom.us/j/93346316978) |
+| 16 | Mon Mar 9 | Meta-Learners for HTE | In-Person |
+| 17 | Wed Mar 11 | CATE Calibration & Meta-Learners Lab | [Remote](https://zoom.us/j/93346316978) |
 
 **Key Concepts:** T-learner, S-learner, X-learner, R-learner, DR-learner, CATE calibration, targeting policies
 
@@ -178,8 +176,8 @@ Your paper and group assignments are now posted:
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 20 | Mon Mar 23 | From CATE to Treatment Policy | In-Person |
-| 21 | Wed Mar 25 | Policy Learning & Off-Policy Evaluation | [Remote](https://zoom.us/j/93346316978) |
+| 18 | Mon Mar 23 | From CATE to Treatment Policy | In-Person |
+| 19 | Wed Mar 25 | Policy Learning & Off-Policy Evaluation | [Remote](https://zoom.us/j/93346316978) |
 
 **Key Concepts:** Policy trees, optimal treatment rules, off-policy evaluation, budget constraints, policytree package
 
@@ -194,8 +192,8 @@ Your paper and group assignments are now posted:
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 22 | Mon Mar 30 | Multi-Armed Bandits & Thompson Sampling (Session 5.1) | In-Person |
-| 23 | Wed Apr 1 | Contextual Bandits & Personalization (Session 5.2) | [Remote](https://zoom.us/j/93346316978) |
+| 20 | Mon Mar 30 | Multi-Armed Bandits & Thompson Sampling (Session 5.1) | In-Person |
+| 21 | Wed Apr 1 | Contextual Bandits & Personalization (Session 5.2) | [Remote](https://zoom.us/j/93346316978) |
 
 **Key Concepts:** Exploration vs. exploitation, regret, multi-armed bandits, Thompson sampling, contextual bandits, personalized treatment assignment
 
@@ -213,12 +211,12 @@ Your paper and group assignments are now posted:
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 24 | Mon Apr 6 | Adaptive Clinical Trials & Platform Designs (Session 5.3) | In-Person |
-| 25 | Wed Apr 8 | Causal ML Integration & Frontiers | [Remote](https://zoom.us/j/93346316978) |
+| 22 | Mon Apr 6 | Adaptive Clinical Trials & Platform Designs (Session 5.3) | In-Person |
+| 23 | Wed Apr 8 | Causal ML Integration & Frontiers | [Remote](https://zoom.us/j/93346316978) |
 
-**Session 24 Key Concepts:** Response-adaptive randomization, platform trials, batch vs. sequential decisions, connection to policy learning, statistical inference under adaptation
+**Session 22 Key Concepts:** Response-adaptive randomization, platform trials, batch vs. sequential decisions, connection to policy learning, statistical inference under adaptation
 
-**Session 25 Key Concepts:** End-to-end causal ML workflow, reporting best practices, course synthesis
+**Session 23 Key Concepts:** End-to-end causal ML workflow, reporting best practices, course synthesis
 
 **Jigsaw 5 (End of Unit 5):** Adaptive Experiments in Action — Expert groups analyze bandit/adaptive trial papers
 
@@ -230,8 +228,8 @@ Your paper and group assignments are now posted:
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 26 | Mon Apr 13 | Capstone Presentations (Round 1) | In-Person |
-| 27 | Wed Apr 15 | Capstone Presentations (Round 2) | In-Person |
+| 24 | Mon Apr 13 | Capstone Presentations (Round 1) | In-Person |
+| 25 | Wed Apr 15 | Capstone Presentations (Round 2) | In-Person |
 
 **Due:** Capstone Proposal
 **Peer Review Report assigned** (due Apr 22)
@@ -242,8 +240,8 @@ Your paper and group assignments are now posted:
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 28 | Mon Apr 20 | Final Capstone Presentations | In-Person |
-| 29 | Wed Apr 22 | Course Wrap-Up & Future Directions | In-Person |
+| 26 | Mon Apr 20 | Final Capstone Presentations | In-Person |
+| 27 | Wed Apr 22 | Course Wrap-Up & Future Directions | In-Person |
 
 **Due:** Peer Review Report
 
@@ -262,21 +260,21 @@ Your paper and group assignments are now posted:
 
 | Deliverable | Due Date | Weight |
 |-------------|----------|--------|
-| Lab 0: Git/GitHub Fundamentals | Jan 19 | (part of Labs) |
+| Problem Set 0: Git/GitHub Fundamentals | Jan 19 | (part of Problem Sets) |
 | **Jigsaw 1: Experimental Design** | **Jan 28** | (part of Jigsaw) |
-| Lab 1: Experimental Design & Power | Feb 2 | (part of Labs) |
+| **Problem Set 1: Experimental Design & Power** | **Feb 11** | (part of Problem Sets) |
 | Jigsaw 2: DML Applications | Feb 18 | (part of Jigsaw) |
-| Lab 2: Double ML Implementation | Feb 23 | (part of Labs) |
+| Problem Set 2: Double ML Implementation | Feb 23 | (part of Problem Sets) |
 | Jigsaw 3: Causal Forest Applications | Mar 11 | (part of Jigsaw) |
-| Lab 3: HTE & Meta-Learners | Mar 25 | (part of Labs) |
+| Problem Set 3: HTE & Meta-Learners | Mar 25 | (part of Problem Sets) |
 | Jigsaw 4: Policy Learning Case Studies | Mar 25 | (part of Jigsaw) |
-| Lab 4: Policy Learning | Apr 8 | (part of Labs) |
+| Problem Set 4: Policy Learning | Apr 8 | (part of Problem Sets) |
 | Jigsaw 5: Adaptive Experiments | Apr 8 | (part of Jigsaw) |
 | Capstone Proposal | Apr 13 | (part of Capstone) |
 | Peer Review Report | Apr 22 | 5% |
 | Capstone Project Package | May 1 | 45% |
 
-**Labs (30% total):** 4 required labs covering key skills.
+**Problem Sets (30% total):** 4 required problem sets (graded take-home assignments).
 **Jigsaw Participation (20% total):** 5 sessions, low-stakes participation credit.
 
 ---

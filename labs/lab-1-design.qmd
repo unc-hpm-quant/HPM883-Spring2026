@@ -2,7 +2,7 @@
 title: Lab 1
 subtitle: "Experimental Design & Power with DeclareDesign (Remote Lab)"
 author: "Sean Sylvia"
-date: "January 26, 2026"
+date: "February 2, 2026"
 slug: "lab-1"
 categories: [Lab, Experimental Design, Power, Remote]
 description: "Design, diagnose, and redesign experiments using the MIDA framework and DeclareDesign. Complete asynchronously."
@@ -25,10 +25,10 @@ This will create your personal repository for this lab.
 :::
 
 ::: {.callout-important}
-## Remote Lab — January 26, 2026
+## Remote Lab — February 2, 2026 (Ungraded In-Class Activity)
 This lab is designed to be completed **asynchronously**. Work through the exercises at your own pace. Office hours and Slack support are available if you get stuck.
 
-**No in-person class today** — use this time for the lab.
+**This is an ungraded in-class activity** — complete at your own pace. No formal submission required.
 :::
 
 
@@ -575,14 +575,19 @@ smoking_model <- declare_model(
 
 ------------------------------------------------------------------------
 
-## Submission Instructions
+## Completion Notes
+
+This is an **ungraded in-class activity**. No formal submission is required.
+
+**To get the most out of this lab:**
 
 1.  Complete all tasks marked with ::: callout-note
 2.  Write your own design for the smoking cessation trial (Task 8)
-3.  Render your `.qmd` file to HTML
-4.  Submit to Gradescope by **February 2, 2026**
+3.  Render your `.qmd` file to HTML to verify your code works
 
 Include: - All code with `eval: true` so results are visible - Written answers to discussion questions - Your smoking cessation design with diagnosis
+
+**Note:** The concepts from this lab will be directly applicable to Problem Set 1.
 
 ------------------------------------------------------------------------
 
