@@ -17,6 +17,14 @@ execute:
   echo: true
 ---
 
+::: {.callout-important}
+## Accept the Assignment
+
+**[Click here to accept Problem Set 1 on GitHub Classroom](https://classroom.github.com/a/PLACEHOLDER)**
+
+This will create your personal repository for this problem set.
+:::
+
 ## Introduction
 
 Welcome to **St. Null's Memorial Hospital**, a large academic medical center serving a diverse patient population across 30 primary care clinics. You have been hired as a biostatistician to design a rigorous evaluation of their new **Integrated Care Coordination Program (ICCP)** — a complex intervention targeting patients with poorly controlled Type 2 diabetes.

@@ -130,6 +130,10 @@ website:
             text: "Session 1.3: Optimal Design & MIDA"
           - href: unit-1/session-1-3-slides.qmd
             text: "↳ Slides"
+      - section: "Problem Sets"
+        contents:
+          - href: problem-sets/ps-1-experimental-design.qmd
+            text: "PS 1: Experimental Design"
       - section: "Resources"
         contents:
           - href: resources.qmd
