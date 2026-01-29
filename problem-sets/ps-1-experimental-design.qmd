@@ -20,7 +20,7 @@ execute:
 ::: {.callout-important}
 ## Accept the Assignment
 
-**[Click here to accept Problem Set 1 on GitHub Classroom](https://classroom.github.com/a/PLACEHOLDER)**
+**[Click here to accept Problem Set 1 on GitHub Classroom](https://classroom.github.com/a/GltC90Do)**
 
 This will create your personal repository for this problem set.
 :::
