@@ -77,7 +77,7 @@ Your paper and group assignments are now posted:
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
 | 7 | Mon Feb 2 | Lab 1: Experimental Design & Power (ungraded in-class activity) | Async |
-| 8 | Wed Feb 4 | **Guest Lecture:** Tara Templin (Stanford) (Session 2.0) | [Remote](https://zoom.us/j/93346316978) |
+| 8 | Wed Feb 4 | **Guest Lecture:** Yunwei Chen (Stanford) (Session 2.0) | [Remote](https://zoom.us/j/93346316978) |
 
 **Session 7 (Async Lab):** Code-along lab on power analysis by simulation using DeclareDesign. Applies MIDA framework, blocking vs. simple randomization, MDE calculations, and Lin (2013) regression adjustment. *Ungraded in-class activity — complete at your own pace.*
 
