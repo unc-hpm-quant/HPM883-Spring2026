@@ -54,7 +54,7 @@ subtitle: "HPM 883 Spring 2026"
 
 **Session 6 Key Concepts:** Model-Inquiry-Data-Answer (MIDA), blocking, stratification, variance reduction (CUPED, Lin regression), cluster randomization, design diagnosis
 
-**Problem Set 1 assigned:** Due February 11, 2026 at 11:15am
+**Problem Set 1 assigned:** Due February 18, 2026 at 11:15am
 
 ::: {.callout-important}
 ## Jigsaw 1: Experimental Design (Jan 28)
@@ -90,18 +90,11 @@ Your paper and group assignments are now posted:
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
 | — | Mon Feb 9 | **NO CLASS — Well-Being Day** | — |
-| 9 | Wed Feb 11 | ML Foundations for Causal Inference (Session 2.1) | In-Person |
+| 9 | Wed Feb 11 | PS1 Prep Workshop: Experimental Design & Power | In-Person |
 
-**Due:** Problem Set 1 (February 11 at 11:15am)
+**Note:** ML Foundations (Session 2.1) moved to Feb 16 due to snow cancellations and schedule adjustments.
 
-**Preparation (Required):**
-- Watch: Jann Spiess videos (~90 min total)
-  - [Applied ML: An Introduction](https://www.youtube.com/watch?v=G5qrBvOmzes)
-  - [Applied ML: Secret Sauce](https://www.youtube.com/watch?v=Qs6JmdNoT-Y)
-  - [Applied ML: Prediction vs Estimation](https://www.youtube.com/watch?v=e2Nmlk0cbrY)
-- Read: ISLR Chapters 2 (Statistical Learning), 5 (Cross-Validation)
-
-**Key Concepts:** Prediction vs. causal estimation (Y-hard vs. β-hard), bias-variance tradeoff, cross-validation, regularization (Lasso/Ridge), tree-based methods, ML as nuisance estimation
+**Due:** Problem Set 1 (February 18 at 11:15am)
 
 ---
 
@@ -262,7 +255,7 @@ Your paper and group assignments are now posted:
 |-------------|----------|--------|
 | Problem Set 0: Git/GitHub Fundamentals | Jan 19 | (part of Problem Sets) |
 | **Jigsaw 1: Experimental Design** | **Jan 28** | (part of Jigsaw) |
-| **Problem Set 1: Experimental Design & Power** | **Feb 11** | (part of Problem Sets) |
+| **Problem Set 1: Experimental Design & Power** | **Feb 18** | (part of Problem Sets) |
 | Jigsaw 2: DML Applications | Feb 18 | (part of Jigsaw) |
 | Problem Set 2: Double ML Implementation | Feb 23 | (part of Problem Sets) |
 | Jigsaw 3: Causal Forest Applications | Mar 11 | (part of Jigsaw) |

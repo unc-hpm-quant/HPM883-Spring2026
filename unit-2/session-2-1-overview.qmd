@@ -1,7 +1,7 @@
 ---
 title: "Unit 2: Double Machine Learning"
 subtitle: "Session 2.1: ML Foundations for Causal Inference"
-date: "February 11, 2026"
+date: "February 16, 2026"
 ---
 
 ## Session Overview

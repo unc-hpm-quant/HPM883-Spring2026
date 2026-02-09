@@ -2,7 +2,7 @@
 title: "Problem Set 1"
 subtitle: "Experimental Design & Power"
 author: "HPM 883: Advanced Quantitative Methods"
-date: "Due: February 11, 2026 at 11:15am"
+date: "Due: February 18, 2026 at 11:15am"
 slug: "ps-1"
 categories: [Problem Set, Experimental Design, Power, MIDA, DeclareDesign]
 description: "Design a cluster-randomized trial using the MIDA framework, optimize allocation under budget constraints, and communicate recommendations to stakeholders."
@@ -220,7 +220,7 @@ Use appropriate language for a non-technical audience. Avoid jargon. Focus on de
 
 ## Submission Requirements
 
-Submit to Gradescope by **February 11, 2026 at 11:15am** (before class):
+Submit to Gradescope by **February 18, 2026 at 11:15am** (before class):
 
 1. **Rendered HTML** of your completed .qmd file
 2. **Source .qmd file**
