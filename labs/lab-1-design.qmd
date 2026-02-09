@@ -16,21 +16,21 @@ execute:
   eval: false
 ---
 
-::: {.callout-important}
+::: callout-important
 ## Accept the Assignment
 
-**[Click here to accept Lab 1 on GitHub Classroom](https://classroom.github.com/a/TZ3rVxcj)**
+[**Click here to accept Lab 1 on GitHub Classroom**](https://classroom.github.com/a/TZ3rVxcj)
 
 This will create your personal repository for this lab.
 :::
 
-::: {.callout-important}
+::: callout-important
 ## Remote Lab — February 2, 2026 (Ungraded In-Class Activity)
+
 This lab is designed to be completed **asynchronously**. Work through the exercises at your own pace. Office hours and Slack support are available if you get stuck.
 
 **This is an ungraded in-class activity** — complete at your own pace. No formal submission required.
 :::
-
 
 ## Overview and Learning Objectives
 
@@ -57,11 +57,27 @@ By the end of this lab, you will have practical experience with:
 
 You have been hired as a research consultant by the **Healthy Futures Clinic Network**, a consortium of 20 community health clinics serving underserved populations. The network wants to evaluate a **chronic disease management intervention** that provides enhanced care coordination for patients with Type 2 diabetes.
 
-The intervention includes: - Weekly check-ins with a care coordinator - Text message medication reminders - Quarterly home visits
+The intervention includes:
+
+\- Weekly check-ins with a care coordinator
+
+\- Text message medication reminders
+
+\- Quarterly home visits
 
 **Primary outcome:** HbA1c levels (hemoglobin A1c, a measure of blood glucose control)
 
-**Key parameters:** - **Baseline HbA1c:** Mean = 8.5%, SD = 1.2% - **Expected treatment effect:** 0.5% reduction in HbA1c - **Clinically meaningful difference:** 0.3% reduction - **Budget constraint:** Can enroll up to 400 patients total - **Individual randomization** is ethically and practically feasible
+**Key parameters:**
+
+\- **Baseline HbA1c:** Mean = 8.5%, SD = 1.2%
+
+\- **Expected treatment effect:** 0.5% reduction in HbA1c
+
+\- **Clinically meaningful difference:** 0.3% reduction
+
+\- **Budget constraint:** Can enroll up to 400 patients total -
+
+**Individual randomization** is ethically and practically feasible
 
 Your task: Design an experiment that can detect whether the intervention works.
 
