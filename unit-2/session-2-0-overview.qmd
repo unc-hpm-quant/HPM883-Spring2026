@@ -40,9 +40,7 @@ This is a guest lecture delivered remotely via Zoom. Please join on time and hav
 
 ### Guest Speaker Bio
 
-**Yunwei Chen, PhD** is [position] at Stanford University. Her research focuses on [research areas]. Recent work includes [notable papers/projects].
-
-*Bio to be updated closer to session.*
+**Yunwei Chen, PhD** is a Postdoctoral Scholar at Stanford University, affiliated with the Stanford Center on China's Economy and Institutions (SCCEI), Stanford Impact Labs, and the Stanford Center for Innovation in Global Health. She received her PhD in Health Policy and Management (Economics Track) from UNC's Gillings School of Global Public Health in 2024. Her research focuses on global health economics, precision public health, and applied econometrics — developing innovative solutions for delivering public health interventions in resource-limited settings using experimental and quasi-experimental designs. Her current work integrates digital health technologies to develop tailored interventions for children and mothers during critical developmental stages.
 
 ------------------------------------------------------------------------
 
