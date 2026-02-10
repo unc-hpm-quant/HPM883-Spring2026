@@ -1,12 +1,12 @@
 ---
 title: "Unit 2: Double Machine Learning"
-subtitle: "Session 2.0: Guest Lecture — Tara Templin (Stanford)"
+subtitle: "Session 2.0: Guest Lecture — Yunwei Chen (Stanford)"
 date: "February 4, 2026"
 ---
 
 ## Session Overview
 
-Guest lecture by **Tara Templin** (Stanford University) on machine learning methods for health economics and causal inference. Dr. Templin's research bridges ML methods and applied health economics, making this an ideal bridge between our experimental design foundations and DML theory.
+Guest lecture by **Yunwei Chen** (Stanford University) on machine learning methods for health economics and causal inference. Dr. Chen's research bridges ML methods and applied health economics, making this an ideal bridge between our experimental design foundations and DML theory.
 
 **Format:** Remote (Zoom)
 
@@ -40,7 +40,7 @@ This is a guest lecture delivered remotely via Zoom. Please join on time and hav
 
 ### Guest Speaker Bio
 
-**Tara Templin, PhD** is [position] at Stanford University. Her research focuses on [research areas]. Recent work includes [notable papers/projects].
+**Yunwei Chen, PhD** is [position] at Stanford University. Her research focuses on [research areas]. Recent work includes [notable papers/projects].
 
 *Bio to be updated closer to session.*
 

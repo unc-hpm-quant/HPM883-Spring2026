@@ -94,7 +94,7 @@ library(tidyverse)
 
 ### Looking Ahead
 
--   **Session 2.0 (Feb 4):** Guest Lecture — Tara Templin (Stanford)
+-   **Session 2.0 (Feb 4):** Guest Lecture — Yunwei Chen (Stanford)
 -   **Session 2.1 (Feb 11):** ML Foundations for Causal Inference
 -   Begin Unit 2 readings on machine learning and DML
 

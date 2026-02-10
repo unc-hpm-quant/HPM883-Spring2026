@@ -24,7 +24,7 @@ By the end of this unit, students will be able to:
 
 | Session | Date | Topic | Materials |
 |---------|------|-------|-----------|
-| 2.0 | Feb 4 | Guest Lecture — Tara Templin (Stanford) | [overview](session-2-0-overview.qmd) |
+| 2.0 | Feb 4 | Guest Lecture — Yunwei Chen (Stanford) | [overview](session-2-0-overview.qmd) |
 | 2.1 | Feb 11 | ML Foundations for Causal Inference | [overview](session-2-1-overview.qmd), [slides](session-2-1-slides.qmd) |
 | 2.2 | Feb 16 | Influence Functions & Neyman Orthogonality | [overview](session-2-2-overview.qmd), [slides](session-2-2-slides.qmd) |
 | 2.3 | Feb 18 | DML Theory: Partialling Out & Cross-Fitting | [overview](session-2-3-overview.qmd), [slides](session-2-3-slides.qmd) |
