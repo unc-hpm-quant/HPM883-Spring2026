@@ -130,6 +130,14 @@ website:
             text: "Session 1.3: Optimal Design & MIDA"
           - href: unit-1/session-1-3-slides.qmd
             text: "↳ Slides"
+      - section: "Unit 2: Double Machine Learning"
+        contents:
+          - href: unit-2/unit-2.qmd
+            text: "Unit 2 Overview"
+          - href: unit-2/session-2-0-overview.qmd
+            text: "Session 2.0: Guest Lecture"
+          - href: unit-2/session-2-1-overview.qmd
+            text: "Session 2.1: ML Foundations"
       - section: "Problem Sets"
         contents:
           - href: problem-sets/ps-1-experimental-design.qmd

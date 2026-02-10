@@ -100,12 +100,12 @@ Your paper and group assignments are now posted:
 
 ---
 
-### Week 6: ML Foundations & Influence Functions (Feb 16-18)
+### Week 6: ML Foundations & DML Theory (Feb 16-18)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
 | 10 | Mon Feb 16 | ML Foundations for Causal Inference (Session 2.1) | In-Person |
-| 11 | Wed Feb 18 | Influence Functions & Neyman Orthogonality (Session 2.2) | [Remote](https://zoom.us/j/93346316978) |
+| 11 | Wed Feb 18 | From Influence Functions to DML: Orthogonality & Cross-Fitting (Sessions 2.2-2.3) | [Remote](https://zoom.us/j/93346316978) |
 
 **Due:** Problem Set 1 (February 18 at 11:15am)
 
@@ -119,7 +119,7 @@ Your paper and group assignments are now posted:
 
 **Key Concepts (Session 2.1):** Prediction vs. causal estimation (Y-hard vs. β-hard), bias-variance tradeoff, cross-validation, regularization (Lasso/Ridge), tree-based methods, ML as nuisance estimation
 
-**Key Concepts (Session 2.2):** Influence functions, EIF, Neyman orthogonality
+**Key Concepts (Sessions 2.2-2.3):** Influence functions, EIF, Neyman orthogonality, PLM, partialling out, cross-fitting
 
 **Problem Set 2 assigned:** Double ML Implementation (due Feb 25)
 

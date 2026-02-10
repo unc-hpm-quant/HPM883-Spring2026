@@ -70,7 +70,7 @@ This is a guest lecture delivered remotely via Zoom. Please join on time and hav
 
 ### Looking Ahead
 
--   **Session 2.1 (Feb 11):** ML Foundations for Causal Inference
+-   **Session 2.1 (Feb 16):** ML Foundations for Causal Inference
 -   Watch Jann Spiess video series on ML and causal inference
 -   Read ISLR Chapters 2 and 5
 

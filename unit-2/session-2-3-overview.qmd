@@ -4,11 +4,16 @@ subtitle: "Session 2.3: DML Theory — Partialling Out & Cross-Fitting"
 date: "February 18, 2026"
 ---
 
+::: callout-note
+## Combined with Session 2.2
+This material is covered alongside Session 2.2 in a single combined session on Feb 18. See the [Session 2.2-2.3 overview](session-2-2-overview.qmd) for the combined session plan.
+:::
+
 ## Session Overview
 
 This session covers the core Double Machine Learning (DML) algorithm. We formalize the partialling-out approach, understand why cross-fitting is essential, and see how these pieces combine to enable valid causal inference with flexible ML methods. By the end, you'll understand the DML "recipe" that makes modern causal ML possible.
 
-**Format:** In-Person (2304 MC)
+**Format:** [Remote](https://zoom.us/j/93346316978) (combined with Session 2.2)
 
 **Learning Objectives:**
 

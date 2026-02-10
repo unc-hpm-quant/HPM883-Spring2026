@@ -1,18 +1,18 @@
 ---
 title: "Unit 2: Double Machine Learning"
-subtitle: "Session 2.2: Influence Functions & Neyman Orthogonality"
-date: "February 16, 2026"
+subtitle: "Sessions 2.2-2.3: From Influence Functions to DML"
+date: "February 18, 2026"
 ---
 
 ## Session Overview
 
-This session introduces the theoretical foundations that make Double Machine Learning possible: influence functions and Neyman orthogonality. We'll understand why standard ML methods fail for causal inference and how orthogonal scores solve this problem by making treatment effect estimates insensitive to first-stage estimation error.
+This combined session covers both the theoretical foundations (influence functions, Neyman orthogonality) and the core DML algorithm (partialling out, cross-fitting). We'll understand why standard ML methods fail for causal inference, how orthogonal scores solve this problem, and how cross-fitting enables valid inference with flexible ML methods.
 
-**Format:** In-Person (2304 MC)
+**Format:** [Remote](https://zoom.us/j/93346316978)
 
 ::: callout-note
-## Note: February 9 is Well-Being Day (No Class)
-This is the only session this week due to the Well-Being Day on Monday.
+## Combined Session
+Sessions 2.2 and 2.3 are combined into a single session. Influence functions and orthogonality concepts will receive lighter theoretical treatment, with more emphasis on the practical DML recipe and cross-fitting algorithm.
 :::
 
 **Learning Objectives:**

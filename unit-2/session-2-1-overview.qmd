@@ -106,7 +106,7 @@ This session provides the machine learning foundations needed for modern causal 
 
 ### Looking Ahead
 
--   **Session 2.2 (Feb 16):** Influence Functions & Neyman Orthogonality
+-   **Sessions 2.2-2.3 (Feb 18):** From Influence Functions to DML — Orthogonality & Cross-Fitting
 -   Read Kennedy (2016) on influence functions
 -   Begin Chernozhukov et al. Chapter 5 (Conditional Ignorability)
 
