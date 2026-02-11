@@ -242,10 +242,10 @@ Use appropriate language for a non-technical audience. Avoid jargon. Focus on de
 
 ## Submission Requirements
 
-Submit to Gradescope by **February 18, 2026 at 11:15am** (before class):
+Push to your GitHub Classroom repository by **February 18, 2026 at 11:15am** (before class):
 
-1. **Rendered HTML** of your completed .qmd file
-2. **Source .qmd file**
+1. **Source .qmd file** with all your code and written answers
+2. **Rendered HTML** of your completed .qmd file
 
 Your submission should include:
 

@@ -171,7 +171,7 @@ RCT has outcomes; target population has covariates only.
 
 ## Submission Requirements
 
-Submit to Gradescope by **Finals Week deadline**:
+Push to your GitHub Classroom repository by **Finals Week deadline**:
 
 1. Clearly indicate which option (A, B, or C) you completed
 2. Rendered HTML and source .qmd file

@@ -169,7 +169,7 @@ Use language appropriate for a hospital executive. Avoid technical jargon.
 
 ## Submission Requirements
 
-Submit to Gradescope by **April 8, 2026 at 11:59 PM**:
+Push to your GitHub Classroom repository by **April 8, 2026 at 11:59 PM**:
 - Rendered HTML and source .qmd file
 
 ---

@@ -209,7 +209,7 @@ Use appropriate language for a government policy audience. Avoid technical jargo
 
 ## Submission Requirements
 
-Submit to Gradescope by **February 23, 2026 at 11:59 PM**:
+Push to your GitHub Classroom repository by **February 23, 2026 at 11:59 PM**:
 
 1. **Rendered HTML** of your completed .qmd file
 2. **Source .qmd file**

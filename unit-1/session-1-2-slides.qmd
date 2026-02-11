@@ -676,7 +676,7 @@ You will:
 4. Calculate MDEs
 5. Design a smoking cessation trial
 
-**Submit by Feb 2** via Gradescope.
+**Submit by Feb 2** via GitHub Classroom.
 :::
 
 ## Questions?

@@ -225,7 +225,7 @@ Write a brief recommendation (200 words) for CEO Barnaby Beta explaining your ta
 
 ## Submission Requirements
 
-Submit to Gradescope by **March 25, 2026 at 11:59 PM**:
+Push to your GitHub Classroom repository by **March 25, 2026 at 11:59 PM**:
 
 1. **Rendered HTML** of your completed .qmd file
 2. **Source .qmd file**

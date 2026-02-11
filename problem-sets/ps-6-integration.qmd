@@ -147,7 +147,7 @@ Write a **1-page (500-word maximum) executive summary** for the St. Null's Board
 
 ## Submission Requirements
 
-Submit to Gradescope by **April 20, 2026 at 11:59 PM**:
+Push to your GitHub Classroom repository by **April 20, 2026 at 11:59 PM**:
 - Rendered HTML and source .qmd file
 
 ---
