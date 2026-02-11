@@ -140,6 +140,14 @@ website:
             text: "Session 2.1: ML Foundations"
           - href: unit-2/session-2-2-overview.qmd
             text: "Sessions 2.2-2.3: IF & DML Theory"
+      - section: "Labs"
+        contents:
+          - href: labs/index.qmd
+            text: "Overview & Instructions"
+          - href: labs/lab-0-setup.qmd
+            text: "Lab 0: Environment Setup"
+          - href: labs/lab-1-design.qmd
+            text: "Lab 1: Experimental Design & Power"
       - section: "Problem Sets"
         contents:
           - href: problem-sets/st-nulls-hospital.qmd

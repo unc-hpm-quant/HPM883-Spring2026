@@ -1,0 +1,108 @@
+---
+title: "Labs"
+subtitle: "Hands-on coding exercises for building intuition"
+author: "Sean Sylvia"
+date: "2026-01-13"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+---
+
+## Overview
+
+Labs are **ungraded in-class activities** designed to build intuition through guided, hands-on coding. They complement the graded [Problem Sets](../problem-sets/ps-1-experimental-design.qmd) by giving you low-stakes practice with the tools and concepts before you apply them independently.
+
+| | Labs | Problem Sets |
+|-----------|------|--------------|
+| **Purpose** | Formative --- build intuition | Summative --- assess application |
+| **Mode** | Guided, instructor-led | Independent or group |
+| **Scaffolding** | High (step-by-step exercises) | Minimal (package hints only) |
+| **Grading** | Ungraded (completion/participation) | Formal rubric (30% of grade) |
+| **Time** | ~75 min with guidance | 6--10 hours |
+
+------------------------------------------------------------------------
+
+## Lab Assignments
+
+| Lab | Topic | Unit | Format |
+|-----|-------|------|--------|
+| [Lab 0: Environment Setup](lab-0-setup.qmd) | GitHub, Codespaces, R, Quarto verification | Unit 0 | In-Person |
+| [Lab 1: Experimental Design & Power](lab-1-design.qmd) | MIDA framework, DeclareDesign, power analysis | Unit 1 | Async/Remote |
+
+*More labs will be added as the semester progresses.*
+
+------------------------------------------------------------------------
+
+## Workflow
+
+### 1. Accept the Assignment
+
+Each lab page has a **GitHub Classroom link** at the top. Click it to create your personal repository for that lab.
+
+::: {.callout-tip}
+## First Time?
+If this is your first GitHub Classroom assignment, see the [Computing](../computing.qmd) page for setup instructions and the [Setup Guide](../Resources/setup-guide.qmd) for detailed installation steps.
+:::
+
+### 2. Open in GitHub Codespaces
+
+Once your repository is created:
+
+1. Go to your repo on GitHub
+2. Click **Code** > **Codespaces** > **Create codespace on main**
+3. Wait for the environment to load (~2--3 minutes for `renv` to restore packages)
+4. RStudio Server will open in your browser --- ready to go
+
+Alternatively, clone the repo and work locally in RStudio or Positron (see [Computing: Tier 2](../computing.qmd#tier-2-local-development-alternative)).
+
+### 3. Work Through the Exercises
+
+- Follow the instructions in the `.qmd` file
+- Run code chunks as you go
+- Fill in your answers where prompted
+- Labs are designed to be completed in one session (~75 min)
+
+### 4. Save Your Work
+
+When you're done (or want to save progress):
+
+```bash
+git add -A
+git commit -m "Complete lab exercises"
+git push
+```
+
+::: {.callout-note}
+Labs are ungraded, but committing your work is good practice and lets you reference it later.
+:::
+
+------------------------------------------------------------------------
+
+## Accessing Solutions
+
+Solutions are released the day after each lab session.
+
+**To get solutions, run in your terminal (inside your lab repo):**
+
+```bash
+git pull
+```
+
+A solutions file (e.g., `lab-0-setup-sols.qmd`) will appear in your repository with complete solutions and explanations.
+
+::: {.callout-tip}
+## Compare Your Work
+Review the solutions to check your understanding. Labs are for learning, not grading!
+:::
+
+------------------------------------------------------------------------
+
+## Getting Help
+
+If you get stuck on a lab:
+
+1. Check the [Computing](../computing.qmd) page for environment troubleshooting
+2. Post in the [Course Discussions](https://uncch.instructure.com/courses/108894/discussion_topics) on Canvas
+3. Ask on [Slack](https://hpm883.slack.com)
+4. Attend [Office Hours](https://calendly.com/sean-sylvia/hpm-883-office-hours-1)
