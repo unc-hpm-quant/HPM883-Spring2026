@@ -93,3 +93,6 @@ credentials*
 
 # Git worktrees
 .worktrees/
+
+# Instructor solutions (private — not for student access)
+problem-sets/solutions/
