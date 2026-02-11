@@ -99,6 +99,8 @@ d) The **Lin (2013) estimator** is recommended for covariate adjustment in RCTs.
 
 e) What is **CUPED** (Controlled Experiments Using Pre-Experiment Data), and under what conditions does it provide the largest variance reduction?
 
+*Hint: CUPED is closely related to the Lin (2013) estimator from part (d). Think about what "pre-experiment data" means in terms of the covariates used for adjustment.*
+
 ### 1.3 Optimal Allocation (6 points)
 
 f) Given a fixed budget with costs per patient ($c_p$) and per cluster ($c_c$), derive the formula for the **optimal number of individuals per cluster** that minimizes variance. How does this optimal allocation depend on the ICC?
@@ -126,6 +128,11 @@ Diagnose the design with at least 500 simulations. Report:
 - RMSE
 - 95% CI coverage
 
+::: {.callout-tip}
+## Sanity Check
+With only 20 clinics, ICC = 0.15, and a difference-in-means estimator, your power should be **well below 80%**. If you're getting power above 80%, double-check that you've correctly implemented cluster randomization (not individual randomization).
+:::
+
 ### 2.2 Blocked Cluster RCT (10 points)
 
 Now declare a design that **blocks on clinic characteristics** before randomization:
@@ -135,6 +142,11 @@ Now declare a design that **blocks on clinic characteristics** before randomizat
 - Include block fixed effects in the estimator
 
 Compare power and RMSE to the simple design. Does blocking help?
+
+::: {.callout-tip}
+## Sanity Check
+Blocking should improve power somewhat, but with only 20 clinics the improvement may be modest. Power will likely still be below 80%.
+:::
 
 ### 2.3 Covariate-Adjusted Design (10 points)
 
@@ -160,6 +172,11 @@ The true ICC is unknown. Create a **power curve** showing how power varies as IC
 - Add a horizontal reference line at 80% power
 
 At what ICC does your design drop below 80% power (without adjustment)? With adjustment?
+
+::: {.callout-tip}
+## Sanity Check
+Your power curve should **decrease** as ICC increases (higher clustering = less effective information). The Lin-adjusted curve should be consistently above the unadjusted curve.
+:::
 
 ### 3.2 Sample Size Requirements (10 points)
 
@@ -191,6 +208,11 @@ Calculate all feasible (cluster, patients/cluster) combinations that satisfy the
 Using `DeclareDesign`, diagnose power for a grid of feasible allocations (e.g., 15-25 clinics × 15-25 patients/clinic). Create a contour plot or heatmap of power across the design space.
 
 **What is the optimal allocation that maximizes power under the budget constraint?**
+
+::: {.callout-tip}
+## Sanity Check
+The optimal allocation typically favors **more clusters with fewer patients each** (clusters are the unit of randomization, so more clusters = more information). Your optimal design should use more than 20 clinics.
+:::
 
 ### 4.3 Analytical vs. Simulation Comparison
 

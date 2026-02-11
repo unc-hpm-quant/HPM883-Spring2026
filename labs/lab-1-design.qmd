@@ -281,14 +281,14 @@ designs <- lapply(sample_sizes, function(n) {
   estimator
 })
 
-# Diagnose all designs
-diagnoses <- diagnose_designs(designs, sims = 200)
+# Diagnose each design individually
+diagnoses <- lapply(designs, diagnose_design, sims = 200)
 
 # Extract power estimates
 power_results <- data.table(
   N = sample_sizes,
-  Power = sapply(diagnoses, function(d) d$diagnosands$power[1]),
-  SE = sapply(diagnoses, function(d) d$diagnosands$se_power[1])
+  Power = sapply(diagnoses, function(d) d$diagnosands_df$power[1]),
+  SE = sapply(diagnoses, function(d) d$diagnosands_df$`se(power)`[1])
 )
 
 # Plot power curve
@@ -482,7 +482,7 @@ We can improve power by adjusting for baseline covariates. The key insight from 
 
 1.  **Center** covariates at their means
 2.  **Include** covariate × treatment interactions
-3.  This **guarantees** variance reduction (never hurts!)
+3.  This **asymptotically guarantees** variance reduction (never hurts in large samples!)
 
 ```{r}
 #| label: covariate-adjustment
@@ -536,6 +536,102 @@ comparison_cov
 1.  How much does power improve with Lin adjustment?
 2.  Is the Lin-adjusted estimator still unbiased?
 3.  Why does covariate adjustment work in this case?
+:::
+
+------------------------------------------------------------------------
+
+## Part 6.5: Bridging to PS1 — Cluster Randomization
+
+So far, we've been randomizing **individual patients** to treatment. But in PS1, you'll design a **cluster-randomized trial** where entire clinics are randomized. This changes everything about power analysis.
+
+Why cluster randomize? Because the ICCP intervention trains clinic staff — you can't train half the staff and leave the other half untrained. The unit of treatment delivery is the clinic, so the unit of randomization must be the clinic.
+
+### Building Hierarchical Data with `fabricatr`
+
+The `fabricatr` package uses `add_level()` to create nested data structures. Here's how to build a 20-clinic, 20-patients/clinic design:
+
+```{r}
+#| label: cluster-model
+
+# Declare a cluster-randomized model
+model_cluster <- declare_model(
+  clinics = add_level(N = 20,
+    # Each clinic has its own baseline effect
+    clinic_effect = rnorm(N, 0, sd = 0.4)
+  ),
+  patients = add_level(N = 20,
+    # Individual-level variation
+    U = rnorm(N, 0, sd = 1.0),
+    # Potential outcomes include clinic effect
+    Y_Z_0 = 8.5 + clinic_effect + U,
+    Y_Z_1 = 8.5 - 0.5 + clinic_effect + U
+  )
+)
+
+# Preview: notice the nested structure
+draw_data(model_cluster) |> head(10)
+```
+
+### Understanding the ICC
+
+The **intraclass correlation coefficient** measures how much of the total variation is between clusters:
+
+$$ICC = \frac{\sigma^2_{clinic}}{\sigma^2_{clinic} + \sigma^2_{individual}} = \frac{0.4^2}{0.4^2 + 1.0^2} \approx 0.14$$
+
+Higher ICC = patients within a clinic are more similar = less independent information per patient.
+
+### Cluster Randomization and Robust SEs
+
+With cluster randomization, we assign treatment at the **clinic** level using `cluster_ra()` and use cluster-robust standard errors:
+
+```{r}
+#| label: cluster-design
+
+# Cluster-level assignment
+assignment_cluster <- declare_assignment(
+  Z = cluster_ra(clusters = clinics)
+)
+
+# Cluster-robust estimator
+estimator_cluster <- declare_estimator(
+  Y ~ Z,
+  inquiry = "ATE",
+  .method = lm_robust,
+  clusters = clinics,
+  label = "Cluster-robust DiM"
+)
+
+# Complete cluster design
+design_cluster <- model_cluster + inquiry + assignment_cluster + measurement + estimator_cluster
+
+# Diagnose
+diag_cluster <- diagnose_design(design_cluster, sims = 500)
+diag_cluster
+```
+
+### Compare: Individual vs. Cluster Randomization
+
+```{r}
+#| label: cluster-vs-individual
+
+# Individual-level design (same total N = 400)
+design_individual <- model + inquiry + assignment + measurement + estimator
+
+# Diagnose both
+diag_individual <- diagnose_design(design_individual, sims = 500)
+
+cat("Individual randomization power:",
+    diag_individual$diagnosands_df$power[1], "\n")
+cat("Cluster randomization power:   ",
+    diag_cluster$diagnosands_df$power[1], "\n")
+```
+
+You should see that cluster randomization has **substantially lower power** — even though both designs have 400 patients. This is the design effect in action: with ICC ≈ 0.14 and 20 patients per clinic, your effective sample size is much smaller than 400.
+
+::: callout-important
+## Bridge to PS1
+
+This cluster design is the **building block for Problem Set 1**. Your job there: start from this foundation and add blocking, Lin adjustment, and budget-constrained optimization on top. The key question: how should you allocate your budget between more clinics vs. more patients per clinic?
 :::
 
 ------------------------------------------------------------------------
