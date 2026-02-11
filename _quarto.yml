@@ -142,6 +142,8 @@ website:
             text: "Sessions 2.2-2.3: IF & DML Theory"
       - section: "Problem Sets"
         contents:
+          - href: problem-sets/st-nulls-hospital.qmd
+            text: "St. Null's Hospital"
           - href: problem-sets/ps-1-experimental-design.qmd
             text: "PS 1: Experimental Design"
       - section: "Resources"
