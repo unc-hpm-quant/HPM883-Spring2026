@@ -1,0 +1,778 @@
+---
+title: "Session 2.1: ML Foundations for Causal Inference"
+subtitle: "HPM 883: Advanced Quantitative Methods"
+author: "Sean Sylvia"
+date: "February 16, 2026"
+date-format: long
+format:
+  revealjs:
+    theme: [default, ../style/gillings.scss]
+    slide-number: true
+    transition: fade
+    progress: true
+    chalkboard: true
+    smaller: true
+    scrollable: true
+    logo: ../images/logo.png
+    footer: "HPM 883 | Session 2.1"
+    toc: true
+    toc-depth: 1
+    preview-links: auto
+    incremental: false
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+# Introduction
+
+## Today's Big Picture
+
+::: {.callout-note appearance="simple"}
+## The Transition
+We've spent Unit 1 asking **"Does it work?"** using experimental design.
+
+Now we begin asking the same question with **observational data** — using machine learning as a tool for causal inference.
+:::
+
+. . .
+
+**Today's role for ML**: Not prediction for its own sake, but prediction as a **building block** for causal estimation.
+
+## Session Roadmap
+
+:::: {.columns}
+::: {.column width="50%"}
+### Part 1: ML Foundations
+- What ML is (and isn't)
+- Prediction vs. causation
+- Bias-variance tradeoff
+- Cross-validation
+:::
+
+::: {.column width="50%"}
+### Part 2: Algorithms & Nuisance
+- Regularization (LASSO, Ridge)
+- Tree-based methods
+- ML as **nuisance estimation**
+- Preview: Double Machine Learning
+:::
+::::
+
+---
+
+# Why Machine Learning?
+
+## ML is Already Everywhere
+
+:::: {.columns}
+::: {.column width="50%"}
+### Translation
+
+![](../images/Translation.png){width="500"}
+:::
+
+::: {.column width="50%"}
+### Self-Driving Cars
+
+![](../images/self-driving.png){width="500"}
+:::
+::::
+
+. . .
+
+> **These advances share a common foundation**: learning patterns from data to make predictions
+
+---
+
+## The Key Insight
+
+**Traditional programming:**
+
+```
+Rules + Data → Answers
+```
+
+. . .
+
+**Machine learning:**
+
+```
+Data + Answers → Rules (learned patterns)
+```
+
+. . .
+
+> ML discovers patterns from examples, rather than being explicitly told the rules
+
+---
+
+## ML vs Statistics vs Econometrics
+
+| Approach | Primary Goal | Focus | Key Question |
+|----------|--------------|-------|--------------|
+| **Statistics** | Inference | Uncertainty | What is the relationship? |
+| **Econometrics** | Causation | Identification | Does X *cause* Y? |
+| **Machine Learning** | Prediction | Performance | What will Y be? |
+
+. . .
+
+::: {.callout-tip appearance="simple"}
+## The Punchline for This Course
+Modern causal inference uses ML for **prediction** tasks that serve **causal** goals. ML handles the hard prediction parts so we can focus on identification.
+:::
+
+---
+
+# Prediction vs. Causation
+
+## Two Different Goals {.smaller}
+
+:::: {.columns}
+::: {.column width="50%"}
+### Econometrics: β-hard Problems
+**Goal**: Understand $\hat{\beta}$ (coefficients)
+
+- "Does X cause Y?"
+- Hypothesis testing
+- Causal interpretation
+- **Unbiasedness** matters most
+:::
+
+::: {.column width="50%"}
+### Machine Learning: Y-hard Problems
+**Goal**: Accurate $\hat{y}$ (predictions)
+
+- "What will Y be?"
+- Minimize forecast error
+- Out-of-sample performance
+- **Prediction accuracy** matters most
+:::
+::::
+
+. . .
+
+> This distinction — from [Mullainathan & Spiess (2017)](https://doi.org/10.1257/jep.31.2.87) — is fundamental to understanding why ML matters for causal inference.
+
+---
+
+## When Prediction is Enough
+
+Many important problems only require good predictions:
+
+| Domain | Prediction Task | No Causation Needed |
+|--------|-----------------|---------------------|
+| **Email** | Spam or not? | Just filter accurately |
+| **Credit** | Will they default? | Just rank risk |
+| **Poverty** | Who is poor? | Just target resources |
+| **Diagnosis** | Which disease? | Just classify correctly |
+
+. . .
+
+> But for **policy evaluation** — "Does this intervention work?" — we need causal inference.
+
+---
+
+## The Poverty Targeting Example
+
+**Policy Problem**: How do we identify poor households for cash transfers?
+
+. . .
+
+:::: {.columns}
+::: {.column width="50%"}
+### What We Have
+- Observable characteristics
+- Household size, assets, location
+- Housing quality
+- Partial income data
+:::
+
+::: {.column width="50%"}
+### What We Need
+- Accurate poverty prediction
+- Rank families by need
+- Direct resources efficiently
+:::
+::::
+
+. . .
+
+> ML can predict consumption/income better than simple rules — enabling better targeting. This is pure **Y-hard**.
+
+---
+
+## But What About Policy Questions?
+
+::: {.callout-important appearance="simple"}
+## The Causal Question
+"Does a conditional cash transfer program **reduce** childhood malnutrition?"
+
+This is **β-hard** — we need a causal effect, not just a prediction.
+:::
+
+. . .
+
+**So why are we learning ML in a causal inference course?**
+
+. . .
+
+Because modern causal methods use ML for the **prediction sub-tasks** inside causal estimation:
+
+1. Predicting outcomes: $\hat{E}[Y|X]$
+2. Predicting treatment: $\hat{P}(D=1|X)$ (propensity score)
+
+These are called **nuisance functions** — more on this later.
+
+---
+
+# The Bias-Variance Tradeoff
+
+## The Central Challenge: Overfitting
+
+```
+┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐
+│   UNDERFITTING   │  │    JUST RIGHT    │  │   OVERFITTING    │
+│                  │  │                  │  │                  │
+│    ─────────     │  │      ~~~~        │  │    ~~/\~/\~~     │
+│   •  •  •  •     │  │    •  • •  •     │  │   •  •  •  •     │
+│                  │  │                  │  │                  │
+│ Too simple       │  │ Balanced         │  │ Too complex      │
+│ High bias        │  │ complexity       │  │ High variance    │
+└──────────────────┘  └──────────────────┘  └──────────────────┘
+```
+
+- **Underfitting**: Model too simple, misses real patterns (high bias)
+- **Overfitting**: Model too complex, memorizes noise (high variance)
+- **Sweet spot**: Captures signal, ignores noise
+
+---
+
+## The Bias-Variance Tradeoff
+
+![](../images/bias_variance_tradeoff.png){fig-align="center" width="500"}
+
+. . .
+
+- **Training error** always decreases with complexity
+- **Test error** eventually increases (overfitting!)
+- **Goal**: Find the complexity that minimizes **test error**
+
+---
+
+## Formal Decomposition
+
+For any estimator $\hat{f}$ of the true function $f$:
+
+$$E\left[(Y - \hat{f}(X))^2\right] = \underbrace{\text{Bias}^2(\hat{f})}_{\text{systematic error}} + \underbrace{\text{Var}(\hat{f})}_{\text{estimation noise}} + \underbrace{\sigma^2}_{\text{irreducible}}$$
+
+. . .
+
+| Component | Increases with | Decreases with |
+|-----------|---------------|----------------|
+| **Bias²** | Simplicity | Complexity |
+| **Variance** | Complexity | Simplicity |
+| **Irreducible** | — | — |
+
+. . .
+
+> The optimal model minimizes the **sum** of bias² and variance — not either alone.
+
+---
+
+## The Polynomial Example
+
+Consider predicting $y$ from a single feature $x$:
+
+| Degree | Model | Risk |
+|--------|-------|------|
+| 1 | $y = \beta_0 + \beta_1 x$ | Underfitting (high bias) |
+| 3 | $y = \beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3$ | May be right |
+| 10 | $y = \sum_{j=0}^{10} \beta_j x^j$ | Overfitting (high variance) |
+
+. . .
+
+::: {.callout-warning appearance="simple"}
+**The model that fits training data best is NOT always the best predictor.** An overfit model memorizes training data (including noise) and fails on new data.
+:::
+
+---
+
+# Cross-Validation
+
+## The Train/Test Split
+
+```
+┌────────────────────────────────────────────────────────┐
+│                    All Data (100%)                      │
+├────────────────────────────┬──────────────┬────────────┤
+│     Training (60%)         │  Val (20%)   │ Test (20%) │
+│                            │              │            │
+│   Learn patterns           │ Tune model   │ Final eval │
+└────────────────────────────┴──────────────┴────────────┘
+```
+
+1. **Training**: Learn patterns from data
+2. **Validation**: Compare models, tune complexity
+3. **Test**: Final, unbiased evaluation
+
+. . .
+
+> **Golden Rule**: Never touch test data until the very end!
+
+---
+
+## K-Fold Cross-Validation
+
+More robust than a single train/validation split:
+
+![](../images/k-fold.png){fig-align="center" width="500"}
+
+. . .
+
+**Process**:
+
+1. Split training data into K folds
+2. Train on K-1 folds, validate on remaining fold
+3. Repeat K times, rotating the validation fold
+4. Average the results
+
+---
+
+## Why Cross-Validation Works
+
+:::: {.columns}
+::: {.column width="50%"}
+### Single Split
+- Depends on random split
+- Validation set may be "lucky"
+- Unstable estimates
+:::
+
+::: {.column width="50%"}
+### K-Fold CV
+- Uses all data for validation
+- Averages across multiple splits
+- More reliable estimates
+:::
+::::
+
+. . .
+
+> **Rule of thumb**: 5-fold or 10-fold CV is standard practice
+
+::: {.callout-tip appearance="simple"}
+## Why This Matters for DML
+Cross-validation isn't just for model selection. In Double ML, we use a specific form called **cross-fitting** (sample splitting) to avoid overfitting bias in causal estimation. More in Sessions 2.2-2.3.
+:::
+
+---
+
+# Regularization
+
+## The High-Dimensional Problem
+
+$$\hat{y} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_p x_p$$
+
+**Problem with OLS when p is large:**
+
+- Many features relative to observations
+- Overfitting: model fits noise, not signal
+- Coefficients become unstable
+
+. . .
+
+**Solution**: Add a **penalty** that constrains coefficients
+
+---
+
+## Ridge vs LASSO
+
+:::: {.columns}
+::: {.column width="50%"}
+### Ridge Regression (L2)
+
+$$\min_\beta \sum_{i=1}^n (y_i - X_i\beta)^2 + \lambda \sum_{j=1}^p \beta_j^2$$
+
+- **Penalty**: Sum of squared coefficients
+- **Effect**: Shrinks all coefficients toward zero
+- **Never** sets coefficients exactly to zero
+:::
+
+::: {.column width="50%"}
+### LASSO (L1)
+
+$$\min_\beta \sum_{i=1}^n (y_i - X_i\beta)^2 + \lambda \sum_{j=1}^p |\beta_j|$$
+
+- **Penalty**: Sum of absolute coefficients
+- **Effect**: Shrinks AND selects features
+- **Can** set coefficients exactly to zero
+:::
+::::
+
+---
+
+## LASSO: Automatic Variable Selection
+
+```
+λ increasing →
+
+Feature 1:  ═══════════════════════════■──────────▶ 0
+Feature 2:  ═════════════════■──────────────────────▶ 0
+Feature 3:  ═══════■────────────────────────────────▶ 0
+Feature 4:  ═══════════════════════════════════■────▶ 0
+
+■ = coefficient becomes exactly zero
+```
+
+- As $\lambda$ increases, more coefficients shrink to zero
+- **Automatic feature selection!**
+- Cross-validation selects optimal $\lambda$
+
+---
+
+## Elastic Net: Best of Both
+
+$$\min_\beta \sum (y_i - X_i\beta)^2 + \lambda \left[\alpha \sum |\beta_j| + (1-\alpha) \sum \beta_j^2 \right]$$
+
+| Method | $\alpha$ | Feature Selection | Correlated Features |
+|--------|----------|-------------------|---------------------|
+| **Ridge** | 0 | No | Keeps all, shrinks equally |
+| **LASSO** | 1 | Yes | Picks one, drops others |
+| **Elastic Net** | 0-1 | Yes | Groups correlated features |
+
+. . .
+
+> **In practice**: Elastic Net is often the default choice — it handles both sparsity and correlation.
+
+---
+
+# Tree-Based Methods
+
+## Decision Trees: The Intuition
+
+**How a tree makes predictions:**
+
+```
+                    [Age > 50?]
+                      /       \
+                    Yes         No
+                     |           |
+          [BP > 140?]      [Smoker?]
+             /     \          /    \
+           Yes      No     Yes     No
+            |        |       |      |
+        Predict:  Predict: Predict: Predict:
+         High     Medium   Medium    Low
+          Risk     Risk     Risk    Risk
+```
+
+- Split data recursively based on feature thresholds
+- Each leaf contains a prediction
+- Automatically captures **non-linearities** and **interactions**
+
+---
+
+## Tree Regularization
+
+| Parameter | What it controls |
+|-----------|------------------|
+| **Max depth** | How deep the tree can grow |
+| **Min samples per leaf** | Minimum observations in each leaf |
+| **Min samples to split** | Minimum observations to create a split |
+| **Max features** | How many features to consider at each split |
+
+. . .
+
+**Shallow trees**: High bias, low variance (underfit)
+
+**Deep trees**: Low bias, high variance (overfit)
+
+---
+
+## Random Forest: Wisdom of the Crowd
+
+**Key idea**: Combine many diverse trees to reduce variance
+
+. . .
+
+**Algorithm:**
+
+1. Create **B** bootstrap samples from training data
+2. Train a tree on each sample
+3. At each split, consider only **m** random features (not all p)
+4. Average predictions (regression) or vote (classification)
+
+```
+Tree 1: 0.65    Tree 2: 0.62    Tree 3: 0.68    ...    Tree B: 0.64
+              ↘        ↓        ↙
+              Final Prediction: 0.648
+```
+
+---
+
+## Gradient Boosting: Learning from Mistakes
+
+**Key idea**: Build trees sequentially, each correcting previous errors
+
+. . .
+
+```
+Iteration 1: Predict mean                    Error: Large
+Iteration 2: Predict mean + tree₁            Error: Medium
+Iteration 3: Predict mean + tree₁ + tree₂    Error: Smaller
+...
+Iteration B: Σ trees                         Error: Small
+```
+
+. . .
+
+**Popular implementations:** XGBoost, LightGBM, CatBoost
+
+---
+
+## Random Forest vs Gradient Boosting
+
+| Aspect | Random Forest | Gradient Boosting |
+|--------|---------------|-------------------|
+| **Training** | Parallel (fast) | Sequential (slower) |
+| **Trees** | Independent | Build on each other |
+| **Overfitting risk** | Lower | Higher (needs tuning) |
+| **Out-of-the-box** | Often good | Needs more tuning |
+| **State-of-art** | Good | Often best |
+
+. . .
+
+> **For causal ML**: Both are commonly used as "learners" inside DML. The `grf` package (causal forests) builds on random forests specifically.
+
+---
+
+## Algorithm Selection Guide
+
+```
+                    ┌─────────────────────────────┐
+                    │  What's your data like?     │
+                    └─────────────────────────────┘
+                              │
+           ┌──────────────────┼──────────────────┐
+           │                  │                  │
+       Linear?            Non-linear?       High-dimensional?
+           │                  │                  │
+           ▼                  ▼                  ▼
+      Linear/LASSO      Tree methods         LASSO/Elastic Net
+                              │
+                    ┌─────────┴─────────┐
+                    │                   │
+              Need speed?         Need accuracy?
+                    │                   │
+                    ▼                   ▼
+             Random Forest      Gradient Boosting
+```
+
+---
+
+# ML for Nuisance Estimation
+
+## The Bridge: ML Meets Causal Inference {.smaller}
+
+::: {.callout-note appearance="simple"}
+## Key Concept
+In causal inference, many quantities we need to estimate are **nuisance parameters** — they aren't the causal effect of interest, but we need good estimates of them to get the causal effect right.
+:::
+
+. . .
+
+**What are nuisance functions?**
+
+| Nuisance Function | What It Is | ML Task |
+|-------------------|------------|---------|
+| $\mu(X) = E[Y \mid X]$ | Outcome model (conditional mean) | Regression |
+| $e(X) = P(D=1 \mid X)$ | Propensity score | Classification |
+| $\mu_d(X) = E[Y \mid D=d, X]$ | Conditional outcome by treatment | Regression |
+
+. . .
+
+These are all **Y-hard** prediction problems — exactly where ML excels!
+
+---
+
+## Why Use ML for Nuisance Functions?
+
+:::: {.columns}
+::: {.column width="50%"}
+### Traditional Approach
+- Parametric models (logistic, linear)
+- Researcher specifies functional form
+- Risk of **model misspecification**
+- "What if the propensity score isn't logistic?"
+:::
+
+::: {.column width="50%"}
+### ML Approach
+- Flexible, data-driven estimation
+- Captures non-linearities, interactions
+- Robust to complex relationships
+- "Let the data determine the form"
+:::
+::::
+
+. . .
+
+> **The insight**: We don't need to interpret nuisance functions — we just need them to be accurate. This is exactly what ML is built for.
+
+---
+
+## The Problem: Regularization Bias
+
+::: {.callout-warning appearance="simple"}
+## But There's a Catch
+If we just plug ML predictions into causal estimators, we get biased causal estimates.
+:::
+
+. . .
+
+**Why?** ML uses regularization (LASSO shrinkage, tree pruning, etc.) to achieve good predictions. But this regularization introduces **bias** into the nuisance estimates.
+
+. . .
+
+When nuisance bias contaminates the causal estimate:
+
+$$\hat{\tau} = \tau + \underbrace{\text{bias from } \hat{\mu}}_{\text{regularization}} + \text{noise}$$
+
+. . .
+
+> This is the problem that **Double Machine Learning** solves. Coming in Sessions 2.2-2.3.
+
+---
+
+## Preview: Double Machine Learning
+
+**DML Key Ideas** (Chernozhukov et al., 2018):
+
+. . .
+
+1. **Orthogonalization (Neyman orthogonality)**
+   - Construct an estimating equation where small errors in nuisance functions don't contaminate the causal estimate
+   - Uses **influence functions** (Session 2.2)
+
+. . .
+
+2. **Cross-fitting (sample splitting)**
+   - Train nuisance models on one part of the data
+   - Estimate causal effects on the other part
+   - Like K-fold CV, but for causal estimation
+   - Prevents overfitting bias from leaking in
+
+. . .
+
+> **The recipe**: Orthogonal scores + Cross-fitting + ML learners = $\sqrt{n}$-consistent causal estimates
+
+---
+
+## The DML Recipe (Preview)
+
+```
+┌──────────────────────────────────────────────────────────┐
+│  Double Machine Learning (Conceptual Overview)           │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│  Step 1: Split data into K folds                         │
+│                                                          │
+│  Step 2: For each fold k:                                │
+│    a. Train ML model for E[Y|X] on OTHER folds           │
+│    b. Train ML model for E[D|X] on OTHER folds           │
+│    c. Compute residuals on fold k:                       │
+│       Ỹ = Y - Ê[Y|X]    (outcome residual)              │
+│       D̃ = D - Ê[D|X]    (treatment residual)            │
+│                                                          │
+│  Step 3: Regress Ỹ on D̃ across all folds                │
+│    → This gives the causal effect θ̂                      │
+│                                                          │
+│  Step 4: Standard errors via influence function theory   │
+│                                                          │
+└──────────────────────────────────────────────────────────┘
+```
+
+. . .
+
+> We will derive **why** this works in Sessions 2.2-2.3 using influence functions and Neyman orthogonality.
+
+---
+
+## What ML Learner Should You Use?
+
+For the nuisance functions in DML, common choices:
+
+| Learner | Pros | Cons | R Package |
+|---------|------|------|-----------|
+| **LASSO** | Fast, interpretable path | Linear only | `glmnet` |
+| **Random Forest** | Non-linear, robust | Slower | `ranger` |
+| **Gradient Boosting** | Often best accuracy | Tuning needed | `xgboost` |
+| **Ensemble/Stacking** | Combines strengths | Complex | `SuperLearner` |
+
+. . .
+
+::: {.callout-tip appearance="simple"}
+## Practical Advice
+The `DoubleML` package in R/Python lets you plug in any ML learner. Start with LASSO (fast baseline), then try Random Forest or Boosting.
+:::
+
+---
+
+# Key Takeaways
+
+## Summary
+
+1. **ML is about prediction** ($\hat{y}$), not causation ($\hat{\beta}$) — but prediction serves causal goals
+
+2. **Bias-variance tradeoff** is fundamental: regularization trades bias for lower variance
+
+3. **Cross-validation** prevents overfitting and gives honest error estimates
+
+4. **LASSO** does automatic feature selection; **Random Forests** and **Boosting** handle non-linearity
+
+5. **Nuisance functions** (propensity scores, conditional means) are prediction problems — perfect for ML
+
+6. **Regularization bias** from ML contaminates naive causal estimates — **DML** fixes this
+
+---
+
+## Preparation for Next Session
+
+::: {.callout-note appearance="simple"}
+## Sessions 2.2-2.3: From Influence Functions to DML
+
+**Read before Wednesday:**
+
+- Chernozhukov et al. (2025), Chapter 5: Conditional Ignorability
+- Kennedy (2016): "Semiparametric Theory and Empirical Processes" (Sections 1-3)
+
+**Key question to think about:**
+
+*Why can't we just plug LASSO-estimated propensity scores into the standard IPW estimator?*
+:::
+
+---
+
+## Reminders
+
+- **PS1 due Wednesday Feb 18** at 11:15am via GitHub Classroom
+- Questions about PS1? Office hours Monday after class or by appointment
+- Next session (Wed Feb 18): **Influence Functions & Orthogonal Scores**
+
+---
+
+## Additional Resources
+
+### ML Foundations
+- [ISLR Online](https://www.statlearning.com/) — Free textbook with R labs
+- Mullainathan & Spiess (2017) — "Machine Learning: An Applied Econometric Approach" *JEP*
+- Athey & Imbens (2019) — "Machine Learning Methods Economists Should Know About"
+
+### R Packages for This Unit
+- [`glmnet`](https://glmnet.stanford.edu/) — LASSO and Ridge regression
+- [`ranger`](https://github.com/imbs-hl/ranger) — Fast Random Forest
+- [`xgboost`](https://xgboost.readthedocs.io/) — Gradient Boosting
+- [`DoubleML`](https://docs.doubleml.org/) — Double Machine Learning framework
+- [`grf`](https://grf-labs.github.io/grf/) — Generalized Random Forests (causal forests)

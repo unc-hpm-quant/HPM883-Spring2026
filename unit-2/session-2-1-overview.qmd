@@ -100,9 +100,9 @@ This session provides the machine learning foundations needed for modern causal 
 
 ## After Class
 
-### Design Memo 1 Coming Up
+### PS1 Reminder
 
--   **Design Memo 1: Experimental Design Plan** — Due February 16
+-   **Problem Set 1: Experimental Design** — Due February 18 at 11:15am via GitHub Classroom
 
 ### Looking Ahead
 
