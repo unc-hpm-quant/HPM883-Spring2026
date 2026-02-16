@@ -47,6 +47,7 @@ This session covers the foundations of statistical inference in experiments: how
 ## In Class
 
 -   [Lecture Slides](session-1-2-slides.qmd)
+-   [Supplementary: Sources of Uncertainty](sources-of-uncertainty-slides.qmd)
 
 **Topics Covered:**
 
