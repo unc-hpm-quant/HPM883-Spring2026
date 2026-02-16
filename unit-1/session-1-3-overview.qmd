@@ -47,6 +47,7 @@ This session introduces the Model-Inquiry-Data-Answer (MIDA) framework for decla
 ## In Class
 
 -   [Lecture Slides](session-1-3-slides.qmd)
+-   [Interactive App: Optimal Design Explorer](shiny-oed-app.qmd)
 
 **Topics Covered:**
 

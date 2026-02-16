@@ -132,6 +132,8 @@ website:
             text: "↳ Slides"
           - href: unit-1/optimal-design-notes.qmd
             text: "↳ Notes: Optimal Design"
+          - href: unit-1/shiny-oed-app.qmd
+            text: "↳ App: Optimal Design Explorer"
       - section: "Unit 2: Double Machine Learning"
         contents:
           - href: unit-2/unit-2.qmd
