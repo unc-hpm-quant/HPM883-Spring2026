@@ -56,7 +56,7 @@ subtitle: "HPM 883 Spring 2026"
 
 *Note: MIDA framework, blocking, stratification, and variance reduction topics (originally Session 1.3) will be covered in the Feb 11 PS1 Prep Workshop.*
 
-**Problem Set 1 assigned:** Due February 18, 2026 at 11:15am
+**Problem Set 1 assigned:** Due February 25, 2026 at 11:15am
 
 ::: {.callout-important}
 ## Jigsaw 1: Experimental Design (Jan 28)
@@ -96,7 +96,7 @@ Your paper and group assignments are now posted:
 
 **Note:** ML Foundations (Session 2.1) moved to Feb 16 due to snow cancellations and schedule adjustments.
 
-**Due:** Problem Set 1 (February 18 at 11:15am)
+**Due:** Problem Set 1 (February 25 at 11:15am)
 
 ---
 
@@ -105,9 +105,9 @@ Your paper and group assignments are now posted:
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
 | 10 | Mon Feb 16 | ML Foundations for Causal Inference (Session 2.1) | In-Person |
-| 11 | Wed Feb 18 | From Influence Functions to DML: Orthogonality & Cross-Fitting (Sessions 2.2-2.3) | [Remote](https://zoom.us/j/93346316978) |
+| 11 | Wed Feb 18 | From Influence Functions to DML: Orthogonality & Cross-Fitting (Sessions 2.2-2.3) | In-Person |
 
-**Due:** Problem Set 1 (February 18 at 11:15am)
+**Due:** Problem Set 1 (February 25 at 11:15am)
 
 **Session 10 Preparation (Required):**
 
@@ -269,7 +269,7 @@ Your paper and group assignments are now posted:
 |-------------|----------|--------|
 | Problem Set 0: Git/GitHub Fundamentals | Jan 19 | (part of Problem Sets) |
 | **Jigsaw 1: Experimental Design** | **Jan 28** | (part of Jigsaw) |
-| **Problem Set 1: Experimental Design & Power** | **Feb 18** | (part of Problem Sets) |
+| **Problem Set 1: Experimental Design & Power** | **Feb 25** | (part of Problem Sets) |
 | Jigsaw 2: DML Applications | Feb 18 | (part of Jigsaw) |
 | Problem Set 2: Double ML Implementation | Feb 23 | (part of Problem Sets) |
 | Jigsaw 3: Causal Forest Applications | Mar 11 | (part of Jigsaw) |
