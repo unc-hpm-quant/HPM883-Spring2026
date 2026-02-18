@@ -12,7 +12,6 @@ format:
       light: [cosmo, style/hpm883.scss]
       dark: [cosmo, style/hpm883-dark.scss]
     filters:
-      - shinylive
     mainfont: "Times New Roman"
     highlight-style: a11y-light
     include-in-header:
