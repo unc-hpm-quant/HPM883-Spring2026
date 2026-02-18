@@ -1,0 +1,928 @@
+---
+title: Lab 2
+subtitle: "ML Regularization: Ridge, LASSO, and Elastic Net (Remote Lab)"
+author: "Sean Sylvia"
+date: "February 24, 2026"
+slug: "lab-2"
+categories: [Lab, Machine Learning, Regularization, Remote]
+description: "Hands-on implementation of regularized regression using glmnet. Build intuition for LASSO variable selection, ridge shrinkage, and the instability problem that motivates DML."
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-tools: true
+editor: visual
+execute:
+  eval: false
+---
+
+::: callout-important
+## Remote Lab — February 24, 2026 (Ungraded In-Class Activity)
+
+This lab accompanies **Session 2.1: ML Basics and Regression in High Dimensions**. Work through the code interactively during the Zoom session. All code chunks have `eval: false` so you run them yourself — this is a code-along, not a rendering exercise.
+
+**This is an ungraded in-class activity** — complete at your own pace. No formal submission required.
+:::
+
+## Overview and Learning Objectives
+
+In this lab, you will build hands-on intuition for **regularized regression** — the core ML tool underlying Double Machine Learning. You will:
+
+1.  **Fit** OLS, Ridge, LASSO, and Elastic Net models on a real dataset
+2.  **Visualize** how regularization shrinks and zeros out coefficients
+3.  **Select** the optimal penalty parameter using cross-validation
+4.  **Compare** models by out-of-sample prediction error (RMSE)
+5.  **Demonstrate** LASSO's variable selection instability — the key motivation for DML
+
+By the end of this lab, you will understand:
+
+-   Why OLS fails in high dimensions (too many variables, overfitting)
+-   How Ridge shrinks coefficients without zeroing them out
+-   How LASSO performs automatic variable selection via sparsity
+-   Why LASSO instability means we **cannot** use it directly for causal inference
+-   How Elastic Net blends the two approaches
+
+------------------------------------------------------------------------
+
+## Part 1: Setup and Data
+
+### 1.1 Load Packages
+
+```{r}
+#| label: setup
+#| eval: true
+#| message: false
+#| warning: false
+
+# Install if needed (uncomment if running for the first time)
+# install.packages(c("glmnet", "tidyverse", "ISLR2"))
+
+library(glmnet)      # Ridge, LASSO, Elastic Net
+library(tidyverse)   # Data manipulation and visualization
+library(ISLR2)       # Hitters dataset
+
+# Set seed for reproducibility
+set.seed(883)
+```
+
+### 1.2 Meet the Data: Baseball Salary Prediction
+
+We will use the `Hitters` dataset from the ISLR2 package — a classic regression example from your textbook. The goal is to predict a baseball player's **salary** from their career and season statistics.
+
+```{r}
+#| label: explore-data
+#| eval: true
+
+# Load and preview the data
+data("Hitters", package = "ISLR2")
+
+# Overview
+glimpse(Hitters)
+```
+
+```{r}
+#| label: data-dimensions
+
+# How many players, how many variables?
+dim(Hitters)
+names(Hitters)
+```
+
+::: callout-note
+## Why Baseball?
+
+This is the same dataset used in ISLR Chapter 6. It has 20 predictors — a realistic "moderately high-dimensional" setting where regularization helps. More importantly, it mimics health policy contexts: predicting patient costs, readmission risk, or drug spending from administrative data with many correlated predictors.
+:::
+
+### 1.3 Handle Missing Values
+
+```{r}
+#| label: missing-values
+
+# Check for missing values
+sum(is.na(Hitters$Salary))
+
+# How many players have missing salary?
+Hitters |> summarize(
+  n_total = n(),
+  n_missing = sum(is.na(Salary)),
+  pct_missing = mean(is.na(Salary))
+)
+```
+
+```{r}
+#| label: drop-missing
+
+# Drop rows with missing salary
+Hitters_clean <- Hitters |>
+  drop_na(Salary)
+
+cat("Observations after dropping missing:", nrow(Hitters_clean), "\n")
+```
+
+### 1.4 Create Model Matrix and Response
+
+`glmnet` does not use a formula interface like `lm()`. Instead, it takes a **matrix** of predictors and a **vector** of outcomes. The `model.matrix()` function handles factor variables (creating dummy variables) automatically.
+
+```{r}
+#| label: model-matrix
+
+# Create predictor matrix (glmnet requires a matrix, not a data frame)
+# model.matrix() automatically creates dummy variables for factors
+# The [,-1] removes the intercept column (glmnet handles intercept internally)
+X <- model.matrix(Salary ~ ., data = Hitters_clean)[, -1]
+y <- Hitters_clean$Salary
+
+# Check dimensions
+cat("Predictors (X):", nrow(X), "observations,", ncol(X), "columns\n")
+cat("Response (y):", length(y), "observations\n")
+cat("Column names:\n")
+print(colnames(X))
+```
+
+::: callout-tip
+## Why `model.matrix()`?
+
+The `Hitters` data has factor variables (`League`, `Division`, `NewLeague`). `model.matrix()` converts these to dummy variables. This is exactly the preprocessing step you would do with any dataset — including claims data with diagnosis codes or region indicators.
+:::
+
+### 1.5 Train/Test Split
+
+We will hold out 30% of observations as a test set to evaluate out-of-sample prediction performance.
+
+```{r}
+#| label: train-test-split
+
+# 70/30 train/test split
+n <- nrow(X)
+train_idx <- sample(1:n, size = floor(0.7 * n), replace = FALSE)
+test_idx  <- setdiff(1:n, train_idx)
+
+X_train <- X[train_idx, ]
+X_test  <- X[test_idx,  ]
+y_train <- y[train_idx]
+y_test  <- y[test_idx]
+
+cat("Training set:", length(train_idx), "observations\n")
+cat("Test set:    ", length(test_idx),  "observations\n")
+```
+
+------------------------------------------------------------------------
+
+## Part 2: OLS Baseline
+
+Before regularizing, let's see how ordinary OLS performs. This gives us a baseline — and shows the problem we are solving.
+
+### 2.1 Fit OLS
+
+```{r}
+#| label: ols-fit
+
+# Fit OLS on the training set
+# We use the data frame form here since lm() works with formulas
+ols_fit <- lm(Salary ~ ., data = Hitters_clean[train_idx, ])
+
+# Show all coefficients
+summary(ols_fit)
+```
+
+### 2.2 OLS Coefficients
+
+```{r}
+#| label: ols-coef
+
+# Extract coefficients (excluding intercept)
+ols_coef <- coef(ols_fit)[-1]  # Drop intercept
+
+# How many predictors? How many are "significant"?
+cat("Total predictors:", length(ols_coef), "\n")
+cat("Non-zero coefficients:", sum(ols_coef != 0), "\n")
+
+# Which have large absolute values?
+sort(abs(ols_coef), decreasing = TRUE) |> head(10)
+```
+
+::: callout-note
+## Notice Anything?
+
+Some OLS coefficients are huge — `CRBI` or `CRuns` might look implausibly large. With correlated predictors (multicollinearity), OLS estimates become noisy and unstable. Regularization will fix this.
+:::
+
+### 2.3 OLS Train and Test RMSE
+
+```{r}
+#| label: ols-rmse
+
+# Predictions on train and test sets
+ols_pred_train <- predict(ols_fit, newdata = Hitters_clean[train_idx, ])
+ols_pred_test  <- predict(ols_fit, newdata = Hitters_clean[test_idx,  ])
+
+# Compute RMSE
+rmse <- function(actual, predicted) {
+  sqrt(mean((actual - predicted)^2))
+}
+
+ols_rmse_train <- rmse(y_train, ols_pred_train)
+ols_rmse_test  <- rmse(y_test,  ols_pred_test)
+
+cat("OLS Train RMSE:", round(ols_rmse_train, 1), "\n")
+cat("OLS Test  RMSE:", round(ols_rmse_test,  1), "\n")
+cat("Train-to-Test gap:", round(ols_rmse_test - ols_rmse_train, 1),
+    "(positive = overfitting)\n")
+```
+
+::: callout-tip
+## The Overfitting Signature
+
+If test RMSE is substantially higher than train RMSE, OLS is **overfitting** — it has memorized noise in the training data. Regularization reduces this gap by constraining how large coefficients can be.
+:::
+
+------------------------------------------------------------------------
+
+## Part 3: Ridge Regression
+
+Ridge regression adds an **L2 penalty** to the OLS loss function:
+
+$$\hat{\beta}^{\text{ridge}} = \arg\min_\beta \left\{ \sum_{i=1}^n (y_i - x_i'\beta)^2 + \lambda \sum_{j=1}^p \beta_j^2 \right\}$$
+
+The penalty $\lambda \sum_j \beta_j^2$ forces coefficients toward zero — but **never exactly zero**. Ridge keeps all predictors but shrinks them proportionally.
+
+### 3.1 Fit Ridge Across All Lambda Values
+
+```{r}
+#| label: ridge-fit
+
+# alpha = 0 → Ridge (L2 penalty)
+# glmnet automatically fits a path of lambda values
+ridge_fit <- glmnet(X_train, y_train, alpha = 0)
+
+# How many lambda values did glmnet try?
+cat("Number of lambda values:", length(ridge_fit$lambda), "\n")
+cat("Lambda range:", round(min(ridge_fit$lambda), 2),
+    "to", round(max(ridge_fit$lambda), 2), "\n")
+```
+
+### 3.2 Coefficient Path Plot
+
+```{r}
+#| label: ridge-path-plot
+
+# Plot coefficient paths vs log(lambda)
+# Each line is one predictor's coefficient across the lambda range
+plot(ridge_fit, xvar = "lambda", label = TRUE,
+     main = "Ridge: Coefficient Paths vs. log(Lambda)")
+
+# Add a vertical reference line
+abline(v = log(ridge_fit$lambda[50]), lty = 2, col = "gray")
+```
+
+::: callout-note
+## Reading the Path Plot
+
+-   The **x-axis** is log(lambda) — larger values = more regularization
+-   Each **colored line** is one predictor's coefficient
+-   As lambda increases (right to left on the x-axis is less regularization), coefficients are free to grow
+-   As lambda increases (moving right), all coefficients **shrink toward zero**
+-   **Key insight**: No coefficient ever hits exactly zero — all predictors stay in the Ridge model
+
+What happens to the lines as you move toward the far right (high lambda)?
+:::
+
+### 3.3 Cross-Validation to Select Lambda
+
+We need to choose the right amount of regularization (the right lambda). We use **10-fold cross-validation** on the training set.
+
+```{r}
+#| label: ridge-cv
+
+# Cross-validate ridge over the lambda grid
+ridge_cv <- cv.glmnet(X_train, y_train, alpha = 0, nfolds = 10)
+
+# Plot CV error curve
+plot(ridge_cv,
+     main = "Ridge CV: Mean Squared Error vs. log(Lambda)")
+```
+
+```{r}
+#| label: ridge-lambda
+
+# Two common lambda choices:
+# lambda.min: lambda that minimizes CV error
+# lambda.1se: largest lambda within 1 SE of minimum (more regularization, simpler model)
+cat("lambda.min:", round(ridge_cv$lambda.min, 2), "\n")
+cat("lambda.1se:", round(ridge_cv$lambda.1se, 2), "\n")
+```
+
+::: callout-tip
+## lambda.min vs. lambda.1se
+
+-   **lambda.min**: Best prediction accuracy. Use when pure prediction is the goal.
+-   **lambda.1se**: More regularization, slightly worse CV error but simpler/more stable model. The "one standard error rule" follows Breiman's principle: prefer simpler models when they perform nearly as well.
+
+For causal inference (DML), **lambda.min** is typically preferred — we want the best nuisance estimation.
+:::
+
+### 3.4 Ridge Coefficients
+
+```{r}
+#| label: ridge-coef-compare
+
+# Extract ridge coefficients at lambda.min
+ridge_coef <- coef(ridge_cv, s = "lambda.min")
+
+# Side-by-side comparison with OLS
+coef_compare <- tibble(
+  Variable = rownames(ridge_coef)[-1],
+  OLS      = as.vector(ols_coef),
+  Ridge    = as.vector(ridge_coef)[-1]
+)
+
+# View the comparison
+print(coef_compare, n = 20)
+```
+
+```{r}
+#| label: ridge-coef-plot
+
+# Visualize coefficient shrinkage
+coef_compare |>
+  pivot_longer(c(OLS, Ridge), names_to = "Method", values_to = "Coefficient") |>
+  ggplot(aes(x = reorder(Variable, abs(Coefficient)), y = Coefficient, fill = Method)) +
+  geom_col(position = "dodge") +
+  coord_flip() +
+  labs(
+    title = "OLS vs. Ridge Coefficients",
+    subtitle = "Ridge shrinks coefficients toward zero but keeps all predictors",
+    x = NULL, y = "Coefficient Estimate"
+  ) +
+  scale_fill_manual(values = c("OLS" = "#4BACC6", "Ridge" = "#F59B42")) +
+  theme_minimal()
+```
+
+### 3.5 Ridge Test RMSE
+
+```{r}
+#| label: ridge-rmse
+
+# Predict on test set using lambda.min
+ridge_pred_test <- predict(ridge_cv, newx = X_test, s = "lambda.min")
+
+ridge_rmse_test <- rmse(y_test, ridge_pred_test)
+cat("Ridge Test RMSE:", round(ridge_rmse_test, 1), "\n")
+cat("OLS   Test RMSE:", round(ols_rmse_test,  1), "\n")
+cat("Improvement:", round(ols_rmse_test - ridge_rmse_test, 1), "\n")
+```
+
+------------------------------------------------------------------------
+
+## Part 4: LASSO Regression
+
+LASSO uses an **L1 penalty** instead of L2:
+
+$$\hat{\beta}^{\text{lasso}} = \arg\min_\beta \left\{ \sum_{i=1}^n (y_i - x_i'\beta)^2 + \lambda \sum_{j=1}^p |\beta_j| \right\}$$
+
+The L1 penalty has a key geometric property: it forces **some coefficients to exactly zero**, producing a **sparse model** with automatic variable selection.
+
+### 4.1 Fit LASSO
+
+```{r}
+#| label: lasso-fit
+
+# alpha = 1 → LASSO (L1 penalty)
+lasso_fit <- glmnet(X_train, y_train, alpha = 1)
+
+cat("Number of lambda values:", length(lasso_fit$lambda), "\n")
+```
+
+### 4.2 LASSO Coefficient Path
+
+```{r}
+#| label: lasso-path-plot
+
+# LASSO path — notice variables dropping to zero!
+plot(lasso_fit, xvar = "lambda", label = TRUE,
+     main = "LASSO: Coefficient Paths vs. log(Lambda)")
+```
+
+::: callout-note
+## LASSO vs. Ridge Path
+
+Compare this plot to the Ridge path:
+
+-   In Ridge, lines approach zero **asymptotically** but never reach it
+-   In LASSO, lines **hit exactly zero** and stay there — variables are eliminated
+
+As lambda increases (more regularization), fewer and fewer variables remain in the model. At very high lambda, only the most important predictor survives.
+
+**Question**: Which variable is the last to survive as lambda increases?
+:::
+
+### 4.3 Cross-Validation for LASSO Lambda
+
+```{r}
+#| label: lasso-cv
+
+# Cross-validate LASSO
+lasso_cv <- cv.glmnet(X_train, y_train, alpha = 1, nfolds = 10)
+
+# CV error plot
+plot(lasso_cv,
+     main = "LASSO CV: Mean Squared Error vs. log(Lambda)")
+```
+
+```{r}
+#| label: lasso-lambda
+
+cat("lambda.min:", round(lasso_cv$lambda.min, 2), "\n")
+cat("lambda.1se:", round(lasso_cv$lambda.1se, 2), "\n")
+```
+
+### 4.4 Which Variables Does LASSO Select?
+
+```{r}
+#| label: lasso-selected-vars
+
+# Coefficients at lambda.min
+lasso_coef_min <- coef(lasso_cv, s = "lambda.min")
+lasso_coef_1se <- coef(lasso_cv, s = "lambda.1se")
+
+# Count non-zero coefficients (excluding intercept)
+n_selected_min <- sum(lasso_coef_min[-1] != 0)
+n_selected_1se <- sum(lasso_coef_1se[-1] != 0)
+
+cat("Variables selected at lambda.min:", n_selected_min, "out of", ncol(X_train), "\n")
+cat("Variables selected at lambda.1se:", n_selected_1se, "out of", ncol(X_train), "\n")
+```
+
+```{r}
+#| label: lasso-selected-names
+
+# Which variables are selected at lambda.min?
+selected_vars <- rownames(lasso_coef_min)[lasso_coef_min[, 1] != 0]
+selected_vars <- selected_vars[selected_vars != "(Intercept)"]
+
+cat("Variables selected by LASSO (lambda.min):\n")
+print(selected_vars)
+
+# Show their coefficient values
+lasso_selected_coef <- lasso_coef_min[selected_vars, ]
+print(sort(lasso_selected_coef, decreasing = TRUE))
+```
+
+::: callout-tip
+## LASSO Does Variable Selection Automatically
+
+OLS used all 19 predictors. LASSO with lambda.1se might use only 5-8. This is the "sparse model" property — LASSO enforces that most coefficients are exactly zero.
+
+In health policy contexts, this is valuable: if you have 200 diagnosis code indicators, LASSO will identify the handful that actually predict the outcome.
+:::
+
+### 4.5 LASSO Test RMSE
+
+```{r}
+#| label: lasso-rmse
+
+# Predict on test set
+lasso_pred_test <- predict(lasso_cv, newx = X_test, s = "lambda.min")
+lasso_rmse_test <- rmse(y_test, lasso_pred_test)
+
+cat("LASSO Test RMSE:", round(lasso_rmse_test, 1), "\n")
+cat("Ridge Test RMSE:", round(ridge_rmse_test,  1), "\n")
+cat("OLS   Test RMSE:", round(ols_rmse_test,    1), "\n")
+```
+
+------------------------------------------------------------------------
+
+## Part 5: Elastic Net
+
+Elastic Net combines the L1 and L2 penalties:
+
+$$\hat{\beta}^{\text{enet}} = \arg\min_\beta \left\{ \sum_{i=1}^n (y_i - x_i'\beta)^2 + \lambda \left[ \alpha \sum_{j=1}^p |\beta_j| + (1-\alpha) \sum_{j=1}^p \beta_j^2 \right] \right\}$$
+
+The mixing parameter `alpha` controls the blend: `alpha = 1` is pure LASSO, `alpha = 0` is pure Ridge.
+
+### 5.1 Fit Elastic Net
+
+```{r}
+#| label: enet-fit
+
+# alpha = 0.5 → Equal mix of Ridge and LASSO
+enet_cv <- cv.glmnet(X_train, y_train, alpha = 0.5, nfolds = 10)
+
+# Plot CV curve
+plot(enet_cv,
+     main = "Elastic Net (alpha=0.5) CV: MSE vs. log(Lambda)")
+```
+
+### 5.2 Elastic Net Coefficients
+
+```{r}
+#| label: enet-coef
+
+# Coefficients at lambda.min
+enet_coef <- coef(enet_cv, s = "lambda.min")
+
+n_selected_enet <- sum(enet_coef[-1] != 0)
+cat("Elastic Net variables selected:", n_selected_enet, "\n")
+cat("LASSO variables selected:      ", n_selected_min, "\n")
+cat("Ridge variables selected:      ", ncol(X_train), "(all)\n")
+```
+
+### 5.3 Elastic Net Test RMSE
+
+```{r}
+#| label: enet-rmse
+
+# Predict on test set
+enet_pred_test <- predict(enet_cv, newx = X_test, s = "lambda.min")
+enet_rmse_test <- rmse(y_test, enet_pred_test)
+
+cat("Elastic Net Test RMSE:", round(enet_rmse_test, 1), "\n")
+```
+
+::: callout-note
+## When to Use Elastic Net?
+
+-   **Ridge**: Many predictors, all relevant, no interest in variable selection (e.g., genome-wide association, many correlated covariates)
+-   **LASSO**: Sparse true model — only a few predictors matter; you want variable selection
+-   **Elastic Net**: Correlated predictors (LASSO arbitrarily selects one from a group of correlated vars; Elastic Net can select the whole group)
+
+In practice for DML nuisance estimation, **LASSO and Elastic Net are most common**.
+:::
+
+------------------------------------------------------------------------
+
+## Part 6: Model Comparison
+
+### 6.1 RMSE Comparison Table
+
+```{r}
+#| label: comparison-table
+#| eval: true
+
+# Assemble results — note: you need to have run all previous chunks first
+# If running fresh, run all prior chunks then come back here
+
+results <- tibble(
+  Method         = c("OLS", "Ridge", "LASSO", "Elastic Net"),
+  Test_RMSE      = c(ols_rmse_test, ridge_rmse_test, lasso_rmse_test, enet_rmse_test),
+  N_Predictors   = c(
+    ncol(X_train),                          # OLS uses all
+    ncol(X_train),                          # Ridge uses all
+    sum(coef(lasso_cv, s = "lambda.min")[-1] != 0),
+    sum(coef(enet_cv,  s = "lambda.min")[-1] != 0)
+  )
+)
+
+# Print as a readable table
+results |>
+  mutate(Test_RMSE = round(Test_RMSE, 1)) |>
+  arrange(Test_RMSE) |>
+  print()
+```
+
+::: callout-note
+## Interpreting the Table
+
+1.  Which method has the **lowest test RMSE**?
+2.  OLS uses all predictors — how does it compare to regularized methods?
+3.  LASSO and Elastic Net use far fewer predictors — do they sacrifice much prediction accuracy?
+:::
+
+### 6.2 Coefficient Comparison Plot
+
+```{r}
+#| label: coef-comparison-plot
+
+# Build a comparison data frame for all methods
+lasso_coef_vec <- as.vector(coef(lasso_cv, s = "lambda.min"))[-1]
+ridge_coef_vec <- as.vector(coef(ridge_cv, s = "lambda.min"))[-1]
+enet_coef_vec  <- as.vector(coef(enet_cv,  s = "lambda.min"))[-1]
+
+coef_all <- tibble(
+  Variable    = colnames(X_train),
+  OLS         = as.vector(ols_coef),
+  Ridge       = ridge_coef_vec,
+  LASSO       = lasso_coef_vec,
+  Elastic_Net = enet_coef_vec
+)
+
+# Long format for plotting
+coef_long <- coef_all |>
+  pivot_longer(-Variable, names_to = "Method", values_to = "Coefficient") |>
+  mutate(Method = factor(Method, levels = c("OLS", "Ridge", "LASSO", "Elastic_Net")))
+
+# Plot — focus on top predictors by OLS absolute value
+top_vars <- coef_all |>
+  mutate(abs_ols = abs(OLS)) |>
+  slice_max(abs_ols, n = 10) |>
+  pull(Variable)
+
+coef_long |>
+  filter(Variable %in% top_vars) |>
+  ggplot(aes(x = Variable, y = Coefficient, fill = Method)) +
+  geom_col(position = "dodge") +
+  coord_flip() +
+  scale_fill_manual(values = c(
+    "OLS"         = "#4BACC6",
+    "Ridge"       = "#F59B42",
+    "LASSO"       = "#9BBB59",
+    "Elastic_Net" = "#C0504D"
+  )) +
+  labs(
+    title    = "Coefficient Comparison: OLS vs. Regularized Methods",
+    subtitle = "Top 10 predictors by OLS absolute coefficient value",
+    x        = NULL,
+    y        = "Coefficient Estimate"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+::: callout-tip
+## Key Insight: Regularization Gives You Two Things
+
+1.  **Better prediction** (lower test RMSE) — by avoiding overfitting
+2.  **Simpler model** (fewer predictors in LASSO/Elastic Net) — by enforcing sparsity
+
+In DML, we use this for **nuisance estimation**: predicting the outcome and treatment conditional on controls. We want best prediction (lambda.min), not interpretability. But we also need to understand the instability problem — next section.
+:::
+
+------------------------------------------------------------------------
+
+## Part 7: LASSO Instability Demo
+
+This is the most important section for understanding **why we cannot use LASSO directly for causal inference**.
+
+### 7.1 The Instability Problem
+
+LASSO does variable selection — but **which variables it selects depends on the specific sample**. When two predictors are correlated, LASSO might pick one in one sample and the other in another sample. This instability is a fundamental problem if we care about *which* variables are selected.
+
+```{r}
+#| label: instability-setup
+
+# We will resample the data 10 times and refit LASSO each time
+# Then see which variables are selected in each resample
+
+n_resamples <- 10
+n_total <- nrow(X)
+
+# Store selection results: rows = resamples, cols = variables
+selection_matrix <- matrix(
+  FALSE,
+  nrow = n_resamples,
+  ncol = ncol(X),
+  dimnames = list(
+    paste0("Resample_", 1:n_resamples),
+    colnames(X)
+  )
+)
+```
+
+```{r}
+#| label: instability-loop
+
+# For each resample: draw 70% of data, fit LASSO with lambda.1se, record selections
+for (i in 1:n_resamples) {
+  # Random 70% subsample
+  idx <- sample(1:n_total, size = floor(0.7 * n_total), replace = FALSE)
+
+  X_sub <- X[idx, ]
+  y_sub <- y[idx]
+
+  # Fit LASSO with cross-validated lambda
+  cv_fit <- cv.glmnet(X_sub, y_sub, alpha = 1, nfolds = 5)
+
+  # Record which variables are selected (non-zero at lambda.1se)
+  coefs <- coef(cv_fit, s = "lambda.1se")[-1]  # drop intercept
+  selection_matrix[i, ] <- (coefs != 0)
+}
+
+cat("Done fitting LASSO across", n_resamples, "resamples.\n")
+```
+
+### 7.2 Selection Frequency Table
+
+```{r}
+#| label: selection-frequency
+
+# Calculate how often each variable is selected
+selection_freq <- tibble(
+  Variable           = colnames(X),
+  Times_Selected     = colSums(selection_matrix),
+  Selection_Rate     = colMeans(selection_matrix)
+) |>
+  arrange(desc(Times_Selected))
+
+print(selection_freq, n = 20)
+```
+
+### 7.3 Visualize Instability
+
+```{r}
+#| label: instability-plot
+
+# Plot: selection frequency for each variable
+selection_freq |>
+  mutate(Variable = fct_reorder(Variable, Selection_Rate)) |>
+  ggplot(aes(x = Variable, y = Selection_Rate)) +
+  geom_col(aes(fill = Selection_Rate), show.legend = FALSE) +
+  geom_hline(yintercept = 0.5, linetype = "dashed", color = "red") +
+  coord_flip() +
+  scale_fill_gradient(low = "#D9EAD3", high = "#274E13") +
+  labs(
+    title    = "LASSO Variable Selection Instability",
+    subtitle = paste0("Across ", n_resamples,
+                      " resamples of 70% of data (lambda.1se)\n",
+                      "Red line = selected in 50% of resamples"),
+    x        = NULL,
+    y        = "Selection Rate (0 = never, 1 = always)"
+  ) +
+  theme_minimal()
+```
+
+::: callout-note
+## What Does This Tell You?
+
+Some variables are selected in nearly every resample — these are robustly important. Others are selected in only 2 or 3 out of 10 resamples — their inclusion depends heavily on which observations happened to be in the training data.
+
+**Questions:**
+1.  Which variables are stably selected (selection rate > 0.8)?
+2.  Which variables are unstably selected (selection rate between 0.2 and 0.8)?
+3.  What would happen if we tried to make a causal claim based on which variables LASSO selected?
+:::
+
+### 7.4 Why This Matters for Causal Inference
+
+```{r}
+#| label: instability-causal-bridge
+
+# Show: for a focal predictor (e.g., "Hits"), what coefficient does LASSO
+# assign in each resample? It varies — sometimes included, sometimes not.
+
+focal_var <- "Hits"  # change this to any variable you find interesting
+
+# Re-collect coefficient values across resamples
+coef_resamples <- numeric(n_resamples)
+
+for (i in 1:n_resamples) {
+  idx    <- sample(1:n_total, size = floor(0.7 * n_total), replace = FALSE)
+  cv_fit <- cv.glmnet(X[idx, ], y[idx], alpha = 1, nfolds = 5)
+  coefs  <- coef(cv_fit, s = "lambda.1se")
+  coef_resamples[i] <- coefs[focal_var, 1]
+}
+
+cat("Coefficient for", focal_var, "across 10 resamples:\n")
+print(round(coef_resamples, 1))
+cat("\nStandard deviation:", round(sd(coef_resamples), 2), "\n")
+cat("Times included:    ", sum(coef_resamples != 0), "out of", n_resamples, "\n")
+```
+
+::: callout-important
+## The Bridge to Double Machine Learning
+
+LASSO instability is not a bug — it is expected behavior from an L1 penalty with correlated predictors. But it has a critical implication:
+
+**You cannot trust LASSO-selected variables for causal inference.** If a variable is sometimes in and sometimes out depending on the sample, its estimated "effect" when included is unreliable — the model selection step introduces additional uncertainty that standard inference ignores.
+
+This is called **post-selection inference bias** — if you select variables and then do inference as if the model were pre-specified, your standard errors are wrong and your p-values are anti-conservative.
+
+**Double Machine Learning** solves this by:
+
+1.  Using LASSO/ML only for **prediction** (nuisance estimation), not for variable selection
+2.  Using **cross-fitting** to avoid overfitting the nuisance estimates
+3.  Using **Neyman orthogonality** to make the causal estimate robust to errors in nuisance estimation
+
+Next session: we will see exactly how DML uses these prediction tools while avoiding the instability problem.
+:::
+
+------------------------------------------------------------------------
+
+## Try It Yourself
+
+::: callout-tip
+## Exercise 1: Change the Alpha
+
+Fit Elastic Net with `alpha = 0.25` (closer to Ridge) and `alpha = 0.75` (closer to LASSO). How do the number of selected variables and test RMSE change as alpha varies?
+
+```{r}
+#| label: exercise-1
+#| eval: false
+
+# Try alpha = 0.25
+enet_25 <- cv.glmnet(X_train, y_train, alpha = 0.25, nfolds = 10)
+
+# Try alpha = 0.75
+enet_75 <- cv.glmnet(X_train, y_train, alpha = 0.75, nfolds = 10)
+
+# Compare n selected and test RMSE across all four alpha values
+# YOUR CODE HERE
+```
+:::
+
+::: callout-tip
+## Exercise 2: Log-Transform the Outcome
+
+Salary is right-skewed. Try fitting LASSO on `log(Salary)` instead of `Salary`. Does test RMSE (on the log scale) improve? Do the same variables get selected?
+
+```{r}
+#| label: exercise-2
+#| eval: false
+
+y_log <- log(y)
+y_log_train <- y_log[train_idx]
+y_log_test  <- y_log[test_idx]
+
+# Fit LASSO on log salary
+lasso_log_cv <- cv.glmnet(X_train, y_log_train, alpha = 1, nfolds = 10)
+
+# Evaluate on test set (RMSE on log scale)
+# YOUR CODE HERE
+
+# Compare selected variables
+coef(lasso_log_cv, s = "lambda.min")
+```
+:::
+
+::: callout-tip
+## Exercise 3: Increase the Number of Resamples
+
+Run the instability demo with `n_resamples <- 50`. Does the selection frequency picture stabilize? Which variables end up with the highest and lowest selection rates?
+
+```{r}
+#| label: exercise-3
+#| eval: false
+
+# Re-run the instability loop from Part 7 with n_resamples = 50
+# (This will take a minute to run)
+# YOUR CODE HERE
+```
+:::
+
+------------------------------------------------------------------------
+
+## Key Takeaways
+
+### What We Learned
+
+| Method | Penalty | Variable Selection | Best For |
+|---|---|---|---|
+| OLS | None | No | Few predictors, low multicollinearity |
+| Ridge | L2 ($\sum \beta_j^2$) | No (shrinks toward 0) | Many correlated predictors, all relevant |
+| LASSO | L1 ($\sum |\beta_j|$) | Yes (exact zeros) | Sparse true model, want variable selection |
+| Elastic Net | L1 + L2 | Yes (partial) | Correlated groups of predictors |
+
+### The Regularization Principle
+
+Regularization improves **out-of-sample prediction** by accepting a small amount of **bias** in exchange for a large reduction in **variance**. This is the bias-variance tradeoff in action.
+
+### LASSO for Prediction vs. Causal Inference
+
+-   For **prediction**: LASSO is excellent. Use it freely as a nuisance estimator.
+-   For **variable selection as causal inference**: LASSO is unreliable. Post-selection inference biases standard errors.
+-   For **causal estimation**: We need DML — which uses LASSO's prediction power without relying on its variable selection.
+
+### Bridge to DML
+
+In Double Machine Learning:
+
+$$Y = \theta D + g_0(X) + \varepsilon$$
+
+-   We use LASSO/ML to estimate $\hat{g}_0(X)$ — predicting the outcome from controls
+-   We use LASSO/ML to estimate $\hat{m}_0(X)$ — predicting the treatment from controls
+-   The causal estimate $\hat{\theta}$ is obtained from the **residuals** — which is why LASSO's variable selection instability doesn't affect inference on $\theta$
+
+This is the Frisch-Waugh-Lovell theorem applied to a nonparametric setting.
+
+------------------------------------------------------------------------
+
+## Additional Resources
+
+### Documentation
+
+-   [glmnet Package Vignette](https://glmnet.stanford.edu/articles/glmnet.html) — Complete reference with math
+-   [ISLR Chapter 6](https://www.statlearning.com/) — Regularization chapter, free online
+-   [ESL Chapter 3](https://hastie.su.domains/ElemStatLearn/) — More mathematical treatment of shrinkage
+
+### Key Papers
+
+-   Tibshirani (1996) — "Regression Shrinkage and Selection via the Lasso" *JRSS-B*
+-   Zou & Hastie (2005) — "Regularization and Variable Selection via the Elastic Net" *JRSS-B*
+-   Belloni, Chernozhukov & Hansen (2014) — "Inference on Treatment Effects after Selection among High-Dimensional Controls" *REStud*
+
+### R Packages
+
+-   [`glmnet`](https://glmnet.stanford.edu/) — Ridge, LASSO, Elastic Net
+-   [`tidymodels`](https://www.tidymodels.org/) — Modern unified ML workflow (uses glmnet as engine)
+-   [`hdm`](https://cran.r-project.org/package=hdm) — High-dimensional metrics, post-LASSO inference
+-   [`DoubleML`](https://docs.doubleml.org/r/stable/) — DML implementation (next unit!)
+
+------------------------------------------------------------------------
+
+## Session Info
+
+```{r}
+#| label: session-info
+
+sessionInfo()
+```

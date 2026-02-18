@@ -4,7 +4,6 @@ project:
   resources:
     - "quiz-generator/questions.js"
   render:
-    - "*"
     - "!unit-1/shiny-oed-app.qmd"
 format:
   html:
@@ -132,8 +131,9 @@ website:
             text: "↳ Slides"
           - href: unit-1/optimal-design-notes.qmd
             text: "↳ Notes: Optimal Design"
-          - href: unit-1/shiny-oed-app.qmd
-            text: "↳ App: Optimal Design Explorer"
+          # shinylive app excluded from CI render (needs shinylive R pkg)
+          # - href: unit-1/shiny-oed-app.qmd
+          #   text: "↳ App: Optimal Design Explorer"
       - section: "Unit 2: Double Machine Learning"
         contents:
           - href: unit-2/unit-2.qmd
@@ -154,6 +154,8 @@ website:
             text: "Lab 0: Environment Setup"
           - href: labs/lab-1-design.qmd
             text: "Lab 1: Experimental Design & Power"
+          - href: labs/lab-2-ml-regularization.qmd
+            text: "Lab 2: ML Regularization"
       - section: "Problem Sets"
         contents:
           - href: problem-sets/st-nulls-hospital.qmd
