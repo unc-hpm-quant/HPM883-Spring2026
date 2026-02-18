@@ -3,7 +3,9 @@ project:
   output-dir: _site
   resources:
     - "quiz-generator/questions.js"
-
+  render:
+    - "*"
+    - "!unit-1/shiny-oed-app.qmd"
 format:
   html:
     theme:
