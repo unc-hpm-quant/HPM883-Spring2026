@@ -100,16 +100,18 @@ Your paper and group assignments are now posted:
 
 ---
 
-### Week 6: ML Foundations & DML Theory (Feb 16-18)
+### Week 6: Unit 1 Wrap-Up & ML Foundations (Feb 16-18)
+
+*Schedule adjusted: Unit 1 material extended due to snow cancellations and pacing.*
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 10 | Mon Feb 16 | ML Foundations for Causal Inference (Session 2.1) | In-Person |
-| 11 | Wed Feb 18 | From Influence Functions to DML: Orthogonality & Cross-Fitting (Sessions 2.2-2.3) | In-Person |
+| 10 | Mon Feb 16 | Unit 1 Wrap-Up: Power, Variance Reduction, Blocking & ICC | In-Person |
+| 11 | Wed Feb 18 | ML Basics & Regression in High Dimensions (Session 2.1) | In-Person |
 
 **Due:** Problem Set 1 (February 25 at 11:15am)
 
-**Session 10 Preparation (Required):**
+**Session 11 Preparation (Required):**
 
 - Watch: Jann Spiess videos (~90 min total)
   - [Applied ML: An Introduction](https://www.youtube.com/watch?v=G5qrBvOmzes)
@@ -117,59 +119,52 @@ Your paper and group assignments are now posted:
   - [Applied ML: Prediction vs Estimation](https://www.youtube.com/watch?v=e2Nmlk0cbrY)
 - Read: ISLR Chapters 2 (Statistical Learning), 5 (Cross-Validation)
 
-**Key Concepts (Session 2.1):** Prediction vs. causal estimation (Y-hard vs. β-hard), bias-variance tradeoff, cross-validation, regularization (Lasso/Ridge), tree-based methods, ML as nuisance estimation
+**Key Concepts (Session 10):** MDE, power curves, simulation-based power, DeclareDesign/MIDA, blocking/stratification, covariate adjustment, Lin (2013) estimator, ICC, multiple hypothesis testing
+
+**Key Concepts (Session 2.1):** Prediction vs. causal estimation (Y-hard vs. β-hard), bias-variance tradeoff, cross-validation, regularization (Lasso/Ridge), LASSO variable selection and instability
+
+---
+
+### Week 7: ML Lab & Jigsaw 2 (Feb 23-25)
+
+| Session | Date | Topic | Format |
+|---------|------|-------|--------|
+| 12 | Mon Feb 23 | Lab: ML & Regularization in Practice | [Remote](https://zoom.us/j/93346316978) |
+| 13 | Wed Feb 25 | **Jigsaw 2**: ML for Causal Inference | In-Person |
+
+**Due:** Problem Set 1 (February 25 at 11:15am)
+
+**Session 12 (Remote Lab):** Hands-on implementation of regularization methods (LASSO, Ridge, Elastic Net) and introduction to cross-validation in R. Reinforces Session 2.1 concepts with code.
+
+**Jigsaw 2:** Expert groups present on ML and semiparametric estimation papers — building intuition for DML before the formal lecture.
+
+---
+
+### Week 8: DML Theory & Implementation (Mar 2-4)
+
+| Session | Date | Topic | Format |
+|---------|------|-------|--------|
+| 14 | Mon Mar 2 | From Influence Functions to DML: Orthogonality & Cross-Fitting (Sessions 2.2-2.3) | In-Person |
+| 15 | Wed Mar 4 | DML Implementation with DoubleML (Session 2.4) | [Remote](https://zoom.us/j/93346316978) |
 
 **Key Concepts (Sessions 2.2-2.3):** Influence functions, EIF, Neyman orthogonality, PLM, partialling out, cross-fitting
 
-**Problem Set 2 assigned:** Double ML Implementation (due Feb 25)
+**Key Concepts (Session 2.4):** DoubleML package, nuisance estimation, implementation in R
 
-**Jigsaw 2 (End of Unit 2):** DML in Practice — Expert groups analyze applied DML papers
-
----
-
-### Week 7: DML Implementation & DR Estimation (Feb 23-25)
-
-| Session | Date | Topic | Format |
-|---------|------|-------|--------|
-| 12 | Mon Feb 23 | DML Implementation with DoubleML (Session 2.4) | In-Person |
-| 13 | Wed Feb 25 | Doubly-Robust Estimation: AIPW & TMLE (Session 2.5) | [Remote](https://zoom.us/j/93346316978) |
-
-**Key Concepts:** DoubleML package, nuisance estimation, AIPW, TMLE, semiparametric efficiency
-
-**Due:** Problem Set 2
+**Problem Set 2 assigned:** Double ML Implementation (due Mar 25)
 
 ---
 
-### Week 8: DR Lab & Causal Forests (Mar 2-4)
+### Week 9: DR Estimation & Unit 2 Wrap-Up (Mar 9-11)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 14 | Mon Mar 2 | DR Estimation Lab (Session 2.6) | In-Person |
-| 15 | Wed Mar 4 | Causal Random Forests & Honest Inference (Session 3.0) | In-Person |
+| 16 | Mon Mar 9 | Doubly-Robust Estimation: AIPW & TMLE (Session 2.5) | In-Person |
+| 17 | Wed Mar 11 | DR Estimation Lab (Session 2.6) | [Remote](https://zoom.us/j/93346316978) |
 
-**Session 14:** Hands-on lab implementing AIPW and TMLE in R. Capstone of Unit 2.
+**Key Concepts:** AIPW, TMLE, semiparametric efficiency, TMLE diagnostics, overlap
 
-**Session 15:** Unit 3 begins — Introduction to causal forests and honest inference.
-
-**Key Concepts:** TMLE diagnostics, overlap, honest splitting, local centering, grf package
-
-**Problem Set 3 assigned:** DR & DML Estimation (due Mar 9)
-
----
-
-### Week 9: Heterogeneous Treatment Effects (Mar 9-11)
-
-| Session | Date | Topic | Format |
-|---------|------|-------|--------|
-| 16 | Mon Mar 9 | Meta-Learners for HTE | In-Person |
-| 17 | Wed Mar 11 | CATE Calibration & Meta-Learners Lab | [Remote](https://zoom.us/j/93346316978) |
-
-**Key Concepts:** T-learner, S-learner, X-learner, R-learner, DR-learner, CATE calibration, targeting policies
-
-**Due:** Problem Set 3
-**Problem Set 4 assigned:** Meta-Learners and CATE (due Mar 25)
-
-**Jigsaw 3 (End of Unit 3):** Causal Forest Applications — Expert groups analyze HTE papers
+**Session 17:** Hands-on lab implementing AIPW and TMLE in R. Capstone of Unit 2.
 
 ---
 
@@ -179,51 +174,52 @@ Your paper and group assignments are now posted:
 
 ---
 
-### Week 10: Policy Learning (Mar 23-25)
+### Week 10: Causal Forests & HTE (Mar 23-25)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 18 | Mon Mar 23 | From CATE to Treatment Policy | In-Person |
-| 19 | Wed Mar 25 | Policy Learning & Off-Policy Evaluation | [Remote](https://zoom.us/j/93346316978) |
+| 18 | Mon Mar 23 | Causal Random Forests & Honest Inference (Session 3.0) | In-Person |
+| 19 | Wed Mar 25 | Meta-Learners for HTE & CATE Calibration | [Remote](https://zoom.us/j/93346316978) |
 
-**Key Concepts:** Policy trees, optimal treatment rules, off-policy evaluation, budget constraints, policytree package
+**Due:** Problem Set 2
 
-**Due:** Problem Set 4
-**Problem Set 5 assigned:** Policy Learning (due Apr 8)
+**Key Concepts:** Honest splitting, local centering, grf package, T-learner, S-learner, X-learner, R-learner, DR-learner, CATE calibration
 
-**Jigsaw 4 (End of Unit 4):** Policy Learning Case Studies — Expert groups analyze targeting papers
+**Problem Set 3 assigned:** HTE & Meta-Learners (due Apr 8)
+
+**Jigsaw 3 (End of Unit 3):** Causal Forest Applications — Expert groups analyze HTE papers
 
 ---
 
-### Week 11: Adaptive Experiments I (Mar 30 - Apr 1)
+### Week 11: Policy Learning (Mar 30 - Apr 1)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 20 | Mon Mar 30 | Multi-Armed Bandits & Thompson Sampling (Session 5.1) | In-Person |
-| 21 | Wed Apr 1 | Contextual Bandits & Personalization (Session 5.2) | [Remote](https://zoom.us/j/93346316978) |
+| 20 | Mon Mar 30 | From CATE to Treatment Policy | In-Person |
+| 21 | Wed Apr 1 | Policy Learning & Off-Policy Evaluation | [Remote](https://zoom.us/j/93346316978) |
 
-**Key Concepts:** Exploration vs. exploitation, regret, multi-armed bandits, Thompson sampling, contextual bandits, personalized treatment assignment
+**Key Concepts:** Policy trees, optimal treatment rules, off-policy evaluation, budget constraints, policytree package
+
+**Jigsaw 4 (End of Unit 4):** Policy Learning Case Studies — Expert groups analyze targeting papers
+
+*Note: April 2 is Well-Being Day (Thursday) — No impact on M/W schedule*
+
+---
+
+### Week 12: Adaptive Experiments & Integration (Apr 6-8)
+
+| Session | Date | Topic | Format |
+|---------|------|-------|--------|
+| 22 | Mon Apr 6 | Adaptive Experiments: Bandits & Thompson Sampling (Sessions 5.1-5.2) | In-Person |
+| 23 | Wed Apr 8 | Adaptive Clinical Trials & Causal ML Integration (Session 5.3) | [Remote](https://zoom.us/j/93346316978) |
+
+**Due:** Problem Set 3
+
+**Key Concepts:** Exploration vs. exploitation, regret, multi-armed bandits, Thompson sampling, contextual bandits, response-adaptive randomization, platform trials
 
 **Readings:**
 - Susan Athey: [Analysis and Design of Multi-Armed Bandit Experiments (NBER 2024)](https://www.nber.org/research/videos/2024-methods-lecture-susan-athey-analysis-and-design-multi-armed-bandit-experiments-and-policy)
 - Stanford SIL: [Adaptive Iterative Experimentation](https://www.gsb.stanford.edu/faculty-research/labs-initiatives/sil/research/methods/adaptive-iterative-experimentation)
-
-*Note: April 2 is Well-Being Day (Thursday) — No impact on M/W schedule*
-
-**Due:** Problem Set 5
-
----
-
-### Week 12: Adaptive Experiments II & Integration (Apr 6-8)
-
-| Session | Date | Topic | Format |
-|---------|------|-------|--------|
-| 22 | Mon Apr 6 | Adaptive Clinical Trials & Platform Designs (Session 5.3) | In-Person |
-| 23 | Wed Apr 8 | Causal ML Integration & Frontiers | [Remote](https://zoom.us/j/93346316978) |
-
-**Session 22 Key Concepts:** Response-adaptive randomization, platform trials, batch vs. sequential decisions, connection to policy learning, statistical inference under adaptation
-
-**Session 23 Key Concepts:** End-to-end causal ML workflow, reporting best practices, course synthesis
 
 **Jigsaw 5 (End of Unit 5):** Adaptive Experiments in Action — Expert groups analyze bandit/adaptive trial papers
 
@@ -270,12 +266,11 @@ Your paper and group assignments are now posted:
 | Problem Set 0: Git/GitHub Fundamentals | Jan 19 | (part of Problem Sets) |
 | **Jigsaw 1: Experimental Design** | **Jan 28** | (part of Jigsaw) |
 | **Problem Set 1: Experimental Design & Power** | **Feb 25** | (part of Problem Sets) |
-| Jigsaw 2: DML Applications | Feb 18 | (part of Jigsaw) |
-| Problem Set 2: Double ML Implementation | Feb 23 | (part of Problem Sets) |
-| Jigsaw 3: Causal Forest Applications | Mar 11 | (part of Jigsaw) |
-| Problem Set 3: HTE & Meta-Learners | Mar 25 | (part of Problem Sets) |
-| Jigsaw 4: Policy Learning Case Studies | Mar 25 | (part of Jigsaw) |
-| Problem Set 4: Policy Learning | Apr 8 | (part of Problem Sets) |
+| Jigsaw 2: ML for Causal Inference | Feb 25 | (part of Jigsaw) |
+| Problem Set 2: Double ML Implementation | Mar 25 | (part of Problem Sets) |
+| Jigsaw 3: Causal Forest Applications | Mar 25 | (part of Jigsaw) |
+| Problem Set 3: HTE & Meta-Learners | Apr 8 | (part of Problem Sets) |
+| Jigsaw 4: Policy Learning Case Studies | Apr 1 | (part of Jigsaw) |
 | Jigsaw 5: Adaptive Experiments | Apr 8 | (part of Jigsaw) |
 | Capstone Proposal | Apr 13 | (part of Capstone) |
 | Peer Review Report | Apr 22 | 5% |

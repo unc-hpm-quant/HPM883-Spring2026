@@ -2,7 +2,7 @@
 title: "Session 2.1: ML Basics and Regression in High Dimensions"
 subtitle: "HPM 883: Advanced Quantitative Methods"
 author: "Sean Sylvia"
-date: "February 16, 2026"
+date: "February 18, 2026"
 date-format: long
 format:
   revealjs:
@@ -586,28 +586,23 @@ The L1 penalty's diamond shape makes it likely for solutions to occur at corners
 
 ---
 
-## Preparation for Next Session
+## What's Next
 
 ::: {.callout-note appearance="simple"}
-## Next: Tree-Based Methods and Ensemble Learning
+## Coming Up
 
-**Read before next class:**
+**Monday Feb 23 (Remote):** Lab — ML & Regularization in Practice. Hands-on with LASSO, Ridge, and cross-validation in R.
 
-- ISLR Chapter 8: Tree-Based Methods
-- Athey & Imbens (2019): "Machine Learning Methods Economists Should Know About" (Sections on Trees)
-
-**Key question to think about:**
-
-*How do tree-based methods handle non-linearities and interactions that LASSO cannot capture?*
+**Wednesday Feb 25 (In-Person):** Jigsaw 2 — ML for Causal Inference. Expert groups present on papers bridging prediction and causal estimation.
 :::
 
 ---
 
 ## Reminders
 
-- **PS1 due Wednesday Feb 18** at 11:15am via GitHub Classroom
-- Questions about PS1? Office hours Monday after class or by appointment
-- Next session (Wed Feb 18): **Tree-Based Methods and Ensemble Learning**
+- **PS1 due Wednesday Feb 25** at 11:15am via GitHub Classroom
+- Questions about PS1? Office hours or by appointment
+- Start reading Chernozhukov et al. (2025) Chapter 5 for the DML sessions in Week 8
 
 ---
 

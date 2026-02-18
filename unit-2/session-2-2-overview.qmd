@@ -1,14 +1,14 @@
 ---
 title: "Unit 2: Double Machine Learning"
 subtitle: "Sessions 2.2-2.3: From Influence Functions to DML"
-date: "February 18, 2026"
+date: "March 2, 2026"
 ---
 
 ## Session Overview
 
 This combined session covers both the theoretical foundations (influence functions, Neyman orthogonality) and the core DML algorithm (partialling out, cross-fitting). We'll understand why standard ML methods fail for causal inference, how orthogonal scores solve this problem, and how cross-fitting enables valid inference with flexible ML methods.
 
-**Format:** [Remote](https://zoom.us/j/93346316978)
+**Format:** In-Person
 
 ::: callout-note
 ## Combined Session
@@ -97,13 +97,9 @@ Sessions 2.2 and 2.3 are combined into a single session. Influence functions and
 
 ## After Class
 
-### Design Memo 1 Due
-
--   **Design Memo 1: Experimental Design Plan** — Due February 16 (before this session)
-
 ### Looking Ahead
 
--   **Session 2.4 (Feb 23):** DML Implementation with DoubleML
+-   **Session 2.4 (Mar 4):** DML Implementation with DoubleML
 -   Read Chernozhukov et al. (2025) Chapter 5-6 (DML sections)
 -   Review DoubleML package documentation
 
