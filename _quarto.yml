@@ -4,6 +4,7 @@ project:
   resources:
     - "quiz-generator/questions.js"
   render:
+    - "*"
     - "!unit-1/shiny-oed-app.qmd"
 format:
   html:
