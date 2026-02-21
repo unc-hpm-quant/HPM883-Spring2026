@@ -50,7 +50,7 @@ By the end of this lab, you will understand:
 
 ```{r}
 #| label: setup
-#| eval: true
+#| eval: false
 #| message: false
 #| warning: false
 
@@ -71,7 +71,7 @@ We will use the `Hitters` dataset from the ISLR2 package — a classic regressio
 
 ```{r}
 #| label: explore-data
-#| eval: true
+#| eval: false
 
 # Load and preview the data
 data("Hitters", package = "ISLR2")
@@ -558,7 +558,7 @@ In practice for DML nuisance estimation, **LASSO and Elastic Net are most common
 
 ```{r}
 #| label: comparison-table
-#| eval: true
+#| eval: false
 
 # Assemble results — note: you need to have run all previous chunks first
 # If running fresh, run all prior chunks then come back here
