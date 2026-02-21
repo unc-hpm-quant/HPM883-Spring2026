@@ -1,8 +1,9 @@
 ---
 title: "Optimal Experiment Design App"
 format: html
-filters:
-  - shinylive
+draft: true
+execute:
+  eval: false
 editor_options:
   chunk_output_type: console
 ---
