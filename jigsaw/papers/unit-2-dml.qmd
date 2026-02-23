@@ -6,7 +6,7 @@ toc: true
 
 ## Overview
 
-These papers apply Double Machine Learning (DML) methods to estimate causal effects while controlling for high-dimensional confounders. Each demonstrates how DML enables credible causal inference in observational settings with rich covariate sets.
+These papers apply Double Machine Learning (DML) and related debiased inference methods to estimate causal effects while controlling for high-dimensional confounders. The four papers showcase different DML variants: standard DML with heterogeneity analysis, DML adapted for a specific epidemiological design, DML for demand estimation, and Post-Double-Selection LASSO for variable selection in experimental reanalysis.
 
 ## Paper Assignments
 
@@ -27,73 +27,83 @@ If approved, your group reads and presents the alternative paper instead of the 
 
 ---
 
-## Paper 1: DML for Returns to Education
-
-**Citation:** Chernozhukov, V., Chetverikov, D., Demirer, M., et al. (2018). Double/debiased machine learning for treatment and structural parameters. *The Econometrics Journal*, 21(1), C1-C68.
-
-**Focus Section:** Section 5 (Empirical Application), which applies DML to estimate returns to schooling using the NLSY data.
-
-**Why this paper?** This is the foundational DML paper, and the empirical application is accessible and directly relevant to health economics (education → health pathway).
-
-**Key methodological features:**
-
-- Neyman orthogonality and cross-fitting
-- Comparison of ML methods (LASSO, random forests)
-- Sensitivity to tuning parameters
-- Sample splitting strategies
-
-[Access via UNC Libraries](https://academic.oup.com/ectj/article/21/1/C1/5056401)
-
----
-
-## Paper 2: DML in Healthcare Spending
-
-**Citation:** Rose, S., Ash, A., Ellis, R. P., & Zaslavsky, A. M. (2020). Machine learning methods for risk adjustment: Combining high-dimensional features with causal inference in health economics. *Health Services Research*, 55(4), 608-617.
-
-**Why this paper?** This paper applies DML-style approaches to healthcare spending prediction and causal inference, directly relevant to value-based care and risk adjustment.
-
-**Key methodological features:**
-
-- High-dimensional diagnosis codes as confounders
-- Comparison with traditional risk adjustment
-- Double-robust estimation
-- Policy implications for payment reform
-
-[Access via UNC Libraries](https://pubmed.ncbi.nlm.nih.gov/32524619/)
-
----
-
-## Paper 3: DML for Policy Evaluation
+## Paper 1: DML for Programme Evaluation
 
 **Citation:** Knaus, M. C. (2022). Double machine learning-based programme evaluation under unconfoundedness. *The Econometrics Journal*, 25(3), 602-627.
 
-**Why this paper?** This paper provides practical guidance on implementing DML for program evaluation with an application to active labor market policies (with health outcomes implications).
+**Why this paper?** This paper provides practical guidance on implementing DML for program evaluation, with an application to active labor market policies. It goes beyond average effects to explore *who benefits most* from treatment.
 
 **Key methodological features:**
 
-- Effect heterogeneity exploration
+- Standard DML with cross-fitting
 - Group Average Treatment Effects (GATEs)
 - Best Linear Predictor of CATE
-- Inference and confidence intervals
+- Inference and confidence intervals for heterogeneous effects
 
 [Access via UNC Libraries](https://academic.oup.com/ectj/article/25/3/602/6604901)
 
 ---
 
-## Paper 4: Overlap and Positivity Violations (Critical Analysis)
+## Paper 2: DML for Vaccine Effectiveness
 
-**Citation:** D'Amour, A., Ding, P., Feller, A., Lei, L., & Sekhon, J. (2021). Overlap in observational studies with high-dimensional covariates. *Journal of Econometrics*, 221(2), 644-654.
+**Citation:** Jiang, C., et al. (2025). A double machine learning approach for the evaluation of COVID-19 vaccine effectiveness under the test-negative design. *Statistics in Medicine*. DOI: 10.1002/sim.70025.
 
-**Why this paper?** This paper highlights a critical challenge when using DML: overlap violations become more severe in high-dimensional settings. It's essential for understanding when DML may fail.
+**Why this paper?** This paper adapts DML to a specific epidemiological study design (test-negative design) used to evaluate COVID-19 vaccine effectiveness. It demonstrates how DML can improve causal inference in public health surveillance data with many potential confounders.
 
-**Key methodological features (for critique):**
+**Key methodological features:**
 
-- Curse of dimensionality for overlap
-- Propensity score concentration
-- Trimming and truncation tradeoffs
-- When DML assumptions break down
+- DML-based doubly robust estimator (TNDDR)
+- Adaptation of cross-fitting to test-negative design
+- ML for nuisance functions in administrative health data
+- Comparison with traditional regression approaches
 
-[Access via UNC Libraries](https://www.sciencedirect.com/science/article/pii/S0304407620303560)
+[Access via PubMed](https://pubmed.ncbi.nlm.nih.gov/39985144/)
+
+---
+
+## Paper 3: DML for Labor Supply Elasticities
+
+**Citation:** Dube, A., Jacobs, J., Naidu, S., & Suri, S. (2020). Monopsony in online labor markets. *American Economic Review: Insights*, 2(1), 33-46.
+
+**Why this paper?** This paper uses DML to estimate labor supply elasticities in online labor markets, demonstrating how DML handles high-dimensional controls in a clean empirical application. The economic mechanisms (monopsony power, wage-setting) parallel health economics questions about provider market power.
+
+**Key methodological features:**
+
+- DML for demand/supply estimation
+- High-dimensional controls with LASSO first stage
+- Application to platform economics
+- Clean identification with rich behavioral data
+
+[Access via AEA](https://www.aeaweb.org/articles?id=10.1257/aeri.20180150)
+
+---
+
+## Paper 4: Post-Double-Selection LASSO in Field Experiments
+
+**Citation:** Cilliers, J., Elashmawy, A., & McKenzie, D. (2024). Using post-double selection LASSO to sharpen treatment effects in randomized experiments. World Bank Policy Research Working Paper #10931.
+
+**Why this paper?** This paper meta-evaluates Post-Double-Selection LASSO (PDS-LASSO) across 36 randomized experiments, showing when and how this DML-related method improves precision. It provides practical guidance on when high-dimensional covariate adjustment helps (and when it doesn't).
+
+**Key methodological features:**
+
+- Post-Double-Selection LASSO (Belloni, Chernozhukov, Hansen 2014)
+- Meta-evaluation across 36 RCTs
+- Comparison: PDS-LASSO vs. standard OLS vs. ANCOVA
+- Guidance on when high-dimensional adjustment improves precision
+
+[Access via World Bank](https://documents.worldbank.org/en/publication/documents-reports/documentdetail/099536410112433490)
+
+---
+
+## Supplemental Reading
+
+::: {.callout-note}
+## Recommended Background
+
+**D'Amour, A., Ding, P., Feller, A., Lei, L., & Sekhon, J. (2021).** Overlap in observational studies with high-dimensional covariates. *Journal of Econometrics*, 221(2), 644-654.
+
+This paper highlights a critical challenge for DML: overlap violations become more severe as the number of covariates grows. Understanding when the positivity assumption fails is essential for interpreting DML results. [Access via UNC Libraries](https://www.sciencedirect.com/science/article/pii/S0304407620303560)
+:::
 
 ---
 
@@ -103,7 +113,7 @@ For each paper, focus on:
 
 1. **The DML recipe:** How do they implement cross-fitting and debiasing?
 2. **ML method choices:** Which learners do they use for nuisance functions?
-3. **Overlap assessment:** Do they examine propensity score distributions?
-4. **Sensitivity:** How do results change with different specifications?
+3. **Variant differences:** How does this paper's DML variant differ from the others?
+4. **Practical guidance:** What implementation advice does the paper offer?
 
-Remember: DML doesn't solve the fundamental identification problem—it just handles high-dimensional nuisance parameters better than traditional methods.
+Remember: DML doesn't solve the fundamental identification problem---it just handles high-dimensional nuisance parameters better than traditional methods.

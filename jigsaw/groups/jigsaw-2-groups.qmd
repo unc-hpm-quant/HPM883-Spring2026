@@ -8,10 +8,10 @@ date: "Generated: 2026-02-23"
 
 | Paper | Title | Assigned Group |
 |-------|-------|----------------|
-| **Paper 1** | Chernozhukov et al. (2018) — DML for returns to education | Takhona, Doyoung, Korie, Mario |
-| **Paper 2** | Rose et al. (2020) — DML in healthcare spending | Audrey, Haiyi, Jose, Tarini |
-| **Paper 3** | Knaus (2022) — DML for policy evaluation | Camille, Lillian, Nicolle, Oguz |
-| **Paper 4** | D'Amour et al. (2021) — Overlap and positivity (Critical) | Aniruddhan, Cristina, Raquel, Yumeng |
+| **Paper 1** | Knaus (2022) — DML for programme evaluation | Takhona, Doyoung, Korie, Mario |
+| **Paper 2** | Jiang et al. (2025) — DML for vaccine effectiveness | Audrey, Haiyi, Jose, Tarini |
+| **Paper 3** | Dube et al. (2020) — DML for labor supply | Camille, Lillian, Nicolle, Oguz |
+| **Paper 4** | Cilliers et al. (2024) — PDS-LASSO in field experiments | Aniruddhan, Cristina, Raquel, Yumeng |
 
 See [Paper Details](../papers/unit-2-dml.qmd) for full citations and reading tips.
 
