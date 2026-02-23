@@ -2,7 +2,7 @@
 title: Lab 2
 subtitle: "ML Regularization, Trees & Forests (Remote Lab + In-Person Lab)"
 author: "Sean Sylvia"
-date: "February 24, 2026"
+date: "February 23, 2026"
 slug: "lab-2"
 categories: [Lab, Machine Learning, Regularization, Trees, Remote]
 description: "Hands-on implementation of regularized regression (Part 1) and tree-based methods (Part 2). Build intuition for LASSO variable selection, ridge shrinkage, the instability problem, decision trees, random forests, and model comparison — all building toward DML."
@@ -19,7 +19,7 @@ execute:
 ::: callout-important
 ## Two-Part Lab (Ungraded In-Class Activity)
 
-**Part 1 (Mon Feb 24, Remote):** Regularization — LASSO, Ridge, Elastic Net, and the instability problem.
+**Part 1 (Mon Feb 23, Remote):** Regularization — LASSO, Ridge, Elastic Net, and the instability problem.
 
 **Part 2 (Wed Feb 25, In-Person):** Trees & Forests — Decision trees, random forests, and model comparison.
 
