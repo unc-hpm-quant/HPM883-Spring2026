@@ -60,7 +60,7 @@ For the capstone project or if you prefer working offline, you can work locally 
 -   More computing power for large datasets
 -   Full control over environment
 
-**Setup required:** See [Local Setup Instructions](#local-setup) below.
+**Setup required:** See [Local Setup for Labs](#local-setup) below.
 
 ------------------------------------------------------------------------
 
@@ -225,6 +225,75 @@ This installs the exact package versions used to create the project.
 install.packages("new_package")
 renv::snapshot()
 ```
+
+------------------------------------------------------------------------
+
+## Local Setup for Labs {#local-setup}
+
+If you prefer working locally instead of Codespaces, follow these steps for each lab assignment.
+
+### Step 1: Clone the Assignment Repo
+
+After accepting the GitHub Classroom assignment, clone your personal copy:
+
+``` bash
+git clone https://github.com/HPM-883-2026/lab-2-YOUR-USERNAME.git
+cd lab-2-YOUR-USERNAME
+```
+
+Replace `YOUR-USERNAME` with your GitHub username. You can find the exact URL on the GitHub Classroom assignment page (green "Code" button → HTTPS).
+
+### Step 2: Open in Your IDE
+
+::: {.panel-tabset}
+#### Positron (Recommended)
+
+1. Open Positron
+2. **File → Open Folder** → select the cloned repo folder
+3. Positron auto-detects R projects and activates `renv`
+
+#### RStudio
+
+1. Open RStudio
+2. **File → Open Project** → select the `.Rproj` file in the repo folder
+3. RStudio auto-detects `renv` and prompts for package restore
+
+#### VS Code
+
+1. Open VS Code
+2. **File → Open Folder** → select the cloned repo folder
+3. Install the [R Extension](https://marketplace.visualstudio.com/items?itemName=REditorSupport.r) and [Quarto Extension](https://marketplace.visualstudio.com/items?itemName=quarto.quarto) if not already installed
+4. Open the R terminal (Ctrl/Cmd+Shift+P → "R: Create R Terminal")
+:::
+
+### Step 3: Restore Packages
+
+Each lab uses `renv` to lock package versions. Run this **once** per project:
+
+``` r
+renv::restore()
+```
+
+This installs the exact same packages and versions used in Codespaces. It may take a few minutes the first time.
+
+### Step 4: Run Code Chunks
+
+Open the `.qmd` file and run chunks interactively:
+
+- **Positron / VS Code:** Click the green play button on each chunk, or Ctrl/Cmd+Shift+Enter
+- **RStudio:** Click "Run Current Chunk" (green arrow), or Ctrl/Cmd+Shift+Enter
+
+### Step 5: Commit and Push
+
+When you're done, save your work and push to GitHub:
+
+``` bash
+git add .
+git commit -m "Complete Lab 2"
+git push
+```
+
+Or use the Git pane in RStudio/Positron (Stage → Commit → Push).
 
 ------------------------------------------------------------------------
 

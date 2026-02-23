@@ -144,7 +144,9 @@ website:
           - href: unit-2/session-2-1-overview.qmd
             text: "Session 2.1: ML Foundations"
           - href: unit-2/session-2-1-slides.qmd
-            text: "↳ Slides"
+            text: "↳ Slides: ML & Regularization"
+          - href: unit-2/session-2-1b-slides.qmd
+            text: "↳ Slides: Trees & Forests"
           - href: unit-2/session-2-2-overview.qmd
             text: "Sessions 2.2-2.3: IF & DML Theory"
       - section: "Labs"

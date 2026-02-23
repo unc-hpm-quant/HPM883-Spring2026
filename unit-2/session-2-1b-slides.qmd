@@ -1,0 +1,581 @@
+---
+title: "Session 2.1b: Trees & Ensemble Methods"
+subtitle: "HPM 883: Advanced Quantitative Methods"
+author: "Sean Sylvia"
+date: "February 25, 2026"
+date-format: long
+format:
+  revealjs:
+    theme: [default, ../style/gillings.scss]
+    slide-number: true
+    transition: fade
+    progress: true
+    chalkboard: true
+    smaller: true
+    scrollable: true
+    logo: ../images/logo.png
+    footer: "HPM 883 | Session 2.1b: Trees & Ensemble Methods"
+    toc: true
+    toc-depth: 1
+    preview-links: auto
+    incremental: false
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+# From Linear to Nonlinear
+
+## Monday Recap
+
+**Regularized linear models** (LASSO, Ridge):
+
+- Add penalties to constrain coefficients
+- LASSO performs automatic variable selection
+- Assume **linear** relationships in features
+
+. . .
+
+**Today:**
+
+- What if the relationship is **nonlinear**?
+- What if there are **interactions** we can't specify in advance?
+- How do tree-based methods fit into the DML pipeline?
+
+---
+
+## The Limitation of Linear Models
+
+Consider predicting healthcare costs:
+
+$$\text{Cost} = \beta_0 + \beta_1 \cdot \text{Age} + \beta_2 \cdot \text{Comorbidities} + ...$$
+
+. . .
+
+**Problems:**
+
+- What if the effect of age differs by comorbidity burden?
+- What if the relationship is threshold-based (e.g., costs spike above age 65)?
+- Manually specifying interactions is tedious and incomplete
+
+. . .
+
+> **Trees** discover nonlinearities and interactions automatically
+
+---
+
+# Decision Trees
+
+## The Intuition
+
+**How a tree makes predictions:**
+
+```
+                    [Age < 65?]
+                      /       \
+                    Yes        No
+                     |          |
+          [Chronic Dx?]    [Surgery?]
+             /      \        /      \
+           Yes      No     Yes      No
+            |        |       |        |
+        Predict:  Predict: Predict: Predict:
+         $12,400   $3,200  $45,000  $18,500
+```
+
+- Split data based on feature thresholds
+- Each **leaf** contains a prediction
+- Path from root to leaf = interpretable decision rules
+
+---
+
+## How Trees Split: The Algorithm
+
+**At each node:**
+
+1. Consider all features and all possible thresholds
+2. Choose the split that **best separates outcomes**
+3. Repeat recursively until stopping criterion
+
+. . .
+
+**For regression** (predicting costs or salary):
+
+- Minimize within-node variance (MSE)
+- Each split reduces prediction error
+
+**For classification** (readmission: yes/no):
+
+- Minimize impurity (Gini index or entropy)
+- Each split creates purer groups
+
+---
+
+## Splitting Criterion: RSS
+
+For a regression tree, at each split we minimize the **residual sum of squares**:
+
+$$\sum_{i: x_i \in R_1} (y_i - \hat{y}_{R_1})^2 + \sum_{i: x_i \in R_2} (y_i - \hat{y}_{R_2})^2$$
+
+where $\hat{y}_{R_j}$ is the mean response in region $R_j$.
+
+. . .
+
+**Key property:** The algorithm is **greedy** — it picks the best split *right now* without looking ahead. This is computationally efficient but may miss globally optimal trees.
+
+---
+
+## Trees: Pros and Cons
+
+:::: {.columns}
+::: {.column width="50%"}
+### Advantages
+
+- Easy to interpret and explain
+- Handles nonlinear relationships
+- Captures interactions automatically
+- No feature scaling needed
+- Handles missing values
+- Works for regression and classification
+:::
+
+::: {.column width="50%"}
+### Limitations
+
+- Prone to **overfitting**
+- High variance (unstable)
+- Small data changes → different tree
+- Greedy algorithm (locally optimal)
+- Often outperformed by ensembles
+:::
+::::
+
+---
+
+## Tree Regularization
+
+Control complexity with hyperparameters:
+
+| Parameter | What it controls | Trade-off |
+|-----------|------------------|-----------|
+| **max depth** | How deep tree can grow | Deeper = more complex |
+| **min samples per leaf** | Min observations per leaf | Higher = simpler |
+| **min samples to split** | Min observations to split | Higher = simpler |
+| **cost-complexity (cp)** | Pruning threshold | Higher = more pruning |
+
+. . .
+
+**Shallow trees**: High bias, low variance (underfit)
+
+**Deep trees**: Low bias, high variance (overfit)
+
+. . .
+
+> This is the same bias-variance tradeoff from Session 2.1 — but with a different knob
+
+---
+
+## The Instability Problem
+
+**Run on different random subsets → very different trees**
+
+. . .
+
+```
+Subset 1:                    Subset 2:
+[Age < 65?]                 [Comorbidities > 3?]
+    /       \                    /          \
+  [...]    [...]              [...]        [...]
+```
+
+. . .
+
+> **Sound familiar?** This is the same instability we saw with LASSO variable selection.
+
+> **Solution**: Combine many trees into an **ensemble**
+
+---
+
+# Ensemble Methods
+
+## The Key Insight
+
+> "The wisdom of crowds"
+
+. . .
+
+:::: {.columns}
+::: {.column width="50%"}
+### Single Tree
+- High variance
+- Sensitive to data
+- One perspective
+:::
+
+::: {.column width="50%"}
+### Many Trees (Ensemble)
+- Lower variance
+- More stable
+- Multiple perspectives averaged
+:::
+::::
+
+. . .
+
+**Two main approaches:**
+
+1. **Random Forest**: Independent trees, averaged (bagging)
+2. **Gradient Boosting**: Sequential trees, each corrects previous errors
+
+---
+
+# Random Forest
+
+## Algorithm Overview
+
+1. Create **B** bootstrap samples from training data
+2. Train a tree on each sample
+3. At each split, consider only **m** random features
+4. Average predictions (regression) or vote (classification)
+
+```
+Tree 1: $12,400    Tree 2: $11,800    Tree 3: $13,200    ...    Tree B: $12,100
+                     ↘        ↓        ↙
+                    Final Prediction: $12,375
+```
+
+---
+
+## Why Random Forest Works
+
+**Two sources of randomness:**
+
+| Randomness | How | Effect |
+|------------|-----|--------|
+| **Bootstrap sampling** | Each tree sees ~63% of data | Different data perspectives |
+| **Feature subsampling** | Random m features per split | Decorrelated trees |
+
+. . .
+
+**Result:**
+
+- Individual trees make **different errors**
+- Errors cancel out when averaged
+- Much more stable than single tree
+
+. . .
+
+::: {.callout-tip appearance="simple"}
+## Why This Matters for DML
+Random forests are one of the ML learners commonly used as **nuisance estimators** in DML. Their stability and strong out-of-box performance make them ideal for estimating $E[Y|X]$ and $P(D=1|X)$.
+:::
+
+---
+
+## Random Forest: Key Parameters
+
+| Parameter | What it controls | Typical values |
+|-----------|------------------|----------------|
+| **num.trees** | Number of trees | 100-500 |
+| **max.depth** | Depth of each tree | NULL (full) or limited |
+| **mtry** | Features per split | $\sqrt{p}$ (classification), $p/3$ (regression) |
+| **min.node.size** | Min samples in leaf | 1-5 |
+
+. . .
+
+**Good news**: Random Forests work well **out-of-the-box** with defaults!
+
+---
+
+## Out-of-Bag (OOB) Error
+
+**Built-in validation:**
+
+- Each tree trained on ~63% of data (bootstrap)
+- Remaining ~37% is "out-of-bag" for that tree
+- Predict OOB samples, average across trees
+- **Free cross-validation estimate**
+
+```r
+library(ranger)
+rf <- ranger(Salary ~ ., data = Hitters_clean,
+             num.trees = 500, importance = "impurity")
+cat("OOB prediction error:", rf$prediction.error)
+```
+
+---
+
+# Gradient Boosting
+
+## The Key Idea
+
+**Learn sequentially, each tree corrects previous errors**
+
+```
+Iteration 1: Predict mean                    Error: Large
+Iteration 2: Predict mean + tree₁            Error: Medium
+Iteration 3: Predict mean + tree₁ + tree₂    Error: Smaller
+...
+Iteration B: Σ trees                         Error: Small
+```
+
+. . .
+
+Each new tree focuses on the **residuals** (mistakes) of the current model
+
+---
+
+## Gradient Boosting Algorithm
+
+1. Initialize with simple prediction (e.g., mean)
+2. Compute residuals: $r_i = y_i - \hat{y}_i$
+3. Fit a **shallow tree** to predict the residuals
+4. Update predictions: $\hat{y} \leftarrow \hat{y} + \eta \cdot \text{tree}(X)$
+5. Repeat steps 2-4
+
+. . .
+
+**Learning rate ($\eta$):** How much each tree contributes
+
+- Small $\eta$ + many trees = better but slower
+- Large $\eta$ + few trees = faster but less accurate
+
+---
+
+## Gradient Boosting: Key Parameters
+
+| Parameter | What it controls | Typical values |
+|-----------|------------------|----------------|
+| **nrounds** | Number of boosting rounds | 100-1000 |
+| **eta** | Step size ($\eta$) | 0.01-0.3 |
+| **max_depth** | Depth of each tree | 3-10 (shallow) |
+| **min_child_weight** | Min samples in leaf | 1-20 |
+| **subsample** | Fraction of data per tree | 0.5-1.0 |
+
+. . .
+
+**Trade-off**: More trees + lower learning rate = better but slower
+
+---
+
+## Popular Implementations
+
+| Library | Language | Strengths |
+|---------|----------|-----------|
+| **xgboost** | R / Python | Fast, regularization built-in |
+| **lightgbm** | R / Python | Very fast, handles large data |
+| **ranger** | R | Fast random forests |
+| **sklearn** | Python | Educational, simple API |
+
+. . .
+
+> XGBoost and LightGBM are current state-of-the-art for **tabular data** prediction
+
+---
+
+# Random Forest vs Gradient Boosting
+
+## Head-to-Head Comparison
+
+| Aspect | Random Forest | Gradient Boosting |
+|--------|---------------|-------------------|
+| **Training** | Parallel (fast) | Sequential (slower) |
+| **Trees** | Independent | Build on each other |
+| **Overfitting risk** | Lower | Higher (needs tuning) |
+| **Out-of-the-box** | Often good | Needs more tuning |
+| **State-of-art** | Good | Often best |
+| **Interpretability** | Feature importance | Feature importance |
+
+---
+
+## When to Use Which
+
+:::: {.columns}
+::: {.column width="50%"}
+### Random Forest
+- Quick baseline
+- Less tuning time available
+- Want robustness
+- Parallel training
+- "Good enough" is sufficient
+:::
+
+::: {.column width="50%"}
+### Gradient Boosting
+- Maximum accuracy needed
+- Time for careful tuning
+- Kaggle / competitions
+- Production with validation
+- State-of-the-art required
+:::
+::::
+
+. . .
+
+> **Practical advice**: Start with Random Forest, try Gradient Boosting if you need better performance
+
+---
+
+# Feature Importance
+
+## Understanding What Matters
+
+Both ensembles provide **feature importance scores**:
+
+. . .
+
+**Methods:**
+
+| Method | How it works |
+|--------|--------------|
+| **Mean Decrease in Impurity** | Average reduction in node impurity across trees |
+| **Permutation Importance** | Drop in accuracy when feature is shuffled |
+
+. . .
+
+::: {.callout-warning appearance="simple"}
+## Caution
+Impurity-based importance can be biased toward high-cardinality features. **Permutation importance** is generally more reliable, but both measure *predictive* importance — not *causal* importance.
+:::
+
+---
+
+## Example: Hitters Salary Prediction
+
+```r
+library(ranger)
+rf <- ranger(Salary ~ ., data = Hitters_clean,
+             importance = "impurity", num.trees = 500)
+
+# Top features
+sort(rf$variable.importance, decreasing = TRUE)[1:8]
+```
+
+. . .
+
+| Feature | Importance |
+|---------|------------|
+| CAtBat | 0.35 |
+| CHits | 0.22 |
+| CRBI | 0.15 |
+| CRuns | 0.10 |
+| Hits | 0.05 |
+| ... | ... |
+
+> Career statistics dominate — trees discover that **cumulative performance** predicts salary better than any single season
+
+---
+
+# Algorithm Selection Guide
+
+## Decision Framework
+
+```
+                    ┌─────────────────────────────┐
+                    │  What's your data like?      │
+                    └─────────────────────────────┘
+                              │
+           ┌──────────────────┼──────────────────┐
+           │                  │                  │
+       Linear?            Non-linear?       High-dimensional?
+           │                  │                  │
+           ▼                  ▼                  ▼
+      LASSO/Ridge       Tree methods         LASSO/Elastic Net
+                              │
+                    ┌─────────┴─────────┐
+                    │                   │
+              Need speed?         Need accuracy?
+                    │                   │
+                    ▼                   ▼
+             Random Forest      Gradient Boosting
+```
+
+---
+
+## Connection to DML
+
+Why learn trees **before** Double Machine Learning?
+
+. . .
+
+**DML uses ML learners as building blocks:**
+
+$$Y = \theta D + g_0(X) + \varepsilon$$
+
+- $\hat{g}_0(X)$: Predict outcome from controls — **any ML method works**
+- $\hat{m}_0(X)$: Predict treatment from controls — **any ML method works**
+
+. . .
+
+**Common learner choices in DML:**
+
+| Learner | When to use |
+|---------|-------------|
+| LASSO | High-dimensional, sparse |
+| Random Forest | Nonlinear, interactions |
+| Gradient Boosting | Maximum accuracy |
+| Ensemble/stacking | Best of all worlds |
+
+. . .
+
+> DML is **agnostic** to the ML method. Trees give you nonlinearity that LASSO can't capture.
+
+---
+
+# Key Takeaways
+
+## Summary: Trees & Ensembles
+
+1. **Decision trees** capture nonlinearities and interactions automatically
+
+2. **Trees alone** are unstable and prone to overfitting — just like LASSO
+
+3. **Random Forest**: Average many independent trees → stable predictions
+
+4. **Gradient Boosting**: Sequential trees that learn from mistakes → often best accuracy
+
+5. **Feature importance** helps understand what drives predictions (but is not causal)
+
+6. **Start with RF**, try Gradient Boosting if you need more accuracy
+
+---
+
+## What's Next
+
+::: {.callout-note appearance="simple"}
+## Coming Up
+
+**Today (Lab 2 Part 2):** Hands-on with trees and forests in R — `rpart` for decision trees, `ranger` for random forests, and model comparison against LASSO/Ridge.
+
+**Mon Mar 2 (In-Person):** Jigsaw 2 — ML for Causal Inference. Expert groups present papers bridging prediction and causal estimation.
+
+**Wed Mar 4 (In-Person):** From Influence Functions to DML — where all these ML tools become ingredients in causal estimation.
+:::
+
+---
+
+## Reminders
+
+- **PS1 due today (Feb 25)** at 11:15am via GitHub Classroom
+- Start reading Chernozhukov et al. (2018) for Jigsaw 2
+- Lab 2 Part 2 is an ungraded code-along — focus on building intuition
+
+---
+
+## Additional Resources
+
+### Textbook References
+- ISLR Chapter 8 — Trees, Bagging, Random Forests, Boosting
+- ESL Chapters 9-10 — More mathematical treatment
+
+### Key Papers
+- Breiman (2001) — "Random Forests" *Machine Learning*
+- Friedman (2001) — "Greedy Function Approximation: A Gradient Boosting Machine" *Annals of Statistics*
+- Athey & Imbens (2019) — "Machine Learning Methods Economists Should Know About"
+
+### R Packages for Today
+- [`rpart`](https://cran.r-project.org/package=rpart) — Recursive partitioning (decision trees)
+- [`rpart.plot`](https://cran.r-project.org/package=rpart.plot) — Tree visualization
+- [`ranger`](https://github.com/imbs-hl/ranger) — Fast random forests
+- [`xgboost`](https://xgboost.readthedocs.io/) — Gradient boosting

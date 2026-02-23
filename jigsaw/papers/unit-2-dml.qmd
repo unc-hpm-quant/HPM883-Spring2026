@@ -1,6 +1,6 @@
 ---
 title: "Jigsaw 2: Double Machine Learning"
-subtitle: "Papers for February 18"
+subtitle: "Papers for March 2"
 toc: true
 ---
 

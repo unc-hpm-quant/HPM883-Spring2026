@@ -125,46 +125,46 @@ Your paper and group assignments are now posted:
 
 ---
 
-### Week 7: ML Lab & Jigsaw 2 (Feb 23-25)
+### Week 7: Regularization Lab & Trees (Feb 23-25)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 12 | Mon Feb 23 | Lab: ML & Regularization in Practice | [Remote](https://zoom.us/j/93346316978) |
-| 13 | Wed Feb 25 | **Jigsaw 2**: ML for Causal Inference | In-Person |
+| 12 | Mon Feb 23 | Lab 2 Part 1: LASSO, Ridge & Regularization | [Remote](https://zoom.us/j/93346316978) |
+| 13 | Wed Feb 25 | Trees & Ensemble Methods (Session 2.1b) + Lab 2 Part 2 | In-Person |
 
 **Due:** Problem Set 1 (February 25 at 11:15am)
 
-**Session 12 (Remote Lab):** Hands-on implementation of regularization methods (LASSO, Ridge, Elastic Net) and introduction to cross-validation in R. Reinforces Session 2.1 concepts with code.
+**Session 12 (Remote Lab):** Hands-on implementation of regularization methods (LASSO, Ridge, Elastic Net) and LASSO instability demo in R. Reinforces Session 2.1 concepts with code.
 
-**Jigsaw 2:** Expert groups present on ML and semiparametric estimation papers — building intuition for DML before the formal lecture.
+**Session 13:** Lecture on decision trees, random forests, and gradient boosting, followed by Lab 2 Part 2 (trees and forests with `rpart` and `ranger`).
 
 ---
 
-### Week 8: DML Theory & Implementation (Mar 2-4)
+### Week 8: Jigsaw 2 & DML Theory (Mar 2-4)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 14 | Mon Mar 2 | From Influence Functions to DML: Orthogonality & Cross-Fitting (Sessions 2.2-2.3) | In-Person |
-| 15 | Wed Mar 4 | DML Implementation with DoubleML (Session 2.4) | [Remote](https://zoom.us/j/93346316978) |
+| 14 | Mon Mar 2 | **Jigsaw 2**: ML for Causal Inference | In-Person |
+| 15 | Wed Mar 4 | From Influence Functions to DML: Orthogonality & Cross-Fitting (Sessions 2.2-2.3) | In-Person |
+
+**Jigsaw 2:** Expert groups present on ML and semiparametric estimation papers — building intuition for DML before the formal lecture.
 
 **Key Concepts (Sessions 2.2-2.3):** Influence functions, EIF, Neyman orthogonality, PLM, partialling out, cross-fitting
-
-**Key Concepts (Session 2.4):** DoubleML package, nuisance estimation, implementation in R
 
 **Problem Set 2 assigned:** Double ML Implementation (due Mar 25)
 
 ---
 
-### Week 9: DR Estimation & Unit 2 Wrap-Up (Mar 9-11)
+### Week 9: DML Implementation & DR Estimation (Mar 9-11)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 16 | Mon Mar 9 | Doubly-Robust Estimation: AIPW & TMLE (Session 2.5) | In-Person |
-| 17 | Wed Mar 11 | DR Estimation Lab (Session 2.6) | [Remote](https://zoom.us/j/93346316978) |
+| 16 | Mon Mar 9 | DML Implementation with DoubleML (Session 2.4) | [Remote](https://zoom.us/j/93346316978) |
+| 17 | Wed Mar 11 | Doubly-Robust Estimation: AIPW & TMLE (Sessions 2.5-2.6) | In-Person |
 
-**Key Concepts:** AIPW, TMLE, semiparametric efficiency, TMLE diagnostics, overlap
+**Key Concepts (Session 2.4):** DoubleML package, nuisance estimation, implementation in R
 
-**Session 17:** Hands-on lab implementing AIPW and TMLE in R. Capstone of Unit 2.
+**Key Concepts (Sessions 2.5-2.6):** AIPW, TMLE, semiparametric efficiency, TMLE diagnostics, overlap
 
 ---
 
@@ -266,7 +266,7 @@ Your paper and group assignments are now posted:
 | Problem Set 0: Git/GitHub Fundamentals | Jan 19 | (part of Problem Sets) |
 | **Jigsaw 1: Experimental Design** | **Jan 28** | (part of Jigsaw) |
 | **Problem Set 1: Experimental Design & Power** | **Feb 25** | (part of Problem Sets) |
-| Jigsaw 2: ML for Causal Inference | Feb 25 | (part of Jigsaw) |
+| Jigsaw 2: ML for Causal Inference | Mar 2 | (part of Jigsaw) |
 | Problem Set 2: Double ML Implementation | Mar 25 | (part of Problem Sets) |
 | Jigsaw 3: Causal Forest Applications | Mar 25 | (part of Jigsaw) |
 | Problem Set 3: HTE & Meta-Learners | Apr 8 | (part of Problem Sets) |

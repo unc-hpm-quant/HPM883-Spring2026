@@ -591,9 +591,11 @@ The L1 penalty's diamond shape makes it likely for solutions to occur at corners
 ::: {.callout-note appearance="simple"}
 ## Coming Up
 
-**Monday Feb 23 (Remote):** Lab — ML & Regularization in Practice. Hands-on with LASSO, Ridge, and cross-validation in R.
+**Monday Feb 23 (Remote):** Lab 2 Part 1 — Regularization in Practice. Hands-on with LASSO, Ridge, Elastic Net, and the instability demo in R.
 
-**Wednesday Feb 25 (In-Person):** Jigsaw 2 — ML for Causal Inference. Expert groups present on papers bridging prediction and causal estimation.
+**Wednesday Feb 25 (In-Person):** Trees & Ensemble Methods (Session 2.1b) + Lab 2 Part 2. Decision trees, random forests, gradient boosting, and model comparison.
+
+**Monday Mar 2 (In-Person):** Jigsaw 2 — ML for Causal Inference. Then: From Influence Functions to DML.
 :::
 
 ---

@@ -1,11 +1,11 @@
 ---
 title: Lab 2
-subtitle: "ML Regularization: Ridge, LASSO, and Elastic Net (Remote Lab)"
+subtitle: "ML Regularization, Trees & Forests (Remote Lab + In-Person Lab)"
 author: "Sean Sylvia"
 date: "February 24, 2026"
 slug: "lab-2"
-categories: [Lab, Machine Learning, Regularization, Remote]
-description: "Hands-on implementation of regularized regression using glmnet. Build intuition for LASSO variable selection, ridge shrinkage, and the instability problem that motivates DML."
+categories: [Lab, Machine Learning, Regularization, Trees, Remote]
+description: "Hands-on implementation of regularized regression (Part 1) and tree-based methods (Part 2). Build intuition for LASSO variable selection, ridge shrinkage, the instability problem, decision trees, random forests, and model comparison — all building toward DML."
 format:
   html:
     toc: true
@@ -17,11 +17,13 @@ execute:
 ---
 
 ::: callout-important
-## Remote Lab — February 24, 2026 (Ungraded In-Class Activity)
+## Two-Part Lab (Ungraded In-Class Activity)
 
-This lab accompanies **Session 2.1: ML Basics and Regression in High Dimensions**. Work through the code interactively during the Zoom session. All code chunks have `eval: false` so you run them yourself — this is a code-along, not a rendering exercise.
+**Part 1 (Mon Feb 24, Remote):** Regularization — LASSO, Ridge, Elastic Net, and the instability problem.
 
-**This is an ungraded in-class activity** — complete at your own pace. No formal submission required.
+**Part 2 (Wed Feb 25, In-Person):** Trees & Forests — Decision trees, random forests, and model comparison.
+
+All code chunks have `eval: false` so you run them yourself — this is a code-along, not a rendering exercise. **Ungraded** — complete at your own pace. No formal submission required.
 :::
 
 ## Overview and Learning Objectives
@@ -861,6 +863,431 @@ Run the instability demo with `n_resamples <- 50`. Does the selection frequency 
 
 ------------------------------------------------------------------------
 
+# Part 2: Trees & Forests {#part-2}
+
+::: callout-note
+## Part 2 — Wednesday Feb 25 (In-Person)
+
+This section accompanies **Session 2.1b: Trees & Ensemble Methods**. We continue using the same Hitters dataset from Part 1. Make sure you have run Parts 1-2 (Setup, Data, and Train/Test Split) before starting here.
+:::
+
+## Part 8: Decision Trees with `rpart`
+
+Decision trees recursively partition the feature space, choosing splits that minimize prediction error. The `rpart` package implements CART (Classification and Regression Trees).
+
+### 8.1 Load Tree Packages
+
+```{r}
+#| label: tree-setup
+#| eval: false
+
+# Install if needed (uncomment if running for the first time)
+# install.packages(c("rpart", "rpart.plot", "ranger"))
+
+library(rpart)         # Decision trees (CART)
+library(rpart.plot)    # Tree visualization
+library(ranger)        # Fast random forests
+```
+
+### 8.2 Fit a Decision Tree
+
+```{r}
+#| label: tree-fit
+#| eval: false
+
+# Fit a regression tree on the training data
+tree_fit <- rpart(
+  Salary ~ .,
+  data = Hitters_clean[train_idx, ],
+  method = "anova"    # regression tree (for continuous outcome)
+)
+
+# Summary of the tree
+printcp(tree_fit)
+```
+
+::: callout-note
+## Reading the CP Table
+
+The `printcp()` output shows the **complexity parameter (cp)** table:
+
+- **cp**: Cost-complexity pruning parameter — higher = simpler tree
+- **nsplit**: Number of splits
+- **rel error**: Training error relative to root node
+- **xerror**: Cross-validation error (this is what we want to minimize)
+- **xstd**: Standard error of cross-validation error
+
+The tree automatically prunes using 10-fold CV. Look for the cp value that minimizes `xerror`.
+:::
+
+### 8.3 Visualize the Tree
+
+```{r}
+#| label: tree-plot
+#| eval: false
+
+# Plot the tree with rpart.plot
+rpart.plot(
+  tree_fit,
+  type = 4,           # label style
+  extra = 101,        # show n and % in each node
+  fallen.leaves = TRUE,
+  main = "Decision Tree: Predicting Baseball Salary"
+)
+```
+
+::: callout-tip
+## Reading the Tree Plot
+
+- Each **node** shows the predicted value (mean salary in that group)
+- The **split condition** is shown at each internal node
+- **n** = number of observations in that node
+- Follow any path from root to leaf to get a prediction rule
+
+**Question:** What is the first split? Why does this make sense for predicting salary?
+:::
+
+### 8.4 Pruning the Tree
+
+The full tree may be overfit. We prune using the 1-SE rule (same principle as `lambda.1se` in LASSO):
+
+```{r}
+#| label: tree-prune
+#| eval: false
+
+# Plot cross-validation error vs. cp
+plotcp(tree_fit)
+
+# Find the cp with minimum CV error
+best_cp <- tree_fit$cptable[which.min(tree_fit$cptable[, "xerror"]), "CP"]
+cat("Best cp:", best_cp, "\n")
+
+# Prune the tree
+tree_pruned <- prune(tree_fit, cp = best_cp)
+
+# Visualize pruned tree
+rpart.plot(tree_pruned, type = 4, extra = 101, fallen.leaves = TRUE,
+           main = "Pruned Decision Tree")
+```
+
+### 8.5 Tree Predictions and RMSE
+
+```{r}
+#| label: tree-rmse
+#| eval: false
+
+# Predict on test set
+tree_pred_test <- predict(tree_pruned, newdata = Hitters_clean[test_idx, ])
+
+tree_rmse_test <- rmse(y_test, tree_pred_test)
+
+cat("Tree   Test RMSE:", round(tree_rmse_test, 1), "\n")
+cat("LASSO  Test RMSE:", round(lasso_rmse_test, 1), "\n")
+cat("OLS    Test RMSE:", round(ols_rmse_test, 1), "\n")
+```
+
+::: callout-note
+## How Does the Tree Compare?
+
+A single decision tree often performs **worse** than regularized regression on structured tabular data. This isn't surprising — the tree is high-variance and has limited expressiveness with just a few splits.
+
+The real power comes from **ensembles**. Let's see.
+:::
+
+------------------------------------------------------------------------
+
+## Part 9: Random Forests with `ranger`
+
+Random forests average many decorrelated trees to reduce variance. The `ranger` package is a fast C++ implementation optimized for R.
+
+### 9.1 Fit a Random Forest
+
+```{r}
+#| label: rf-fit
+#| eval: false
+
+# Fit random forest
+rf_fit <- ranger(
+  Salary ~ .,
+  data = Hitters_clean[train_idx, ],
+  num.trees = 500,
+  importance = "impurity",   # track variable importance
+  seed = 883
+)
+
+# Model summary
+print(rf_fit)
+```
+
+```{r}
+#| label: rf-oob
+#| eval: false
+
+# OOB error — built-in cross-validation estimate
+cat("OOB RMSE:", round(sqrt(rf_fit$prediction.error), 1), "\n")
+cat("R-squared (OOB):", round(rf_fit$r.squared, 3), "\n")
+```
+
+::: callout-tip
+## OOB = Free Cross-Validation
+
+The OOB (out-of-bag) error is computed automatically during training. Each tree only sees ~63% of the data, so the remaining 37% serves as a built-in validation set. No need for a separate `cv.glmnet()` call!
+:::
+
+### 9.2 Variable Importance
+
+```{r}
+#| label: rf-importance
+#| eval: false
+
+# Extract and plot variable importance
+importance_df <- tibble(
+  Variable = names(rf_fit$variable.importance),
+  Importance = rf_fit$variable.importance
+) |>
+  arrange(desc(Importance))
+
+# Print top 10
+print(importance_df, n = 10)
+```
+
+```{r}
+#| label: rf-importance-plot
+#| eval: false
+
+# Variable importance plot
+importance_df |>
+  slice_max(Importance, n = 12) |>
+  mutate(Variable = fct_reorder(Variable, Importance)) |>
+  ggplot(aes(x = Variable, y = Importance)) +
+  geom_col(fill = "#2E86AB") +
+  coord_flip() +
+  labs(
+    title = "Random Forest: Variable Importance",
+    subtitle = "Top 12 predictors by mean decrease in impurity",
+    x = NULL,
+    y = "Importance (Mean Decrease in Impurity)"
+  ) +
+  theme_minimal()
+```
+
+::: callout-note
+## Importance ≠ Causation
+
+Variable importance tells us which features are **most useful for prediction**, not which features **cause** the outcome. A feature can be important for prediction because it is:
+
+1. A direct cause
+2. A proxy for an unobserved cause
+3. Correlated with a cause
+
+This is exactly why we need DML — to separate prediction from causation.
+:::
+
+### 9.3 Random Forest Test RMSE
+
+```{r}
+#| label: rf-rmse
+#| eval: false
+
+# Predict on test set
+rf_pred_test <- predict(rf_fit, data = Hitters_clean[test_idx, ])$predictions
+
+rf_rmse_test <- rmse(y_test, rf_pred_test)
+
+cat("RF     Test RMSE:", round(rf_rmse_test, 1), "\n")
+cat("Tree   Test RMSE:", round(tree_rmse_test, 1), "\n")
+cat("LASSO  Test RMSE:", round(lasso_rmse_test, 1), "\n")
+```
+
+### 9.4 Effect of Number of Trees
+
+```{r}
+#| label: rf-ntrees
+#| eval: false
+
+# How does performance change with number of trees?
+ntree_values <- c(10, 50, 100, 200, 500, 1000)
+oob_errors <- numeric(length(ntree_values))
+
+for (i in seq_along(ntree_values)) {
+  rf_temp <- ranger(
+    Salary ~ .,
+    data = Hitters_clean[train_idx, ],
+    num.trees = ntree_values[i],
+    seed = 883
+  )
+  oob_errors[i] <- sqrt(rf_temp$prediction.error)
+}
+
+tibble(
+  num_trees = ntree_values,
+  OOB_RMSE = round(oob_errors, 1)
+) |> print()
+```
+
+::: callout-note
+## Diminishing Returns
+
+More trees generally help, but with diminishing returns. After ~200-500 trees, the improvement is negligible. Unlike gradient boosting, random forests do **not** overfit as you add more trees — averaging more independent trees only reduces variance.
+:::
+
+------------------------------------------------------------------------
+
+## Part 10: Model Comparison
+
+### 10.1 Full Comparison Table
+
+```{r}
+#| label: full-comparison
+#| eval: false
+
+# Assemble all results
+# Note: you need to have run all previous parts first
+full_results <- tibble(
+  Method       = c("OLS", "Ridge", "LASSO", "Elastic Net",
+                   "Decision Tree", "Random Forest"),
+  Test_RMSE    = c(ols_rmse_test, ridge_rmse_test,
+                   lasso_rmse_test, enet_rmse_test,
+                   tree_rmse_test, rf_rmse_test),
+  Type         = c("Linear", "Linear", "Linear", "Linear",
+                   "Tree", "Ensemble")
+)
+
+full_results |>
+  mutate(Test_RMSE = round(Test_RMSE, 1)) |>
+  arrange(Test_RMSE) |>
+  print()
+```
+
+### 10.2 Visual Comparison
+
+```{r}
+#| label: model-comparison-plot
+#| eval: false
+
+full_results |>
+  mutate(Method = fct_reorder(Method, Test_RMSE)) |>
+  ggplot(aes(x = Method, y = Test_RMSE, fill = Type)) +
+  geom_col() +
+  coord_flip() +
+  scale_fill_manual(values = c(
+    "Linear"   = "#4BACC6",
+    "Tree"     = "#9BBB59",
+    "Ensemble" = "#F59B42"
+  )) +
+  labs(
+    title = "Model Comparison: Test RMSE on Hitters Data",
+    subtitle = "Lower is better — Random Forest often matches or beats regularized regression",
+    x = NULL,
+    y = "Test RMSE ($)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+::: callout-important
+## The Big Picture for DML
+
+Notice that **no single method dominates all others**. This is why DML is flexible:
+
+- If the true relationship is **linear and sparse** → LASSO is best
+- If the true relationship is **nonlinear with interactions** → Random Forest or Boosting is best
+- **You don't know in advance** which applies to your nuisance functions
+
+DML lets you use the **best ML method for each nuisance function** without affecting the validity of your causal estimate. The cross-fitting procedure ensures this works regardless of which learner you choose.
+:::
+
+------------------------------------------------------------------------
+
+## Part 11: Optional Exercises
+
+::: callout-tip
+## Exercise 4: Gradient Boosting with xgboost
+
+Try fitting an XGBoost model and comparing it to random forest. This requires the `xgboost` package.
+
+```{r}
+#| label: exercise-4
+#| eval: false
+
+# install.packages("xgboost")
+library(xgboost)
+
+# xgboost requires a special matrix format
+dtrain <- xgb.DMatrix(data = X_train, label = y_train)
+dtest  <- xgb.DMatrix(data = X_test, label = y_test)
+
+# Fit with default parameters
+xgb_fit <- xgb.train(
+  params = list(
+    objective = "reg:squarederror",
+    max_depth = 6,
+    eta = 0.1
+  ),
+  data = dtrain,
+  nrounds = 200,
+  verbose = 0
+)
+
+# Predict and compute RMSE
+xgb_pred <- predict(xgb_fit, dtest)
+cat("XGBoost Test RMSE:", round(rmse(y_test, xgb_pred), 1), "\n")
+```
+:::
+
+::: callout-tip
+## Exercise 5: Tuning mtry in Random Forest
+
+The `mtry` parameter controls how many features are considered at each split. Try different values and see how OOB error changes.
+
+```{r}
+#| label: exercise-5
+#| eval: false
+
+# Try different mtry values
+mtry_values <- c(2, 4, 6, 8, 10, 15, 19)
+
+for (m in mtry_values) {
+  rf_temp <- ranger(Salary ~ ., data = Hitters_clean[train_idx, ],
+                    num.trees = 500, mtry = m, seed = 883)
+  cat("mtry =", m, "→ OOB RMSE:", round(sqrt(rf_temp$prediction.error), 1), "\n")
+}
+
+# What is the default mtry for regression? (p/3)
+cat("\nDefault mtry for regression:", floor(ncol(X) / 3), "\n")
+```
+:::
+
+::: callout-tip
+## Exercise 6: Random Forest Stability vs. LASSO Stability
+
+Rerun the instability analysis from Part 7, but now with Random Forest. Does RF variable importance change as much across resamples as LASSO variable selection does?
+
+```{r}
+#| label: exercise-6
+#| eval: false
+
+# Compare stability: LASSO selection vs. RF importance ranking
+# across 10 resamples
+n_resamples <- 10
+top5_matrix <- matrix("", nrow = n_resamples, ncol = 5)
+
+for (i in 1:n_resamples) {
+  idx <- sample(1:nrow(X), size = floor(0.7 * nrow(X)))
+  rf_temp <- ranger(Salary ~ ., data = Hitters_clean[idx, ],
+                    num.trees = 500, importance = "impurity")
+  top5 <- names(sort(rf_temp$variable.importance, decreasing = TRUE))[1:5]
+  top5_matrix[i, ] <- top5
+}
+
+# How often does each variable appear in the top 5?
+cat("Top-5 variable frequency across resamples:\n")
+table(top5_matrix) |> sort(decreasing = TRUE) |> print()
+```
+:::
+
+------------------------------------------------------------------------
+
 ## Key Takeaways
 
 ### What We Learned
@@ -871,10 +1298,12 @@ Run the instability demo with `n_resamples <- 50`. Does the selection frequency 
 | Ridge | L2 ($\sum \beta_j^2$) | No (shrinks toward 0) | Many correlated predictors, all relevant |
 | LASSO | L1 ($\sum |\beta_j|$) | Yes (exact zeros) | Sparse true model, want variable selection |
 | Elastic Net | L1 + L2 | Yes (partial) | Correlated groups of predictors |
+| Decision Tree | Pruning (cp) | Implicit (splits) | Interpretability, nonlinear relationships |
+| Random Forest | Averaging | Feature importance | General-purpose, robust, nonlinear |
 
 ### The Regularization Principle
 
-Regularization improves **out-of-sample prediction** by accepting a small amount of **bias** in exchange for a large reduction in **variance**. This is the bias-variance tradeoff in action.
+Regularization improves **out-of-sample prediction** by accepting a small amount of **bias** in exchange for a large reduction in **variance**. This is the bias-variance tradeoff in action — whether the "regularizer" is an L1 penalty (LASSO), tree pruning (cp), or averaging (random forest).
 
 ### LASSO for Prediction vs. Causal Inference
 
@@ -888,9 +1317,9 @@ In Double Machine Learning:
 
 $$Y = \theta D + g_0(X) + \varepsilon$$
 
--   We use LASSO/ML to estimate $\hat{g}_0(X)$ — predicting the outcome from controls
--   We use LASSO/ML to estimate $\hat{m}_0(X)$ — predicting the treatment from controls
--   The causal estimate $\hat{\theta}$ is obtained from the **residuals** — which is why LASSO's variable selection instability doesn't affect inference on $\theta$
+-   We use LASSO/ML/RF to estimate $\hat{g}_0(X)$ — predicting the outcome from controls
+-   We use LASSO/ML/RF to estimate $\hat{m}_0(X)$ — predicting the treatment from controls
+-   The causal estimate $\hat{\theta}$ is obtained from the **residuals** — which is why ML method choice doesn't affect inference on $\theta$
 
 This is the Frisch-Waugh-Lovell theorem applied to a nonparametric setting.
 
@@ -902,19 +1331,23 @@ This is the Frisch-Waugh-Lovell theorem applied to a nonparametric setting.
 
 -   [glmnet Package Vignette](https://glmnet.stanford.edu/articles/glmnet.html) — Complete reference with math
 -   [ISLR Chapter 6](https://www.statlearning.com/) — Regularization chapter, free online
+-   [ISLR Chapter 8](https://www.statlearning.com/) — Trees, bagging, random forests, boosting
 -   [ESL Chapter 3](https://hastie.su.domains/ElemStatLearn/) — More mathematical treatment of shrinkage
 
 ### Key Papers
 
 -   Tibshirani (1996) — "Regression Shrinkage and Selection via the Lasso" *JRSS-B*
+-   Breiman (2001) — "Random Forests" *Machine Learning*
 -   Zou & Hastie (2005) — "Regularization and Variable Selection via the Elastic Net" *JRSS-B*
 -   Belloni, Chernozhukov & Hansen (2014) — "Inference on Treatment Effects after Selection among High-Dimensional Controls" *REStud*
 
 ### R Packages
 
 -   [`glmnet`](https://glmnet.stanford.edu/) — Ridge, LASSO, Elastic Net
--   [`tidymodels`](https://www.tidymodels.org/) — Modern unified ML workflow (uses glmnet as engine)
--   [`hdm`](https://cran.r-project.org/package=hdm) — High-dimensional metrics, post-LASSO inference
+-   [`rpart`](https://cran.r-project.org/package=rpart) — Decision trees (CART)
+-   [`rpart.plot`](https://cran.r-project.org/package=rpart.plot) — Tree visualization
+-   [`ranger`](https://github.com/imbs-hl/ranger) — Fast random forests
+-   [`xgboost`](https://xgboost.readthedocs.io/) — Gradient boosting
 -   [`DoubleML`](https://docs.doubleml.org/r/stable/) — DML implementation (next unit!)
 
 ------------------------------------------------------------------------
