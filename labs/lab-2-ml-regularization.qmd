@@ -17,6 +17,14 @@ execute:
 ---
 
 ::: callout-important
+## Accept the Assignment
+
+[**Click here to accept Lab 2 on GitHub Classroom**](https://classroom.github.com/a/x9Epxj1l)
+
+This will create your personal repository for this lab.
+:::
+
+::: callout-important
 ## Two-Part Lab (Ungraded In-Class Activity)
 
 **Part 1 (Mon Feb 23, Remote):** Regularization — LASSO, Ridge, Elastic Net, and the instability problem.
