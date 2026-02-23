@@ -2,7 +2,7 @@
 title: "Problem Set 2"
 subtitle: "Double Machine Learning"
 author: "HPM 883: Advanced Quantitative Methods"
-date: "Due: February 23, 2026"
+date: "Due: March 11, 2026"
 slug: "ps-2"
 categories: [Problem Set, DML, Causal Inference, Machine Learning]
 description: "Implement Double Machine Learning for causal inference with high-dimensional confounders, compare nuisance learners, and diagnose overlap."

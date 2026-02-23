@@ -151,7 +151,7 @@ Your paper and group assignments are now posted:
 
 **Key Concepts (Sessions 2.2-2.3):** Influence functions, EIF, Neyman orthogonality, PLM, partialling out, cross-fitting
 
-**Problem Set 2 assigned:** Double ML Implementation (due Mar 25)
+**Problem Set 2 assigned:** Double ML Implementation (due Mar 11)
 
 ---
 
@@ -165,6 +165,8 @@ Your paper and group assignments are now posted:
 **Key Concepts (Session 2.4):** DoubleML package, nuisance estimation, implementation in R
 
 **Key Concepts (Sessions 2.5-2.6):** AIPW, TMLE, semiparametric efficiency, TMLE diagnostics, overlap
+
+**Due:** Problem Set 2 (March 11)
 
 ---
 
@@ -180,8 +182,6 @@ Your paper and group assignments are now posted:
 |---------|------|-------|--------|
 | 18 | Mon Mar 23 | Causal Random Forests & Honest Inference (Session 3.0) | In-Person |
 | 19 | Wed Mar 25 | Meta-Learners for HTE & CATE Calibration | [Remote](https://zoom.us/j/93346316978) |
-
-**Due:** Problem Set 2
 
 **Key Concepts:** Honest splitting, local centering, grf package, T-learner, S-learner, X-learner, R-learner, DR-learner, CATE calibration
 
@@ -267,7 +267,7 @@ Your paper and group assignments are now posted:
 | **Jigsaw 1: Experimental Design** | **Jan 28** | (part of Jigsaw) |
 | **Problem Set 1: Experimental Design & Power** | **Feb 25** | (part of Problem Sets) |
 | Jigsaw 2: ML for Causal Inference | Mar 2 | (part of Jigsaw) |
-| Problem Set 2: Double ML Implementation | Mar 25 | (part of Problem Sets) |
+| Problem Set 2: Double ML Implementation | Mar 11 | (part of Problem Sets) |
 | Jigsaw 3: Causal Forest Applications | Mar 25 | (part of Jigsaw) |
 | Problem Set 3: HTE & Meta-Learners | Apr 8 | (part of Problem Sets) |
 | Jigsaw 4: Policy Learning Case Studies | Apr 1 | (part of Jigsaw) |
