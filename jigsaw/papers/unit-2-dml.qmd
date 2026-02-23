@@ -97,8 +97,8 @@ If approved, your group reads and presents the alternative paper instead of the 
 
 ## Supplemental Reading
 
-::: {.callout-note}
-## Recommended Background
+::: {.callout-important}
+## Required Background Reading
 
 **D'Amour, A., Ding, P., Feller, A., Lei, L., & Sekhon, J. (2021).** Overlap in observational studies with high-dimensional covariates. *Journal of Econometrics*, 221(2), 644-654.
 

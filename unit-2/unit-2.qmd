@@ -51,6 +51,9 @@ The Feb 11 PS1 Prep Workshop is the only session during Week 5. Session 2.1 (ML 
 - **Kennedy (2016)** — "Semiparametric Theory and Empirical Processes in Causal Inference"
   - Tutorial on influence functions
 
+- **D'Amour et al. (2021)** — "Overlap in Observational Studies with High-Dimensional Covariates" *Journal of Econometrics*
+  - Why overlap assumptions break down in high dimensions — essential context for DML limitations
+
 ### Supplementary
 
 - James et al. (ISLR) — *Introduction to Statistical Learning* Chapters 2, 5

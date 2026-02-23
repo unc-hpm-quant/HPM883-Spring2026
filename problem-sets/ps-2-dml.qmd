@@ -138,7 +138,7 @@ Compare the IRM estimate to the PLM estimate. Do they differ substantially? What
 
 ## Task 3: Diagnostics (20 points)
 
-### 3.1 Propensity Score Overlap (10 points)
+### 3.1 Propensity Score Overlap (15 points)
 
 Examine the propensity scores from your best-performing nuisance learner:
 
@@ -147,6 +147,8 @@ a) **Histogram:** Create overlapping histograms of predicted propensity scores b
 b) **Trimming:** Apply propensity score trimming (e.g., drop observations with $\hat{e}(X) < 0.05$ or $\hat{e}(X) > 0.95$). How many observations are dropped? How does the ATE estimate change?
 
 c) **Overlap weighting:** As an alternative to trimming, implement overlap weighting (weights = $\hat{e}(X)(1-\hat{e}(X))$). Compare to the trimmed estimate.
+
+d) **Dimensionality and overlap (D'Amour et al. 2021):** Re-run your propensity score estimation using only the 10 most important covariates (based on variable importance from your best learner). Compare the propensity score distributions to those using all 50 covariates. Does the overlap improve? Relate your findings to D'Amour et al.'s theoretical result about the curse of dimensionality for overlap.
 
 ### 3.2 Covariate Balance (10 points)
 
@@ -229,7 +231,7 @@ Your submission should include:
 |-----------|--------|----------|
 | Task 1: Conceptual | 20 | Accurate explanations of DML theory |
 | Task 2: Implementation | 30 | Correct DML implementation, learner comparison |
-| Task 3: Diagnostics | 20 | Proper overlap and balance assessment |
+| Task 3: Diagnostics | 25 | Proper overlap and balance assessment |
 | Task 4: AIPW | 15 | Correct manual implementation |
 | Task 5: Communication | 15 | Clear, policy-appropriate, actionable |
 

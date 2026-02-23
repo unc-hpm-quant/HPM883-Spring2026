@@ -49,6 +49,7 @@ install.packages("data.table")
 ### Recommended
 
 -   Bach et al. (2021) — "DoubleML: An Object-Oriented Implementation"
+-   D'Amour et al. (2021) — "Overlap in Observational Studies with High-Dimensional Covariates"
 -   DoubleML vignettes and tutorials
 
 **Estimated Preparation Time:** 30 minutes (mostly installation)
@@ -87,6 +88,8 @@ install.packages("data.table")
 
 5.  **Diagnostics and Best Practices**
     -   Checking propensity score overlap
+    -   The overlap curse of dimensionality (D'Amour et al. 2021)
+    -   Trimming, truncation, and overlap weighting tradeoffs
     -   Cross-validation within cross-fitting
     -   Sensitivity to tuning parameters
     -   Reporting standards for DML results
