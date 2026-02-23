@@ -1,25 +1,42 @@
 ---
 title: "Jigsaw 2 Groups"
-subtitle: "Double ML (Feb 18)"
-date: "Generated: 2026-01-14 10:04:14.945121"
-draft: true
+subtitle: "Double Machine Learning (Mar 2)"
+date: "Generated: 2026-02-23"
+---
+
+## Paper Assignments
+
+| Paper | Title | Assigned Group |
+|-------|-------|----------------|
+| **Paper 1** | Chernozhukov et al. (2018) — DML for returns to education | Takhona, Doyoung, Korie, Mario |
+| **Paper 2** | Rose et al. (2020) — DML in healthcare spending | Audrey, Haiyi, Jose, Tarini |
+| **Paper 3** | Knaus (2022) — DML for policy evaluation | Camille, Lillian, Nicolle, Oguz |
+| **Paper 4** | D'Amour et al. (2021) — Overlap and positivity (Critical) | Aniruddhan, Cristina, Raquel, Yumeng |
+
+See [Paper Details](../papers/unit-2-dml.qmd) for full citations and reading tips.
+
 ---
 
 ## Expert Groups (Phase 1)
 
-|Paper   |Students                                                          |
-|:-------|:-----------------------------------------------------------------|
-|Paper 1 |Doyoung Kim, Haiyi Chen, Nicolle Wagner Gutierrez, Oguz Eren      |
-|Paper 2 |Cristina Lee, Lillian Feingold, Tarini Goyal, Yumeng Du           |
-|Paper 3 |Aniruddhan Ganesaraman, Camille Murray, Mario Rojas, Raquel Davis |
-|Paper 4 |Audrey Yao, Jose Lopez, Korie Rice, Takhona Hlatshwako            |
+In this phase, you meet with classmates who read the **same paper**.
+
+| Paper | Students |
+|:------|:---------|
+| Paper 1 | Takhona Hlatshwako, Doyoung Kim, Korie Rice, Mario Rojas |
+| Paper 2 | Audrey Yao, Haiyi Chen, Jose Lopez, Tarini Goyal |
+| Paper 3 | Camille Murray, Lillian Feingold, Nicolle Wagner Gutierrez, Oguz Eren |
+| Paper 4 | Aniruddhan Ganesaraman, Cristina Lee, Raquel Davis, Yumeng Du |
+
+---
 
 ## Teaching Groups (Phase 2)
 
-|Group   |Members (Paper Assignment)                                                          |
-|:-------|:-----------------------------------------------------------------------------------|
-|Group A |Doyoung Kim (P1), Cristina Lee (P2), Aniruddhan Ganesaraman (P3), Audrey Yao (P4)   |
-|Group B |Haiyi Chen (P1), Lillian Feingold (P2), Camille Murray (P3), Jose Lopez (P4)        |
-|Group C |Nicolle Wagner Gutierrez (P1), Tarini Goyal (P2), Mario Rojas (P3), Korie Rice (P4) |
-|Group D |Oguz Eren (P1), Yumeng Du (P2), Raquel Davis (P3), Takhona Hlatshwako (P4)          |
+In this phase, groups reshuffle so each group has **one expert from each paper**.
 
+| Group | Members (Paper) |
+|:------|:----------------|
+| Group A | Takhona Hlatshwako (P1), Audrey Yao (P2), Camille Murray (P3), Aniruddhan Ganesaraman (P4) |
+| Group B | Doyoung Kim (P1), Haiyi Chen (P2), Lillian Feingold (P3), Cristina Lee (P4) |
+| Group C | Korie Rice (P1), Jose Lopez (P2), Nicolle Wagner Gutierrez (P3), Raquel Davis (P4) |
+| Group D | Mario Rojas (P1), Tarini Goyal (P2), Oguz Eren (P3), Yumeng Du (P4) |

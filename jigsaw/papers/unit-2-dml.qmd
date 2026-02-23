@@ -10,7 +10,7 @@ These papers apply Double Machine Learning (DML) methods to estimate causal effe
 
 ## Paper Assignments
 
-Your paper assignment will be posted on Canvas one week before the session.
+Your paper assignment is listed in the [Jigsaw 2 Groups](../groups/jigsaw-2-groups.qmd) page.
 
 ::: {.callout-tip}
 ## Finding Your Own Paper
