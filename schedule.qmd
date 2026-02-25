@@ -50,7 +50,7 @@ subtitle: "HPM 883 Spring 2026"
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
 | — | Mon Jan 27 | **CLASS CANCELLED** | — |
-| 6 | Wed Jan 28 | Inference Foundations (Design-Based vs. Model-Based) + **Jigsaw 1** | In-Person |
+| 6 | Wed Jan 28 | Inference Foundations (Design-Based vs. Model-Based) + **Jigsaw 1** · [Recording](https://zoom.us/clips/share/yRtFGIW6SgqGluIEd0sTxQ) | In-Person |
 
 **Session 6 Key Concepts:** Design-based (Fisher) vs. model-based (Neyman) inference, randomization distributions, permutation tests, asymptotic inference
 
@@ -79,7 +79,7 @@ Your paper and group assignments are now posted:
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
 | 7 | Mon Feb 2 | Lab 1: Experimental Design & Power (ungraded in-class activity) | Async |
-| 8 | Wed Feb 4 | **Guest Lecture:** Yunwei Chen (Stanford) (Session 2.0) | [Remote](https://zoom.us/j/93346316978) |
+| 8 | Wed Feb 4 | **Guest Lecture:** Yunwei Chen (Stanford) (Session 2.0) · [Recording](https://zoom.us/clips/share/NFEFqG3BSYKcZICHdsregQ) | [Remote](https://zoom.us/j/93346316978) |
 
 **Session 7 (Async Lab):** Code-along lab on power analysis by simulation using DeclareDesign. Applies MIDA framework, blocking vs. simple randomization, MDE calculations, and Lin (2013) regression adjustment. *Ungraded in-class activity — complete at your own pace.*
 
@@ -92,7 +92,7 @@ Your paper and group assignments are now posted:
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
 | — | Mon Feb 9 | **NO CLASS — Well-Being Day** | — |
-| 9 | Wed Feb 11 | PS1 Prep Workshop: Experimental Design & Power | In-Person |
+| 9 | Wed Feb 11 | PS1 Prep Workshop: Experimental Design & Power · [Recording](https://zoom.us/clips/share/BKcHT1beRQKUyztLWYSQTw) | In-Person |
 
 **Note:** ML Foundations (Session 2.1) moved to Feb 16 due to snow cancellations and schedule adjustments.
 
@@ -106,8 +106,8 @@ Your paper and group assignments are now posted:
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 10 | Mon Feb 16 | Unit 1 Wrap-Up: Power, Variance Reduction, Blocking & ICC | In-Person |
-| 11 | Wed Feb 18 | ML Basics & Regression in High Dimensions (Session 2.1) | In-Person |
+| 10 | Mon Feb 16 | Unit 1 Wrap-Up: Power, Variance Reduction, Blocking & ICC · [Recording](https://zoom.us/clips/share/5yjdTz0WQYaC2dGrKLN82w) | In-Person |
+| 11 | Wed Feb 18 | ML Basics & Regression in High Dimensions (Session 2.1) · [Recording](https://zoom.us/clips/share/t5Yvbe0TSdCRqDhrQe7Ofg) | In-Person |
 
 **Due:** Problem Set 1 (February 25 at 11:15am)
 
@@ -129,7 +129,7 @@ Your paper and group assignments are now posted:
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 12 | Mon Feb 23 | Lab 2 Part 1: LASSO, Ridge & Regularization · [Recording](https://zoom.us/rec/play/igkpsgS3CHQ1Ha8aMjBH9Oy-APczr6wF7xaxX9hafiEphPZIKGEZ4i_gtOoOOQqxTe72xS8eSEGCJRjH.9Yn46iLnbY_9yJqW) | [Remote](https://zoom.us/j/93346316978) |
+| 12 | Mon Feb 23 | Lab 2 Part 1: LASSO, Ridge & Regularization · [Recording](https://zoom.us/clips/share/akxpSQ27Q_C1vVwETk04oQ) | [Remote](https://zoom.us/j/93346316978) |
 | 13 | Wed Feb 25 | Trees & Ensemble Methods (Session 2.1b) + Lab 2 | [Remote](https://zoom.us/j/93346316978) |
 
 **Due:** Problem Set 1 (February 25 at 11:15am)
