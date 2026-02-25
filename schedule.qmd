@@ -129,7 +129,7 @@ Your paper and group assignments are now posted:
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 12 | Mon Feb 23 | Lab 2 Part 1: LASSO, Ridge & Regularization | [Remote](https://zoom.us/j/93346316978) |
+| 12 | Mon Feb 23 | Lab 2 Part 1: LASSO, Ridge & Regularization · [Recording](https://zoom.us/rec/play/igkpsgS3CHQ1Ha8aMjBH9Oy-APczr6wF7xaxX9hafiEphPZIKGEZ4i_gtOoOOQqxTe72xS8eSEGCJRjH.9Yn46iLnbY_9yJqW) | [Remote](https://zoom.us/j/93346316978) |
 | 13 | Wed Feb 25 | Trees & Ensemble Methods (Session 2.1b) + Lab 2 | [Remote](https://zoom.us/j/93346316978) |
 
 **Due:** Problem Set 1 (February 25 at 11:15am)
