@@ -67,7 +67,7 @@ Load the provided dataset:
 
 ```{r}
 #| label: load-data
-#| eval: true
+#| eval: false
 
 # Load the Medicaid expansion data
 medicaid_data <- read.csv("data/ps-2-medicaid.csv")
@@ -75,7 +75,7 @@ medicaid_data <- read.csv("data/ps-2-medicaid.csv")
 
 ```{r}
 #| label: setup
-#| eval: true
+#| eval: false
 
 library(DoubleML)
 library(mlr3)
