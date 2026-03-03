@@ -2,7 +2,7 @@
 title: "Problem Set 2"
 subtitle: "Double Machine Learning"
 author: "HPM 883: Advanced Quantitative Methods"
-date: "Due: March 11, 2026"
+date: "Due: March 13, 2026"
 slug: "ps-2"
 categories: [Problem Set, DML, Causal Inference, Machine Learning]
 description: "Implement Double Machine Learning for causal inference with high-dimensional confounders, compare nuisance learners, and diagnose overlap."
@@ -16,6 +16,14 @@ execute:
   eval: false
   echo: true
 ---
+
+::: {.callout-important}
+## Accept the Assignment
+
+**[Click here to accept Problem Set 2 on GitHub Classroom](https://classroom.github.com/a/RNjb8MDT)**
+
+This will create your personal repository for this problem set.
+:::
 
 ## Introduction
 
@@ -66,6 +74,22 @@ The dataset contains:
 - `Y_pre`: Hospital visits in 2019 (pre-treatment outcome)
 - `X1`-`X50`: Confounders (demographics, health conditions, SES indicators)
 
+::: {.callout-note}
+## Code Companion Available
+
+A **Code Companion** file (`ps-2-code-companion.qmd`) is provided alongside
+this problem set. It contains reusable code patterns for all the methods
+used in this assignment, demonstrated on a different dataset. Use it as a
+reference — you'll need to adapt the patterns to fit this problem set's data
+and questions.
+
+**If you get stuck on a computational task for more than 45 minutes:**
+look for the progressive hints embedded in each task (collapsed callouts below).
+
+**Submission:** Source `.qmd` file is required. Rendered HTML is appreciated
+but not required — unrendered `.qmd` is accepted.
+:::
+
 ---
 
 ## Task 1: Conceptual Foundation (20 points)
@@ -110,6 +134,44 @@ Report:
 - 95% confidence interval
 - Standard error
 
+::: {.callout-tip collapse="true"}
+## Hint: Getting Started (Tier 1)
+
+Use `DoubleMLPLR$new()` with `lrn("regr.cv_glmnet")` for both nuisance models.
+See Code Companion section **"Fitting a PLR Model"** for the full pattern.
+:::
+
+::: {.callout-tip collapse="true"}
+## Code Skeleton (Tier 2)
+
+*Show your attempt first — what did you try, and what error did you get?*
+
+```r
+dml_data <- DoubleMLData$new(
+  data = as.data.table(___),
+  y_col = "___",
+  d_cols = "___",
+  x_cols = c(paste0("X", 1:50), "Y_pre")
+)
+
+ml_l <- lrn("regr.cv_glmnet")
+ml_m <- lrn("regr.cv_glmnet")
+
+set.seed(883)
+dml_plr <- DoubleMLPLR$new(dml_data, ml_l, ml_m, n_folds = ___)
+dml_plr$___()
+dml_plr$summary()
+```
+:::
+
+::: {.callout-caution collapse="true"}
+## Expected Output (Tier 3)
+
+If you cannot get the code to run, reference this pre-rendered output and proceed to the interpretation.
+
+![PLR with Lasso results](fallback/task-2-1-plr-results.png)
+:::
+
 ### 2.2 Learner Comparison (10 points)
 
 Compare three different ML learners for the nuisance functions:
@@ -125,6 +187,50 @@ For each learner combination:
 
 **Question:** How sensitive are your results to the choice of nuisance learner? What does this tell you about the data generating process?
 
+::: {.callout-tip collapse="true"}
+## Hint: Learner Comparison (Tier 1)
+
+Loop over three learner pairs (Lasso, RF, XGBoost), fit each with `DoubleMLPLR$new()`,
+extract `$coef` and `$confint()`, then combine into a data frame for plotting.
+See Code Companion section **"Comparing ML Learners"** and **"Creating a Forest Plot"**.
+:::
+
+::: {.callout-tip collapse="true"}
+## Code Skeleton (Tier 2)
+
+*Show your attempt first — what did you try, and what error did you get?*
+
+```r
+learner_pairs <- list(
+  Lasso = list(ml_l = lrn("regr.cv_glmnet"), ml_m = lrn("regr.cv_glmnet")),
+  RF    = list(ml_l = lrn("regr.ranger", num.trees = 500),
+               ml_m = lrn("regr.ranger", num.trees = 500)),
+  XGB   = list(ml_l = lrn("regr.xgboost", nrounds = 100, verbose = 0),
+               ml_m = lrn("regr.xgboost", nrounds = 100, verbose = 0))
+)
+
+results <- lapply(names(learner_pairs), function(name) {
+  set.seed(883)
+  obj <- DoubleMLPLR$new(dml_data, ___, ___, n_folds = 5)
+  obj$fit()
+  ci <- obj$confint()
+  data.frame(Learner = name, Estimate = as.numeric(obj$coef),
+             CI_Lower = ci[1,1], CI_Upper = ci[1,2])
+})
+
+comparison <- do.call(rbind, results)
+# Then use ggplot + geom_pointrange for the forest plot
+```
+:::
+
+::: {.callout-caution collapse="true"}
+## Expected Output (Tier 3)
+
+If you cannot get the code to run, reference this pre-rendered output and proceed to the interpretation.
+
+![Learner comparison forest plot](fallback/task-2-2-forest-plot.png)
+:::
+
 ### 2.3 Interactive Regression Model (10 points)
 
 Now estimate the ATE using the **Interactive Regression Model (IRM)**, which allows for treatment effect heterogeneity:
@@ -133,6 +239,39 @@ $$Y = g_0(D, X) + U, \quad E[U|X,D] = 0$$
 $$D = m_0(X) + V, \quad E[V|X] = 0$$
 
 Compare the IRM estimate to the PLM estimate. Do they differ substantially? What might explain any differences?
+
+::: {.callout-tip collapse="true"}
+## Hint: IRM Setup (Tier 1)
+
+Use `DoubleMLIRM$new()` with a **classification** learner for the treatment model.
+The key change from PLR: `lrn("classif.cv_glmnet", predict_type = "prob")`.
+See Code Companion section **"Fitting an IRM Model"**.
+:::
+
+::: {.callout-tip collapse="true"}
+## Code Skeleton (Tier 2)
+
+*Show your attempt first — what did you try, and what error did you get?*
+
+```r
+ml_g <- lrn("regr.cv_glmnet")          # outcome model (regression)
+ml_m <- lrn("classif.cv_glmnet",        # treatment model (classification!)
+             predict_type = "prob")      # must return probabilities
+
+set.seed(883)
+dml_irm <- DoubleMLIRM$new(dml_data, ml_g, ml_m, n_folds = 5, score = "ATE")
+dml_irm$fit()
+dml_irm$summary()
+```
+:::
+
+::: {.callout-caution collapse="true"}
+## Expected Output (Tier 3)
+
+If you cannot get the code to run, reference this pre-rendered output and proceed to the interpretation.
+
+![PLR vs IRM comparison](fallback/task-2-3-irm-comparison.png)
+:::
 
 ---
 
@@ -144,11 +283,43 @@ Examine the propensity scores from your best-performing nuisance learner:
 
 a) **Histogram:** Create overlapping histograms of predicted propensity scores by treatment status. Are there regions of poor overlap?
 
+::: {.callout-caution collapse="true"}
+## Expected Output: 3.1a (Tier 3)
+
+![Propensity score histograms](fallback/task-3-1a-propensity-histogram.png)
+:::
+
 b) **Trimming:** Apply propensity score trimming (e.g., drop observations with $\hat{e}(X) < 0.05$ or $\hat{e}(X) > 0.95$). How many observations are dropped? How does the ATE estimate change?
+
+::: {.callout-caution collapse="true"}
+## Expected Output: 3.1b (Tier 3)
+
+![Trimming results](fallback/task-3-1b-trimming-results.png)
+:::
 
 c) **Overlap weighting:** As an alternative to trimming, implement overlap weighting (weights = $\hat{e}(X)(1-\hat{e}(X))$). Compare to the trimmed estimate.
 
+::: {.callout-caution collapse="true"}
+## Expected Output: 3.1c (Tier 3)
+
+![Overlap weighting results](fallback/task-3-1c-overlap-weights.png)
+:::
+
 d) **Dimensionality and overlap (D'Amour et al. 2021):** Re-run your propensity score estimation using only the 10 most important covariates (based on variable importance from your best learner). Compare the propensity score distributions to those using all 50 covariates. Does the overlap improve? Relate your findings to D'Amour et al.'s theoretical result about the curse of dimensionality for overlap.
+
+::: {.callout-tip collapse="true"}
+## Hint: Extracting Variable Importance (Tier 1)
+
+Fit a `ranger` model with `importance = "impurity"`, then use
+`sort(fit$variable.importance, decreasing = TRUE)` to rank covariates.
+See Code Companion section **"Extracting Propensity Scores"**.
+:::
+
+::: {.callout-caution collapse="true"}
+## Expected Output: 3.1d (Tier 3)
+
+![10 vs 50 covariate comparison](fallback/task-3-1d-dimensionality.png)
+:::
 
 ### 3.2 Covariate Balance (10 points)
 
@@ -159,6 +330,19 @@ a) **Unweighted balance:** Create a Love plot showing standardized mean differen
 b) **IPW balance:** Create a Love plot after inverse probability weighting. Which covariates remain imbalanced?
 
 c) **Balance table:** Report a balance table with means, standardized differences, and variance ratios for the 10 most important covariates.
+
+::: {.callout-tip collapse="true"}
+## Hint: cobalt Package (Tier 1)
+
+Use `love.plot()` with `un = TRUE` to show before/after in one plot.
+See Code Companion section **"Covariate Balance with cobalt"**.
+:::
+
+::: {.callout-caution collapse="true"}
+## Expected Output: 3.2 (Tier 3)
+
+![Love plot and balance assessment](fallback/task-3-2-love-plot.png)
+:::
 
 ---
 
@@ -176,6 +360,56 @@ Where:
 - $\hat{e}(X)$ = predicted propensity score
 
 Use cross-fitting for all nuisance estimates. Report the AIPW estimate and standard error (using influence function variance).
+
+::: {.callout-tip collapse="true"}
+## Hint: AIPW Structure (Tier 1)
+
+Break into 3 steps: (1) predict outcomes by treatment status ($\hat{\mu}_1$, $\hat{\mu}_0$),
+(2) predict propensity scores ($\hat{e}$), (3) plug into AIPW formula.
+Use a K-fold loop where you train on K-1 folds and predict on the held-out fold.
+See Code Companion section **"Manual AIPW Estimator"**.
+:::
+
+::: {.callout-tip collapse="true"}
+## Code Skeleton (Tier 2)
+
+*Show your attempt first — what did you try, and what error did you get?*
+
+```r
+K <- 5
+folds <- sample(rep(1:K, length.out = nrow(medicaid_data)))
+mu1_hat <- mu0_hat <- e_hat <- numeric(nrow(medicaid_data))
+
+for (k in 1:K) {
+  train <- which(folds != k)
+  test  <- which(folds == k)
+
+  # Fit outcome model on treated obs in training fold
+  # Fit outcome model on control obs in training fold
+  # Fit propensity model on all training obs
+  # Predict on test fold
+}
+
+# Clip e_hat to avoid division by zero
+e_hat <- pmax(0.01, pmin(0.99, e_hat))
+
+# AIPW influence function
+psi <- mu1_hat - mu0_hat +
+  D * (Y - mu1_hat) / e_hat -
+  (1 - D) * (Y - mu0_hat) / (1 - e_hat)
+
+tau_aipw <- mean(psi)
+se_aipw  <- sd(psi) / sqrt(length(psi))
+```
+:::
+
+::: {.callout-caution collapse="true"}
+## Expected Output: Task 4 (Tier 3)
+
+If you cannot get the code to run, reference this pre-rendered output and proceed to the comparison.
+
+![AIPW results and method comparison](fallback/task-4-aipw-results.png)
+:::
 
 ### 4.2 Comparison (5 points)
 
@@ -211,17 +445,28 @@ Use appropriate language for a government policy audience. Avoid technical jargo
 
 ## Submission Requirements
 
-Push to your GitHub Classroom repository by **February 23, 2026 at 11:59 PM**:
+Push to your GitHub Classroom repository by **March 13, 2026 at 11:59 PM**:
 
-1. **Rendered HTML** of your completed .qmd file
-2. **Source .qmd file**
+1. **Source .qmd file** (required)
+2. **Rendered HTML** of your completed .qmd file (if possible — unrendered `.qmd` accepted)
 
 Your submission should include:
 
-- All code with `eval: true` so results are visible
+- All code with `eval: true` so results are visible (if rendering)
 - Clear written answers to conceptual questions
 - Well-formatted tables and visualizations
 - The policy memo as a separate section
+
+::: {.callout-note}
+## If Using Fallback Outputs
+
+If you used any Tier 3 fallback outputs, include in your submission:
+
+- Your attempted code (even if it didn't run)
+- The error message you encountered
+- A brief explanation of what you think went wrong
+:::
+
 
 ---
 

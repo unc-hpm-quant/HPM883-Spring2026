@@ -95,7 +95,7 @@ This session covers doubly-robust (DR) estimators that combine propensity score 
 
 ### Problem Set 2 Already Due
 
--   **Problem Set 2: Double ML Implementation** — Due February 23
+-   **Problem Set 2: Double ML Implementation** — Due March 13
 
 ### Design Memo 2 Assigned
 

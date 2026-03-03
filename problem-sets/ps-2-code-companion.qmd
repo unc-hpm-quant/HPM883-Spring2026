@@ -1,0 +1,580 @@
+---
+title: "PS 2: Code Companion"
+subtitle: "Reusable Patterns for Double Machine Learning"
+author: "HPM 883: Advanced Quantitative Methods"
+date: "Spring 2026"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-tools: true
+    code-fold: false
+execute:
+  eval: false
+  echo: true
+  warning: false
+editor: visual
+---
+
+::: {.callout-important}
+## How to Use This Document
+
+This companion demonstrates DML code patterns using **practice data** — not the
+PS2 Medicaid dataset. You'll need to **adapt** variable names, column selections,
+and learner choices to fit your problem set.
+
+**Workflow:**
+
+1. Read the relevant section for the analysis you're attempting
+2. Run the example code to see expected output shapes
+3. Adapt the pattern for your PS2 data and questions
+:::
+
+## Package Installation
+
+If you haven't installed the DML packages yet, run this once:
+
+```{r}
+#| label: install-packages
+#| eval: false
+
+install.packages(c(
+  "DoubleML", "mlr3", "mlr3learners",
+  "ranger", "xgboost", "glmnet",
+  "cobalt", "data.table", "ggplot2"
+))
+```
+
+## Setup: Practice Data
+
+We use DoubleML's built-in data generator to create practice data with a known
+treatment effect. This has **different variables** than your PS2 data — the point
+is to learn the patterns, not to copy the code verbatim.
+
+```{r}
+#| label: setup
+
+library(DoubleML)
+library(mlr3)
+library(mlr3learners)
+library(data.table)
+library(ggplot2)
+
+# Generate practice data: 2000 obs, 20 covariates
+# True parameter: theta_0 = 0.5 (known)
+set.seed(42)
+practice_dt <- make_plr_CCDDHNR2018(
+  n_obs = 2000,
+  dim_x = 20,
+  return_type = "data.table"
+)
+
+# Peek at the structure
+str(practice_dt)
+```
+
+::: {.callout-note}
+The practice data has columns `y` (outcome), `d` (treatment), and `X1`–`X20`
+(confounders). Your PS2 data has `Y`, `D`, `Y_pre`, and `X1`–`X50`.
+:::
+
+---
+
+## Getting Started with DoubleML
+
+The `DoubleML` package requires a **data backend** object that specifies which
+columns are the outcome, treatment, and confounders.
+
+```{r}
+#| label: data-backend
+
+# Create the DoubleML data backend
+# Key arguments: y_col, d_cols, x_cols
+dml_data <- DoubleMLData$new(
+  data = practice_dt,
+  y_col = "y",
+  d_cols = "d",
+  x_cols = paste0("X", 1:20)
+)
+
+# Check the setup
+print(dml_data)
+```
+
+::: {.callout-warning}
+## Gotcha: Column Types
+
+`DoubleMLData$new()` expects a `data.table` or `data.frame`. If your data is a
+tibble, convert it first: `as.data.table(your_data)`.
+
+Also make sure `d_cols` contains the **treatment** column name (not the outcome).
+A common mistake is swapping `y_col` and `d_cols`.
+:::
+
+---
+
+## Fitting a PLR Model
+
+The **Partially Linear Regression** model assumes:
+
+$$Y = D\tau + g(X) + U, \quad D = m(X) + V$$
+
+You need two ML learners: one for the outcome (`ml_l`) and one for the treatment
+(`ml_m`). For PLR, **both are regression learners** (even when treatment is binary).
+
+```{r}
+#| label: plr-basic
+
+# Step 1: Create learners
+ml_l <- lrn("regr.cv_glmnet")   # outcome model (Lasso)
+ml_m <- lrn("regr.cv_glmnet")   # treatment model (Lasso)
+
+# Step 2: Create PLR object
+set.seed(42)
+dml_plr <- DoubleMLPLR$new(
+  data = dml_data,
+  ml_l = ml_l,
+  ml_m = ml_m,
+  n_folds = 5,
+  score = "partialling out"
+)
+
+# Step 3: Fit
+dml_plr$fit()
+
+# Step 4: Results
+dml_plr$summary()
+```
+
+**Extracting specific values:**
+
+```{r}
+#| label: plr-extract
+
+# Point estimate
+cat("ATE:", as.numeric(dml_plr$coef), "\n")
+
+# Standard error
+cat("SE:", as.numeric(dml_plr$se), "\n")
+
+# Confidence interval (returns a matrix)
+ci <- dml_plr$confint()
+cat("95% CI: [", ci[1, 1], ",", ci[1, 2], "]\n")
+```
+
+---
+
+## Fitting an IRM Model
+
+The **Interactive Regression Model** allows treatment effect heterogeneity:
+
+$$Y = g(D, X) + U, \quad D = m(X) + V$$
+
+For IRM, the treatment model must be a **classification** learner since $D$ is
+binary. The outcome model stays as regression.
+
+```{r}
+#| label: irm-basic
+
+# For IRM, we need binary treatment. Binarize the practice data.
+practice_dt_irm <- copy(practice_dt)
+practice_dt_irm[, d := as.integer(d > median(d))]
+
+dml_data_irm <- DoubleMLData$new(
+  data = practice_dt_irm,
+  y_col = "y",
+  d_cols = "d",
+  x_cols = paste0("X", 1:20)
+)
+
+# CRITICAL: Use classif. learner with predict_type = "prob"
+ml_g <- lrn("regr.cv_glmnet")                              # outcome
+ml_m_irm <- lrn("classif.cv_glmnet", predict_type = "prob") # treatment
+
+set.seed(42)
+dml_irm <- DoubleMLIRM$new(
+  data = dml_data_irm,
+  ml_g = ml_g,
+  ml_m = ml_m_irm,
+  n_folds = 5,
+  score = "ATE"
+)
+
+dml_irm$fit()
+dml_irm$summary()
+```
+
+::: {.callout-warning}
+## Gotcha: `classif.` Prefix
+
+For the IRM treatment model, you **must** use `classif.` learners (not `regr.`):
+
+- `lrn("classif.cv_glmnet", predict_type = "prob")` — Lasso classification
+- `lrn("classif.ranger", predict_type = "prob")` — Random Forest classification
+- `lrn("classif.xgboost", predict_type = "prob")` — XGBoost classification
+
+And you **must** set `predict_type = "prob"` so the model returns probabilities
+(propensity scores), not just class labels.
+
+If you forget `predict_type = "prob"`, you'll get an error about predictions
+not being in `[0, 1]`.
+:::
+
+---
+
+## Comparing ML Learners
+
+To compare different ML methods, fit the same model structure with different
+learner pairs and collect the results.
+
+```{r}
+#| label: learner-comparison
+
+# Define three learner pairs
+learner_pairs <- list(
+  Lasso = list(
+    ml_l = lrn("regr.cv_glmnet"),
+    ml_m = lrn("regr.cv_glmnet")
+  ),
+  `Random Forest` = list(
+    ml_l = lrn("regr.ranger", num.trees = 500),
+    ml_m = lrn("regr.ranger", num.trees = 500)
+  ),
+  XGBoost = list(
+    ml_l = lrn("regr.xgboost", nrounds = 100, verbose = 0),
+    ml_m = lrn("regr.xgboost", nrounds = 100, verbose = 0)
+  )
+)
+
+# Fit each and collect results
+results <- lapply(names(learner_pairs), function(name) {
+  set.seed(42)
+  obj <- DoubleMLPLR$new(
+    data = dml_data,
+    ml_l = learner_pairs[[name]]$ml_l,
+    ml_m = learner_pairs[[name]]$ml_m,
+    n_folds = 5
+  )
+  obj$fit()
+  ci <- obj$confint()
+  data.frame(
+    Learner = name,
+    Estimate = as.numeric(obj$coef),
+    SE = as.numeric(obj$se),
+    CI_Lower = ci[1, 1],
+    CI_Upper = ci[1, 2]
+  )
+})
+
+comparison <- do.call(rbind, results)
+knitr::kable(comparison, digits = 4)
+```
+
+---
+
+## Creating a Forest Plot
+
+A forest plot visually compares estimates and confidence intervals across methods.
+
+```{r}
+#| label: forest-plot
+#| fig-width: 8
+#| fig-height: 4
+
+ggplot(comparison, aes(x = Estimate, y = Learner)) +
+  geom_pointrange(aes(xmin = CI_Lower, xmax = CI_Upper), size = 0.8) +
+  geom_vline(
+    xintercept = 0.5,  # true value for practice data
+    linetype = "dashed", color = "red", alpha = 0.7
+  ) +
+  labs(
+    x = "Treatment Effect Estimate",
+    y = "",
+    title = "Learner Comparison: Forest Plot",
+    caption = "Dashed line = true parameter value"
+  ) +
+  theme_minimal(base_size = 13)
+```
+
+---
+
+## Extracting Propensity Scores
+
+To diagnose overlap, you need individual-level propensity scores. The cleanest
+approach is to fit a separate cross-validated propensity model.
+
+```{r}
+#| label: propensity-scores
+
+library(ranger)
+
+# Cross-fitted propensity scores
+n <- nrow(practice_dt_irm)
+folds <- sample(rep(1:5, length.out = n))
+e_hat <- numeric(n)
+
+X_cols <- paste0("X", 1:20)
+X_mat <- practice_dt_irm[, ..X_cols]
+
+for (k in 1:5) {
+  train_idx <- which(folds != k)
+  test_idx <- which(folds == k)
+
+  train_df <- data.frame(
+    D = factor(practice_dt_irm$d[train_idx]),
+    X_mat[train_idx, ]
+  )
+  test_df <- data.frame(X_mat[test_idx, ])
+
+  fit <- ranger(D ~ ., data = train_df,
+    probability = TRUE, num.trees = 500)
+  e_hat[test_idx] <- predict(fit, data = test_df)$predictions[, "1"]
+}
+```
+
+```{r}
+#| label: propensity-histogram
+#| fig-width: 8
+#| fig-height: 5
+
+ps_df <- data.frame(
+  e_hat = e_hat,
+  D = factor(practice_dt_irm$d, labels = c("Control", "Treated"))
+)
+
+ggplot(ps_df, aes(x = e_hat, fill = D)) +
+  geom_histogram(alpha = 0.5, position = "identity", bins = 40) +
+  scale_fill_manual(values = c("Control" = "#3498DB", "Treated" = "#E74C3C")) +
+  labs(
+    x = "Estimated Propensity Score",
+    y = "Count",
+    title = "Propensity Score Distribution by Treatment Status",
+    fill = "Group"
+  ) +
+  theme_minimal(base_size = 13)
+```
+
+---
+
+## Propensity Score Trimming
+
+Drop observations with extreme propensity scores and re-fit.
+
+```{r}
+#| label: trimming
+
+# Define trimming thresholds
+trim_lo <- 0.05
+trim_hi <- 0.95
+
+keep <- e_hat >= trim_lo & e_hat <= trim_hi
+cat(sprintf("Dropped: %d obs (%.1f%%)\n", sum(!keep), 100 * mean(!keep)))
+
+# Re-fit DML on trimmed sample
+trimmed_dt <- practice_dt_irm[keep, ]
+dml_trimmed <- DoubleMLData$new(
+  data = trimmed_dt,
+  y_col = "y", d_cols = "d",
+  x_cols = paste0("X", 1:20)
+)
+
+set.seed(42)
+plr_trimmed <- DoubleMLPLR$new(
+  dml_trimmed,
+  lrn("regr.cv_glmnet"), lrn("regr.cv_glmnet"),
+  n_folds = 5
+)
+plr_trimmed$fit()
+
+cat("Full sample estimate:", as.numeric(dml_plr$coef), "\n")
+cat("Trimmed estimate:", as.numeric(plr_trimmed$coef), "\n")
+```
+
+---
+
+## Overlap Weighting
+
+An alternative to trimming: weight each observation by $w_i = \hat{e}(X_i)(1 - \hat{e}(X_i))$. This smoothly downweights extreme propensity scores.
+
+```{r}
+#| label: overlap-weights
+
+# Overlap weights
+w <- e_hat * (1 - e_hat)
+
+# Weighted difference in means (Hajek estimator)
+d_vec <- practice_dt_irm$d
+y_vec <- practice_dt_irm$y
+
+ate_overlap <-
+  sum(w * d_vec * y_vec) / sum(w * d_vec) -
+  sum(w * (1 - d_vec) * y_vec) / sum(w * (1 - d_vec))
+
+cat("Overlap-weighted ATE:", round(ate_overlap, 4), "\n")
+```
+
+---
+
+## Covariate Balance with cobalt
+
+The `cobalt` package provides easy balance diagnostics.
+
+```{r}
+#| label: cobalt-balance
+
+library(cobalt)
+
+# IPW weights for balance check
+ipw <- ifelse(d_vec == 1, 1 / e_hat, 1 / (1 - e_hat))
+
+# Focus on first 10 covariates for readability
+bal_vars <- practice_dt_irm[, paste0("X", 1:10), with = FALSE]
+```
+
+```{r}
+#| label: love-plot
+#| fig-width: 8
+#| fig-height: 5
+
+love.plot(
+  bal_vars,
+  treat = practice_dt_irm$d,
+  weights = ipw,
+  method = "weighting",
+  un = TRUE,
+  threshold = 0.1,
+  abs = TRUE,
+  var.order = "unadjusted",
+  title = "Covariate Balance: Unadjusted vs IPW"
+) +
+  theme_minimal()
+```
+
+```{r}
+#| label: balance-table
+
+bal.tab(
+  bal_vars,
+  treat = practice_dt_irm$d,
+  weights = ipw,
+  method = "weighting",
+  un = TRUE
+)
+```
+
+---
+
+## Manual AIPW Estimator
+
+The AIPW estimator combines outcome modeling and propensity weighting. You need
+three predictions per observation (all cross-fitted):
+
+1. $\hat{\mu}_1(X)$ — predicted outcome under treatment
+2. $\hat{\mu}_0(X)$ — predicted outcome under control
+3. $\hat{e}(X)$ — predicted propensity score
+
+```{r}
+#| label: manual-aipw
+
+set.seed(42)
+mu1 <- numeric(n)
+mu0 <- numeric(n)
+e_aipw <- numeric(n)
+
+for (k in 1:5) {
+  train_idx <- which(folds != k)
+  test_idx <- which(folds == k)
+  d_train <- practice_dt_irm$d[train_idx]
+  y_train <- practice_dt_irm$y[train_idx]
+
+  # Outcome under treatment (fit on D=1 only)
+  idx_1 <- train_idx[d_train == 1]
+  fit_1 <- ranger(y ~ .,
+    data = data.frame(y = practice_dt_irm$y[idx_1], X_mat[idx_1, ]),
+    num.trees = 500)
+  mu1[test_idx] <- predict(fit_1, data = data.frame(X_mat[test_idx, ]))$predictions
+
+  # Outcome under control (fit on D=0 only)
+  idx_0 <- train_idx[d_train == 0]
+  fit_0 <- ranger(y ~ .,
+    data = data.frame(y = practice_dt_irm$y[idx_0], X_mat[idx_0, ]),
+    num.trees = 500)
+  mu0[test_idx] <- predict(fit_0, data = data.frame(X_mat[test_idx, ]))$predictions
+
+  # Propensity model
+  fit_e <- ranger(D ~ .,
+    data = data.frame(D = factor(d_train), X_mat[train_idx, ]),
+    probability = TRUE, num.trees = 500)
+  e_aipw[test_idx] <- predict(fit_e, data = data.frame(X_mat[test_idx, ]))$predictions[, "1"]
+}
+
+# Clip extreme propensity scores
+e_aipw <- pmax(0.01, pmin(0.99, e_aipw))
+
+# AIPW formula
+y_vec <- practice_dt_irm$y
+d_vec <- practice_dt_irm$d
+
+psi <- mu1 - mu0 +
+  d_vec * (y_vec - mu1) / e_aipw -
+  (1 - d_vec) * (y_vec - mu0) / (1 - e_aipw)
+
+tau_aipw <- mean(psi)
+se_aipw <- sd(psi) / sqrt(n)
+ci_lo <- tau_aipw - 1.96 * se_aipw
+ci_hi <- tau_aipw + 1.96 * se_aipw
+
+cat(sprintf("AIPW Estimate: %.4f (SE: %.4f)\n", tau_aipw, se_aipw))
+cat(sprintf("95%% CI: [%.4f, %.4f]\n", ci_lo, ci_hi))
+```
+
+::: {.callout-note}
+## Key Steps in the AIPW Loop
+
+1. **Split** data into K folds
+2. **For each fold:** fit three models on the *other* folds, predict on the held-out fold
+3. **Combine** all predictions into the AIPW influence function $\hat{\psi}_i$
+4. **Estimate:** $\hat{\tau} = \bar{\psi}$, $\hat{SE} = sd(\hat{\psi}) / \sqrt{n}$
+
+The cross-fitting is essential — using full-sample predictions would introduce
+overfitting bias.
+:::
+
+---
+
+## Troubleshooting
+
+::: {.callout-warning}
+## Common Errors and Fixes
+
+**"Column 'd' not found"** or similar:
+
+- Check that `y_col`, `d_cols`, `x_cols` match your actual column names exactly
+- R is case-sensitive: `"Y"` ≠ `"y"`, `"D"` ≠ `"d"`
+
+**"Column of class 'character' is not supported":**
+
+- Convert character columns to numeric or factor before creating the data backend
+
+**"Error in lrn(...)": Learner not found:**
+
+- Make sure `mlr3learners` is loaded: `library(mlr3learners)`
+- For Lasso: `"regr.cv_glmnet"` (not `"regr.glmnet"`)
+- For Random Forest: `"regr.ranger"` (not `"regr.randomForest"`)
+- For XGBoost: `"regr.xgboost"` (needs `xgboost` package installed)
+
+**IRM errors about predictions not in [0,1]:**
+
+- You need `classif.` learners (not `regr.`) for the treatment model
+- Must include `predict_type = "prob"`
+
+**"Cannot coerce to data.table":**
+
+- Wrap your data: `as.data.table(your_dataframe)`
+
+**Very slow fitting:**
+
+- Reduce `num.trees` for ranger (try 200 instead of 500)
+- Reduce `nrounds` for xgboost (try 50)
+- Reduce `n_folds` from 5 to 3 (trades some bias for speed)
+:::

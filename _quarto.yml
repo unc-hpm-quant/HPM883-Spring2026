@@ -6,6 +6,8 @@ project:
   render:
     - "*"
     - "!unit-1/shiny-oed-app.qmd"
+    - "!problem-sets/solutions/ps-1-solutions.qmd"
+    - "!problem-sets/solutions/ps-2-solutions.qmd"
 format:
   html:
     theme:
@@ -167,6 +169,10 @@ website:
             text: "St. Null's Hospital"
           - href: problem-sets/ps-1-experimental-design.qmd
             text: "PS 1: Experimental Design"
+          - href: problem-sets/ps-2-dml.qmd
+            text: "PS 2: Double Machine Learning"
+          - href: problem-sets/ps-2-code-companion.qmd
+            text: "↳ Code Companion"
       - section: "Resources"
         contents:
           - href: resources.qmd

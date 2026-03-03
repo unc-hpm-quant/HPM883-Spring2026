@@ -107,7 +107,7 @@ install.packages("data.table")
 
 ### Problem Set 2 Due
 
--   **Problem Set 2: Double ML Implementation** — Due February 23 (today)
+-   **Problem Set 2: Double ML Implementation** — Due March 13
 -   Apply DML to a provided dataset
 -   Compare estimators and conduct sensitivity analysis
 

@@ -151,7 +151,7 @@ Your paper and group assignments are now posted:
 
 **Key Concepts (Sessions 2.2-2.3):** Influence functions, EIF, Neyman orthogonality, PLM, partialling out, cross-fitting
 
-**Problem Set 2 assigned:** Double ML Implementation (due Mar 11)
+**Problem Set 2 assigned:** Double ML Implementation (due Mar 13)
 
 ---
 
@@ -166,7 +166,7 @@ Your paper and group assignments are now posted:
 
 **Key Concepts (Sessions 2.5-2.6):** AIPW, TMLE, semiparametric efficiency, TMLE diagnostics, overlap
 
-**Due:** Problem Set 2 (March 11)
+**Due:** Problem Set 2 (March 13)
 
 ---
 

@@ -99,7 +99,7 @@ library(WeightIt)        # Propensity weighting
 
 - **Problem Set 1:** Power Analysis by Simulation — Due February 2
 - **Design Memo 1:** Experimental Design Plan — Due February 16
-- **Problem Set 2:** Double ML Implementation — Due February 23
+- **Problem Set 2:** Double ML Implementation — Due March 13
 - **Problem Set 3:** DR & DML Estimation — Due March 9
 - **Design Memo 2:** DML Analysis Plan — Due March 9
 

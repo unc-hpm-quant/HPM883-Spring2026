@@ -163,7 +163,7 @@ Deliverables: 15-20 page paper, full replication code, 20-minute presentation
 | 4 | Feb 2, 4 | Influence Functions (async), Guest Lecture | PS 1 due (Feb 2) |
 | 5 | Feb 9 (WB), 11 | Neyman Orthogonality & Cross-Fitting | |
 | 6 | Feb 16, 18 | Double ML, Doubly-Robust Estimation | Memo 1 due (Feb 16) |
-| 7 | Feb 23, 25 | Causal Forests, GRF Implementation | PS 2 due (Feb 23) |
+| 7 | Feb 23, 25 | Causal Forests, GRF Implementation | PS 2 due (Mar 13) |
 | 8 | Mar 2, 4 | Meta-Learners, CATE Calibration | Memo 2 due (Mar 9) |
 | 9 | Mar 9, 11 | Policy Learning, Off-Policy Evaluation | PS 3 due (Mar 11) |
 | — | Mar 13-22 | **SPRING BREAK** | |
