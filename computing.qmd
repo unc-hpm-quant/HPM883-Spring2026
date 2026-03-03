@@ -47,7 +47,7 @@ For in-class exercises and all labs, we use **GitHub Codespaces** — a browser-
 3.  Work on your assignment
 4.  Commit and push when done — no download/upload needed
 
-**GitHub Organization Link:** <https://github.com/HPM-883-2026>
+**GitHub Organization Link:** <https://github.com/HPM-883-course>
 
 ### Tier 2: Local Development (Alternative)
 
@@ -237,7 +237,7 @@ If you prefer working locally instead of Codespaces, follow these steps for each
 After accepting the GitHub Classroom assignment, clone your personal copy:
 
 ``` bash
-git clone https://github.com/HPM-883-2026/lab-2-YOUR-USERNAME.git
+git clone https://github.com/HPM-883-course/lab-2-YOUR-USERNAME.git
 cd lab-2-YOUR-USERNAME
 ```
 

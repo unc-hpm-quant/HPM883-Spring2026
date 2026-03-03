@@ -542,6 +542,116 @@ overfitting bias.
 
 ---
 
+## Code Skeletons
+
+::: {.callout-warning}
+## Try First, Then Use These
+
+These code skeletons provide more detailed scaffolding for specific PS-2 tasks.
+**Only use them after you've attempted the task on your own** — try adapting the
+general patterns above first. If you're still stuck after 30+ minutes, these
+skeletons can help you move forward.
+:::
+
+### Task 2.1: PLR with Lasso
+
+```{r}
+#| label: skeleton-2-1
+#| eval: false
+
+dml_data <- DoubleMLData$new(
+  data = as.data.table(___),
+  y_col = "___",
+  d_cols = "___",
+  x_cols = c(paste0("X", 1:50), "Y_pre")
+)
+
+ml_l <- lrn("regr.cv_glmnet")
+ml_m <- lrn("regr.cv_glmnet")
+
+set.seed(883)
+dml_plr <- DoubleMLPLR$new(dml_data, ml_l, ml_m, n_folds = ___)
+dml_plr$___()
+dml_plr$summary()
+```
+
+### Task 2.2: Learner Comparison
+
+```{r}
+#| label: skeleton-2-2
+#| eval: false
+
+learner_pairs <- list(
+  Lasso = list(ml_l = lrn("regr.cv_glmnet"), ml_m = lrn("regr.cv_glmnet")),
+  RF    = list(ml_l = lrn("regr.ranger", num.trees = 500),
+               ml_m = lrn("regr.ranger", num.trees = 500)),
+  XGB   = list(ml_l = lrn("regr.xgboost", nrounds = 100, verbose = 0),
+               ml_m = lrn("regr.xgboost", nrounds = 100, verbose = 0))
+)
+
+results <- lapply(names(learner_pairs), function(name) {
+  set.seed(883)
+  obj <- DoubleMLPLR$new(dml_data, ___, ___, n_folds = 5)
+  obj$fit()
+  ci <- obj$confint()
+  data.frame(Learner = name, Estimate = as.numeric(obj$coef),
+             CI_Lower = ci[1,1], CI_Upper = ci[1,2])
+})
+
+comparison <- do.call(rbind, results)
+# Then use ggplot + geom_pointrange for the forest plot
+```
+
+### Task 2.3: IRM
+
+```{r}
+#| label: skeleton-2-3
+#| eval: false
+
+ml_g <- lrn("regr.cv_glmnet")          # outcome model (regression)
+ml_m <- lrn("classif.cv_glmnet",        # treatment model (classification!)
+             predict_type = "prob")      # must return probabilities
+
+set.seed(883)
+dml_irm <- DoubleMLIRM$new(dml_data, ml_g, ml_m, n_folds = 5, score = "ATE")
+dml_irm$fit()
+dml_irm$summary()
+```
+
+### Task 4.1: Manual AIPW
+
+```{r}
+#| label: skeleton-4-1
+#| eval: false
+
+K <- 5
+folds <- sample(rep(1:K, length.out = nrow(medicaid_data)))
+mu1_hat <- mu0_hat <- e_hat <- numeric(nrow(medicaid_data))
+
+for (k in 1:K) {
+  train <- which(folds != k)
+  test  <- which(folds == k)
+
+  # Fit outcome model on treated obs in training fold
+  # Fit outcome model on control obs in training fold
+  # Fit propensity model on all training obs
+  # Predict on test fold
+}
+
+# Clip e_hat to avoid division by zero
+e_hat <- pmax(0.01, pmin(0.99, e_hat))
+
+# AIPW influence function
+psi <- mu1_hat - mu0_hat +
+  D * (Y - mu1_hat) / e_hat -
+  (1 - D) * (Y - mu0_hat) / (1 - e_hat)
+
+tau_aipw <- mean(psi)
+se_aipw  <- sd(psi) / sqrt(length(psi))
+```
+
+---
+
 ## Troubleshooting
 
 ::: {.callout-warning}

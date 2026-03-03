@@ -104,5 +104,4 @@ If you get stuck on a lab:
 
 1. Check the [Computing](../computing.qmd) page for environment troubleshooting
 2. Post in the [Course Discussions](https://uncch.instructure.com/courses/108894/discussion_topics) on Canvas
-3. Ask on [Slack](https://hpm883.slack.com)
-4. Attend [Office Hours](https://calendly.com/sean-sylvia/hpm-883-office-hours-1)
+3. Attend [Office Hours](https://calendly.com/sean-sylvia/hpm-883-office-hours-1)
