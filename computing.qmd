@@ -11,7 +11,7 @@ format:
 
 # Computing Environment
 
-HPM 883 uses a three-tier computing environment designed to minimize setup friction while teaching reproducible research workflows.
+HPM 883 uses a two-tier computing environment designed to teach reproducible research workflows with professional tools.
 
 ::: callout-tip
 ## Quick Links
@@ -26,41 +26,34 @@ HPM 883 uses a three-tier computing environment designed to minimize setup frict
 
 | Tier | Platform | When to Use | Cost |
 |-----------------|-----------------|----------------------|-----------------|
-| **Primary** | [GitHub Codespaces](https://github.com/codespaces) | Labs, code-alongs, assignments | Free (180 core-hours/month) |
-| **Alternative** | Local (Positron/RStudio) + GitHub | Advanced users, offline work | Free |
+| **Primary** | Local (Positron/RStudio/VS Code) + GitHub | All assignments, labs, capstone | Free |
+| **Alternative** | [GitHub Codespaces](https://github.com/codespaces) | If local setup isn't possible | Free (180 core-hours/month) |
 
-### Tier 1: GitHub Codespaces (Primary)
+### Tier 1: Local Development (Primary)
 
-For in-class exercises and all labs, we use **GitHub Codespaces** — a browser-based development environment that runs a full RStudio Server in your browser with zero local setup.
+You'll work on your own machine using **Positron** (recommended), RStudio, or VS Code. This mirrors how researchers actually work and gives you the best experience.
 
 **Benefits:**
 
--   Zero installation — works on any computer with a browser
--   Pre-configured with all required R packages
--   Professional workflow (Git/GitHub integrated)
--   Free for verified students (180 core-hours/month)
+-   Works offline — no internet needed once packages are installed
+-   Built-in AI assistance (Positron has Claude/Copilot integration)
+-   More computing power than a cloud VM
+-   Full control over your environment
+-   Professional workflow you'll use beyond this course
 
-**How it works:**
+**Workflow:**
 
 1.  Accept an assignment via GitHub Classroom link
-2.  Click "Open in Codespace" → browser-based RStudio launches
-3.  Work on your assignment
-4.  Commit and push when done — no download/upload needed
+2.  Clone the repo to your machine
+3.  Open in your IDE (Positron, RStudio, or VS Code)
+4.  Run `renv::restore()` to install packages (first time only)
+5.  Work on your assignment, then commit and push
 
 **GitHub Organization Link:** <https://github.com/HPM-883-course>
 
-### Tier 2: Local Development (Alternative)
+### Tier 2: GitHub Codespaces (Alternative)
 
-For the capstone project or if you prefer working offline, you can work locally using VS Code, **Positron** (recommended) or RStudio.
-
-**Why local development?**
-
--   Works offline
--   Built-in AI assistance (Positron)
--   More computing power for large datasets
--   Full control over environment
-
-**Setup required:** See [Local Setup for Labs](#local-setup) below.
+If you can't install R locally, [GitHub Codespaces](https://github.com/codespaces) provides a browser-based R environment as a fallback. It requires [GitHub Education](https://education.github.com/pack) verification for free access (180 core-hours/month). Note that not all assignments have Codespace support configured.
 
 ------------------------------------------------------------------------
 
@@ -136,36 +129,39 @@ quarto --version
 
 ## Workflow by Assignment Type
 
-### In-Class Labs 
+### In-Class Labs
 
-**Platform:** GitHub Codespaces
+**Platform:** Local (Positron/RStudio/VS Code)
 
 1.  Accept the code-along assignment via GitHub Classroom link
-2.  Click "Open in Codespace" — RStudio opens in your browser
-3.  Follow along with instructor
-4.  Push your work when done (or discard if not needed)
+2.  Clone the repo and open in your IDE
+3.  Run `renv::restore()` if prompted (first time per project)
+4.  Follow along with instructor
+5.  Push your work when done (or discard if not needed)
 
 ### Problem Sets
 
-**Platform:** GitHub Codespaces
+**Platform:** Local (Positron/RStudio/VS Code)
 
 1.  Accept assignment via GitHub Classroom link (distributed via Canvas)
-2.  Click "Open in Codespace" — RStudio opens in your browser
-3.  Complete the lab in `analysis.qmd`
-4.  Render to HTML: `quarto render`
-5.  Commit and push from the RStudio Git pane (or terminal):
+2.  Clone the repo to your machine
+3.  Open in your IDE
+4.  Run `renv::restore()` to install packages (first time per project)
+5.  Complete the assignment in the `.qmd` file
+6.  Render to HTML: `quarto render`
+7.  Commit and push:
 
 ``` bash
 git add .
-git commit -m "Complete Lab X"
+git commit -m "Complete PS X"
 git push
 ```
 
 ### Capstone Project
 
-**Platform:** GitHub Codespaces or Local
+**Platform:** Local (Positron/RStudio/VS Code)
 
-For the capstone project, you may use either Codespaces or local development. The capstone template includes:
+The capstone template includes:
 
 -   `analysis/01-pap.qmd` — Pre-analysis plan
 -   `analysis/02-analysis.qmd` — Main analysis
@@ -228,9 +224,9 @@ renv::snapshot()
 
 ------------------------------------------------------------------------
 
-## Local Setup for Labs {#local-setup}
+## Working with Assignment Repos {#local-setup}
 
-If you prefer working locally instead of Codespaces, follow these steps for each lab assignment.
+Follow these steps for each assignment (labs, problem sets, capstone).
 
 ### Step 1: Clone the Assignment Repo
 
@@ -274,7 +270,7 @@ Each lab uses `renv` to lock package versions. Run this **once** per project:
 renv::restore()
 ```
 
-This installs the exact same packages and versions used in Codespaces. It may take a few minutes the first time.
+This installs the exact package versions specified for the assignment. It may take a few minutes the first time.
 
 ### Step 4: Run Code Chunks
 
@@ -320,18 +316,6 @@ git push
 1.  Check YAML header for syntax errors
 2.  Look for unmatched brackets or quotes
 3.  Run chunks one-by-one to find the error
-
-### Codespaces Running Slow
-
-1.  Stop unused Codespaces: [github.com/codespaces](https://github.com/codespaces) → Stop/Delete
-2.  Use a larger machine type: ... menu → Change machine type → 4-core
-3.  Clear old outputs: delete `_freeze/` folder
-
-### Codespaces Won't Start
-
-1.  Check your monthly quota: [github.com/settings/billing](https://github.com/settings/billing)
-2.  Delete unused Codespaces to free quota
-3.  Verify GitHub Education status: [education.github.com/pack](https://education.github.com/pack)
 
 ### GitHub Authentication Issues
 

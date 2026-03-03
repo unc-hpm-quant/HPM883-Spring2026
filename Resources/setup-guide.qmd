@@ -14,15 +14,13 @@ format:
 This guide walks you through setting up your computing environment for HPM 883. Complete these steps **before the first class** or during the first week.
 
 ::: {.callout-important}
-## Required Accounts
+## Required Software
 
 You need:
 
-1. **GitHub account** (with GitHub Education verified)
-2. **Git** (for local development, optional)
-3. **Positron or RStudio** (optional — Codespaces provides browser-based R)
-
-**No local R installation required!** We use GitHub Codespaces which provides a complete R environment in your browser.
+1. **R** (version 4.3+) — our primary analysis language
+2. **Positron or RStudio** — IDE for writing and running R code
+3. **Git** + **GitHub account** — for assignments and version control
 :::
 
 ---
@@ -142,42 +140,9 @@ You should see: "Hi username! You've successfully authenticated..."
 
 ---
 
-## Step 4: Set Up GitHub Codespaces
+## Step 4: GitHub Codespaces (Optional)
 
-GitHub Codespaces provides a browser-based R environment with zero local setup. This is our **primary computing environment** for labs and code-alongs.
-
-### Verify GitHub Education
-
-1. Go to [education.github.com/pack](https://education.github.com/pack)
-2. Click "Get your Pack" and verify with your UNC email
-3. This gives you **180 core-hours/month** of free Codespaces
-
-::: {.callout-tip}
-## Free for Students
-
-GitHub Education provides free Codespaces access. No subscription required! You get:
-
-- 180 core-hours/month (plenty for all coursework)
-- 2-core or 4-core machines
-- Pre-configured R environment with all packages
-:::
-
-### How Codespaces Works
-
-When you accept a GitHub Classroom assignment:
-
-1. Click the assignment link → Creates your personal repository
-2. Click **"Open in Codespace"** → Browser-based RStudio launches
-3. Complete your work in the browser
-4. Commit and push when done — no file downloads needed
-
-### Managing Codespaces
-
-View and manage your Codespaces at [github.com/codespaces](https://github.com/codespaces):
-
-- **Stop** unused Codespaces to preserve hours
-- **Delete** completed Codespaces to free quota
-- **Rebuild** if environment issues occur
+If you can't install R locally, [GitHub Codespaces](https://github.com/codespaces) provides a browser-based R environment as a fallback. Verify your [GitHub Education](https://education.github.com/pack) status for free access (180 core-hours/month). This is **not required** — local development is our primary workflow.
 
 ---
 
@@ -228,33 +193,31 @@ This installs all required packages in the correct versions.
 
 ## Workflow Summary
 
-### Labs & Code-Alongs (GitHub Codespaces — Primary)
+### Labs & Assignments (Local Development — Primary)
 
 1. Accept GitHub Classroom assignment (link in Canvas)
-2. Click **"Open in Codespace"** → RStudio launches in browser
-3. Complete the assignment in `analysis.qmd`
-4. Render to HTML: `quarto render`
-5. Commit and push from RStudio Git pane:
+2. Clone the repo to your machine:
+   ```bash
+   git clone <your-repo-url>
+   ```
+3. Open in Positron/RStudio/VS Code
+4. Restore packages (first time per project):
+   ```r
+   renv::restore()
+   ```
+5. Complete the assignment in the `.qmd` file
+6. Render to HTML: `quarto render`
+7. Commit and push:
    ```bash
    git add .
-   git commit -m "Complete Lab X"
+   git commit -m "Complete assignment"
    git push
    ```
-6. Verify submission on GitHub
-
-### Local Development (Optional)
-
-For offline work or the capstone project:
-
-1. Clone repository to local machine
-2. Open in Positron/RStudio
-3. Run `renv::restore()` (first time)
-4. Complete the assignment
-5. Render, commit, and push to GitHub
+8. Verify submission on GitHub
 
 ### Capstone Project
 
-Works in Codespaces or locally. Uses extended template with:
+Same local workflow. Uses extended template with:
 
 - `targets` pipeline
 - Pre-analysis plan
@@ -273,9 +236,6 @@ Works in Codespaces or locally. Uses extended template with:
 | Git push rejected | Run `git pull` first, then push |
 | Quarto render fails | Check YAML header syntax |
 | GitHub auth fails | Regenerate SSH key, re-add to GitHub |
-| Codespaces slow | Stop unused Codespaces, use 4-core machine |
-| Codespaces won't start | Check quota at [github.com/settings/billing](https://github.com/settings/billing) |
-| "Open in Codespace" missing | Verify GitHub Education status |
 
 ### Getting Help
 
@@ -289,17 +249,16 @@ Works in Codespaces or locally. Uses extended template with:
 
 Before the first class, verify:
 
-- [ ] GitHub account created with UNC email
-- [ ] GitHub Education verified ([education.github.com/pack](https://education.github.com/pack))
-- [ ] Can open a Codespace ([github.com/codespaces](https://github.com/codespaces))
-
-**Optional for local development:**
-
 - [ ] R installed (version 4.3+)
 - [ ] Positron or RStudio installed
 - [ ] Git installed and configured
+- [ ] GitHub account created with UNC email
 - [ ] SSH key added to GitHub
 - [ ] Quarto installed
+
+**Optional:**
+
+- [ ] GitHub Education verified for Codespaces access ([education.github.com/pack](https://education.github.com/pack))
 
 **Complete Lab 0 during Week 1 to verify everything works together.**
 

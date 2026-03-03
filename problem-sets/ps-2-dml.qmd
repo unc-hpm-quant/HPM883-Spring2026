@@ -28,7 +28,28 @@ This will create your personal repository for this problem set.
 ::: {.callout-note}
 ## Getting Started
 
-After accepting the assignment, see the [Computing Guide](../computing.qmd) for step-by-step instructions on cloning your repo and setting up your environment (Codespaces or local).
+After accepting the assignment above:
+
+1. **Clone your repo** — on your repo page, click the green **Code** button, copy the URL, then:
+
+   ```bash
+   git clone <your-repo-url>
+   cd problem-set-2-dml-<your-username>
+   ```
+
+2. **Open in your IDE** — open the folder in Positron (recommended), RStudio, or VS Code
+
+3. **Restore packages** — in the R console, run:
+
+   ```r
+   renv::restore()
+   ```
+
+   This installs the exact package versions needed (may take a few minutes the first time).
+
+4. **Start working** — open `ps-2-dml.qmd` and run chunks interactively
+
+See the [Computing Guide](../computing.qmd) for detailed instructions and troubleshooting.
 :::
 
 ## Introduction

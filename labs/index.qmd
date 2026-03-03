@@ -27,7 +27,7 @@ Labs are **ungraded in-class activities** designed to build intuition through gu
 
 | Lab | Topic | Unit | Format |
 |-----|-------|------|--------|
-| [Lab 0: Environment Setup](lab-0-setup.qmd) | GitHub, Codespaces, R, Quarto verification | Unit 0 | In-Person |
+| [Lab 0: Environment Setup](lab-0-setup.qmd) | GitHub, R, Quarto verification | Unit 0 | In-Person |
 | [Lab 1: Experimental Design & Power](lab-1-design.qmd) | MIDA framework, DeclareDesign, power analysis | Unit 1 | Async/Remote |
 
 *More labs will be added as the semester progresses.*
@@ -45,16 +45,16 @@ Each lab page has a **GitHub Classroom link** at the top. Click it to create you
 If this is your first GitHub Classroom assignment, see the [Computing](../computing.qmd) page for setup instructions and the [Setup Guide](../Resources/setup-guide.qmd) for detailed installation steps.
 :::
 
-### 2. Open in GitHub Codespaces
+### 2. Open in Your IDE
 
 Once your repository is created:
 
-1. Go to your repo on GitHub
-2. Click **Code** > **Codespaces** > **Create codespace on main**
-3. Wait for the environment to load (~2--3 minutes for `renv` to restore packages)
-4. RStudio Server will open in your browser --- ready to go
+1. Clone the repo to your machine (click green **Code** button on GitHub for the URL)
+2. Open the folder in Positron (recommended), RStudio, or VS Code
+3. Run `renv::restore()` in the R console (first time per project)
+4. Start working on the exercises
 
-Alternatively, clone the repo and work locally in RStudio or Positron (see [Computing: Tier 2](../computing.qmd#tier-2-local-development-alternative)).
+Alternatively, if you can't run R locally, you can use [GitHub Codespaces](https://github.com/codespaces) as a browser-based fallback.
 
 ### 3. Work Through the Exercises
 

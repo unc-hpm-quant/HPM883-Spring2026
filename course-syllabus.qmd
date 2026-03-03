@@ -73,7 +73,7 @@ Upon successful completion of this course, students will be able to:
 | 5 | **Learn** optimal treatment policies using policy trees and off-policy evaluation | Labs, Capstone Project |
 | 6 | **Understand** adaptive experiments including bandits and Thompson sampling | Jigsaw, Capstone Project |
 | 7 | **Diagnose** common problems including overlap violations, confounding, and model misspecification | Labs, Jigsaw, Capstone Project |
-| 8 | **Produce** reproducible research using modern workflow tools (Git, Quarto, Codespaces) | Lab 0, All Labs, Capstone Project |
+| 8 | **Produce** reproducible research using modern workflow tools (Git, Quarto, renv) | Lab 0, All Labs, Capstone Project |
 
 ------------------------------------------------------------------------
 
