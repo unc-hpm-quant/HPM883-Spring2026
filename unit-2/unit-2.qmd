@@ -45,7 +45,7 @@ The Feb 11 PS1 Prep Workshop is the only session during Week 5. Session 2.1 (ML 
   - Chapter 9: Statistical Inference on Predictive and Causal Effects (DML sections)
   - [Online PDF](https://causalml-book.org/)
 
-- **Chernozhukov et al. (2018)** — "Double/Debiased Machine Learning" *Econometrics Journal*
+- **Chernozhukov et al. (2018)** — "Double/Debiased Machine Learning" *Econometrics Journal* — [DOI](https://doi.org/10.1111/ectj.12097)
   - The foundational DML paper
 
 - **Kennedy (2016)** — "Semiparametric Theory and Empirical Processes in Causal Inference"
@@ -59,7 +59,8 @@ The Feb 11 PS1 Prep Workshop is the only session during Week 5. Session 2.1 (ML 
 - James et al. (ISLR) — *Introduction to Statistical Learning* Chapters 2, 5
 - Bang & Robins (2005) — "Doubly Robust Estimation"
 - Schuler & Rose (2017) — "TMLE for Causal Inference in Observational Studies"
-- Bach et al. (2021) — "DoubleML: An Object-Oriented Implementation"
+- Bach et al. (2024) — "DoubleML: An Object-Oriented Implementation" *Journal of Statistical Software*
+- Ahrens et al. (2025) — "An Introduction to Double/Debiased Machine Learning" — [arXiv:2504.08324](https://arxiv.org/abs/2504.08324)
 
 ## Key Concepts
 

@@ -32,7 +32,7 @@ Sessions 2.2 and 2.3 are combined into a single session. Influence functions and
 **Chernozhukov et al. (2025)** — *Applied Causal Inference Powered by ML and AI*
 
 -   **Chapter 5:** Causal Inference via Conditional Ignorability (~30 pages)
-    -   [Online PDF](https://chapters.causalml-book.org/CausalML_chap_5.pdf)
+    -   [Online PDF](https://causalml-book.org/chapters/CausalML_chap_5.pdf)
     -   Focus: Selection on observables, propensity scores, doubly-robust estimators
 
 **Kennedy (2016)** — "Semiparametric Theory and Empirical Processes in Causal Inference"
@@ -42,6 +42,7 @@ Sessions 2.2 and 2.3 are combined into a single session. Influence functions and
 
 ### Recommended
 
+-   Ahrens et al. (2025) — "An Introduction to Double/Debiased Machine Learning" — [arXiv:2504.08324](https://arxiv.org/abs/2504.08324) — *Accessible overview covering PLM, IRM, and practical guidance*
 -   Chernozhukov et al. (2018) — "Double/Debiased Machine Learning" *Econometrics Journal* — Section 2
 -   Hines et al. (2022) — "Demystifying Statistical Learning" *Statistical Science*
 -   Ichimura & Newey (2022) — "The Influence Function of Semiparametric Estimators"
@@ -99,8 +100,8 @@ Sessions 2.2 and 2.3 are combined into a single session. Influence functions and
 
 ### Looking Ahead
 
--   **Session 2.4 (Mar 4):** DML Implementation with DoubleML
--   Read Chernozhukov et al. (2025) Chapter 5-6 (DML sections)
+-   **Session 2.4 (Remote):** DML Implementation with DoubleML
+-   Read Chernozhukov et al. (2025) [Chapter 9: Statistical Inference on Predictive and Causal Effects](https://causalml-book.org/chapters/CausalML_chap_9.pdf) (DML theory)
 -   Review DoubleML package documentation
 
 ------------------------------------------------------------------------
@@ -116,6 +117,12 @@ Sessions 2.2 and 2.3 are combined into a single session. Influence functions and
 
 -   Chernozhukov et al. (2018) — "Double/Debiased Machine Learning" — Full paper
 -   Belloni, Chernozhukov, & Hansen (2014) — "Inference on Treatment Effects after Selection"
+
+### DML Implementation
+
+-   Bach et al. (2024) — "DoubleML: An Object-Oriented Implementation" *Journal of Statistical Software*
+-   [useR! Conference DoubleML Tutorial](https://www.youtube.com/watch?v=1bHzi6ucnr0) — Video walkthrough
+-   [DoubleML Basics Guide](https://docs.doubleml.org/stable/guide/basics.html)
 
 ### R Packages
 
