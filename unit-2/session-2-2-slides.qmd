@@ -18,7 +18,8 @@ format:
     toc: true
     toc-depth: 1
     preview-links: auto
-    incremental: false
+    incremental: true
+    html-math-method: mathjax
 execute:
   echo: false
   warning: false
@@ -31,69 +32,103 @@ execute:
 
 ::: {.callout-note appearance="simple"}
 ## The Arc of Unit 2
-**Session 2.0 (Feb 4):** Jigsaw 1 — What is ML good for?
 
-**Session 2.1 (Feb 16):** ML Basics — Bias-variance, regularization, cross-validation
+**Session 2.0 (Feb 4):** Guest Lecture — ML for Causal Inference
 
-**Session 2.1b (Feb 18):** Trees & Ensembles — Random forests, gradient boosting
+**Session 2.1 (Feb 18):** ML Basics — Bias-variance, regularization, cross-validation
+
+**Session 2.1b (Feb 25):** Trees & Ensembles — Random forests, gradient boosting
+
+**Jigsaw 2 (Mar 2):** ML for Causal Inference — Expert groups on DML papers
 
 **→ Today (Mar 4):** Why ML alone fails for causal inference, and the DML solution
 
-**Next (Mar 11):** Hands-on DML implementation with DoubleML
+**Next (Mar 9):** Hands-on DML implementation with DoubleML
 :::
 
 ## Today's Big Question
 
-We now have powerful ML tools — LASSO, random forests, gradient boosting.
-
-> *"DML enables practitioners to apply flexible ML techniques for estimating nuisance functions, reducing reliance on rigid functional form assumptions."*
-> — Ahrens et al. (2025)
+We don't have an RCT. We're in an **observational setting**.
 
 . . .
 
-**Can we just plug them into a causal model?**
+*What's our key identifying assumption?*
+
+. . .
+
+**Conditional Unconfoundedness:**
+
+$$Y(d) \perp D \mid X$$
+
+Potential outcomes are independent of treatment assignment, given covariates $X$.
+
+::: {.callout-note appearance="simple"}
+## Terminology Note
+This assumption goes by many names: **conditional unconfoundedness** (Imbens), **conditional ignorability** (as in the Chernozhukov et al. textbook, Ch. 5), **selection on observables**, or **CIA** (conditional independence assumption). They all mean the same thing: after conditioning on $X$, treatment is "as good as random."
+:::
+
+. . .
+
+*How do we traditionally handle this?*
+
+We **control for** $X$ — regression, matching, IPW. But these rely on **correctly specifying functional forms** for how $X$ relates to $Y$ and $D$.
+
+. . .
+
+**The promise of ML:** Use flexible methods (LASSO, random forests, boosting) to model these relationships — no rigid functional form assumptions needed.
+
+------------------------------------------------------------------------
+
+## But Can We Just Plug ML In?
+
+We now have powerful ML tools. So the plan is:
 
 . . .
 
 $$Y = D\theta + g(X) + \varepsilon$$
 
-Use ML to estimate $\hat{g}(X)$, subtract it, and estimate $\theta$?
+Use ML to flexibly estimate $\hat{g}(X)$, subtract it off, and estimate $\theta$?
 
 . . .
 
 ::: {.callout-warning appearance="simple"}
 ## Spoiler
+
 **No.** Naïve use of ML for causal inference gives biased estimates and invalid standard errors. Today we'll understand *why* and learn the fix.
 :::
 
 ## Session Roadmap
 
-:::: {.columns}
+::::: columns
 ::: {.column width="50%"}
 ### Part 1: The Problem
-- Why standard ML fails
-- Regularization bias
-- The $\sqrt{n}$-rate requirement
+
+-   Why standard ML fails
+-   Regularization bias
+-   The $\sqrt{n}$-rate requirement
 
 ### Part 2: The Theory
-- Influence functions (intuition)
-- Neyman orthogonality
-- Double robustness
+
+-   Influence functions (intuition)
+-   Neyman orthogonality
+-   Double robustness
 :::
 
 ::: {.column width="50%"}
 ### Part 3: The Solution
-- The DML recipe
-- Partialling out
-- Cross-fitting algorithm
+
+-   The DML recipe
+-   Partialling out
+-   Cross-fitting algorithm
 
 ### Part 4: Preview
-- PLM vs. IRM
-- What DoubleML automates
-:::
-::::
 
----
+-   PLM vs. IRM
+-   What DoubleML automates
+:::
+:::::
+
+------------------------------------------------------------------------
 
 # Why Standard ML Fails {.center}
 
@@ -103,11 +138,11 @@ Consider the **Partially Linear Model (PLM)**:
 
 $$Y = D\theta_0 + g_0(X) + \varepsilon$$
 
-- $Y$: outcome (e.g., health expenditures)
-- $D$: treatment (e.g., insurance enrollment)
-- $X$: high-dimensional confounders
-- $\theta_0$: the causal effect we want
-- $g_0(X)$: unknown, potentially complex function
+-   $Y$: outcome (e.g., health expenditures)
+-   $D$: treatment (e.g., insurance enrollment)
+-   $X$: high-dimensional confounders
+-   $\theta_0$: the causal effect we want
+-   $g_0(X)$: unknown, potentially complex function
 
 . . .
 
@@ -115,7 +150,7 @@ $$Y = D\theta_0 + g_0(X) + \varepsilon$$
 
 What could go wrong?
 
----
+------------------------------------------------------------------------
 
 ## Attempt 1: Naïve Plug-In
 
@@ -131,10 +166,11 @@ $$\hat{\theta}_{\text{naïve}} = \frac{\sum_i D_i \cdot (Y_i - \hat{g}(X_i))}{\s
 
 ::: {.callout-important appearance="simple"}
 ## The Problem
+
 $\hat{\theta}_{\text{naïve}}$ is **biased** and has **invalid standard errors** — even if $\hat{g}$ is a good predictor!
 :::
 
----
+------------------------------------------------------------------------
 
 ## Why? Three Sources of Failure
 
@@ -144,12 +180,12 @@ ML methods like LASSO trade bias for variance — that's the whole point of regu
 
 . . .
 
-- LASSO shrinks coefficients toward zero → systematic bias in $\hat{g}(X)$
-- This bias **contaminates** $\hat{\theta}$:
+-   LASSO shrinks coefficients toward zero → systematic bias in $\hat{g}(X)$
+-   This bias **contaminates** $\hat{\theta}$:
 
-$$\hat{\theta}_{\text{naïve}} - \theta_0 \approx \underbrace{\text{sampling noise}}_{\text{vanishes at } \sqrt{n}} + \underbrace{\text{regularization bias}}_{\text{does NOT vanish fast enough}}$$
+$$\hat{\theta}_{\text{naive}} - \theta_0 \approx \underbrace{\text{sampling noise}}_{\text{vanishes at } \sqrt{n}} + \underbrace{\text{regularization bias}}_{\text{does NOT vanish fast enough}}$$
 
----
+------------------------------------------------------------------------
 
 ## Why? (continued)
 
@@ -157,11 +193,13 @@ $$\hat{\theta}_{\text{naïve}} - \theta_0 \approx \underbrace{\text{sampling noi
 
 When you estimate $\hat{g}(X)$ and evaluate it **on the same data**:
 
-- $\hat{g}(X_i)$ is overfit to the specific observations
-- Residuals $Y_i - \hat{g}(X_i)$ are systematically too small
-- This creates **spurious correlation** between residuals and $D$
+-   $\hat{g}(X_i)$ is overfit to the specific observations
+-   Residuals $Y_i - \hat{g}(X_i)$ are systematically too small
+-   This creates **spurious correlation** between residuals and $D$
 
-. . .
+------------------------------------------------------------------------
+
+## Why? (continued)
 
 ### 3. The $\sqrt{n}$-Rate Problem
 
@@ -173,45 +211,42 @@ But ML estimators for $g_0$ typically converge at $n^{-1/4}$ or slower. The esti
 
 ::: {.callout-warning appearance="simple"}
 ## Making This Concrete
+
 With $n = 10{,}000$:
 
-- **You need:** $n^{-1/2} = 1\%$ error for valid inference on $\theta$
-- **ML gives you:** $n^{-1/4} \approx 10\%$ error on $\hat{g}$
+-   **You need:** $n^{-1/2} = 1\%$ error for valid inference on $\theta$
+-   **ML gives you:** $n^{-1/4} \approx 10\%$ error on $\hat{g}$
 
 That 10% nuisance error **swamps** the 1% target — your confidence intervals are meaningless.
 :::
 
----
+------------------------------------------------------------------------
 
 ## A Concrete Example
 
-:::: {.columns}
-::: {.column width="50%"}
-**Simulation:**
+**Simulation** (from DoubleML docs): $n = 500$, $p = 200$, true $\theta_0 = 0.5$, repeated 1,000 times.
 
-- $n = 500$, $p = 200$ covariates
-- $D = m_0(X) + V$, $V \sim N(0,1)$
-- $Y = \theta_0 D + g_0(X) + \varepsilon$
-- True $\theta_0 = 0.5$
-- $g_0$ and $m_0$ are sparse + nonlinear
+::::: columns
+::: {.column width="33%" .fragment}
+![Naïve ML](images/r_non_orthogonal.svg)
+
+Biased, wrong coverage
 :::
 
-::: {.column width="50%"}
-**What happens:**
+::: {.column width="33%" .fragment}
+![Orthogonal, no splitting](images/r_dml_nosplit.svg)
 
-| Method | $\hat{\theta}$ | SE valid? |
-|--------|:-----------:|:---------:|
-| **Naïve LASSO** | 0.38 | No |
-| **Naïve RF** | 0.42 | No |
-| **DML** | 0.50 | **Yes** |
+Less biased, still off
 :::
-::::
 
-. . .
+::: {.column width="34%" .fragment}
+![Full DML](images/r_dml.svg)
 
-> The naïve approaches are biased *downward* (regularization shrinks everything) and their confidence intervals have wrong coverage.
+Centered, valid inference
+:::
+:::::
 
----
+------------------------------------------------------------------------
 
 ## The Fix: Two Key Ideas
 
@@ -219,9 +254,10 @@ To make ML work for causal inference, we need to **isolate** the treatment effec
 
 . . .
 
-:::: {.columns}
+::::: columns
 ::: {.column width="50%"}
 ### 1. Orthogonal Scores
+
 Use moment conditions that are **insensitive** to small errors in nuisance estimation.
 
 *This neutralizes regularization bias.*
@@ -229,11 +265,12 @@ Use moment conditions that are **insensitive** to small errors in nuisance estim
 
 ::: {.column width="50%"}
 ### 2. Cross-Fitting
+
 Estimate nuisances and evaluate them on **different samples**.
 
 *This eliminates overfitting bias.*
 :::
-::::
+:::::
 
 . . .
 
@@ -241,9 +278,13 @@ Together, these two ideas are the foundation of **Double Machine Learning**.
 
 Let's build up the theory for the first idea.
 
----
+------------------------------------------------------------------------
 
 # Influence Functions {.center}
+
+::: {.callout-note appearance="minimal"}
+**Textbook:** Chernozhukov et al. (2025), [Chapter 4](https://causalml-book.org/chapters/CausalML_chap_4.pdf) — Neyman Orthogonality & Influence Functions
+:::
 
 ## Intuition: What's an Influence Function?
 
@@ -257,14 +298,14 @@ Imagine you're estimating the population mean $\mu$ from a sample.
 
 $$\text{IF}(z; \mu) = z - \mu$$
 
-- Observations far from the mean → big influence
-- Observations near the mean → small influence
+-   Observations far from the mean → big influence
+-   Observations near the mean → small influence
 
 . . .
 
 > The influence function tells us the **marginal effect** of a single data point on a statistical functional.
 
----
+------------------------------------------------------------------------
 
 ## Why Influence Functions Matter for Us
 
@@ -290,7 +331,7 @@ The **efficient influence function (EIF)** achieves the smallest possible asympt
 
 The EIF naturally satisfies Neyman orthogonality — which is exactly what we need for DML.
 
----
+------------------------------------------------------------------------
 
 ## The EIF for the ATE
 
@@ -300,8 +341,8 @@ $$\psi(Z; \theta, g, m) = \underbrace{g(1, X) - g(0, X)}_{\text{outcome model}} 
 
 where:
 
-- $g(d, x) = E[Y \mid D=d, X=x]$ — outcome regression
-- $m(x) = P(D=1 \mid X=x)$ — propensity score
+-   $g(d, x) = E[Y \mid D=d, X=x]$ — outcome regression
+-   $m(x) = P(D=1 \mid X=x)$ — propensity score
 
 . . .
 
@@ -311,10 +352,11 @@ where:
 
 ::: {.callout-tip appearance="simple"}
 ## Recognize This?
+
 This is the **Augmented Inverse Probability Weighting (AIPW)** estimator. The EIF gives it a deep theoretical justification — and we'll implement it in Session 2.5.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Double Robustness
 
@@ -324,10 +366,11 @@ The AIPW/EIF score has a remarkable property:
 
 ::: {.callout-note appearance="simple"}
 ## Double Robustness
+
 The estimator is consistent if **either**:
 
-- The outcome model $g(d, x)$ is correctly specified, **OR**
-- The propensity score $m(x)$ is correctly specified
+-   The outcome model $g(d, x)$ is correctly specified, **OR**
+-   The propensity score $m(x)$ is correctly specified
 
 (You only need to get one right.)
 :::
@@ -336,18 +379,68 @@ The estimator is consistent if **either**:
 
 **Intuition:** The two components "back each other up."
 
-- If $\hat{g}$ is good: outcome model drives estimation, propensity correction is small
-- If $\hat{m}$ is good: IPW term corrects any bias in the outcome model
-- If both are somewhat wrong: errors partially cancel
+-   If $\hat{g}$ is good: outcome model drives estimation, propensity correction is small
+-   If $\hat{m}$ is good: IPW term corrects any bias in the outcome model
+-   If both are somewhat wrong: errors partially cancel
 
----
+------------------------------------------------------------------------
+
+## Why IFs Lead to Orthogonality
+
+The EIF isn't just efficient — it's *constructed* to be insensitive to nuisance errors. Why?
+
+. . .
+
+Think of estimation as navigating a space with two directions:
+
+-   **$\theta$-direction:** the treatment effect you care about
+-   **$\eta$-direction:** nuisance parameters ($g$, $m$) you need but don't care about
+
+. . .
+
+The EIF is built to point *only* in the $\theta$-direction. It lives in the **orthogonal complement** of the nuisance tangent space.
+
+. . .
+
+**Practically:** If your nuisance estimates are slightly off (errors in the $\eta$-direction), the EIF doesn't pick up that error — you're only measuring movement in the $\theta$-direction.
+
+. . .
+
+This is exactly what **Neyman orthogonality** formalizes: $\partial/\partial\eta = 0$.
+
+The AIPW score we just saw — derived from the EIF — naturally satisfies orthogonality. It's not a coincidence. It's by construction.
+
+------------------------------------------------------------------------
 
 # Neyman Orthogonality {.center}
+
+## Starting from What You Know: FWL
+
+**Frisch-Waugh-Lovell Theorem:** In OLS, the coefficient on $D$ in $Y = D\theta + X\beta + \varepsilon$ is *identical* to:
+
+1. Regress $Y$ on $X$ → residuals $\tilde{Y}$
+2. Regress $D$ on $X$ → residuals $\tilde{D}$
+3. Regress $\tilde{Y}$ on $\tilde{D}$ → gives $\hat{\theta}$
+
+. . .
+
+**Key insight:** Partialling out $X$ from *both* sides removes confounding. The coefficient on $D$ only reflects variation in $D$ that's independent of $X$.
+
+. . .
+
+**The DML idea:** What if we replace those OLS regressions with ML? That's the "double" in Double ML — use ML to partial out $X$ from both $Y$ and $D$.
+
+. . .
+
+**The problem:** FWL works perfectly with OLS because it's unbiased. ML introduces regularization bias and overfitting. We need **orthogonal scores** to make the ML version work.
+
+------------------------------------------------------------------------
 
 ## The Key Property
 
 ::: {.callout-note appearance="simple"}
 ## Definition: Neyman Orthogonality
+
 A score function $\psi(\theta, \eta)$ is **Neyman orthogonal** at the true values $(\theta_0, \eta_0)$ if:
 
 $$\left.\frac{\partial}{\partial \eta} E[\psi(\theta_0, \eta)]\right|_{\eta = \eta_0} = 0$$
@@ -361,14 +454,14 @@ Small perturbations to the nuisance parameter $\eta$ have **zero first-order eff
 
 **Practical implication:** This means you can use *any* ML method — LASSO, random forests, XGBoost, even neural nets — as long as it converges at $n^{-1/4}$ rate. The orthogonal score absorbs first-order errors.
 
----
+------------------------------------------------------------------------
 
 ## Why Orthogonality Solves Our Problem
 
 Recall the three failure modes:
 
 | Problem | Without Orthogonality | With Orthogonality |
-|---------|----------------------|-------------------|
+|------------------|-----------------------------|-------------------------|
 | Regularization bias | Contaminates $\hat{\theta}$ | Neutralized (first-order) |
 | Slow nuisance convergence | $n^{-1/4}$ error propagates | Error is $n^{-1/4} \times n^{-1/4} = n^{-1/2}$ |
 | Invalid SEs | Yes | Valid (under regularity) |
@@ -377,35 +470,25 @@ Recall the three failure modes:
 
 **The key insight:** With orthogonality, the bias from nuisance estimation is a **product** of two small terms (errors in $\hat{g}$ and $\hat{m}$), not a sum. This product vanishes fast enough for $\sqrt{n}$-inference.
 
----
+------------------------------------------------------------------------
 
 ## Orthogonal vs. Non-Orthogonal: A Visual Analogy
 
-:::: {.columns}
-::: {.column width="50%"}
-### Non-Orthogonal
-Imagine standing on a hill, facing downhill.
+![](images/orthogonality-surfaces.png){fig-align="center" width="100%"}
 
-A push from any direction (including nuisance errors) sends you tumbling.
+> Neyman orthogonality places us at a saddle point: $\partial/\partial\eta = 0$.
 
-**Sensitive to perturbations.**
-:::
+------------------------------------------------------------------------
 
-::: {.column width="50%"}
-### Orthogonal
-Imagine standing in a valley between two ridges.
+## Reading the Surfaces
 
-Small pushes along the ridge (nuisance errors) don't change your altitude.
+-   **Left (red):** Moving in the $\eta$ direction (nuisance errors) changes your altitude — errors contaminate $\hat{\theta}$
+    -   Imagine standing on a hill, facing downhill. A push from any direction — including nuisance errors — sends you tumbling.
 
-**Insensitive to perturbations.**
-:::
-::::
+-   **Right (green):** At the saddle point, the $\eta$ direction is **flat** (blue line) — nuisance errors are locally irrelevant
+    -   Imagine standing in a valley between two ridges. Small pushes along the ridge (nuisance errors) don't change your altitude.
 
-. . .
-
-> Neyman orthogonality places us at a "saddle point" where nuisance estimation errors are locally irrelevant.
-
----
+------------------------------------------------------------------------
 
 ## The Partially Linear Model: Orthogonal Score
 
@@ -431,14 +514,14 @@ where $m(X) = E[D \mid X]$.
 
 > By residualizing $D$ as well (the "double" in Double ML), we break the correlation between nuisance errors and the treatment variable.
 
----
+------------------------------------------------------------------------
 
 ## Why "Double" Machine Learning?
 
 The orthogonal score requires **two** nuisance estimates:
 
 | Nuisance | What it is | Notation |
-|----------|-----------|----------|
+|-----------------------|--------------------------|-----------------------|
 | **Outcome model** | $E[Y \mid X]$ | $\hat{g}(X)$ or $\hat{\ell}(X)$ |
 | **Treatment model** | $E[D \mid X]$ (or $P(D=1 \mid X)$) | $\hat{m}(X)$ |
 
@@ -456,9 +539,13 @@ $$\hat{\theta}_{\text{DML}} = \frac{\sum_i \tilde{D}_i \, \tilde{Y}_i}{\sum_i \t
 
 > This is Frisch-Waugh-Lovell generalized to high dimensions with ML.
 
----
+------------------------------------------------------------------------
 
 # The DML Recipe {.center}
+
+::: {.callout-note appearance="minimal"}
+**Textbook:** Chernozhukov et al. (2025), [Chapter 9](https://causalml-book.org/chapters/CausalML_chap_9.pdf) — Double/Debiased Machine Learning
+:::
 
 ## Step-by-Step
 
@@ -478,25 +565,23 @@ The **Double Machine Learning** estimator for the PLM:
 
 . . .
 
-**Step 4:** Compute residuals:
-$$\tilde{Y}_i = Y_i - \hat{g}(X_i) \qquad \tilde{D}_i = D_i - \hat{m}(X_i)$$
+**Step 4:** Compute residuals: $$\tilde{Y}_i = Y_i - \hat{g}(X_i) \qquad \tilde{D}_i = D_i - \hat{m}(X_i)$$
 
 . . .
 
-**Step 5:** Estimate $\theta$ by regressing $\tilde{Y}$ on $\tilde{D}$:
-$$\hat{\theta} = \frac{\sum \tilde{D}_i \tilde{Y}_i}{\sum \tilde{D}_i^2}$$
+**Step 5:** Estimate $\theta$ by regressing $\tilde{Y}$ on $\tilde{D}$: $$\hat{\theta} = \frac{\sum \tilde{D}_i \tilde{Y}_i}{\sum \tilde{D}_i^2}$$
 
 . . .
 
 But wait — we haven't solved the overfitting problem yet...
 
----
+------------------------------------------------------------------------
 
 ## From Theory to Code: A Preview
 
 Those 5 steps? In R with the `DoubleML` package, they're about 7 lines:
 
-```r
+``` r
 library(DoubleML); library(mlr3); library(mlr3learners)
 
 dml_data <- DoubleMLData$new(data,
@@ -514,7 +599,7 @@ dml_plr$summary()
 
 > **Notice:** cross-fitting (`n_folds = 5`) is built in. But *why* do we need it? That's next.
 
----
+------------------------------------------------------------------------
 
 # Cross-Fitting {.center}
 
@@ -524,9 +609,17 @@ Even with orthogonal scores, if we estimate $\hat{g}$ and $\hat{m}$ on the **sam
 
 . . .
 
-- $\hat{g}(X_i)$ is overfit to observation $i$
-- Residuals $\tilde{Y}_i = Y_i - \hat{g}(X_i)$ are systematically too small
-- This creates a **Donsker-class** technical condition that ML methods typically violate
+-   $\hat{g}(X_i)$ is overfit to observation $i$
+-   Residuals $\tilde{Y}_i = Y_i - \hat{g}(X_i)$ are systematically too small
+-   This violates the **Donsker condition** — a technical requirement for valid inference
+
+::: {.callout-note appearance="simple"}
+## What's the Donsker Condition?
+
+A class of functions is **Donsker** if its empirical process converges uniformly — meaning sample averages behave like population averages *across all functions in the class simultaneously*.
+
+**Intuition:** Think of it as a uniform law of large numbers. OLS models are Donsker (simple, low-complexity). But flexible ML methods (random forests, deep nets) are too complex — they can fit the training data so well that sample averages *don't* approximate population averages uniformly. Cross-fitting sidesteps this entirely.
+:::
 
 . . .
 
@@ -540,11 +633,11 @@ Even with orthogonal scores, if we estimate $\hat{g}$ and $\hat{m}$ on the **sam
 
 **Solution to the solution:** **Cross-fitting** — K-fold sample splitting.
 
----
+------------------------------------------------------------------------
 
 ## The Cross-Fitting Algorithm
 
-```
+```         
 For k = 1, ..., K folds:
 
   1. Hold out fold k as the "estimation" sample
@@ -561,33 +654,35 @@ Standard errors via influence function:
   SE = √[ n⁻¹ Σ (ψ̂ᵢ²) / (n⁻¹ Σ D̃ᵢ²)² ]
 ```
 
----
+------------------------------------------------------------------------
 
 ## Cross-Fitting vs. Cross-Validation
 
 These sound similar but serve **different purposes**:
 
-| | Cross-Validation | Cross-Fitting |
-|--|-----------------|---------------|
-| **Purpose** | Model selection / tuning | Causal estimation |
-| **Goal** | Find best $\lambda$ | Avoid overfitting bias |
-| **Output** | Tuning parameter | $\hat{\theta}$, SE, CI |
-| **Who uses it** | ML practitioners | Causal ML researchers |
+|                 | Cross-Validation         | Cross-Fitting          |
+|-----------------|--------------------------|------------------------|
+| **Purpose**     | Model selection / tuning | Causal estimation      |
+| **Goal**        | Find best $\lambda$      | Avoid overfitting bias |
+| **Output**      | Tuning parameter         | $\hat{\theta}$, SE, CI |
+| **Who uses it** | ML practitioners         | Causal ML researchers  |
 
 . . .
 
 ::: {.callout-tip appearance="simple"}
 ## Key Distinction
+
 Cross-validation helps you **choose** the ML method. Cross-fitting lets you **use** it for causal inference. You can (and should) do both: cross-validate *within* each cross-fitting fold.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Why Cross-Fitting Works
 
-:::: {.columns}
+::::: columns
 ::: {.column width="50%"}
 ### Without Cross-Fitting
+
 $\hat{g}$ sees observation $i$ during training
 
 $\hat{g}(X_i)$ is **overfit** to $i$
@@ -599,6 +694,7 @@ $\hat{\theta}$ is biased
 
 ::: {.column width="50%"}
 ### With Cross-Fitting
+
 $\hat{g}$ trained **without** observation $i$
 
 $\hat{g}(X_i)$ is a genuine **prediction**
@@ -607,77 +703,103 @@ Residual $\tilde{Y}_i$ is unbiased
 
 $\hat{\theta}$ is consistent
 :::
-::::
+:::::
 
 . . .
 
 > Cross-fitting ensures that nuisance predictions are **honest** — they don't peek at the observation they're predicting.
 
----
+------------------------------------------------------------------------
+
+## Honesty as a General Principle
+
+"Honesty" — separating model building from estimation — shows up throughout causal ML:
+
+| | DML Cross-Fitting | Honest Causal Trees |
+|--|---|---|
+| **Build step** | Train nuisance models ($\hat{g}$, $\hat{m}$) | Choose the tree partition (splits) |
+| **Estimate step** | Compute $\hat{\theta}$ on held-out fold | Compute leaf-level CATEs on held-out sample |
+| **Why split** | ML models are too complex (non-Donsker) — overfit on training data | Adaptive splits bias leaf estimates upward |
+
+. . .
+
+::: {.callout-tip appearance="simple"}
+## Looking Ahead to Unit 3
+In causal forests (`grf`), each tree uses **honest splitting** within the tree, plus **out-of-bag prediction** across trees — analogous to cross-fitting. Same principle, different level.
+:::
+
+------------------------------------------------------------------------
 
 ## Practical Choices
 
 | Choice | Recommendation | Why |
-|--------|---------------|-----|
+|-------------------|-----------------------------------|------------------|
 | **Number of folds (K)** | 5 | Balances bias vs. variance; K=2 wastes data, K=10 adds computation |
 | **ML learner** | Start with RF or LASSO | RF for nonlinear, LASSO for sparse |
 | **Multiple learners** | Compare and report | Different learners → robustness check |
 | **Repetitions** | Re-run 3-5 times | Average over random fold assignments |
 
----
+------------------------------------------------------------------------
 
 # PLM vs. IRM vs. IIVM {.center}
 
+::: {.callout-note appearance="minimal"}
+**Textbook:** Chernozhukov et al. (2025), [Ch. 9](https://causalml-book.org/chapters/CausalML_chap_9.pdf) (PLM, IRM) & [Ch. 13](https://causalml-book.org/chapters/CausalML_chap_13.pdf) (IIVM, extensions)
+:::
+
 ## Three Models in the DML Framework
 
-:::: {.columns}
+:::::: columns
 ::: {.column width="33%"}
-### PLM
+### Partially Linear Model (PLM)
+
 `DoubleMLPLR`
 
 $$Y = D\theta_0 + g_0(X) + \varepsilon$$
 
-- Effect is **constant**
-- $D$ continuous or binary
-- Partialling-out score
-- Simpler, more efficient if correct
+-   Effect is **constant**
+-   $D$ continuous or binary
+-   Partialling-out score
+-   Simpler, more efficient if correct
 :::
 
 ::: {.column width="33%"}
-### IRM
+### Interactive Regression Model (IRM)
+
 `DoubleMLIRM`
 
 $$Y = g_0(D, X) + \varepsilon$$
 
-- Effect can be **heterogeneous**
-- $D$ typically binary
-- AIPW/doubly-robust score (the EIF we saw earlier)
-- More flexible, fewer assumptions
+-   Effect can be **heterogeneous**
+-   $D$ typically binary
+-   AIPW/doubly-robust score (the EIF we saw earlier)
+-   More flexible, fewer assumptions
 :::
 
 ::: {.column width="34%"}
-### IIVM
+### Interactive IV Model (IIVM)
+
 `DoubleMLIIVM`
 
-$$Y = g_0(D, X) + \varepsilon$$
-$$D = m_0(Z, X) + V$$
+$$Y = g_0(D, X) + \varepsilon$$ $$D = m_0(Z, X) + V$$
 
-- Binary $D$ with **instrument** $Z$
-- Wald/LATE-type estimand
-- For when unconfoundedness fails but you have an IV
+-   Binary $D$ with **instrument** $Z$
+-   Wald/LATE-type estimand
+-   For when unconfoundedness fails but you have an IV
 :::
-::::
+::::::
 
 . . .
 
 ::: {.callout-tip appearance="simple"}
 ## When to Use Which
-- **PLM** for continuous $D$ or when you believe effects are roughly constant across $X$
-- **IRM** for binary $D$ or when effects may differ by subgroup (ATE/ATT)
-- **IIVM** when you have an instrumental variable and need a LATE estimate
+
+-   **PLM** for continuous $D$ or when you believe effects are roughly constant across $X$
+-   **IRM** for binary $D$ or when effects may differ by subgroup (ATE/ATT)
+-   **IIVM** when you have an instrumental variable and need a LATE estimate
 :::
 
----
+------------------------------------------------------------------------
 
 ## The DML Framework: Summary
 
@@ -687,44 +809,44 @@ $$\boxed{\text{DML} = \text{Orthogonal Score} + \text{Cross-Fitting} + \text{ML 
 
 **What DML guarantees (under regularity conditions):**
 
-1. $\hat{\theta}$ is $\sqrt{n}$-consistent
-2. $\hat{\theta}$ is asymptotically normal
-3. Standard errors and confidence intervals are valid
-4. Works with any ML method that converges at $n^{-1/4}$ rate or faster
+1.  $\hat{\theta}$ is $\sqrt{n}$-consistent
+2.  $\hat{\theta}$ is asymptotically normal
+3.  Standard errors and confidence intervals are valid
+4.  Works with any ML method that converges at $n^{-1/4}$ rate or faster
 
 . . .
 
 **What DML does NOT guarantee:**
 
-- Correct if unconfoundedness fails (no method can)
-- Good finite-sample performance with very small $n$
-- Robustness to extreme propensity scores (overlap violations)
+-   Correct if unconfoundedness fails (no method can)
+-   Good finite-sample performance with very small $n$
+-   Robustness to extreme propensity scores (overlap violations)
 
----
+------------------------------------------------------------------------
 
 # Key Takeaways {.center}
 
 ## Summary
 
-1. **Standard ML fails for causal inference** — regularization bias, overfitting bias, and invalid standard errors
+1.  **Standard ML fails for causal inference** — regularization bias, overfitting bias, and invalid standard errors
 
-2. **Influence functions** characterize the sensitivity of estimators to individual observations and define efficiency bounds
+2.  **Influence functions** characterize the sensitivity of estimators to individual observations and define efficiency bounds
 
-3. **Neyman orthogonality** makes causal scores insensitive to nuisance estimation errors — the "immunization" that enables ML
+3.  **Neyman orthogonality** makes causal scores insensitive to nuisance estimation errors — the "immunization" that enables ML
 
-4. **Double ML = two-way residualization** — residualize *both* outcome and treatment on confounders using ML
+4.  **Double ML = two-way residualization** — residualize *both* outcome and treatment on confounders using ML
 
-5. **Cross-fitting** eliminates overfitting bias through K-fold sample splitting
+5.  **Cross-fitting** eliminates overfitting bias through K-fold sample splitting
 
-6. **Together**: orthogonality + cross-fitting = valid $\sqrt{n}$-inference with flexible ML
+6.  **Together**: orthogonality + cross-fitting = valid $\sqrt{n}$-inference with flexible ML
 
----
+------------------------------------------------------------------------
 
 ## The DML Recipe (One Slide)
 
 For the PLM: $Y = D\theta + g(X) + \varepsilon$
 
-```
+```         
 1. Split data into K=5 folds
 2. For each fold k:
    a. Train ML models for g(X)=E[Y|X] and m(X)=E[D|X] on other folds
@@ -737,7 +859,7 @@ For the PLM: $Y = D\theta + g(X) + \varepsilon$
 
 > Next session: we implement this in R with the `DoubleML` package.
 
----
+------------------------------------------------------------------------
 
 ## What's Next
 
@@ -748,29 +870,29 @@ For the PLM: $Y = D\theta + g(X) + \varepsilon$
 
 **Session 2.4 (Remote):** Hands-on DML with `DoubleML` package in R. Bring your laptop with packages installed:
 
-```r
+``` r
 install.packages(c("DoubleML", "mlr3", "mlr3learners",
                     "glmnet", "ranger", "xgboost"))
 ```
 :::
 
----
+------------------------------------------------------------------------
 
 ## Readings for Next Time
 
 **Required:**
 
-- Bach et al. (2024) — "DoubleML: An Object-Oriented Implementation of Double/Debiased Machine Learning in R" *Journal of Statistical Software*
-- [DoubleML Getting Started Guide](https://docs.doubleml.org/stable/intro/intro.html)
+-   Bach et al. (2024) — "DoubleML: An Object-Oriented Implementation of Double/Debiased Machine Learning in R" *Journal of Statistical Software*
+-   [DoubleML Getting Started Guide](https://docs.doubleml.org/stable/intro/intro.html)
 
 **Recommended:**
 
-- Ahrens et al. (2025) — "An Introduction to Double/Debiased Machine Learning" — [arXiv:2504.08324](https://arxiv.org/abs/2504.08324) — *accessible overview*
-- Chernozhukov et al. (2018) — "Double/Debiased Machine Learning" *Econometrics Journal* — Sections 1-4
-- [useR! Conference DoubleML Tutorial](https://www.youtube.com/watch?v=1bHzi6ucnr0) — video walkthrough
-- [DoubleML Basics Guide](https://docs.doubleml.org/stable/guide/basics.html)
+-   Ahrens et al. (2025) — "An Introduction to Double/Debiased Machine Learning" — [arXiv:2504.08324](https://arxiv.org/abs/2504.08324) — *accessible overview*
+-   Chernozhukov et al. (2018) — "Double/Debiased Machine Learning" *Econometrics Journal* — Sections 1-4
+-   [useR! Conference DoubleML Tutorial](https://www.youtube.com/watch?v=1bHzi6ucnr0) — video walkthrough
+-   [DoubleML Basics Guide](https://docs.doubleml.org/stable/guide/basics.html)
 
----
+------------------------------------------------------------------------
 
 ## Questions?
 
@@ -780,8 +902,8 @@ install.packages(c("DoubleML", "mlr3", "mlr3learners",
 
 **Key references for today:**
 
-- Chernozhukov et al. (2018) — The foundational DML paper
-- Ahrens et al. (2025) — Accessible introduction to DML
-- Kennedy (2016) — "Semiparametric Theory and Empirical Processes in Causal Inference"
-- Hines et al. (2022) — "Demystifying Statistical Learning Based Causal Inference"
-- Fisher & Kennedy (2020) — "Visually Communicating and Teaching Influence Functions"
+-   Chernozhukov et al. (2018) — The foundational DML paper
+-   Ahrens et al. (2025) — Accessible introduction to DML
+-   Kennedy (2016) — "Semiparametric Theory and Empirical Processes in Causal Inference"
+-   Hines et al. (2022) — "Demystifying Statistical Learning Based Causal Inference"
+-   Fisher & Kennedy (2020) — "Visually Communicating and Teaching Influence Functions"

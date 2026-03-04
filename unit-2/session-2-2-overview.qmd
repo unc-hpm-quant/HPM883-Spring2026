@@ -31,9 +31,12 @@ Sessions 2.2 and 2.3 are combined into a single session. Influence functions and
 
 **Chernozhukov et al. (2025)** — *Applied Causal Inference Powered by ML and AI*
 
--   **Chapter 5:** Causal Inference via Conditional Ignorability (~30 pages)
-    -   [Online PDF](https://causalml-book.org/chapters/CausalML_chap_5.pdf)
+-   **Chapter 4:** Neyman Orthogonality — [Online PDF](https://causalml-book.org/chapters/CausalML_chap_4.pdf)
+    -   Focus: Orthogonal scores, influence functions, semiparametric efficiency
+-   **Chapter 5:** Causal Inference via Conditional Ignorability — [Online PDF](https://causalml-book.org/chapters/CausalML_chap_5.pdf)
     -   Focus: Selection on observables, propensity scores, doubly-robust estimators
+-   **Chapter 9:** Double/Debiased Machine Learning — [Online PDF](https://causalml-book.org/chapters/CausalML_chap_9.pdf)
+    -   Focus: DML algorithm, connection to Neyman orthogonal scores, cross-fitting
 
 **Kennedy (2016)** — "Semiparametric Theory and Empirical Processes in Causal Inference"
 
@@ -43,6 +46,7 @@ Sessions 2.2 and 2.3 are combined into a single session. Influence functions and
 ### Recommended
 
 -   Ahrens et al. (2025) — "An Introduction to Double/Debiased Machine Learning" — [arXiv:2504.08324](https://arxiv.org/abs/2504.08324) — *Accessible overview covering PLM, IRM, and practical guidance*
+-   Chernozhukov et al. (2025) **Chapter 13:** Extensions of DML — [Online PDF](https://causalml-book.org/chapters/CausalML_chap_13.pdf) — *IV models (IIVM), proxy controls, robust inference under weak identification*
 -   Chernozhukov et al. (2018) — "Double/Debiased Machine Learning" *Econometrics Journal* — Section 2
 -   Hines et al. (2022) — "Demystifying Statistical Learning" *Statistical Science*
 -   Ichimura & Newey (2022) — "The Influence Function of Semiparametric Estimators"
