@@ -901,7 +901,7 @@ Create a GitHub account if you don't have one. We'll use GitHub Codespaces in Se
 
 **Optional:**
 
-- [Chernozhukov Ch. 0 (Sneak Peek)](http://chapters.causalml-book.org/CausalML_chap_0.pdf) — ~10 pages (course roadmap)
+- [Chernozhukov Ch. 0 (Sneak Peek)](https://causalml-book.org/chapters/CausalML_chap_0.pdf) — ~10 pages (course roadmap)
 - [R for Data Science Ch. 1-5](https://r4ds.hadley.nz/) (R refresher)
 
 ---

@@ -26,7 +26,7 @@ Welcome to HPM 883! This session introduces the course structure, philosophy, an
 **Chernozhukov et al. (2025)** — *Applied Causal Inference Powered by ML and AI*
 
 -   **Chapter 0:** Sneak Peek — A Fusion of Causal Inference and ML (\~10 pages)
-    -   [Online PDF](http://chapters.causalml-book.org/CausalML_chap_0.pdf)
+    -   [Online PDF](https://causalml-book.org/chapters/CausalML_chap_0.pdf)
     -   Focus: Overview of the causal ML paradigm, course roadmap
 
 **Hernán & Robins (2020)** — *Causal Inference: What If*

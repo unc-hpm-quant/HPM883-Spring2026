@@ -756,10 +756,7 @@ selection_freq |>
 
 Some variables are selected in nearly every resample — these are robustly important. Others are selected in only 2 or 3 out of 10 resamples — their inclusion depends heavily on which observations happened to be in the training data.
 
-**Questions:**
-1.  Which variables are stably selected (selection rate > 0.8)?
-2.  Which variables are unstably selected (selection rate between 0.2 and 0.8)?
-3.  What would happen if we tried to make a causal claim based on which variables LASSO selected?
+**Questions:** 1. Which variables are stably selected (selection rate \> 0.8)? 2. Which variables are unstably selected (selection rate between 0.2 and 0.8)? 3. What would happen if we tried to make a causal claim based on which variables LASSO selected?
 :::
 
 ### 7.4 Why This Matters for Causal Inference
@@ -919,11 +916,11 @@ printcp(tree_fit)
 
 The `printcp()` output shows the **complexity parameter (cp)** table:
 
-- **cp**: Cost-complexity pruning parameter — higher = simpler tree
-- **nsplit**: Number of splits
-- **rel error**: Training error relative to root node
-- **xerror**: Cross-validation error (this is what we want to minimize)
-- **xstd**: Standard error of cross-validation error
+-   **cp**: Cost-complexity pruning parameter — higher = simpler tree
+-   **nsplit**: Number of splits
+-   **rel error**: Training error relative to root node
+-   **xerror**: Cross-validation error (this is what we want to minimize)
+-   **xstd**: Standard error of cross-validation error
 
 The tree automatically prunes using 10-fold CV. Look for the cp value that minimizes `xerror`.
 :::
@@ -947,10 +944,10 @@ rpart.plot(
 ::: callout-tip
 ## Reading the Tree Plot
 
-- Each **node** shows the predicted value (mean salary in that group)
-- The **split condition** is shown at each internal node
-- **n** = number of observations in that node
-- Follow any path from root to leaf to get a prediction rule
+-   Each **node** shows the predicted value (mean salary in that group)
+-   The **split condition** is shown at each internal node
+-   **n** = number of observations in that node
+-   Follow any path from root to leaf to get a prediction rule
 
 **Question:** What is the first split? Why does this make sense for predicting salary?
 :::
@@ -1039,7 +1036,7 @@ cat("R-squared (OOB):", round(rf_fit$r.squared, 3), "\n")
 ::: callout-tip
 ## OOB = Free Cross-Validation
 
-The OOB (out-of-bag) error is computed automatically during training. Each tree only sees ~63% of the data, so the remaining 37% serves as a built-in validation set. No need for a separate `cv.glmnet()` call!
+The OOB (out-of-bag) error is computed automatically during training. Each tree only sees \~63% of the data, so the remaining 37% serves as a built-in validation set. No need for a separate `cv.glmnet()` call!
 :::
 
 ### 9.2 Variable Importance
@@ -1084,9 +1081,9 @@ importance_df |>
 
 Variable importance tells us which features are **most useful for prediction**, not which features **cause** the outcome. A feature can be important for prediction because it is:
 
-1. A direct cause
-2. A proxy for an unobserved cause
-3. Correlated with a cause
+1.  A direct cause
+2.  A proxy for an unobserved cause
+3.  Correlated with a cause
 
 This is exactly why we need DML — to separate prediction from causation.
 :::
@@ -1136,7 +1133,7 @@ tibble(
 ::: callout-note
 ## Diminishing Returns
 
-More trees generally help, but with diminishing returns. After ~200-500 trees, the improvement is negligible. Unlike gradient boosting, random forests do **not** overfit as you add more trees — averaging more independent trees only reduces variance.
+More trees generally help, but with diminishing returns. After \~200-500 trees, the improvement is negligible. Unlike gradient boosting, random forests do **not** overfit as you add more trees — averaging more independent trees only reduces variance.
 :::
 
 ------------------------------------------------------------------------
@@ -1198,9 +1195,9 @@ full_results |>
 
 Notice that **no single method dominates all others**. This is why DML is flexible:
 
-- If the true relationship is **linear and sparse** → LASSO is best
-- If the true relationship is **nonlinear with interactions** → Random Forest or Boosting is best
-- **You don't know in advance** which applies to your nuisance functions
+-   If the true relationship is **linear and sparse** → LASSO is best
+-   If the true relationship is **nonlinear with interactions** → Random Forest or Boosting is best
+-   **You don't know in advance** which applies to your nuisance functions
 
 DML lets you use the **best ML method for each nuisance function** without affecting the validity of your causal estimate. The cross-fitting procedure ensures this works regardless of which learner you choose.
 :::
@@ -1301,7 +1298,7 @@ table(top5_matrix) |> sort(decreasing = TRUE) |> print()
 ### What We Learned
 
 | Method | Penalty | Variable Selection | Best For |
-|---|---|---|---|
+|------------------|------------------|------------------|------------------|
 | OLS | None | No | Few predictors, low multicollinearity |
 | Ridge | L2 ($\sum \beta_j^2$) | No (shrinks toward 0) | Many correlated predictors, all relevant |
 | LASSO | L1 ($\sum |\beta_j|$) | Yes (exact zeros) | Sparse true model, want variable selection |

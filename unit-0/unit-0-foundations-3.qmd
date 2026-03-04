@@ -31,7 +31,7 @@ This session establishes the theoretical foundations for causal inference. We fo
 
 ### Optional (Advanced)
 
--   **[Chernozhukov et al. Ch. 7: Causal Graphs](https://chapters.causalml-book.org/CausalML_chap_7.pdf)** — Formal treatment of DAGs and SCMs
+-   **[Chernozhukov et al. Ch. 7: Causal Graphs](https://causalml-book.org/chapters/CausalML_chap_7.pdf)** — Formal treatment of DAGs and SCMs
 -   Pearl (2009) — "Causal inference in statistics: An overview" *Statistics Surveys*, Vol 3, 96-146
 
 **Estimated Reading Time:** 45-60 minutes
