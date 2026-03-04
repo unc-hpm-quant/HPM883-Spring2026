@@ -153,6 +153,8 @@ website:
             text: "↳ Slides: Trees & Ensembles (Workshop)"
           - href: unit-2/session-2-2-overview.qmd
             text: "Sessions 2.2-2.3: IF & DML Theory"
+          - href: unit-2/session-2-2-slides.qmd
+            text: "↳ Slides: From IFs to DML"
       - section: "Labs"
         contents:
           - href: labs/index.qmd
