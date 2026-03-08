@@ -1,7 +1,7 @@
 ---
 title: "Unit 2: Double Machine Learning"
 subtitle: "Session 2.4: DML Implementation with DoubleML"
-date: "February 23, 2026"
+date: "March 9, 2026"
 ---
 
 ## Session Overview

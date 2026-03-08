@@ -1,0 +1,666 @@
+---
+title: "DML Implementation with DoubleML"
+subtitle: "Session 2.4 Code-Along Workbook"
+author: "Sean Sylvia"
+date: "March 9, 2026"
+slug: "session-2-4-workbook"
+categories: [Code-Along, DML, DoubleML, Remote]
+description: "Hands-on implementation of Double Machine Learning using the DoubleML R package. Fit PLR and IRM models, compare learners, and apply DML to real data."
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-tools: true
+editor: visual
+execute:
+  eval: false
+---
+
+::: callout-important
+## Code-Along Session (Remote, Zoom)
+
+All code chunks have `eval: false` — run them yourself in RStudio or Positron. This is a **75-minute guided session**, not a rendering exercise.
+
+**Before you start:** Make sure you've installed the required packages (see Session 2.4 Overview).
+:::
+
+## Overview
+
+In Session 2.3, we derived the DML recipe:
+
+```
+1. Split data into K folds
+2. For each fold k:
+   a. Train ML models for g(X) = E[Y|X] and m(X) = E[D|X] on other folds
+   b. Predict on fold k to get residuals: Ỹ = Y - ĝ(X) and D̃ = D - m̂(X)
+3. Combine all residuals
+4. θ̂ = regress Ỹ on D̃
+5. Compute SEs from influence function formula
+```
+
+Today we implement this in R using the `DoubleML` package, which handles the cross-fitting, nuisance estimation, and inference machinery for us. By the end of this session, you will:
+
+1. Set up `DoubleMLData`, `DoubleMLPLR`, and `DoubleMLIRM` objects
+2. Fit DML models with different ML learners (LASSO, Random Forest, XGBoost)
+3. Interpret DML output — coefficients, standard errors, confidence intervals
+4. Diagnose common issues (overlap, learner choice, fold sensitivity)
+5. Apply DML to real data (401(k) participation)
+
+------------------------------------------------------------------------
+
+## Setup & Orientation
+
+### Load Packages
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(DoubleML)
+library(mlr3)
+library(mlr3learners)
+library(data.table)
+
+# ML backends
+library(glmnet)    # LASSO / Ridge / Elastic Net
+library(ranger)    # Random Forest
+library(xgboost)   # Gradient Boosting
+
+# Visualization
+library(ggplot2)
+
+# Reproducibility
+set.seed(883)
+```
+
+### The DoubleML Architecture
+
+`DoubleML` is built on three layers:
+
+| Layer | Class | What it does |
+|-------|-------|-------------|
+| **Data** | `DoubleMLData` | Wraps your dataset, specifying Y, D, X roles |
+| **Model** | `DoubleMLPLR`, `DoubleMLIRM`, ... | Defines the causal model and moment conditions |
+| **Learner** | `mlr3` learners | Specifies which ML algorithm estimates nuisance functions |
+
+The workflow is always: **Data → Model → Fit → Summarize**.
+
+::: callout-tip
+## The `mlr3` Connection
+
+`DoubleML` uses the `mlr3` ecosystem for ML learners. You specify learners with `lrn("regr.ranger")` or `lrn("classif.ranger")`. The `mlr3learners` package provides access to `glmnet`, `ranger`, `xgboost`, and many others. You don't need to learn `mlr3` deeply — just the `lrn()` function.
+:::
+
+------------------------------------------------------------------------
+
+## Exercise 1: Basic PLR with Simulated Data
+
+### The Partially Linear Model
+
+Recall the PLM:
+
+$$
+Y = D\theta_0 + g_0(X) + \varepsilon, \quad E[\varepsilon | D, X] = 0
+$$
+
+$$
+D = m_0(X) + V, \quad E[V | X] = 0
+$$
+
+We want to estimate $\theta_0$ — the causal effect of $D$ on $Y$ — while allowing $g_0$ and $m_0$ to be arbitrary nonlinear functions.
+
+### Step 1: Generate Data with Known Truth
+
+We'll create a DGP where the true $\theta_0 = 0.5$ and the confounding functions $g_0$ and $m_0$ are nonlinear.
+
+```{r}
+#| label: dgp-plr
+
+# --- Data Generating Process ---
+n <- 2000
+p <- 10  # Number of covariates
+
+# Covariates: correlated normals
+Sigma <- toeplitz(0.5^(0:(p-1)))
+X <- matrix(rnorm(n * p), n, p) %*% chol(Sigma)
+colnames(X) <- paste0("X", 1:p)
+
+# Nonlinear confounding functions
+g0 <- sin(X[,1]) + X[,2]^2 + X[,3] * X[,4]      # E[Y|X] component
+m0 <- 0.5 * X[,1] + 0.25 * X[,2]^2 + X[,3]      # E[D|X] component
+
+# Treatment and outcome
+theta0 <- 0.5  # TRUE CAUSAL EFFECT
+D <- m0 + rnorm(n)
+Y <- D * theta0 + g0 + rnorm(n)
+
+# Combine into data.table
+sim_data <- data.table(Y = Y, D = D, X)
+
+cat("True theta_0 =", theta0, "\n")
+cat("n =", n, ", p =", p, "\n")
+```
+
+::: callout-note
+## Why Simulated Data First?
+
+With simulated data, we **know** the true parameter. This lets us check whether our method recovers it. In applied work, you never know the truth — so building intuition with known DGPs is essential.
+:::
+
+### Step 2: Create the DoubleMLData Object
+
+```{r}
+#| label: dml-data
+
+# Wrap data for DoubleML
+dml_data <- DoubleMLData$new(
+  data = sim_data,
+  y_col = "Y",
+  d_cols = "D",
+  x_cols = paste0("X", 1:p)
+)
+
+# Inspect
+print(dml_data)
+```
+
+### Step 3: Fit DoubleMLPLR
+
+```{r}
+#| label: plr-fit
+
+# Specify learners for nuisance functions
+ml_l <- lrn("regr.ranger", num.trees = 500, min.node.size = 5)  # For E[Y|X]
+ml_m <- lrn("regr.ranger", num.trees = 500, min.node.size = 5)  # For E[D|X]
+
+# Create and fit the PLR model
+dml_plr <- DoubleMLPLR$new(
+  data = dml_data,
+  ml_l = ml_l,
+  ml_m = ml_m,
+  n_folds = 5,
+  n_rep = 1,
+  score = "partialling out"
+)
+
+dml_plr$fit()
+```
+
+### Step 4: Interpret the Output
+
+```{r}
+#| label: plr-summary
+
+# Summary with coefficient, SE, t-stat, p-value, CI
+dml_plr$summary()
+
+# Extract key quantities
+cat("\nEstimate: ", dml_plr$coef, "\n")
+cat("Std Error:", dml_plr$se, "\n")
+cat("95% CI:   [", dml_plr$confint()[1], ",", dml_plr$confint()[2], "]\n")
+cat("True θ₀:  ", theta0, "\n")
+```
+
+::: callout-important
+## 🤔 Think About It
+
+Does the 95% confidence interval contain the true $\theta_0 = 0.5$? Run the code a few times (changing the seed). How often does it cover?
+:::
+
+### Step 5: The Failure Case — Naive OLS
+
+What happens if we ignore the nonlinear confounding and just run OLS?
+
+```{r}
+#| label: naive-ols
+
+# Naive OLS: regress Y on D and all X linearly
+ols_fit <- lm(Y ~ D + X, data = data.frame(Y, D, X))
+
+cat("Naive OLS estimate:", coef(ols_fit)["D"], "\n")
+cat("DML estimate:      ", dml_plr$coef, "\n")
+cat("True theta_0:      ", theta0, "\n")
+```
+
+::: callout-warning
+## ⚠️ Common Pitfall: Regularization Bias
+
+Naive OLS with many covariates suffers from two problems: (1) it can't capture the nonlinear confounding, and (2) if you use LASSO for variable selection first, the "post-LASSO" estimator inherits regularization bias. DML solves both via orthogonalization + cross-fitting.
+:::
+
+------------------------------------------------------------------------
+
+## Exercise 2: Learner Comparison
+
+Does the choice of ML learner for nuisance estimation matter? Let's compare three popular options.
+
+### Three Learners, Same DGP
+
+```{r}
+#| label: learner-setup
+
+# Define three learner pairs
+learners <- list(
+  "LASSO" = list(
+    ml_l = lrn("regr.cv_glmnet", s = "lambda.min", alpha = 1),
+    ml_m = lrn("regr.cv_glmnet", s = "lambda.min", alpha = 1)
+  ),
+  "Random Forest" = list(
+    ml_l = lrn("regr.ranger", num.trees = 500, min.node.size = 5),
+    ml_m = lrn("regr.ranger", num.trees = 500, min.node.size = 5)
+  ),
+  "XGBoost" = list(
+    ml_l = lrn("regr.xgboost", nrounds = 100, max_depth = 3, eta = 0.1,
+               verbose = 0),
+    ml_m = lrn("regr.xgboost", nrounds = 100, max_depth = 3, eta = 0.1,
+               verbose = 0)
+  )
+)
+```
+
+### Fit All Three
+
+```{r}
+#| label: learner-comparison
+
+results <- data.frame(
+  Learner = character(),
+  Estimate = numeric(),
+  SE = numeric(),
+  CI_lower = numeric(),
+  CI_upper = numeric(),
+  stringsAsFactors = FALSE
+)
+
+for (name in names(learners)) {
+  dml_fit <- DoubleMLPLR$new(
+    data = dml_data,
+    ml_l = learners[[name]]$ml_l,
+    ml_m = learners[[name]]$ml_m,
+    n_folds = 5,
+    n_rep = 1,
+    score = "partialling out"
+  )
+  dml_fit$fit()
+
+  results <- rbind(results, data.frame(
+    Learner = name,
+    Estimate = dml_fit$coef,
+    SE = dml_fit$se,
+    CI_lower = dml_fit$confint()[1],
+    CI_upper = dml_fit$confint()[2]
+  ))
+}
+
+print(results)
+```
+
+### Forest Plot
+
+```{r}
+#| label: forest-plot
+
+ggplot(results, aes(x = Estimate, y = Learner)) +
+  geom_point(size = 3) +
+  geom_errorbarh(aes(xmin = CI_lower, xmax = CI_upper), height = 0.2) +
+  geom_vline(xintercept = theta0, linetype = "dashed", color = "red") +
+  labs(
+    title = "DML Estimates by Nuisance Learner",
+    subtitle = paste("True θ₀ =", theta0, "(dashed red line)"),
+    x = "Estimated Treatment Effect",
+    y = ""
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+::: callout-note
+## 🤔 Think About It
+
+- Do all three learners recover the true $\theta_0$?
+- Which has the smallest confidence interval? Why?
+- When our DGP has nonlinear confounding, which learner should struggle most?
+
+**Key insight:** DML's orthogonality property means the final estimate is **robust to moderate errors in nuisance estimation**. As long as the ML learners converge at $n^{-1/4}$ rate, the treatment effect estimate is $\sqrt{n}$-consistent. This is why all three can work — but LASSO may struggle when the true functions are highly nonlinear.
+:::
+
+------------------------------------------------------------------------
+
+## Exercise 3: IRM for Binary Treatment
+
+When treatment $D$ is binary (0/1), we switch from PLR to the **Interactive Regression Model** (IRM):
+
+$$
+Y = g_0(D, X) + \varepsilon, \quad E[\varepsilon | D, X] = 0
+$$
+$$
+D = m_0(X) + V, \quad E[V | X] = 0
+$$
+
+where $m_0(X) = P(D=1|X)$ is the propensity score.
+
+### Step 1: Generate Binary Treatment Data
+
+```{r}
+#| label: dgp-irm
+
+# DGP with binary treatment
+n <- 2000
+p <- 10
+
+X <- matrix(rnorm(n * p), n, p)
+colnames(X) <- paste0("X", 1:p)
+
+# Propensity score (log-odds model)
+prop_score <- plogis(0.5 * X[,1] + 0.3 * X[,2] - 0.2 * X[,3])
+
+# Binary treatment
+D <- rbinom(n, 1, prop_score)
+
+# Potential outcomes with heterogeneous effects
+theta0_ate <- 1.0  # Average Treatment Effect
+Y0 <- X[,1] + X[,2]^2 + rnorm(n)
+Y1 <- Y0 + theta0_ate + 0.5 * X[,1]  # HTE component
+Y <- D * Y1 + (1 - D) * Y0
+
+irm_data <- data.table(Y = Y, D = D, X)
+cat("True ATE =", theta0_ate, "\n")
+cat("Treatment prevalence:", mean(D), "\n")
+```
+
+### Step 2: Create DoubleMLData for Binary Treatment
+
+```{r}
+#| label: irm-data
+
+dml_irm_data <- DoubleMLData$new(
+  data = irm_data,
+  y_col = "Y",
+  d_cols = "D",
+  x_cols = paste0("X", 1:p)
+)
+```
+
+### Step 3: Fit IRM with ATE Score
+
+```{r}
+#| label: irm-fit
+
+# Outcome model: regression learner
+ml_g <- lrn("regr.ranger", num.trees = 500, min.node.size = 5)
+
+# Propensity score model: CLASSIFICATION learner with probability predictions
+ml_m <- lrn("classif.ranger", num.trees = 500, min.node.size = 5,
+            predict_type = "prob")
+
+# Fit IRM for ATE
+dml_irm <- DoubleMLIRM$new(
+  data = dml_irm_data,
+  ml_g = ml_g,
+  ml_m = ml_m,
+  n_folds = 5,
+  score = "ATE"
+)
+
+dml_irm$fit()
+dml_irm$summary()
+```
+
+::: callout-warning
+## ⚠️ Common Pitfall: `predict_type = "prob"`
+
+The propensity score model **must** use `predict_type = "prob"` to return probabilities, not class labels. Forgetting this is the #1 error students make with `DoubleMLIRM`. If you see an error about predictions not being in [0,1], check this first.
+:::
+
+### Step 4: Check Propensity Score Overlap
+
+```{r}
+#| label: overlap-check
+
+# Extract propensity scores from the fitted model
+# We'll compute them manually for the histogram
+ps_model <- ranger::ranger(
+  x = X, y = factor(D),
+  num.trees = 500, probability = TRUE
+)
+ps_hat <- ps_model$predictions[, "1"]
+
+# Overlap histogram
+ps_df <- data.frame(ps = ps_hat, Treatment = factor(D, labels = c("Control", "Treated")))
+
+ggplot(ps_df, aes(x = ps, fill = Treatment)) +
+  geom_histogram(alpha = 0.5, bins = 40, position = "identity") +
+  labs(
+    title = "Propensity Score Distribution by Treatment Group",
+    subtitle = "Good overlap = distributions overlap substantially",
+    x = "Estimated Propensity Score",
+    y = "Count"
+  ) +
+  theme_minimal(base_size = 14) +
+  scale_fill_manual(values = c("steelblue", "coral"))
+```
+
+::: callout-note
+## 🤔 Think About It
+
+Look at the overlap histogram. Are there regions where one group dominates? Propensity scores near 0 or 1 create **positivity violations** — observations with extreme weights that inflate variance. DML mitigates this somewhat through cross-fitting, but severe overlap failures still cause problems.
+:::
+
+### Step 5: Compare ATE vs ATTE
+
+```{r}
+#| label: ate-vs-atte
+
+# Fit with ATTE score
+dml_irm_atte <- DoubleMLIRM$new(
+  data = dml_irm_data,
+  ml_g = lrn("regr.ranger", num.trees = 500, min.node.size = 5),
+  ml_m = lrn("classif.ranger", num.trees = 500, min.node.size = 5,
+             predict_type = "prob"),
+  n_folds = 5,
+  score = "ATTE"
+)
+
+dml_irm_atte$fit()
+
+cat("ATE estimate: ", dml_irm$coef, " (SE:", dml_irm$se, ")\n")
+cat("ATTE estimate:", dml_irm_atte$coef, " (SE:", dml_irm_atte$se, ")\n")
+cat("True ATE:     ", theta0_ate, "\n")
+```
+
+::: callout-note
+## 🤔 Think About It
+
+When do ATE and ATTE differ substantially? The ATTE asks: "What is the effect **among those who were actually treated**?" If treatment effects are heterogeneous (they are in our DGP — the effect depends on $X_1$), ATE and ATTE can diverge. Which is the right estimand depends on your policy question.
+:::
+
+------------------------------------------------------------------------
+
+## Exercise 4: Real Data — 401(k) Participation
+
+Now let's apply DML to a real dataset. The 401(k) example from Chernozhukov et al. examines how 401(k) eligibility affects net financial assets.
+
+### Background
+
+Workers don't choose 401(k) eligibility directly — it depends on employer decisions. But eligibility is correlated with income, age, education, and other factors that also affect savings. DML lets us control for these flexibly.
+
+### Step 1: Load the Data
+
+```{r}
+#| label: load-401k
+
+# DoubleML provides the 401(k) dataset
+data_401k <- fetch_401k()
+
+# What do we have?
+cat("Observations:", nrow(data_401k$data), "\n")
+cat("Variables:", ncol(data_401k$data), "\n")
+
+# Key variables:
+# net_tfa   - Net total financial assets (outcome Y)
+# e401      - 401(k) eligibility (treatment D)
+# age, inc, educ, fsize, marr, ... (covariates X)
+
+print(data_401k)
+```
+
+### Step 2: PLR — Effect of Eligibility on Assets
+
+```{r}
+#| label: 401k-plr
+
+# Fit PLR with random forest
+ml_l_401k <- lrn("regr.ranger", num.trees = 500, min.node.size = 5)
+ml_m_401k <- lrn("regr.ranger", num.trees = 500, min.node.size = 5)
+
+plr_401k <- DoubleMLPLR$new(
+  data = data_401k,
+  ml_l = ml_l_401k,
+  ml_m = ml_m_401k,
+  n_folds = 5,
+  n_rep = 1
+)
+
+plr_401k$fit()
+plr_401k$summary()
+```
+
+### Step 3: IRM — Binary Treatment Version
+
+```{r}
+#| label: 401k-irm
+
+# Since eligibility is binary, IRM is more appropriate
+ml_g_401k <- lrn("regr.ranger", num.trees = 500, min.node.size = 5)
+ml_m_401k <- lrn("classif.ranger", num.trees = 500, min.node.size = 5,
+                  predict_type = "prob")
+
+irm_401k <- DoubleMLIRM$new(
+  data = data_401k,
+  ml_g = ml_g_401k,
+  ml_m = ml_m_401k,
+  n_folds = 5,
+  score = "ATE"
+)
+
+irm_401k$fit()
+irm_401k$summary()
+
+cat("\nPLR estimate: ", plr_401k$coef, " (SE:", plr_401k$se, ")\n")
+cat("IRM estimate: ", irm_401k$coef, " (SE:", irm_401k$se, ")\n")
+```
+
+::: callout-note
+## 🤔 Think About It
+
+The published estimates (Chernozhukov et al. 2018) find that 401(k) eligibility increases net financial assets by roughly \$8,000–\$10,000. How do your estimates compare? Why might PLR and IRM give different results for a binary treatment?
+
+**Key point:** For binary treatments, IRM is generally preferred because PLR assumes a constant additive effect, while IRM allows the outcome model to differ between treated and control groups.
+:::
+
+### Step 4: Sensitivity to Learner and Folds
+
+```{r}
+#| label: 401k-sensitivity
+
+# Try with different number of folds
+for (k in c(3, 5, 10)) {
+  irm_k <- DoubleMLIRM$new(
+    data = data_401k,
+    ml_g = lrn("regr.ranger", num.trees = 500, min.node.size = 5),
+    ml_m = lrn("classif.ranger", num.trees = 500, min.node.size = 5,
+               predict_type = "prob"),
+    n_folds = k,
+    score = "ATE"
+  )
+  irm_k$fit()
+  cat("K =", k, "folds | Estimate:", round(irm_k$coef, 1),
+      "| SE:", round(irm_k$se, 1), "\n")
+}
+```
+
+### Step 5: Multiple Repetitions for Stability
+
+```{r}
+#| label: 401k-repetitions
+
+# Use multiple repetitions of the cross-fitting procedure
+# This reduces sensitivity to a particular random fold split
+irm_rep <- DoubleMLIRM$new(
+  data = data_401k,
+  ml_g = lrn("regr.ranger", num.trees = 500, min.node.size = 5),
+  ml_m = lrn("classif.ranger", num.trees = 500, min.node.size = 5,
+             predict_type = "prob"),
+  n_folds = 5,
+  n_rep = 10,
+  score = "ATE"
+)
+
+irm_rep$fit()
+irm_rep$summary()
+
+cat("\nWith 10 repetitions, the estimate is more stable.\n")
+cat("Single rep:  ", round(irm_401k$coef, 1), "\n")
+cat("10 reps:     ", round(irm_rep$coef, 1), "\n")
+```
+
+::: callout-tip
+## Best Practice: Use Multiple Repetitions
+
+In practice, always use `n_rep > 1` (typically 5–10). Each repetition uses a different random partition into folds. The final estimate averages across all repetitions, reducing sensitivity to the specific fold assignment. This costs more compute time but gives more reliable results.
+:::
+
+------------------------------------------------------------------------
+
+## Wrap-Up & Connection to PS-2
+
+### Key Takeaways
+
+1. **DoubleML handles the plumbing** — cross-fitting, orthogonal scores, and valid inference are automated. You focus on choosing learners and specifying the model.
+
+2. **Learner choice matters less than you'd think** — thanks to orthogonality, moderate nuisance estimation errors don't contaminate $\hat{\theta}$. But learners must be "good enough" (converge at $n^{-1/4}$ rate).
+
+3. **PLR vs. IRM** — use PLR for continuous/discrete treatments with additive effects; use IRM for binary treatments where treatment-control outcome functions may differ.
+
+4. **Always check overlap** — propensity scores near 0 or 1 signal positivity violations. No statistical method can fix a lack of overlap.
+
+5. **Use multiple repetitions** — `n_rep = 5` or `n_rep = 10` stabilizes results against fold-assignment randomness.
+
+### Common Debugging Tips
+
+| Problem | Likely Cause | Fix |
+|---------|-------------|-----|
+| Error about predictions not in [0,1] | Missing `predict_type = "prob"` on classification learner | Add `predict_type = "prob"` to `classif.*` learner |
+| Very large SEs | Poor overlap or weak first-stage predictions | Check propensity score histogram; try different learner |
+| Estimate far from expected | Misspecified `y_col`, `d_cols`, or `x_cols` | Verify your `DoubleMLData` object with `print()` |
+| "Column not found" error | Column names in data don't match specification | Check `colnames()` of your data |
+| Results change dramatically across runs | Random fold assignment sensitivity | Increase `n_rep` (e.g., 10) |
+
+### Connection to PS-2
+
+Problem Set 2 asks you to apply DML to a **Medicaid expansion** scenario. The core workflow is identical to what we did today:
+
+1. Create `DoubleMLData` with appropriate variable roles
+2. Choose and configure ML learners
+3. Fit both PLR and IRM models
+4. Compare learners and conduct sensitivity analysis
+5. Interpret results in policy context
+
+The key difference: PS-2 uses a more realistic dataset where you'll need to think carefully about which covariates to include and which estimand (ATE vs ATTE) is policy-relevant.
+
+### Looking Ahead
+
+**Session 2.5 (Wed Mar 11):** Doubly-Robust Estimation — AIPW & TMLE
+
+- How DML relates to the broader doubly-robust estimation literature
+- When you want AIPW vs. DML
+- The `tmle` and `drtmle` packages
+
+------------------------------------------------------------------------
+
+## Additional Resources
+
+- [DoubleML R Documentation](https://docs.doubleml.org/r/stable/)
+- [DoubleML 401(k) Vignette](https://docs.doubleml.org/stable/examples/R_double_ml_bonus.html)
+- Bach et al. (2021) — "DoubleML: An Object-Oriented Implementation of Double Machine Learning in R"
+- [mlr3 Learner Reference](https://mlr3learners.mlr-org.com/)

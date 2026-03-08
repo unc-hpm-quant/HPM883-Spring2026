@@ -155,6 +155,10 @@ website:
             text: "Sessions 2.2-2.3: IF & DML Theory"
           - href: unit-2/session-2-2-slides.qmd
             text: "↳ Slides: From IFs to DML"
+          - href: unit-2/session-2-4-overview.qmd
+            text: "Session 2.4: DML Implementation"
+          - href: unit-2/session-2-4-workbook.qmd
+            text: "↳ Workbook: DoubleML in R"
       - section: "Labs"
         contents:
           - href: labs/index.qmd
