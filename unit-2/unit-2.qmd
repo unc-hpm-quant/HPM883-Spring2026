@@ -27,7 +27,7 @@ By the end of this unit, students will be able to:
 | 2.0 | Feb 4 | Guest Lecture — Yunwei Chen (Stanford) | [overview](session-2-0-overview.qmd) |
 | 2.1 | Feb 16 | ML Foundations for Causal Inference | [overview](session-2-1-overview.qmd), [slides](session-2-1-slides.qmd) |
 | 2.2-2.3 | Feb 18 | From Influence Functions to DML: Orthogonality & Cross-Fitting | [overview](session-2-2-overview.qmd), [slides](session-2-2-slides.qmd) |
-| 2.4 | Feb 23 | DML Implementation with DoubleML | [overview](session-2-4-overview.qmd), [workbook](session-2-4-workbook.qmd) |
+| 2.4 | Feb 23 | DML Implementation with DoubleML | [overview](session-2-4-overview.qmd), [lab](../labs/lab-3-dml.qmd) |
 | 2.5 | Feb 25 | Doubly-Robust Estimation: AIPW & TMLE | [overview](session-2-5-overview.qmd), [slides](session-2-5-slides.qmd) |
 | 2.6 | Mar 2 | DR Estimation Lab | [overview](session-2-6-overview.qmd), [workbook](session-2-6-workbook.qmd) |
 

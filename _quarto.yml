@@ -157,8 +157,8 @@ website:
             text: "↳ Slides: From IFs to DML"
           - href: unit-2/session-2-4-overview.qmd
             text: "Session 2.4: DML Implementation"
-          - href: unit-2/session-2-4-workbook.qmd
-            text: "↳ Workbook: DoubleML in R"
+          - href: labs/lab-3-dml.qmd
+            text: "↳ Lab 3: DoubleML in R"
       - section: "Labs"
         contents:
           - href: labs/index.qmd
@@ -169,6 +169,8 @@ website:
             text: "Lab 1: Experimental Design & Power"
           - href: labs/lab-2-ml-regularization.qmd
             text: "Lab 2: ML Regularization"
+          - href: labs/lab-3-dml.qmd
+            text: "Lab 3: DML Implementation"
       - section: "Problem Sets"
         contents:
           - href: problem-sets/st-nulls-hospital.qmd

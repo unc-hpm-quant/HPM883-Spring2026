@@ -1,10 +1,10 @@
 ---
-title: "DML Implementation with DoubleML"
-subtitle: "Session 2.4 Code-Along Workbook"
+title: "Lab 3: DML Implementation with DoubleML"
+subtitle: "Code-Along Lab"
 author: "Sean Sylvia"
 date: "March 9, 2026"
-slug: "session-2-4-workbook"
-categories: [Code-Along, DML, DoubleML, Remote]
+slug: "lab-3-dml"
+categories: [Lab, Code-Along, DML, DoubleML]
 description: "Hands-on implementation of Double Machine Learning using the DoubleML R package. Fit PLR and IRM models, compare learners, and apply DML to real data."
 format:
   html:
@@ -16,12 +16,24 @@ execute:
   eval: false
 ---
 
+## Accept the Assignment
+
+[**Click here to accept Lab 3 on GitHub Classroom**](https://classroom.github.com/a/cTEpnvFg)
+
+This will create your personal repository for this lab.
+
+**To get started:**
+
+1. Accept the assignment using the link above
+2. Clone your repository locally: `git clone <your-repo-url>`
+3. Open `hpm883-lab.Rproj` in RStudio or Positron
+4. Run `renv::restore()` to install packages
+5. Open `lab-3-dml.qmd` and follow along
+
 ::: callout-important
 ## Code-Along Session (Remote, Zoom)
 
 All code chunks have `eval: false` — run them yourself in RStudio or Positron. This is a **75-minute guided session**, not a rendering exercise.
-
-**Before you start:** Make sure you've installed the required packages (see Session 2.4 Overview).
 :::
 
 ## Overview

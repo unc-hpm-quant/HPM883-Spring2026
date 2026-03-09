@@ -58,7 +58,7 @@ install.packages("data.table")
 
 ## In Class
 
--   [Code-Along Workbook](session-2-4-workbook.qmd)
+-   [Lab 3: DML Implementation](../labs/lab-3-dml.qmd)
 
 **Topics Covered:**
 
