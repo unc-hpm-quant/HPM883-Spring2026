@@ -560,7 +560,7 @@ $$\hat{\theta}_{\text{DML}} = \frac{\sum_i \tilde{D}_i \, \tilde{Y}_i}{\sum_i \t
 
 ## Partialling Out: Animated
 
-![](media/dml_partialling_out_v2.gif){fig-align="center" width="85%"}
+<img src="media/dml_partialling_out_v2.gif" style="width:100%; max-height:70vh; display:block; margin:auto;">
 
 Six stages: raw confounded data → partial out $X$ from $D$ (horizontal slide) → intermediate → partial out $X$ from $Y$ (vertical slide) → DML estimate recovers the true effect. Color = confounder value.
 
