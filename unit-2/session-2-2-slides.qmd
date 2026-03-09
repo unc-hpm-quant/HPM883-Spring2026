@@ -307,6 +307,17 @@ $$\text{IF}(z; \mu) = z - \mu$$
 
 ------------------------------------------------------------------------
 
+## Influence Functions: Animated
+
+<video src="media/dml_influence_functions.mp4" controls style="width:100%; max-height:70vh;"></video>
+
+::: {.callout-tip appearance="simple"}
+## Try It Yourself
+Open the [interactive explainer](media/influence_function_explainer.html) to click and add/remove points and see how each one shifts the regression line.
+:::
+
+------------------------------------------------------------------------
+
 ## Why Influence Functions Matter for Us
 
 The influence function (IF) does three things:
@@ -480,6 +491,12 @@ Recall the three failure modes:
 
 ------------------------------------------------------------------------
 
+## Orthogonality: Animated
+
+<video src="media/dml_neyman_orthogonality.mp4" controls style="width:100%; max-height:70vh;"></video>
+
+------------------------------------------------------------------------
+
 ## Reading the Surfaces
 
 -   **Left (red):** Moving in the $\eta$ direction (nuisance errors) changes your altitude — errors contaminate $\hat{\theta}$
@@ -538,6 +555,14 @@ $$\hat{\theta}_{\text{DML}} = \frac{\sum_i \tilde{D}_i \, \tilde{Y}_i}{\sum_i \t
 . . .
 
 > This is Frisch-Waugh-Lovell generalized to high dimensions with ML.
+
+------------------------------------------------------------------------
+
+## Partialling Out: Animated
+
+![](media/dml_partialling_out_v2.gif){fig-align="center" width="85%"}
+
+Six stages: raw confounded data → partial out $X$ from $D$ (horizontal slide) → intermediate → partial out $X$ from $Y$ (vertical slide) → DML estimate recovers the true effect. Color = confounder value.
 
 ------------------------------------------------------------------------
 
@@ -653,6 +678,12 @@ Combine all folds:
 Standard errors via influence function:
   SE = √[ n⁻¹ Σ (ψ̂ᵢ²) / (n⁻¹ Σ D̃ᵢ²)² ]
 ```
+
+------------------------------------------------------------------------
+
+## Cross-Fitting: Animated
+
+<video src="media/dml_cross_fitting.mp4" controls style="width:100%; max-height:70vh;"></video>
 
 ------------------------------------------------------------------------
 
