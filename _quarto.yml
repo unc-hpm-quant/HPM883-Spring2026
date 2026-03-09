@@ -3,6 +3,8 @@ project:
   output-dir: _site
   resources:
     - "quiz-generator/questions.js"
+    - "unit-2/media/*.mp4"
+    - "unit-2/media/*.gif"
   render:
     - "*"
     - "!unit-1/shiny-oed-app.qmd"
