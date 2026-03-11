@@ -161,6 +161,10 @@ website:
             text: "Session 2.4: DML Implementation"
           - href: labs/lab-3-dml.qmd
             text: "↳ Lab 3: DoubleML in R"
+          - href: unit-2/session-2-5-overview.qmd
+            text: "Sessions 2.5-2.6: DR Estimation"
+          - href: unit-2/session-2-5-slides.qmd
+            text: "↳ Slides: AIPW & TMLE"
       - section: "Labs"
         contents:
           - href: labs/index.qmd

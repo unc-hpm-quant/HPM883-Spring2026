@@ -1,0 +1,674 @@
+---
+title: "Sessions 2.5–2.6: Doubly-Robust Estimation"
+subtitle: "HPM 883: Advanced Quantitative Methods"
+author: "Sean Sylvia"
+date: "March 11, 2026"
+date-format: long
+format:
+  revealjs:
+    theme: [default, ../style/gillings.scss]
+    slide-number: true
+    transition: fade
+    progress: true
+    chalkboard: true
+    smaller: true
+    scrollable: true
+    logo: ../images/logo.png
+    footer: "HPM 883 | Sessions 2.5–2.6: Doubly-Robust Estimation"
+    toc: true
+    toc-depth: 1
+    preview-links: auto
+    incremental: true
+    html-math-method: mathjax
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+# Introduction
+
+## Where We Are
+
+::: {.callout-note appearance="simple"}
+## The Arc of Unit 2
+
+**Session 2.1 (Feb 18):** ML Basics — Bias-variance, regularization, cross-validation
+
+**Session 2.1b (Feb 25):** Trees & Ensembles — Random forests, gradient boosting
+
+**Session 2.2 (Mar 4):** Why ML alone fails — Influence functions, Neyman orthogonality
+
+**Session 2.4 (Mar 9):** DML Implementation — DoubleML package, Lab 3
+
+**→ Today (Mar 11):** Doubly-robust estimation — AIPW, TMLE, and overlap
+
+**Spring Break (Mar 13–22):** Rest. PS-2 due March 13.
+:::
+
+## Recap: What DML Gave Us
+
+On Monday, you implemented DML with the `DoubleML` package:
+
+. . .
+
+1. **Orthogonal scores** — insensitive to nuisance estimation errors
+2. **Cross-fitting** — eliminates overfitting bias
+3. **Valid inference** — $\sqrt{n}$-consistent with valid SEs
+
+. . .
+
+You also saw three model types: **PLM**, **IRM**, **IIVM**
+
+. . .
+
+And I mentioned something called **double robustness** — that the IRM uses an "AIPW score."
+
+. . .
+
+*Today we unpack what that actually means.*
+
+## Today's Big Question
+
+We have two modeling choices when estimating a treatment effect:
+
+. . .
+
+1. **Model the outcome:** $\hat\mu_d(X) = E[Y | D=d, X]$ (outcome regression)
+2. **Model the treatment:** $\hat\pi(X) = P(D=1 | X)$ (propensity score)
+
+. . .
+
+*What if we get one of them wrong?*
+
+. . .
+
+::: {.callout-tip appearance="simple"}
+## The Promise of Double Robustness
+An estimator that gives us a valid answer if **either** model is correct — we just need to get one right.
+:::
+
+## Session Roadmap
+
+::::: columns
+::: {.column width="50%"}
+### Part 1: Two Imperfect Estimators
+
+-   Outcome regression (OR)
+-   Inverse propensity weighting (IPW)
+-   Why each can fail
+
+### Part 2: AIPW
+
+-   The augmentation idea
+-   Derivation and intuition
+-   Double robustness property
+:::
+
+::: {.column width="50%"}
+### Part 3: TMLE
+
+-   The targeting step
+-   TMLE vs. AIPW comparison
+-   When to use which
+
+### Part 4: Practical Issues
+
+-   Overlap and positivity
+-   Diagnostics and trimming
+-   Connecting to DML
+:::
+:::::
+
+------------------------------------------------------------------------
+
+# Part 1: Two Imperfect Estimators {.center}
+
+::: {.callout-note appearance="minimal"}
+**Textbook:** Chernozhukov et al. (2025), [Ch. 5](https://causalml-book.org/chapters/CausalML_chap_5.pdf) — Conditional Ignorability
+:::
+
+## Setup: The ATE Under Unconfoundedness
+
+We want to estimate the **Average Treatment Effect (ATE)**:
+
+$$\tau = E[Y(1) - Y(0)]$$
+
+. . .
+
+Under **conditional unconfoundedness** ($Y(d) \perp D \mid X$), we can identify this:
+
+$$\tau = E\big[\underbrace{E[Y | D=1, X]}_{\mu_1(X)} - \underbrace{E[Y | D=0, X]}_{\mu_0(X)}\big]$$
+
+. . .
+
+Two natural estimation strategies emerge from this identification formula...
+
+------------------------------------------------------------------------
+
+## Strategy 1: Outcome Regression (OR)
+
+Model the **outcome** as a function of treatment and covariates:
+
+$$\hat\tau_{OR} = \frac{1}{n}\sum_{i=1}^n \big[\hat\mu_1(X_i) - \hat\mu_0(X_i)\big]$$
+
+. . .
+
+**How it works:**
+
+1. Fit $\hat\mu_1(X) = \hat{E}[Y | D=1, X]$ using treated observations
+2. Fit $\hat\mu_0(X) = \hat{E}[Y | D=0, X]$ using control observations
+3. Predict both for **everyone**, take the average difference
+
+. . .
+
+::: {.callout-warning appearance="simple"}
+## The Problem
+If $\hat\mu$ is misspecified (wrong functional form), the estimate is **biased**. With high-dimensional $X$, getting the functional form right is hard.
+:::
+
+------------------------------------------------------------------------
+
+## Strategy 2: Inverse Propensity Weighting (IPW)
+
+Model the **treatment assignment** mechanism:
+
+$$\hat\tau_{IPW} = \frac{1}{n}\sum_{i=1}^n \left[\frac{D_i Y_i}{\hat\pi(X_i)} - \frac{(1-D_i) Y_i}{1-\hat\pi(X_i)}\right]$$
+
+. . .
+
+**How it works:**
+
+1. Estimate $\hat\pi(X) = \hat{P}(D=1 | X)$ — the propensity score
+2. Upweight observations that are "surprising" given their covariates
+3. Creates a pseudo-population where $D \perp X$
+
+. . .
+
+**Intuition:** A treated unit with $\hat\pi(X) = 0.1$ represents 10 similar people who *could have been* treated — so it gets weight $1/0.1 = 10$.
+
+------------------------------------------------------------------------
+
+## Why IPW Can Fail
+
+**Problem 1: High variance**
+
+When $\hat\pi(X)$ is near 0 or 1, weights explode:
+
+| $\hat\pi(X)$ | Weight $1/\hat\pi$ | Interpretation |
+|:---:|:---:|:---|
+| 0.50 | 2 | Reasonable |
+| 0.10 | 10 | Large |
+| 0.01 | 100 | Extreme — one obs dominates |
+
+. . .
+
+**Problem 2: Propensity model misspecification**
+
+If $\hat\pi(X)$ is wrong, the reweighting creates the wrong pseudo-population.
+
+. . .
+
+::: {.callout-important appearance="simple"}
+## The Dilemma
+- OR is **biased** if the outcome model is wrong
+- IPW is **high-variance** and biased if the PS model is wrong
+- With high-dimensional $X$, correctly specifying either model is challenging
+
+*Can we do better?*
+:::
+
+------------------------------------------------------------------------
+
+# Part 2: AIPW — The Best of Both Worlds {.center}
+
+::: {.callout-note appearance="minimal"}
+**Key Paper:** Robins, Rotnitzky & Zhao (1994); Bang & Robins (2005)
+:::
+
+## The Augmentation Idea
+
+Start with outcome regression, then **augment** it with an IPW correction term:
+
+. . .
+
+$$\hat\tau_{AIPW} = \frac{1}{n}\sum_{i=1}^n \bigg[\underbrace{\hat\mu_1(X_i) - \hat\mu_0(X_i)}_{\text{outcome regression}} + \underbrace{\frac{D_i(Y_i - \hat\mu_1(X_i))}{\hat\pi(X_i)} - \frac{(1-D_i)(Y_i - \hat\mu_0(X_i))}{1-\hat\pi(X_i)}}_{\text{bias correction via IPW}}\bigg]$$
+
+. . .
+
+**Read this as:** "Start with OR. If the outcome model is perfect ($Y_i = \hat\mu_d(X_i)$), the correction terms are zero. If the outcome model has errors, use IPW to correct."
+
+------------------------------------------------------------------------
+
+## Dissecting the AIPW Estimator
+
+Let's break this into its components for **one observation** with $D_i = 1$ (treated):
+
+. . .
+
+$$\hat\phi_i = \hat\mu_1(X_i) - \hat\mu_0(X_i) + \frac{Y_i - \hat\mu_1(X_i)}{\hat\pi(X_i)}$$
+
+. . .
+
+| Component | What it does |
+|-----------|-------------|
+| $\hat\mu_1(X_i) - \hat\mu_0(X_i)$ | Predicted treatment effect for unit $i$ |
+| $Y_i - \hat\mu_1(X_i)$ | Residual — how wrong is the outcome model? |
+| $1/\hat\pi(X_i)$ | Upweight residuals from unlikely-to-be-treated units |
+
+. . .
+
+**If $\hat\mu_1$ is perfect:** residual is 0, correction term vanishes → just OR
+
+**If $\hat\mu_1$ is wrong:** residual captures the error, IPW redistributes it correctly
+
+------------------------------------------------------------------------
+
+## Why Is This Doubly Robust?
+
+::: {.callout-tip appearance="simple"}
+## The Key Property
+$\hat\tau_{AIPW}$ is consistent if **either** $\hat\mu$ or $\hat\pi$ is correctly specified. You only need to get **one** right.
+:::
+
+. . .
+
+**Scenario 1: Outcome model is correct** ($\hat\mu = \mu_0$)
+
+- Residuals $Y_i - \hat\mu_d(X_i)$ have mean zero
+- IPW correction terms vanish in expectation
+- AIPW reduces to outcome regression → **consistent** ✓
+
+. . .
+
+**Scenario 2: Propensity model is correct** ($\hat\pi = \pi_0$)
+
+- IPW reweighting creates correct pseudo-population
+- Even with wrong $\hat\mu$, the correction term properly adjusts
+- AIPW reduces to IPW-adjusted estimator → **consistent** ✓
+
+. . .
+
+**Scenario 3: Both are wrong** → No guarantees. But in practice, having two chances is much better than one.
+
+------------------------------------------------------------------------
+
+## Double Robustness: The Safety Net
+
+Think of it as **two lines of defense**:
+
+. . .
+
+```
+                    ┌──────────────┐
+                    │ AIPW = OR +  │
+                    │ IPW correction│
+                    └──────┬───────┘
+                           │
+              ┌────────────┴────────────┐
+              │                         │
+        ┌─────┴─────┐           ┌──────┴──────┐
+        │ Outcome   │           │ Propensity  │
+        │ model OK? │           │ model OK?   │
+        └─────┬─────┘           └──────┬──────┘
+          YES │ NO                 YES │ NO
+              │                       │
+         Consistent              Consistent
+```
+
+. . .
+
+If **both** models are correctly specified, AIPW achieves the **semiparametric efficiency bound** — it's the best you can do without parametric assumptions.
+
+------------------------------------------------------------------------
+
+## AIPW and the Efficient Influence Function
+
+Remember the EIF from Session 2.2?
+
+. . .
+
+$$\phi(D, X, Y; \tau) = \underbrace{\mu_1(X) - \mu_0(X) - \tau}_{\text{outcome adjustment}} + \underbrace{\frac{D(Y - \mu_1(X))}{\pi(X)}}_{\text{treated correction}} - \underbrace{\frac{(1-D)(Y - \mu_0(X))}{1-\pi(X)}}_{\text{control correction}}$$
+
+. . .
+
+The AIPW estimator is simply: **solve** $\frac{1}{n}\sum_i \hat\phi_i = 0$ for $\hat\tau$.
+
+. . .
+
+::: {.callout-tip appearance="simple"}
+## Connection to DML
+This is the **same orthogonal score** that the IRM model in DoubleML uses! AIPW is the score function; DML adds cross-fitting to handle ML nuisance estimation.
+:::
+
+------------------------------------------------------------------------
+
+## AIPW + Cross-Fitting = DML (IRM)
+
+What you ran on Monday with `DoubleMLIRM`:
+
+. . .
+
+1. **Split** data into $K$ folds
+2. **Train** $\hat\mu$ and $\hat\pi$ on $K-1$ folds (the ML step)
+3. **Evaluate** AIPW score on held-out fold (the causal step)
+4. **Average** across folds
+
+. . .
+
+$$\hat\tau_{DML-IRM} = \frac{1}{n}\sum_{i=1}^n \hat\phi_{cf}(D_i, X_i, Y_i)$$
+
+where $\hat\phi_{cf}$ uses cross-fitted nuisance estimates.
+
+. . .
+
+**So DML-IRM is AIPW with cross-fitting.** The `DoubleMLPLR` (partialling-out) and `DoubleMLIRM` (AIPW score) are different score functions within the same DML framework.
+
+------------------------------------------------------------------------
+
+# Part 3: TMLE — A Different Path to Double Robustness {.center}
+
+::: {.callout-note appearance="minimal"}
+**Key Paper:** van der Laan & Rubin (2006); van der Laan & Rose (2011)
+:::
+
+## What Is TMLE?
+
+**Targeted Maximum Likelihood Estimation** achieves the same goal as AIPW — doubly-robust, efficient estimation — but through a different mechanism.
+
+. . .
+
+| | AIPW | TMLE |
+|---|---|---|
+| **Type** | One-step estimator | Substitution (plug-in) estimator |
+| **How** | Add a correction term to OR | Modify the OR model to "target" the estimand |
+| **Property** | Always in $(-\infty, \infty)$ | Respects outcome bounds |
+| **Key idea** | Augmentation | Fluctuation/targeting |
+
+------------------------------------------------------------------------
+
+## The TMLE Algorithm
+
+**Step 1: Initial estimate** — Fit outcome model $\hat\mu_0(D, X)$ using any ML method
+
+. . .
+
+**Step 2: Estimate propensity score** — Fit $\hat\pi(X) = P(D=1|X)$
+
+. . .
+
+**Step 3: The targeting step** — Update $\hat\mu$ by fitting a "clever covariate" regression:
+
+$$\text{logit}(\hat\mu^*) = \text{logit}(\hat\mu_0) + \epsilon \cdot H(D, X)$$
+
+where the **clever covariate** is:
+
+$$H(D_i, X_i) = \frac{D_i}{\hat\pi(X_i)} - \frac{1-D_i}{1-\hat\pi(X_i)}$$
+
+. . .
+
+**Step 4: Plug in** — $\hat\tau_{TMLE} = \frac{1}{n}\sum_i [\hat\mu^*_1(X_i) - \hat\mu^*_0(X_i)]$
+
+------------------------------------------------------------------------
+
+## Why "Targeted"?
+
+The initial ML model $\hat\mu_0$ is good for **prediction** but not optimized for estimating $\tau$.
+
+. . .
+
+The targeting step **nudges** $\hat\mu_0$ in the direction that minimizes bias for our specific estimand (ATE).
+
+. . .
+
+**Analogy:** Think of it like calibrating a scale.
+
+- The initial model gives you a reading (might be systematically off)
+- The clever covariate tells you *which direction* the bias goes
+- The fluctuation parameter $\epsilon$ tells you *how much* to correct
+
+. . .
+
+After targeting, the updated model $\hat\mu^*$ solves the **efficient influence function equation** — guaranteeing double robustness and efficiency.
+
+------------------------------------------------------------------------
+
+## TMLE vs. AIPW: When Does It Matter?
+
+In large samples with good overlap, AIPW and TMLE give nearly identical results.
+
+. . .
+
+**TMLE advantages:**
+
+- Estimates always respect **natural bounds** (e.g., probabilities stay in [0,1])
+- More stable with **near-positivity violations**
+- Natural framework for complex estimands (mediation, longitudinal)
+
+. . .
+
+**AIPW advantages:**
+
+- Simpler to implement and explain
+- Directly connected to DML/DoubleML software
+- Easier to extend to new settings
+
+. . .
+
+::: {.callout-tip appearance="simple"}
+## Practical Recommendation
+For ATE estimation in health services research: start with AIPW via DoubleML (you already know how!). Use TMLE when you need bounded estimates or complex longitudinal analyses.
+:::
+
+------------------------------------------------------------------------
+
+# Part 4: Practical Issues {.center}
+
+## The Overlap (Positivity) Assumption
+
+All DR estimators require **positivity**:
+
+$$0 < \pi(X) = P(D=1 | X) < 1 \quad \text{for all } X$$
+
+. . .
+
+**In words:** Every type of person (defined by $X$) must have a non-zero chance of being in both treatment and control.
+
+. . .
+
+**Why?** If $\pi(X) \approx 0$, the IPW weight $1/\pi(X)$ explodes. If $\pi(X) \approx 1$, the control weight $1/(1-\pi(X))$ explodes.
+
+. . .
+
+**No estimation method can fix a fundamental lack of comparable units.** This is a *data problem*, not a *method problem*.
+
+------------------------------------------------------------------------
+
+## Diagnosing Overlap
+
+**Visual diagnostic:** Plot propensity score distributions by treatment group.
+
+. . .
+
+```
+Good Overlap              Poor Overlap              No Overlap
+
+ Control  Treated          Control  Treated          Control  Treated
+  ┌──┐   ┌──┐              ┌──┐                                ┌──┐
+  │  │   │  │              │  │  ┌──┐                           │  │
+ ┌┤  ├┐ ┌┤  ├┐            ┌┤  ├┐ │  │              ┌──┐        │  │
+ ││  ││ ││  ││            ││  ││ │  │┐             ┌┤  ├┐      │  │
+ └┴──┴┘ └┴──┴┘            └┴──┴┘ └──┴┘             └┴──┴┘      └──┘
+  0    0.5    1             0    0.5    1             0    0.5    1
+```
+
+. . .
+
+**Quantitative checks:**
+
+- Proportion of units with $\hat\pi(X) < 0.05$ or $\hat\pi(X) > 0.95$
+- Maximum weight in the IPW estimator
+- Effective sample size: $n_{eff} = \frac{(\sum w_i)^2}{\sum w_i^2}$
+
+------------------------------------------------------------------------
+
+## Dealing with Overlap Violations
+
+### Trimming
+
+Remove units with extreme propensity scores:
+
+. . .
+
+| Rule | Approach | Tradeoff |
+|------|----------|----------|
+| **Fixed threshold** | Drop if $\hat\pi < 0.05$ or $\hat\pi > 0.95$ | Simple, but arbitrary |
+| **Crump et al. (2009)** | Drop if $\hat\pi < 0.1$ or $\hat\pi > 0.9$ | Optimal for variance |
+| **Data-driven** | Minimize MSE of treatment effect | Complex |
+
+. . .
+
+::: {.callout-warning appearance="simple"}
+## Trimming Changes Your Estimand
+When you trim, you're no longer estimating the ATE for the **full population**. You're estimating the ATE for the **overlap population** — people who could plausibly be in either group. This should be clearly reported.
+:::
+
+------------------------------------------------------------------------
+
+## Overlap in Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+# After fitting propensity model
+ps <- predict(ps_model, type = "response")
+
+# Check overlap
+summary(ps)
+hist(ps[D==1], col=rgb(1,0,0,0.5), main="Propensity Score Overlap")
+hist(ps[D==0], col=rgb(0,0,1,0.5), add=TRUE)
+
+# Crump trimming
+trimmed <- ps > 0.1 & ps < 0.9
+cat("Dropped:", sum(!trimmed), "of", length(ps), "observations\n")
+
+# Re-estimate on trimmed sample
+aipw_trimmed <- DoubleMLIRM$new(
+  data_trimmed,  # filtered data
+  ml_g = lrn("regr.ranger"),
+  ml_m = lrn("classif.ranger")
+)
+```
+
+------------------------------------------------------------------------
+
+## Connecting the Dots: The DR Estimation Toolkit
+
+| Method | Score | DR? | Software | When to Use |
+|--------|-------|-----|----------|-------------|
+| **DML-PLR** | Partialling-out | ✓ | `DoubleML` | Continuous $D$, constant effects |
+| **DML-IRM** | AIPW | ✓ | `DoubleML` | Binary $D$, ATE/ATT |
+| **TMLE** | Targeting | ✓ | `tmle`, `tlverse` | Bounded outcomes, complex estimands |
+| **Plain AIPW** | AIPW | ✓ | Manual or `AIPW` pkg | Teaching, transparency |
+| **IPW** | Horvitz-Thompson | ✗ | `WeightIt` | Simple settings, PS diagnostics |
+| **OR** | Outcome model | ✗ | `lm`/`glm` | Low-dimensional, linear |
+
+. . .
+
+::: {.callout-tip appearance="simple"}
+## The Hierarchy
+OR and IPW are building blocks. AIPW combines them for robustness. DML adds cross-fitting for ML compatibility. TMLE provides an alternative plug-in approach.
+
+**You already know how to use the best version** — `DoubleMLIRM` from Monday's lab.
+:::
+
+------------------------------------------------------------------------
+
+# Key Takeaways {.center}
+
+## Summary
+
+1. **Outcome regression** and **IPW** each rely on correctly specifying one model — a fragile bet with high-dimensional data
+
+2. **AIPW** combines both: consistent if **either** model is correct, efficient if **both** are
+
+3. **AIPW = the EIF-based score** you already saw in DML — `DoubleMLIRM` implements AIPW with cross-fitting
+
+4. **TMLE** achieves the same double robustness through a "targeting" step — better for bounded outcomes
+
+5. **Overlap is critical** — no method can save you if treated and control groups are fundamentally incomparable
+
+6. **Always check and report:** propensity score distributions, trimming decisions, and effective sample sizes
+
+------------------------------------------------------------------------
+
+## The Unit 2 Story (Complete)
+
+. . .
+
+$$\underset{\text{Session 2.1}}{\text{ML Tools}} \rightarrow \underset{\text{Session 2.2}}{\text{Why ML Fails}} \rightarrow \underset{\text{Session 2.2}}{\text{DML Fix}} \rightarrow \underset{\text{Session 2.4}}{\text{Implementation}} \rightarrow \underset{\text{Today}}{\text{DR Estimation}}$$
+
+. . .
+
+**The core insight of Unit 2:**
+
+ML alone can't do causal inference. But combined with the right statistical framework (orthogonal scores, cross-fitting, double robustness), ML becomes a powerful tool for flexible, valid causal estimation.
+
+. . .
+
+**Coming after break:** Unit 3 asks a different question. Instead of "does it work?" we ask **"for whom?"** — heterogeneous treatment effects and causal forests.
+
+------------------------------------------------------------------------
+
+## What's Next
+
+::: {.callout-note appearance="simple"}
+## Before Spring Break
+
+**PS-2 due March 13** — DML implementation. You've done the hard part in Lab 3. Apply it to the PS-2 dataset.
+
+**Spring Break (Mar 13–22):** Rest. Recharge.
+
+**After Break (Mar 23):** Unit 3 begins — Causal Random Forests and Heterogeneous Treatment Effects. We shift from "does it work on average?" to "for whom does it work?"
+:::
+
+. . .
+
+**Prep for Unit 3:**
+
+- Wager (2024) — Ch. 6: Causal Forests
+- Review: What is a random forest? (Session 2.1b)
+- Install: `install.packages("grf")`
+
+------------------------------------------------------------------------
+
+## Readings for Today's Topics
+
+**Required:**
+
+-   Chernozhukov et al. (2025) — [Ch. 5](https://causalml-book.org/chapters/CausalML_chap_5.pdf): Conditional Ignorability — DR estimation sections
+-   Bang & Robins (2005) — "Doubly Robust Estimation in Missing Data and Causal Inference" — *Biometrics*
+
+**Recommended:**
+
+-   Schuler & Rose (2017) — "Targeted Maximum Likelihood Estimation for Causal Inference in Observational Studies"
+-   Kennedy (2016) — Semiparametric Theory — Sections on DR estimation
+-   Glynn & Quinn (2010) — "An Introduction to the AIPW Estimator"
+-   Lunceford & Davidian (2004) — Tutorial on AIPW
+
+------------------------------------------------------------------------
+
+## Questions?
+
+**Office hours:** By appointment — email or Canvas message
+
+. . .
+
+**Key references for today:**
+
+-   Robins, Rotnitzky & Zhao (1994) — The foundational AIPW paper
+-   Bang & Robins (2005) — Doubly-robust estimation tutorial
+-   van der Laan & Rose (2011) — *Targeted Learning* (TMLE)
+-   Crump et al. (2009) — "Dealing with Limited Overlap"
+-   Chernozhukov et al. (2018) — DML paper (connects AIPW to cross-fitting)
