@@ -226,11 +226,97 @@ If $\hat\pi(X)$ is wrong, the reweighting creates the wrong pseudo-population.
 **Key Paper:** Robins, Rotnitzky & Zhao (1994); Bang & Robins (2005)
 :::
 
-## The Augmentation Idea
+## Building AIPW: Step 1 — Start with OR
 
-Start with outcome regression, then **augment** it with an IPW correction term:
+We know outcome regression:
+
+$$\hat\tau_{OR} = \frac{1}{n}\sum_{i=1}^n \big[\hat\mu_1(X_i) - \hat\mu_0(X_i)\big]$$
 
 . . .
+
+This works **if** $\hat\mu$ is correct. But what if it's not?
+
+. . .
+
+The outcome model makes errors. For a treated unit:
+
+$$\underbrace{Y_i - \hat\mu_1(X_i)}_{\text{prediction error}} \neq 0$$
+
+. . .
+
+**Key idea:** Can we use these errors to *diagnose and correct* the bias in OR?
+
+------------------------------------------------------------------------
+
+## Building AIPW: Step 2 — The Correction Term (Treated)
+
+Focus on **one treated observation** ($D_i = 1$):
+
+. . .
+
+The OR contribution is: $\hat\mu_1(X_i) - \hat\mu_0(X_i)$
+
+. . .
+
+The prediction error is: $Y_i - \hat\mu_1(X_i)$
+
+. . .
+
+But we can't just add the raw error — units with different $X$ values appear in treatment with different probabilities. We need to **reweight**:
+
+. . .
+
+$$\text{Correction}_i = \frac{Y_i - \hat\mu_1(X_i)}{\hat\pi(X_i)}$$
+
+. . .
+
+**Why divide by $\hat\pi$?** A treated unit with $\hat\pi = 0.2$ is unusual — it "represents" 5 similar people. Its error signal should count 5×.
+
+------------------------------------------------------------------------
+
+## Building AIPW: Step 3 — The Correction Term (Control)
+
+Same logic for a **control observation** ($D_i = 0$):
+
+. . .
+
+The prediction error is: $Y_i - \hat\mu_0(X_i)$
+
+. . .
+
+Reweight by the probability of being in control:
+
+$$\text{Correction}_i = -\frac{Y_i - \hat\mu_0(X_i)}{1 - \hat\pi(X_i)}$$
+
+. . .
+
+(Negative sign because control errors push the estimate in the opposite direction.)
+
+------------------------------------------------------------------------
+
+## Building AIPW: Step 4 — Putting It Together
+
+Combine all pieces using $D_i$ as an indicator to select treated vs. control terms:
+
+. . .
+
+$$\hat\phi_i = \underbrace{\hat\mu_1(X_i) - \hat\mu_0(X_i)}_{\text{OR estimate for unit } i}$$
+
+. . .
+
+$$+ \underbrace{\frac{D_i \cdot (Y_i - \hat\mu_1(X_i))}{\hat\pi(X_i)}}_{\text{treated correction (active when } D_i=1\text{)}}$$
+
+. . .
+
+$$- \underbrace{\frac{(1-D_i) \cdot (Y_i - \hat\mu_0(X_i))}{1-\hat\pi(X_i)}}_{\text{control correction (active when } D_i=0\text{)}}$$
+
+. . .
+
+The AIPW estimator: $\hat\tau_{AIPW} = \frac{1}{n}\sum_{i=1}^n \hat\phi_i$
+
+------------------------------------------------------------------------
+
+## The Full AIPW Formula
 
 $$\hat\tau_{AIPW} = \frac{1}{n}\sum_{i=1}^n \bigg[\underbrace{\hat\mu_1(X_i) - \hat\mu_0(X_i)}_{\text{outcome regression}} + \underbrace{\frac{D_i(Y_i - \hat\mu_1(X_i))}{\hat\pi(X_i)} - \frac{(1-D_i)(Y_i - \hat\mu_0(X_i))}{1-\hat\pi(X_i)}}_{\text{bias correction via IPW}}\bigg]$$
 
@@ -238,58 +324,153 @@ $$\hat\tau_{AIPW} = \frac{1}{n}\sum_{i=1}^n \bigg[\underbrace{\hat\mu_1(X_i) - \
 
 **Read this as:** "Start with OR. If the outcome model is perfect ($Y_i = \hat\mu_d(X_i)$), the correction terms are zero. If the outcome model has errors, use IPW to correct."
 
-------------------------------------------------------------------------
-
-## Dissecting the AIPW Estimator
-
-Let's break this into its components for **one observation** with $D_i = 1$ (treated):
-
-. . .
-
-$$\hat\phi_i = \hat\mu_1(X_i) - \hat\mu_0(X_i) + \frac{Y_i - \hat\mu_1(X_i)}{\hat\pi(X_i)}$$
-
 . . .
 
 | Component | What it does |
 |-----------|-------------|
 | $\hat\mu_1(X_i) - \hat\mu_0(X_i)$ | Predicted treatment effect for unit $i$ |
-| $Y_i - \hat\mu_1(X_i)$ | Residual — how wrong is the outcome model? |
-| $1/\hat\pi(X_i)$ | Upweight residuals from unlikely-to-be-treated units |
-
-. . .
-
-**If $\hat\mu_1$ is perfect:** residual is 0, correction term vanishes → just OR
-
-**If $\hat\mu_1$ is wrong:** residual captures the error, IPW redistributes it correctly
+| $Y_i - \hat\mu_d(X_i)$ | Residual — how wrong is the outcome model? |
+| $1/\hat\pi(X_i)$ or $1/(1-\hat\pi(X_i))$ | Upweight residuals from "surprising" units |
 
 ------------------------------------------------------------------------
 
-## Why Is This Doubly Robust?
+## Worked Example: One Observation {.smaller}
 
-::: {.callout-tip appearance="simple"}
-## The Key Property
-$\hat\tau_{AIPW}$ is consistent if **either** $\hat\mu$ or $\hat\pi$ is correctly specified. You only need to get **one** right.
+::: {.nonincremental}
+**Setup:** Unit $i$ is **treated** ($D_i = 1$), observed $Y_i = 8$
+
+Our models predict: $\hat\mu_1(X_i) = 6$, $\hat\mu_0(X_i) = 3$, $\hat\pi(X_i) = 0.25$
 :::
 
 . . .
 
-**Scenario 1: Outcome model is correct** ($\hat\mu = \mu_0$)
+**Step 1 — OR contribution:**
 
-- Residuals $Y_i - \hat\mu_d(X_i)$ have mean zero
-- IPW correction terms vanish in expectation
-- AIPW reduces to outcome regression → **consistent** ✓
+$$\hat\mu_1 - \hat\mu_0 = 6 - 3 = 3$$
 
 . . .
 
-**Scenario 2: Propensity model is correct** ($\hat\pi = \pi_0$)
+**Step 2 — How wrong is the outcome model?**
 
-- IPW reweighting creates correct pseudo-population
-- Even with wrong $\hat\mu$, the correction term properly adjusts
-- AIPW reduces to IPW-adjusted estimator → **consistent** ✓
+$$Y_i - \hat\mu_1(X_i) = 8 - 6 = 2 \quad \text{(underpredicted by 2)}$$
 
 . . .
 
-**Scenario 3: Both are wrong** → No guarantees. But in practice, having two chances is much better than one.
+**Step 3 — Reweight the error:**
+
+$$\frac{2}{0.25} = 8 \quad \text{(×4 because only 25% chance of treatment)}$$
+
+. . .
+
+**Step 4 — AIPW score for this unit:**
+
+$$\hat\phi_i = 3 + 8 = 11$$
+
+. . .
+
+Compare: OR alone said $\hat\tau_i = 3$. But the outcome model was wrong (underpredicted $Y$ by 2), and this was a rare-to-treat unit. AIPW corrects upward to 11.
+
+------------------------------------------------------------------------
+
+## Another Example: Perfect Outcome Model {.smaller}
+
+::: {.nonincremental}
+**Same setup, but now** $\hat\mu_1(X_i) = 8$ (outcome model is right!)
+
+$D_i = 1$, $Y_i = 8$, $\hat\mu_1(X_i) = 8$, $\hat\mu_0(X_i) = 3$, $\hat\pi(X_i) = 0.25$
+:::
+
+. . .
+
+**Step 1 — OR contribution:**
+
+$$\hat\mu_1 - \hat\mu_0 = 8 - 3 = 5$$
+
+. . .
+
+**Step 2 — Residual:**
+
+$$Y_i - \hat\mu_1(X_i) = 8 - 8 = 0 \quad \text{(perfect prediction!)}$$
+
+. . .
+
+**Step 3 — Correction term:**
+
+$$\frac{0}{0.25} = 0 \quad \text{(no correction needed)}$$
+
+. . .
+
+**AIPW score:** $\hat\phi_i = 5 + 0 = 5$ — identical to OR.
+
+. . .
+
+::: {.callout-tip appearance="simple"}
+**When the outcome model is correct, the correction terms vanish and AIPW = OR.** This is the first half of double robustness.
+:::
+
+------------------------------------------------------------------------
+
+## Proving Double Robustness: Scenario 1 {.smaller}
+
+**Claim:** If $\hat\mu = \mu$ (outcome model correct), AIPW is consistent regardless of $\hat\pi$.
+
+. . .
+
+**Proof sketch:** Write the AIPW score with true outcome functions:
+
+$$\hat\phi_i = \mu_1(X_i) - \mu_0(X_i) + \frac{D_i(Y_i - \mu_1(X_i))}{\hat\pi(X_i)} - \frac{(1-D_i)(Y_i - \mu_0(X_i))}{1-\hat\pi(X_i)}$$
+
+. . .
+
+Take expectations conditional on $X_i$. For treated units:
+
+$$E[Y_i - \mu_1(X_i) | D_i = 1, X_i] = E[Y_i | D_i=1, X_i] - \mu_1(X_i) = 0$$
+
+. . .
+
+So the correction terms have **conditional mean zero** — they vanish regardless of $\hat\pi$!
+
+. . .
+
+$$E[\hat\phi_i | X_i] = \mu_1(X_i) - \mu_0(X_i) + 0 - 0$$
+
+. . .
+
+$$\implies E[\hat\tau_{AIPW}] = E[\mu_1(X) - \mu_0(X)] = \tau \quad \checkmark$$
+
+------------------------------------------------------------------------
+
+## Proving Double Robustness: Scenario 2 {.smaller}
+
+**Claim:** If $\hat\pi = \pi$ (propensity model correct), AIPW is consistent regardless of $\hat\mu$.
+
+. . .
+
+**Proof sketch:** Rearrange the AIPW score:
+
+$$\hat\phi_i = \frac{D_i Y_i}{\pi(X_i)} - \frac{(1-D_i)Y_i}{1-\pi(X_i)} + \hat\mu_1(X_i)\left(1 - \frac{D_i}{\pi(X_i)}\right) - \hat\mu_0(X_i)\left(1 - \frac{1-D_i}{1-\pi(X_i)}\right)$$
+
+. . .
+
+The first two terms are just the **IPW estimator**.
+
+. . .
+
+For the $\hat\mu_1$ correction: take $E\left[1 - \frac{D_i}{\pi(X_i)} \;\Big|\; X_i\right]$
+
+. . .
+
+$$= 1 - \frac{E[D_i | X_i]}{\pi(X_i)} = 1 - \frac{\pi(X_i)}{\pi(X_i)} = 0$$
+
+. . .
+
+The $\hat\mu$ terms vanish! AIPW reduces to IPW, which is consistent when $\pi$ is correct. $\checkmark$
+
+. . .
+
+::: {.callout-tip appearance="simple"}
+**The $\hat\mu$ terms act as "control variates" — they reduce variance when correct but don't introduce bias when wrong** (as long as $\hat\pi$ is right).
+:::
 
 ------------------------------------------------------------------------
 
@@ -387,27 +568,80 @@ where $\hat\phi_{cf}$ uses cross-fitted nuisance estimates.
 
 ------------------------------------------------------------------------
 
-## The TMLE Algorithm
+## The TMLE Algorithm: Step by Step
 
-**Step 1: Initial estimate** — Fit outcome model $\hat\mu_0(D, X)$ using any ML method
+### Step 1: Initial Outcome Model
+
+Fit $\hat\mu(D, X)$ using any ML method (random forest, LASSO, etc.)
+
+$$\hat\mu_1(X_i) = \hat{E}[Y | D=1, X_i], \quad \hat\mu_0(X_i) = \hat{E}[Y | D=0, X_i]$$
 
 . . .
 
-**Step 2: Estimate propensity score** — Fit $\hat\pi(X) = P(D=1|X)$
+This is the same model you'd use for OR. But TMLE doesn't stop here.
+
+------------------------------------------------------------------------
+
+## The TMLE Algorithm: Step by Step
+
+### Step 2: Propensity Score
+
+Fit $\hat\pi(X) = \hat{P}(D=1 | X)$ — same as for IPW or AIPW.
 
 . . .
 
-**Step 3: The targeting step** — Update $\hat\mu$ by fitting a "clever covariate" regression:
-
-$$\text{logit}(\hat\mu^*) = \text{logit}(\hat\mu_0) + \epsilon \cdot H(D, X)$$
-
-where the **clever covariate** is:
+### Step 3: Compute the "Clever Covariate"
 
 $$H(D_i, X_i) = \frac{D_i}{\hat\pi(X_i)} - \frac{1-D_i}{1-\hat\pi(X_i)}$$
 
 . . .
 
-**Step 4: Plug in** — $\hat\tau_{TMLE} = \frac{1}{n}\sum_i [\hat\mu^*_1(X_i) - \hat\mu^*_0(X_i)]$
+**Why "clever"?** This covariate is designed so that adjusting the outcome model along $H$ reduces bias for the ATE specifically. It comes directly from the efficient influence function.
+
+------------------------------------------------------------------------
+
+## The TMLE Algorithm: Step by Step
+
+### Step 4: The Targeting (Fluctuation) Step
+
+Run a **simple logistic regression** with:
+
+- **Outcome:** $Y_i$
+- **Offset** (fixed): $\text{logit}(\hat\mu(D_i, X_i))$ — the initial prediction
+- **Covariate:** $H(D_i, X_i)$ — the clever covariate
+
+. . .
+
+$$\text{logit}(\hat\mu^*(D_i, X_i)) = \text{logit}(\hat\mu(D_i, X_i)) + \hat\epsilon \cdot H(D_i, X_i)$$
+
+. . .
+
+This estimates one parameter: $\hat\epsilon$ — *how much to nudge the outcome model*.
+
+- If $\hat\epsilon \approx 0$: initial model was already well-targeted
+- If $\hat\epsilon$ is large: initial model needed substantial correction
+
+------------------------------------------------------------------------
+
+## The TMLE Algorithm: Step by Step
+
+### Step 5: Plug In the Updated Model
+
+$$\hat\tau_{TMLE} = \frac{1}{n}\sum_{i=1}^n \big[\hat\mu^*_1(X_i) - \hat\mu^*_0(X_i)\big]$$
+
+. . .
+
+This looks just like OR — but using the **targeted** (updated) outcome model $\hat\mu^*$ instead of the original $\hat\mu$.
+
+. . .
+
+::: {.callout-tip appearance="simple"}
+## The Key Difference from AIPW
+- **AIPW:** adds a correction to the estimate (one-step)
+- **TMLE:** corrects the model itself, then plugs in (substitution)
+
+Both solve the same EIF equation. Both are doubly robust. But TMLE's plug-in nature guarantees estimates stay within natural bounds (e.g., probabilities in [0,1]).
+:::
 
 ------------------------------------------------------------------------
 
