@@ -57,11 +57,10 @@ HPM 883 is an advanced graduate-level course designed to equip PhD students in H
 |-----------------|-----------------|-----------------|----------------------|
 | **0** | Foundations: Potential Outcomes & DAGs | 1 | Setup |
 | **1** | Experimental Design | 2-3 | Does it work? |
-| **2** | Double/Debiased ML & Doubly-Robust Estimation | 4-6 | Does it work? |
-| **3** | Heterogeneous Treatment Effects & Causal Forests | 7-8 | For whom? |
-| **4** | Policy Learning | 9 | What should we do? (static) |
-| **5** | Adaptive Experiments | 10-11 | What should we do? (dynamic) |
-| — | Capstone & Presentations | 12-14 | Integration |
+| **2** | Double/Debiased ML & Doubly-Robust Estimation | 4-10 | Does it work? |
+| **3** | Heterogeneous Treatment Effects & Causal Forests | 10-11 | For whom? |
+| **4** | Policy Learning | 12 | What should we do? |
+| — | Capstone & Presentations | 13-14 | Integration |
 
 ------------------------------------------------------------------------
 

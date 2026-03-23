@@ -50,5 +50,6 @@ Everything we built in Unit 2 — doubly-robust scores, cross-fitting, nuisance 
 
 ## What's Next
 
-- **Session 3.1 (Mon Mar 30):** Meta-learners (T-, S-, X-, R-, DR-learner) + Jigsaw 3
-- **Problem Set 3:** HTE estimation and meta-learner comparison (assigned next week)
+- **Monday Mar 30:** Jigsaw 3 — Causal forest application papers
+- **Wednesday Apr 1:** Lab — Causal forests (`grf`), meta-learners (T/S/X/R/DR-learner), CATE estimation
+- **Problem Set 3:** HTE (assigned next week, due Apr 6)

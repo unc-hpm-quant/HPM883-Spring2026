@@ -591,17 +591,19 @@ This is a preview of **Unit 4 (Policy Learning)** — we'll formalize targeting 
 ::: {.callout-note appearance="simple"}
 ## Coming Up
 
-**Monday Mar 30:** Meta-Learners (T, S, X, R, DR) + **Jigsaw 3**
+**Monday Mar 30: Jigsaw 3** — Expert groups present on causal forest application papers
 
 - Read your assigned Jigsaw 3 paper (posted on Canvas)
 - Papers on causal forest applications in health economics
 
-**Problem Set 3** assigned next week — HTE estimation and meta-learner comparison (due Apr 8)
+**Wednesday Apr 1: Lab** — Hands-on with causal forests (`grf`), meta-learners (T/S/X/R/DR-learner), and CATE estimation
+
+**Problem Set 3** assigned next week — HTE (due Apr 6)
 :::
 
 . . .
 
-**Prep for Meta-Learners:**
+**Prep for Lab:**
 
 - Chernozhukov et al. (2025) — Ch. 8: Heterogeneous Treatment Effects
 - Nie & Wager (2021) — "Quasi-Oracle Estimation of Heterogeneous Treatment Effects" (*Biometrika*)
