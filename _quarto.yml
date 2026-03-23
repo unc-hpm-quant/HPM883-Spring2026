@@ -106,8 +106,7 @@ website:
             text: "Jigsaw 3: Causal Forests"
           - href: jigsaw/papers/unit-4-policy-learning.qmd
             text: "Jigsaw 4: Policy Learning"
-          - href: jigsaw/papers/unit-5-quasi-experimental.qmd
-            text: "Jigsaw 5: Quasi-Experimental ML"
+          # Jigsaw 5 removed — schedule adjusted to 4 jigsaws (Option B)
       - section: "Unit 0: Foundations"
         contents:
           - href: unit-0/unit-0-foundations-1.qmd
@@ -165,6 +164,12 @@ website:
             text: "Sessions 2.5-2.6: DR Estimation"
           - href: unit-2/session-2-5-slides.qmd
             text: "↳ Slides: AIPW & TMLE"
+      - section: "Unit 3: Causal Forests & HTE"
+        contents:
+          - href: unit-3/session-3-0-overview.qmd
+            text: "Session 3.0: Causal Forests"
+          - href: unit-3/session-3-0-slides.qmd
+            text: "↳ Slides: Causal Random Forests"
       - section: "Labs"
         contents:
           - href: labs/index.qmd

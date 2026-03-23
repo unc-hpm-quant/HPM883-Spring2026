@@ -1,0 +1,54 @@
+---
+title: "Session 3.0: Causal Random Forests & Honest Inference"
+subtitle: "HPM 883: Advanced Quantitative Methods"
+date: "March 25, 2026"
+toc: true
+---
+
+## Overview
+
+This session shifts our core question from **"Does it work?"** to **"For whom does it work?"** We introduce heterogeneous treatment effects (HTEs) and the causal random forest framework that makes principled HTE estimation possible.
+
+## Learning Objectives
+
+By the end of this session, you should be able to:
+
+1. Define the CATE and explain why average treatment effects can be misleading for policy
+2. Explain why naive subgroup analysis is unreliable for HTE estimation
+3. Describe how causal trees use honest splitting to avoid overfitting
+4. Explain the key innovations of causal random forests (local centering, honesty, forest-based inference)
+5. Use the `grf` package to estimate CATEs with valid confidence intervals
+
+## Key Concepts
+
+- **CATE**: $\tau(x) = E[Y(1) - Y(0) \mid X = x]$ — the treatment effect for individuals with characteristics $x$
+- **Honest estimation**: Using separate samples for tree structure and leaf estimates
+- **Local centering**: Orthogonalizing the outcome and treatment before forest estimation
+- **Causal forests**: Forests of honest causal trees with forest-based asymptotic inference
+
+## Preparation
+
+**Required reading:**
+
+- Wager (2024) — [Chapter 6: Causal Forests](http://web.stanford.edu/~swager/causal_inf_book.pdf)
+
+**Recommended reading:**
+
+- Athey & Imbens (2016) — "Recursive Partitioning for Heterogeneous Causal Effects" (*PNAS*)
+- Athey, Tibshirani & Wager (2019) — "Generalized Random Forests" (*Annals of Statistics*)
+- Wager & Athey (2018) — "Estimation and Inference of Heterogeneous Treatment Effects using Random Forests" (*JASA*)
+
+**Software:**
+
+```r
+install.packages("grf")
+```
+
+## Connection to Unit 2
+
+Everything we built in Unit 2 — doubly-robust scores, cross-fitting, nuisance estimation — carries forward. Causal forests use the same DR/AIPW scores as building blocks, but estimate them *locally* to discover who benefits most.
+
+## What's Next
+
+- **Session 3.1 (Mon Mar 30):** Meta-learners (T-, S-, X-, R-, DR-learner) + Jigsaw 3
+- **Problem Set 3:** HTE estimation and meta-learner comparison (assigned next week)

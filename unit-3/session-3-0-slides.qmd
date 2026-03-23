@@ -1,0 +1,628 @@
+---
+title: "Session 3.0: Causal Random Forests"
+subtitle: "HPM 883: Advanced Quantitative Methods"
+author: "Sean Sylvia"
+date: "March 25, 2026"
+date-format: long
+format:
+  revealjs:
+    theme: [default, ../style/gillings.scss]
+    slide-number: true
+    transition: fade
+    progress: true
+    chalkboard: true
+    smaller: true
+    scrollable: true
+    logo: ../images/logo.png
+    footer: "HPM 883 | Session 3.0: Causal Random Forests"
+    toc: true
+    toc-depth: 1
+    preview-links: auto
+    incremental: true
+    html-math-method: mathjax
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+# Introduction
+
+## The Shift
+
+::: {.callout-note appearance="simple"}
+## The Arc of the Course
+
+**Unit 1 (Weeks 1-3):** Experimental Design — *"Does it work?"*
+
+**Unit 2 (Weeks 4-10):** DML & Doubly-Robust Estimation — *"Does it work?"* (with ML)
+
+**→ Unit 3 (Weeks 10-11):** Causal Forests & Meta-Learners — *"For whom does it work?"*
+
+**Unit 4 (Week 11):** Policy Learning — *"What should we do?"*
+
+**Unit 5 (Week 12):** Adaptive Experiments — *"What should we do?"* (dynamically)
+:::
+
+## Why "For Whom?"
+
+Suppose a new health intervention reduces hospitalizations by 15% on average.
+
+. . .
+
+Should we roll it out to everyone?
+
+. . .
+
+Maybe. But what if:
+
+- It reduces hospitalizations by **40%** for patients with multiple comorbidities
+- It has **no effect** on young, healthy patients
+- It actually **increases** costs for a subgroup due to side effects
+
+. . .
+
+The **average** hides crucial variation. Policy needs to know **who benefits**.
+
+------------------------------------------------------------------------
+
+## From ATE to CATE
+
+**Average Treatment Effect (Unit 2):**
+
+$$\tau = E[Y(1) - Y(0)]$$
+
+. . .
+
+**Conditional Average Treatment Effect (Unit 3):**
+
+$$\tau(x) = E[Y(1) - Y(0) \mid X = x]$$
+
+. . .
+
+$\tau(x)$ is the treatment effect for individuals with characteristics $x$.
+
+. . .
+
+| Estimand | Question | Example |
+|----------|----------|---------|
+| ATE | Does it work on average? | "The program reduces ER visits by 2.3 per year" |
+| CATE | Does it work for *this person*? | "For diabetic patients over 65, the reduction is 5.1" |
+
+. . .
+
+::: {.callout-tip appearance="simple"}
+The ATE is a **summary** of CATEs: $\tau = E[\tau(X)]$
+:::
+
+------------------------------------------------------------------------
+
+## The Subgroup Analysis Trap
+
+The traditional approach to HTE: run regressions with interaction terms or split into subgroups.
+
+. . .
+
+**Why this fails:**
+
+1. **Data dredging:** With 20 covariates, there are millions of possible subgroups. Some will show "significant" effects by chance.
+
+. . .
+
+2. **Multiple testing:** Standard CIs don't account for searching across subgroups. A "significant" subgroup effect may be noise.
+
+. . .
+
+3. **Curse of dimensionality:** Interactions between 3+ variables create tiny cells with unreliable estimates.
+
+. . .
+
+4. **Pre-specification paradox:** If you pre-specify subgroups, you miss unexpected heterogeneity. If you don't, you're data dredging.
+
+. . .
+
+::: {.callout-warning appearance="simple"}
+## The Fundamental Problem
+We need a principled way to discover *which* covariates drive treatment effect heterogeneity — without overfitting or p-hacking.
+:::
+
+------------------------------------------------------------------------
+
+# Part 1: From Trees to Causal Trees {.center}
+
+## Quick Review: Decision Trees (Session 2.1b)
+
+::: {.nonincremental}
+Recall from our trees lecture:
+
+- Trees recursively **partition** the feature space into regions
+- Each split maximizes some criterion (e.g., reduction in MSE)
+- Predictions are **averages within leaves**
+:::
+
+. . .
+
+For **prediction** trees, the split criterion minimizes prediction error:
+
+$$\text{Split to minimize:} \quad \sum_{i \in \text{left}} (Y_i - \bar{Y}_L)^2 + \sum_{i \in \text{right}} (Y_i - \bar{Y}_R)^2$$
+
+. . .
+
+**Key idea for today:** What if, instead of predicting $Y$, we want to predict $\tau(X)$ — the *treatment effect*?
+
+------------------------------------------------------------------------
+
+## Causal Trees: The Intuition
+
+**Goal:** Partition the covariate space so that leaves contain groups with *similar treatment effects*.
+
+. . .
+
+**Naive approach:** Build a tree where the split criterion maximizes the *difference in treatment effects* between child nodes.
+
+. . .
+
+$$\text{Split to maximize:} \quad (\hat\tau_L - \hat\tau_R)^2$$
+
+where $\hat\tau_L = \bar{Y}_{L,\text{treated}} - \bar{Y}_{L,\text{control}}$
+
+. . .
+
+**Problem:** If we use the same data to:
+
+1. **Choose** where to split (find the partition), and
+2. **Estimate** the treatment effect within each leaf
+
+. . .
+
+...we get **overfitting**. The tree will find splits that maximize *apparent* heterogeneity, even if it's noise.
+
+------------------------------------------------------------------------
+
+## The Honesty Principle
+
+**Athey & Imbens (2016)** introduced a solution: **honest estimation**.
+
+. . .
+
+Split your data into two halves:
+
+```
+┌─────────────────────────────────────────────┐
+│                 Full Sample                  │
+│                                             │
+│  ┌──────────────────┐  ┌──────────────────┐ │
+│  │  Splitting Half  │  │ Estimation Half  │ │
+│  │                  │  │                  │ │
+│  │  Used to build   │  │  Used to compute │ │
+│  │  the tree        │  │  leaf estimates  │ │
+│  │  structure       │  │  (τ̂ in each     │ │
+│  │                  │  │   leaf)          │ │
+│  └──────────────────┘  └──────────────────┘ │
+└─────────────────────────────────────────────┘
+```
+
+. . .
+
+1. **Splitting sample:** Determine tree structure (which variables to split on, where)
+2. **Estimation sample:** Estimate $\hat\tau$ in each leaf using fresh data
+
+. . .
+
+::: {.callout-tip appearance="simple"}
+## Why This Works
+The estimation sample never influenced the splits. So the leaf estimates are **unbiased** — no overfitting to the tree structure.
+:::
+
+------------------------------------------------------------------------
+
+## Honest Trees: Step by Step
+
+**Step 1:** Randomly split data 50/50 into splitting ($\mathcal{S}$) and estimation ($\mathcal{E}$) samples.
+
+. . .
+
+**Step 2:** Using $\mathcal{S}$ only, grow a tree that maximizes treatment effect heterogeneity across leaves.
+
+. . .
+
+**Step 3:** Drop the leaf estimates from $\mathcal{S}$. Push $\mathcal{E}$ observations through the tree structure.
+
+. . .
+
+**Step 4:** In each leaf $\ell$, estimate:
+$$\hat\tau_\ell = \frac{1}{n_{\ell,1}} \sum_{i \in \ell: D_i=1} Y_i - \frac{1}{n_{\ell,0}} \sum_{i \in \ell: D_i=0} Y_i$$
+
+using only estimation-sample observations that fall in leaf $\ell$.
+
+. . .
+
+**Step 5:** For a new observation with $X = x$, find its leaf and report $\hat\tau(x) = \hat\tau_\ell$.
+
+------------------------------------------------------------------------
+
+# Part 2: Causal Random Forests {.center}
+
+::: {.callout-note appearance="minimal"}
+**Key Papers:** Athey, Tibshirani & Wager (2019); Wager & Athey (2018)
+:::
+
+## From One Tree to a Forest
+
+A single honest causal tree is:
+
+- **Noisy** — depends heavily on the random split
+- **High variance** — small changes in data → very different tree
+- **Coarse** — can only assign a few distinct $\hat\tau$ values (one per leaf)
+
+. . .
+
+**Solution:** Build a **forest** of many causal trees.
+
+. . .
+
+Each tree uses:
+
+- A random subsample of the data
+- A random subset of features at each split
+- Honest splitting (separate estimation sample)
+
+. . .
+
+The forest prediction: **average across all trees**
+
+$$\hat\tau(x) = \frac{1}{B} \sum_{b=1}^{B} \hat\tau_b(x)$$
+
+. . .
+
+This is the same idea as a random forest for prediction — but adapted for *treatment effects*.
+
+------------------------------------------------------------------------
+
+## What Makes Causal Forests Special?
+
+Three key innovations beyond standard random forests:
+
+. . .
+
+### 1. Honesty
+
+Every tree uses separate samples for splitting and estimation. This ensures valid inference (not just good prediction).
+
+. . .
+
+### 2. Local Centering (Orthogonalization)
+
+Before building the forest, we "partial out" confounders:
+
+$$\tilde{Y}_i = Y_i - \hat{m}(X_i), \quad \tilde{D}_i = D_i - \hat{e}(X_i)$$
+
+where $\hat{m}(X) = E[Y|X]$ and $\hat{e}(X) = P(D=1|X)$.
+
+. . .
+
+**Why?** This is the same orthogonalization from DML! It removes the effect of confounders on both outcome and treatment, so the forest focuses on *treatment effect heterogeneity*.
+
+. . .
+
+### 3. Forest-Based Inference
+
+The forest structure provides **asymptotically valid confidence intervals** for $\hat\tau(x)$ — no bootstrap needed.
+
+------------------------------------------------------------------------
+
+## Local Centering: The DML Connection
+
+::: {.callout-tip appearance="simple"}
+## Unit 2 → Unit 3 Bridge
+Local centering in causal forests uses the **same doubly-robust scores** you learned in Unit 2.
+:::
+
+. . .
+
+Recall the AIPW score for observation $i$:
+
+$$\hat\phi_i = \hat\mu_1(X_i) - \hat\mu_0(X_i) + \frac{D_i(Y_i - \hat\mu_1(X_i))}{\hat\pi(X_i)} - \frac{(1-D_i)(Y_i - \hat\mu_0(X_i))}{1-\hat\pi(X_i)}$$
+
+. . .
+
+In Unit 2, we averaged these scores to get the ATE: $\hat\tau = \frac{1}{n}\sum_i \hat\phi_i$
+
+. . .
+
+**Causal forests do something different:** they estimate how $\hat\phi_i$ varies as a function of $X_i$.
+
+. . .
+
+Instead of one global average, we get a **local average** — the CATE:
+
+$$\hat\tau(x) = \sum_{i=1}^n \alpha_i(x) \cdot \hat\phi_i$$
+
+where $\alpha_i(x)$ are forest-derived **adaptive nearest-neighbor weights**.
+
+------------------------------------------------------------------------
+
+## How the Forest Creates Weights
+
+For a new point $x$, the forest computes weights $\alpha_i(x)$:
+
+. . .
+
+1. For each tree $b$, find the leaf containing $x$
+2. All training observations in that leaf are "neighbors" of $x$ in tree $b$
+3. Each neighbor gets weight $1/n_\ell$ (where $n_\ell$ is the leaf size)
+4. Average weights across all $B$ trees
+
+. . .
+
+$$\alpha_i(x) = \frac{1}{B} \sum_{b=1}^{B} \frac{\mathbb{1}(X_i \in L_b(x))}{|L_b(x)|}$$
+
+. . .
+
+**Intuition:** Observations that frequently end up in the same leaf as $x$ are "similar" — they get higher weight. The forest *adaptively* defines neighborhoods.
+
+. . .
+
+::: {.callout-tip appearance="simple"}
+A causal forest is a **locally weighted doubly-robust estimator** where the weights are learned from the data.
+:::
+
+------------------------------------------------------------------------
+
+# Part 3: The `grf` Package {.center}
+
+## Causal Forests in R
+
+The `grf` package (Generalized Random Forests) makes this easy:
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(grf)
+
+# Fit a causal forest
+cf <- causal_forest(
+  X = X,           # Covariate matrix (n × p)
+  Y = Y,           # Outcome vector
+  W = W,           # Treatment indicator (0/1)
+  num.trees = 2000 # Number of trees
+)
+
+# Predict CATEs for all observations
+tau_hat <- predict(cf)$predictions
+
+# Get confidence intervals
+ci <- predict(cf, estimate.variance = TRUE)
+ci$lower <- ci$predictions - 1.96 * sqrt(ci$variance.estimates)
+ci$upper <- ci$predictions + 1.96 * sqrt(ci$variance.estimates)
+```
+
+. . .
+
+That's it. Under the hood, `grf` handles honesty, local centering, and forest-based inference automatically.
+
+------------------------------------------------------------------------
+
+## Key `grf` Functions
+
+| Function | Purpose |
+|----------|---------|
+| `causal_forest()` | Fit a causal forest |
+| `predict()` | Estimate CATEs (with optional variance) |
+| `average_treatment_effect()` | Forest-weighted ATE (doubly robust) |
+| `test_calibration()` | Test whether heterogeneity is real |
+| `variable_importance()` | Which covariates drive HTE? |
+| `best_linear_projection()` | Project CATEs onto selected covariates |
+
+. . .
+
+### Testing for Heterogeneity
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Is there real heterogeneity?
+test_calibration(cf)
+# Reports: mean.forest.prediction (should ≈ ATE)
+#          differential.forest.prediction (>0 if real HTE)
+```
+
+. . .
+
+If the "differential" coefficient is significantly positive, the forest is detecting real treatment effect heterogeneity — not just noise.
+
+------------------------------------------------------------------------
+
+## Variable Importance
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Which variables drive heterogeneity?
+vi <- variable_importance(cf)
+names(vi) <- colnames(X)
+sort(vi, decreasing = TRUE)[1:5]
+```
+
+. . .
+
+**Interpretation:** Variables that appear more often in splits are more important for explaining *treatment effect variation* (not outcome prediction).
+
+. . .
+
+::: {.callout-warning appearance="simple"}
+## Caution
+Variable importance tells you which variables the forest uses for splits, but it doesn't tell you the *direction* or *magnitude* of the effect. Use `best_linear_projection()` for interpretable summaries.
+:::
+
+------------------------------------------------------------------------
+
+## Best Linear Projection
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Project CATEs onto interpretable covariates
+blp <- best_linear_projection(cf, A = X[, c("age", "comorbidity_count")])
+print(blp)
+```
+
+. . .
+
+This fits: $\hat\tau(x) \approx \beta_0 + \beta_1 \cdot \text{age} + \beta_2 \cdot \text{comorbidities}$
+
+. . .
+
+- Gives you interpretable coefficients with standard errors
+- "Each additional comorbidity increases the treatment effect by 0.8 units (SE = 0.3)"
+- More robust than pre-specified subgroup analysis
+
+------------------------------------------------------------------------
+
+# Part 4: Practical Considerations {.center}
+
+## When Do Causal Forests Work Well?
+
+**Good settings:**
+
+- Moderate to large sample sizes ($n > 500$, ideally $> 1000$)
+- Enough variation in treatment effects across $X$
+- Good overlap (same as Unit 2 — positivity matters)
+- Mix of continuous and categorical covariates
+
+. . .
+
+**Challenging settings:**
+
+- Very small samples (trees need enough observations per leaf)
+- Very high-dimensional $X$ with sparse signal
+- When heterogeneity is along a single variable (simpler methods work)
+- When treatment effects are near zero everywhere
+
+. . .
+
+::: {.callout-tip appearance="simple"}
+## Rule of Thumb
+If the ATE is near zero, be skeptical of large CATEs in subgroups — the forest may be finding noise.
+:::
+
+------------------------------------------------------------------------
+
+## Inference and Interpretation
+
+**What the confidence intervals cover:**
+
+- The forest provides pointwise CIs for $\tau(x)$ at each $x$
+- These are valid asymptotically under regularity conditions
+- They account for the adaptive nature of the forest
+
+. . .
+
+**What they don't cover:**
+
+- Simultaneous coverage across all $x$ (no uniform bands)
+- Inference on which specific variables "matter" for HTE
+
+. . .
+
+**Best practices:**
+
+1. **Always run `test_calibration()`** — check that heterogeneity is real
+2. **Report the ATE** alongside CATEs — how much variation is there?
+3. **Use `best_linear_projection()`** for interpretable HTE summaries
+4. **Check overlap** — extreme propensity scores mean unreliable CATEs in those regions
+
+------------------------------------------------------------------------
+
+## Health Policy Application: Targeting
+
+One of the most powerful applications of CATEs — **treatment targeting**:
+
+. . .
+
+1. Estimate $\hat\tau(x)$ for all individuals in your sample
+2. Rank individuals by their predicted benefit
+3. Under a **budget constraint**, treat those with the highest CATEs
+
+. . .
+
+**Example:** A community health worker intervention costs $500/patient.
+
+- Average effect: 1.2 fewer ER visits ($\hat\tau = -1.2$)
+- Top quartile by CATE: 3.8 fewer ER visits ($\hat\tau = -3.8$)
+- Bottom quartile: 0.1 fewer ER visits ($\hat\tau = -0.1$)
+
+. . .
+
+**Targeting the top quartile** achieves 3× the impact per dollar.
+
+. . .
+
+::: {.callout-note appearance="simple"}
+This is a preview of **Unit 4 (Policy Learning)** — we'll formalize targeting with `policytree`.
+:::
+
+------------------------------------------------------------------------
+
+# Key Takeaways {.center}
+
+## Summary
+
+1. **CATEs** ($\tau(x)$) capture treatment effect heterogeneity — the ATE is just an average of CATEs
+
+2. **Naive subgroup analysis** overfits — honest estimation is essential for valid HTE inference
+
+3. **Causal trees** use honest splitting (separate samples for structure and estimation)
+
+4. **Causal forests** aggregate many honest trees, with local centering (same DR scores from Unit 2) and forest-based inference
+
+5. **`grf` package** provides causal forests with automatic honesty, local centering, and valid CIs
+
+6. **Always test:** `test_calibration()` before interpreting heterogeneity patterns
+
+------------------------------------------------------------------------
+
+## What's Next
+
+::: {.callout-note appearance="simple"}
+## Coming Up
+
+**Monday Mar 30:** Meta-Learners (T, S, X, R, DR) + **Jigsaw 3**
+
+- Read your assigned Jigsaw 3 paper (posted on Canvas)
+- Papers on causal forest applications in health economics
+
+**Problem Set 3** assigned next week — HTE estimation and meta-learner comparison (due Apr 8)
+:::
+
+. . .
+
+**Prep for Meta-Learners:**
+
+- Chernozhukov et al. (2025) — Ch. 8: Heterogeneous Treatment Effects
+- Nie & Wager (2021) — "Quasi-Oracle Estimation of Heterogeneous Treatment Effects" (*Biometrika*)
+
+------------------------------------------------------------------------
+
+## Readings for Today's Topics
+
+**Required:**
+
+- Wager (2024) — [Chapter 6: Causal Forests](http://web.stanford.edu/~swager/causal_inf_book.pdf)
+
+**Recommended:**
+
+- Athey & Imbens (2016) — "Recursive Partitioning for Heterogeneous Causal Effects" (*PNAS*)
+- Athey, Tibshirani & Wager (2019) — "Generalized Random Forests" (*Annals of Statistics*)
+- Wager & Athey (2018) — "Estimation and Inference of Heterogeneous Treatment Effects using Random Forests" (*JASA*)
+- Davis & Heller (2017) — "Using Causal Forests to Predict Treatment Heterogeneity" (*AER P&P*)
+
+------------------------------------------------------------------------
+
+## Questions?
+
+**Office hours:** By appointment — email or Canvas message

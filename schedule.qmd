@@ -176,37 +176,45 @@ Your paper and group assignments are now posted:
 
 ---
 
-### Week 10: Causal Forests & HTE (Mar 23-25)
+### Week 10: Unit 2 Wrap-Up & Causal Forests (Mar 23-25)
+
+*Schedule adjusted: Session 17 covered AIPW but not TMLE/overlap. Today closes Unit 2, then Unit 3 begins.*
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 18 | Mon Mar 23 | Causal Random Forests & Honest Inference (Session 3.0) | In-Person |
-| 19 | Wed Mar 25 | Meta-Learners for HTE & CATE Calibration | [Remote](https://zoom.us/j/93346316978) |
+| 18 | Mon Mar 23 | Unit 2 Wrap-Up: TMLE, Overlap & DR Synthesis | In-Person |
+| 19 | Wed Mar 25 | Causal Random Forests & Honest Inference (Session 3.0) | In-Person |
 
-**Key Concepts:** Honest splitting, local centering, grf package, T-learner, S-learner, X-learner, R-learner, DR-learner, CATE calibration
+**Session 18:** Completes doubly-robust estimation — TMLE algorithm, overlap diagnostics, trimming, and the full DR toolkit synthesis. Uses existing Session 2.5-2.6 slides (Part 3 onward).
 
-**Problem Set 3 assigned:** HTE & Meta-Learners (due Apr 8)
+**Key Concepts (Session 19):** Honest splitting, local centering, grf package, CATE estimation
 
-**Jigsaw 3 (End of Unit 3):** Causal Forest Applications — Expert groups analyze HTE papers
+**Prep for Unit 3:**
+
+- Wager (2024) — Ch. 6: Causal Forests
+- Review: Random forests from Session 2.1b
+- Install: `install.packages("grf")`
 
 ---
 
-### Week 11: Policy Learning (Mar 30 - Apr 1)
+### Week 11: Meta-Learners & Policy Learning (Mar 30 - Apr 1)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 20 | Mon Mar 30 | From CATE to Treatment Policy | In-Person |
-| 21 | Wed Apr 1 | Policy Learning & Off-Policy Evaluation | [Remote](https://zoom.us/j/93346316978) |
+| 20 | Mon Mar 30 | Meta-Learners for HTE + **Jigsaw 3** | In-Person |
+| 21 | Wed Apr 1 | Policy Learning: From CATEs to Treatment Rules + **Jigsaw 4** | In-Person |
 
-**Key Concepts:** Policy trees, optimal treatment rules, off-policy evaluation, budget constraints, policytree package
+**Session 20 Key Concepts:** T-learner, S-learner, X-learner, R-learner, DR-learner, CATE calibration
 
-**Jigsaw 4 (End of Unit 4):** Policy Learning Case Studies — Expert groups analyze targeting papers
+**Session 21 Key Concepts:** Policy trees, optimal treatment rules, off-policy evaluation, budget constraints, policytree package
+
+**Problem Set 3 assigned:** HTE & Meta-Learners (due Apr 8)
 
 *Note: April 2 is Well-Being Day (Thursday) — No impact on M/W schedule*
 
 ---
 
-### Week 12: Adaptive Experiments & Integration (Apr 6-8)
+### Week 12: Adaptive Experiments (Apr 6-8)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
@@ -218,10 +226,9 @@ Your paper and group assignments are now posted:
 **Key Concepts:** Exploration vs. exploitation, regret, multi-armed bandits, Thompson sampling, contextual bandits, response-adaptive randomization, platform trials
 
 **Readings:**
+
 - Susan Athey: [Analysis and Design of Multi-Armed Bandit Experiments (NBER 2024)](https://www.nber.org/research/videos/2024-methods-lecture-susan-athey-analysis-and-design-multi-armed-bandit-experiments-and-policy)
 - Stanford SIL: [Adaptive Iterative Experimentation](https://www.gsb.stanford.edu/faculty-research/labs-initiatives/sil/research/methods/adaptive-iterative-experimentation)
-
-**Jigsaw 5 (End of Unit 5):** Adaptive Experiments in Action — Expert groups analyze bandit/adaptive trial papers
 
 **Capstone Proposal assigned** (due Apr 13)
 
@@ -267,17 +274,16 @@ Your paper and group assignments are now posted:
 | **Jigsaw 1: Experimental Design** | **Jan 28** | (part of Jigsaw) |
 | **Problem Set 1: Experimental Design & Power** | **Feb 25** | (part of Problem Sets) |
 | Jigsaw 2: ML for Causal Inference | Mar 2 | (part of Jigsaw) |
-| Problem Set 2: Double ML Implementation | Mar 11 | (part of Problem Sets) |
-| Jigsaw 3: Causal Forest Applications | Mar 25 | (part of Jigsaw) |
+| Problem Set 2: Double ML Implementation | Mar 13 | (part of Problem Sets) |
+| Jigsaw 3: Causal Forest Applications | Mar 30 | (part of Jigsaw) |
 | Problem Set 3: HTE & Meta-Learners | Apr 8 | (part of Problem Sets) |
 | Jigsaw 4: Policy Learning Case Studies | Apr 1 | (part of Jigsaw) |
-| Jigsaw 5: Adaptive Experiments | Apr 8 | (part of Jigsaw) |
 | Capstone Proposal | Apr 13 | (part of Capstone) |
 | Peer Review Report | Apr 22 | 5% |
 | Capstone Project Package | May 1 | 45% |
 
 **Problem Sets (30% total):** 4 required problem sets (graded take-home assignments).
-**Jigsaw Participation (20% total):** 5 sessions, low-stakes participation credit.
+**Jigsaw Participation (20% total):** 4 sessions, low-stakes participation credit.
 
 ---
 
