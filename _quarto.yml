@@ -88,6 +88,8 @@ website:
         contents:
           - href: course-syllabus.qmd
             text: "Syllabus"
+          - href: capstone.qmd
+            text: "Capstone Project"
           - href: computing.qmd
             text: "Computing"
           - href: reproducible-research.qmd

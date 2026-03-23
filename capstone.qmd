@@ -1,0 +1,251 @@
+---
+title: "Capstone Project"
+subtitle: "HPM 883: Advanced Quantitative Methods — Spring 2026"
+toc: true
+---
+
+## Overview
+
+The capstone project is your opportunity to apply the causal ML methods from this course to a substantive research question. You will design, implement, and present an analysis that demonstrates mastery of the course's core toolkit.
+
+**Weight:** 45% of course grade (+ 5% for peer review)
+
+------------------------------------------------------------------------
+
+## Project Options
+
+Choose **one** of the following:
+
+### Option 1: Pre-Analysis Plan (PAP)
+
+Design a causal ML study for a planned or hypothetical experiment.
+
+- Full identification strategy (DAG, assumptions)
+- Power analysis and sample size justification
+- Estimation approach using course methods (DML, causal forests, or policy learning)
+- Heterogeneous treatment effects analysis plan
+- Sensitivity analysis plan
+
+**Best for:** Students planning a dissertation study or interested in experimental design.
+
+### Option 2: Replication + Extension
+
+Replicate a published causal inference study, then extend it with causal ML methods.
+
+- Reproduce the paper's main results (or a key subset)
+- Apply at least one method from the course that the original paper did not use
+- Compare findings: What does the causal ML extension reveal?
+- Discuss implications for the original study's conclusions
+
+**Best for:** Students with a research area who want to deepen their understanding of a published study.
+
+### Option 3: Methods Comparison
+
+Systematically compare multiple causal ML methods on a dataset (real or simulated).
+
+- Define a clear data-generating process or identify a suitable real dataset
+- Apply at least 3 methods from the course (e.g., DML, causal forests, meta-learners, policy trees)
+- Benchmark performance: bias, coverage, efficiency, computation
+- Provide recommendations for when to use which method
+
+**Best for:** Students interested in methodology or who want broad exposure to the toolkit.
+
+------------------------------------------------------------------------
+
+## Required Methods
+
+Your project must meaningfully engage with **at least one** of:
+
+- Double/Debiased Machine Learning (DML)
+- Causal Random Forests / `grf`
+- Meta-learners (T/S/X/R/DR-learner)
+- Policy Learning / `policytree`
+
+You may also incorporate experimental design, power analysis, or other methods from the course as appropriate.
+
+------------------------------------------------------------------------
+
+## Deliverables & Timeline
+
+| Deliverable | Due Date | Description |
+|-------------|----------|-------------|
+| **Capstone Proposal** | Mon, April 13 | 1-2 page proposal (see below) |
+| **Presentation** | Apr 13-22 | 12-15 min presentation + Q&A |
+| **Peer Review** | Tue, April 22 | Written review of one peer's project |
+| **Final Package** | Fri, May 1 | Paper + code repository |
+
+### Capstone Proposal (Due April 13)
+
+A 1-2 page document that includes:
+
+1. **Research question** — What causal question are you asking?
+2. **Project option** — PAP, Replication + Extension, or Methods Comparison
+3. **Data** — What data will you use (or simulate)?
+4. **Methods** — Which course methods will you apply?
+5. **Timeline** — Your plan for completing the project by May 1
+
+Submit via Canvas. You will receive brief written feedback within 48 hours.
+
+### Presentation (April 13-22)
+
+- **12-15 minutes** plus 3-5 minutes for Q&A
+- Present your research question, methods, preliminary or final results, and key takeaways
+- Slides should be clear, well-organized, and include at least one visualization of your results
+- Presentation schedule will be posted on Canvas — you will present once during the capstone sessions
+
+::: {.callout-tip}
+## Presentation Tips
+
+Your presentation should answer three questions:
+
+1. **What is your causal question?** (and why does it matter)
+2. **Why is your method appropriate?** (connect to course concepts)
+3. **What do your results mean?** (for policy, practice, or methodology)
+:::
+
+### Peer Review (Due April 22)
+
+You will be assigned **one** peer's project to review. Your review should include:
+
+1. Summary of the research question and approach
+2. Methodological assessment — Are the methods appropriate? Correctly implemented?
+3. Interpretation critique — Are the conclusions supported by the results?
+4. Constructive suggestions — What would strengthen the project?
+5. Overall evaluation — Strengths and areas for improvement
+
+**Length:** 2-3 pages. Submit via Canvas.
+
+### Final Package (Due May 1)
+
+1. **Written Report (10-15 pages)**
+   - Introduction and research question
+   - Identification strategy (DAG and assumptions)
+   - Methods with justification
+   - Results and interpretation
+   - Sensitivity/robustness analysis
+   - Limitations and conclusions
+   - References
+
+2. **Code Repository** (GitHub)
+   - All code for data preparation and analysis
+   - Data (or simulated data with DGP documentation)
+   - README with replication instructions
+   - Use `renv` for package management
+
+3. **Appendix** (optional)
+   - Additional analyses, robustness checks, technical derivations
+
+------------------------------------------------------------------------
+
+## Grading
+
+### Capstone Project (45% of course grade)
+
+| Criterion | Weight | What We're Looking For |
+|-----------|--------|----------------------|
+| Methodological rigor | 30% | Correct application of course methods, appropriate assumptions, valid inference |
+| Interpretation & communication | 25% | Clear writing, honest discussion of limitations, policy relevance |
+| Reproducibility | 20% | Code runs, results replicate, documentation is clear |
+| Presentation quality | 15% | Well-organized, clear visuals, responds to questions |
+| Response to feedback | 10% | Incorporates peer review and presentation feedback into final package |
+
+### Peer Review (5% of course grade)
+
+| Criterion | Weight |
+|-----------|--------|
+| Substantive engagement | 50% |
+| Constructive and specific feedback | 30% |
+| Methodological insight | 20% |
+
+------------------------------------------------------------------------
+
+## Presentation Schedule
+
+Presentations will take place over four class sessions. Each session accommodates 4-5 presentations.
+
+| Session | Date | Format | Presenters |
+|---------|------|--------|------------|
+| 24 | Mon Apr 13 | In-Person | TBD |
+| 25 | Wed Apr 15 | In-Person | TBD |
+| 26 | Mon Apr 20 | In-Person | TBD |
+| 27 | Wed Apr 22 | In-Person | TBD |
+
+::: {.callout-note}
+## Scheduling
+
+Presentation assignments will be posted on Canvas by April 8. If you have a strong preference for a particular date (e.g., conference travel), let Dr. Sylvia know by April 6.
+:::
+
+::: {.callout-important}
+## For Auditors
+
+If you are auditing the course and would like to complete a capstone project and present, please let Dr. Sylvia know by **March 28** so we can plan the presentation schedule accordingly.
+:::
+
+------------------------------------------------------------------------
+
+## Data Resources
+
+Looking for data? Here are some options:
+
+**Public RCT Data:**
+
+- [J-PAL Dataverse](https://dataverse.harvard.edu/dataverse/j-pal) — Hundreds of RCT datasets from development and health economics
+- [AEA RCT Registry](https://www.socialscienceregistry.org/) — Find registered trials, some with public data
+- [ICPSR](https://www.icpsr.umich.edu/) — Social science data archive (UNC has institutional access)
+
+**Health Data:**
+
+- [NHANES](https://www.cdc.gov/nchs/nhanes/) — National health survey with rich covariates
+- [MEPS](https://meps.ahrq.gov/) — Medical Expenditure Panel Survey
+- [Oregon Health Insurance Experiment](https://www.nber.org/programs-projects/projects-and-centers/oregon-health-insurance-experiment) — Classic RCT data
+
+**Simulated Data:**
+
+- You may simulate data with a known DGP — this is especially appropriate for Option 3 (Methods Comparison)
+- Document your DGP clearly so results are interpretable
+
+------------------------------------------------------------------------
+
+## GitHub Repository
+
+Your capstone code should be hosted on GitHub using the capstone template:
+
+**[Accept the Capstone Assignment on GitHub Classroom](https://classroom.github.com/a/PLACEHOLDER)**
+
+This creates a private repository with the recommended project structure, `renv` setup, and README template.
+
+------------------------------------------------------------------------
+
+## Getting Started
+
+1. **Choose your option** — PAP, Replication, or Methods Comparison
+2. **Identify your research question** — What causal question interests you?
+3. **Find your data** — Or plan your simulation
+4. **Write your proposal** — Due April 13
+5. **Start early** — The best projects iterate on feedback
+
+::: {.callout-tip}
+## Office Hours
+
+Use office hours to discuss project ideas. The earlier you start, the more feedback you can incorporate.
+:::
+
+------------------------------------------------------------------------
+
+## FAQ
+
+**Can I work with a partner?**
+Projects are individual. You may discuss ideas with classmates, but each student submits their own project.
+
+**Can I use my dissertation data?**
+Yes! This is encouraged. Applying course methods to your own research question is ideal.
+
+**What if I can't find real data?**
+Simulated data is fine, especially for Option 3. For Options 1 and 2, you should either use real data or explain why simulation is necessary.
+
+**How long should the presentation be?**
+12-15 minutes for the presentation, plus 3-5 minutes for Q&A from the class.
+
+**Can I use Python instead of R?**
+Yes. The course primarily uses R, but Python is acceptable. Your code must still be reproducible.
