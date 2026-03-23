@@ -52,6 +52,43 @@ Systematically compare multiple causal ML methods on a dataset (real or simulate
 
 ------------------------------------------------------------------------
 
+## Example Outlines
+
+These are suggested structures — adapt them to fit your project.
+
+### Option 1: Pre-Analysis Plan
+
+1. **Introduction & Significance** — Why this question matters for health policy
+2. **Research Question & Hypotheses** — Specific causal estimands (ATE, CATE, optimal policy)
+3. **Setting & Population** — Where, who, and why this context
+4. **Experimental Design** — Randomization strategy, treatment arms, timeline
+5. **Power Analysis** — Simulation-based MDE, sample size, assumptions
+6. **Estimation Strategy** — DML or causal forest approach, nuisance models
+7. **HTE Analysis Plan** — CATE estimation, subgroup prioritization
+8. **Sensitivity Analysis Plan** — What assumptions are you stress-testing?
+9. **Limitations** — Threats to validity, scope conditions
+
+### Option 2: Replication + Extension
+
+1. **Introduction** — Summary of original paper, motivation for extension
+2. **Data & Setting** — Describe the data (original or reconstructed)
+3. **Replication of Original Results** — Reproduce key findings
+4. **Extension: Causal ML Methods** — Apply course methods the original paper didn't use
+5. **Comparison of Findings** — What does the extension reveal? Do conclusions change?
+6. **Discussion & Implications** — What we learn from the extension
+
+### Option 3: Methods Comparison
+
+1. **Introduction & Motivation** — Why compare these methods? What's the practical question?
+2. **Data Generating Process** (or real data description) — DGP with known ground truth, or real data with plausible benchmarks
+3. **Methods Overview** — Brief description of 3+ methods being compared
+4. **Implementation Details** — Tuning, cross-fitting, software packages
+5. **Results** — Bias, coverage, efficiency, computation time
+6. **Recommendations** — When to use which method, practical guidance
+7. **Discussion** — Limitations of comparison, generalizability
+
+------------------------------------------------------------------------
+
 ## Required Methods
 
 Your project must meaningfully engage with **at least one** of:
@@ -69,55 +106,58 @@ You may also incorporate experimental design, power analysis, or other methods f
 
 | Deliverable | Due Date | Description |
 |-------------|----------|-------------|
-| **Capstone Proposal** | Mon, April 13 | 1-2 page proposal (see below) |
-| **Presentation** | Apr 13-22 | 12-15 min presentation + Q&A |
-| **Peer Review** | Tue, April 22 | Written review of one peer's project |
+| **Presentation** | Apr 13, 15, or 20 | ~8 min presentation + Q&A |
+| **Draft Paper** | Tue, April 15 | Submit via Canvas for peer review |
+| **Peer Review** | Wed, April 22 | Written review of one peer's draft |
 | **Final Package** | Fri, May 1 | Paper + code repository |
 
-### Capstone Proposal (Due April 13)
+### Presentations (April 13, 15, 20)
 
-A 1-2 page document that includes:
+Presentations take place over **three** class sessions. With 14 students, each session accommodates ~5 presentations at approximately 12 minutes each (8 min talk + 3-4 min Q&A), fitting comfortably in a 75-minute class.
 
-1. **Research question** — What causal question are you asking?
-2. **Project option** — PAP, Replication + Extension, or Methods Comparison
-3. **Data** — What data will you use (or simulate)?
-4. **Methods** — Which course methods will you apply?
-5. **Timeline** — Your plan for completing the project by May 1
+**Your presentation should be just a few slides covering:**
 
-Submit via Canvas. You will receive brief written feedback within 48 hours.
-
-### Presentation (April 13-22)
-
-- **12-15 minutes** plus 3-5 minutes for Q&A
-- Present your research question, methods, preliminary or final results, and key takeaways
-- Slides should be clear, well-organized, and include at least one visualization of your results
-- Presentation schedule will be posted on Canvas — you will present once during the capstone sessions
+1. **Problem / Research Question** (1 slide) — What causal question are you asking, and why does it matter?
+2. **Objectives and Aims** (1 slide) — What are you trying to estimate or learn?
+3. **Approach / Methods** (1-2 slides) — Which methods are you using, and why?
+4. **Results or Expected Results** (1-2 slides) — What did you find (or expect to find)?
 
 ::: {.callout-tip}
 ## Presentation Tips
 
-Your presentation should answer three questions:
-
-1. **What is your causal question?** (and why does it matter)
-2. **Why is your method appropriate?** (connect to course concepts)
-3. **What do your results mean?** (for policy, practice, or methodology)
+Keep it focused. You have 8 minutes — that's about 5-6 slides. Don't try to cover everything in your paper. The goal is to communicate your core question, approach, and findings clearly enough that your classmates can give you useful feedback.
 :::
+
+### Draft Paper (Due April 15)
+
+Submit your draft paper via **Canvas** by April 15. This is the version your peer reviewer will read.
+
+- Canvas will **automatically assign one peer reviewer** per student at random
+- Your draft doesn't need to be perfect — but it should be complete enough for meaningful feedback
+- Focus especially on having your methods and results sections in reasonable shape
 
 ### Peer Review (Due April 22)
 
-You will be assigned **one** peer's project to review. Your review should include:
+Your peer review should be **1-2 pages** and follow this structure:
 
-1. Summary of the research question and approach
-2. Methodological assessment — Are the methods appropriate? Correctly implemented?
-3. Interpretation critique — Are the conclusions supported by the results?
-4. Constructive suggestions — What would strengthen the project?
-5. Overall evaluation — Strengths and areas for improvement
+1. **Summary of the project** (2-3 sentences) — Demonstrate that you understood the research question and approach
+2. **Main impression** (1 paragraph) — What is your overall assessment? What stands out?
+3. **Major comments** (numbered list) — Focus on methods:
+   - Are the methods appropriate for the research question?
+   - Are they correctly implemented?
+   - Are results interpreted correctly?
+   - What would strengthen the analysis?
 
-**Length:** 2-3 pages. Submit via Canvas.
+::: {.callout-note}
+## Peer Review via Canvas
+
+Canvas automatically assigns reviewers when you submit your draft. You'll see your review assignment under the "Capstone Draft" assignment. Complete your review directly in Canvas by **April 22**.
+:::
 
 ### Final Package (Due May 1)
 
-1. **Written Report (10-15 pages)**
+1. **Written Report**
+   - There is no strict length requirement. Most projects will be around 10-15 pages.
    - Introduction and research question
    - Identification strategy (DAG and assumptions)
    - Methods with justification
@@ -161,14 +201,13 @@ You will be assigned **one** peer's project to review. Your review should includ
 
 ## Presentation Schedule
 
-Presentations will take place over four class sessions. Each session accommodates 4-5 presentations.
+Presentations take place over three class sessions. Each session accommodates ~5 presentations.
 
 | Session | Date | Format | Presenters |
 |---------|------|--------|------------|
-| 24 | Mon Apr 13 | In-Person | TBD |
-| 25 | Wed Apr 15 | In-Person | TBD |
-| 26 | Mon Apr 20 | In-Person | TBD |
-| 27 | Wed Apr 22 | In-Person | TBD |
+| 24 | Mon Apr 13 | In-Person | ~5 students |
+| 25 | Wed Apr 15 | In-Person | ~5 students |
+| 26 | Mon Apr 20 | In-Person | ~4-5 students |
 
 ::: {.callout-note}
 ## Scheduling
@@ -222,8 +261,7 @@ This creates a private repository with the recommended project structure, `renv`
 1. **Choose your option** — PAP, Replication, or Methods Comparison
 2. **Identify your research question** — What causal question interests you?
 3. **Find your data** — Or plan your simulation
-4. **Write your proposal** — Due April 13
-5. **Start early** — The best projects iterate on feedback
+4. **Start early** — The best projects iterate on feedback
 
 ::: {.callout-tip}
 ## Office Hours
@@ -245,7 +283,10 @@ Yes! This is encouraged. Applying course methods to your own research question i
 Simulated data is fine, especially for Option 3. For Options 1 and 2, you should either use real data or explain why simulation is necessary.
 
 **How long should the presentation be?**
-12-15 minutes for the presentation, plus 3-5 minutes for Q&A from the class.
+About 8 minutes for the presentation, plus 3-4 minutes for Q&A from the class.
+
+**How long should the paper be?**
+There is no strict length requirement. Most projects will be around 10-15 pages.
 
 **Can I use Python instead of R?**
 Yes. The course primarily uses R, but Python is acceptable. Your code must still be reproducible.

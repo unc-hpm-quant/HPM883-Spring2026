@@ -227,7 +227,7 @@ Your paper and group assignments are now posted:
 
 **Problem Set 4 assigned:** Policy Learning (due Apr 13)
 
-**Capstone Proposal assigned** (due Apr 13)
+**Capstone presentations begin Apr 13**
 
 ---
 
@@ -235,22 +235,21 @@ Your paper and group assignments are now posted:
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 24 | Mon Apr 13 | Capstone Presentations (Round 1) | In-Person |
-| 25 | Wed Apr 15 | Capstone Presentations (Round 2) | In-Person |
+| 24 | Mon Apr 13 | Capstone Presentations (Session 1) | In-Person |
+| 25 | Wed Apr 15 | Capstone Presentations (Session 2) | In-Person |
 
-**Due:** Capstone Proposal
-**Peer Review Report assigned** (due Apr 22)
+**Due:** Draft Paper (Apr 15, Canvas — for peer review)
 
 ---
 
-### Week 14: Capstone Presentations II & Synthesis (Apr 20-22)
+### Week 14: Final Presentations & Wrap-Up (Apr 20-22)
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 26 | Mon Apr 20 | Final Capstone Presentations | In-Person |
+| 26 | Mon Apr 20 | Capstone Presentations (Session 3) | In-Person |
 | 27 | Wed Apr 22 | Course Wrap-Up & Future Directions | In-Person |
 
-**Due:** Peer Review Report
+**Due:** Peer Review (Apr 22)
 
 ---
 
@@ -276,8 +275,8 @@ Your paper and group assignments are now posted:
 | Problem Set 3: Heterogeneous Treatment Effects | Apr 6 | (part of Problem Sets) |
 | Jigsaw 4: Policy Learning Case Studies | Apr 8 | (part of Jigsaw) |
 | Problem Set 4: Policy Learning | Apr 13 | (part of Problem Sets) |
-| Capstone Proposal | Apr 13 | (part of Capstone) |
-| Peer Review Report | Apr 22 | 5% |
+| Draft Paper (for peer review) | Apr 15 | (part of Capstone) |
+| Peer Review | Apr 22 | 5% |
 | Capstone Project Package | May 1 | 45% |
 
 **Problem Sets (30% total):** 4 problem sets (PS-3 and PS-4 are shorter). Grade based on **top 3 of 4** scores.
