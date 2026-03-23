@@ -39,6 +39,9 @@ jobs:
             libtiff-dev \
             libmagick++-dev
 
+      - name: Setup Python dependencies
+        run: pip install nbformat jupyter
+
       - name: Setup renv
         uses: r-lib/actions/setup-renv@v2
 
