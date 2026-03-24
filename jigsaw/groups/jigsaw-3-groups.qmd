@@ -1,25 +1,42 @@
 ---
 title: "Jigsaw 3 Groups"
-subtitle: "Causal Forests (Mar 11)"
-date: "Generated: 2026-01-14 10:04:14.959316"
-draft: true
+subtitle: "Causal Forests (Mar 30)"
+date: "Generated: 2026-03-24"
+---
+
+## Paper Assignments
+
+| Paper | Title | Assigned Group |
+|-------|-------|----------------|
+| **Paper 1** | Inoue et al. (2024) — Medicaid/cardiovascular risk, IV causal forests | Audrey, Cristina, Oguz, Takhona |
+| **Paper 2** | Boutilier et al. (2022) — TB treatment targeting in Kenya | Aniruddhan, Doyoung, Lillian, Raquel |
+| **Paper 3** | Venkatasubramaniam et al. (2023) — Diabetes precision medicine, CF vs regression | Haiyi, Jose, Mario, Yumeng |
+| **Paper 4** | McCoy et al. (2025) — Septic shock, methods triangulation | Camille, Korie, Nicolle, Tarini |
+
+See [Paper Details](../papers/unit-3-causal-forests.qmd) for full citations and reading tips.
+
 ---
 
 ## Expert Groups (Phase 1)
 
-|Paper   |Students                                                             |
-|:-------|:--------------------------------------------------------------------|
-|Paper 1 |Aniruddhan Ganesaraman, Cristina Lee, Mario Rojas, Yumeng Du         |
-|Paper 2 |Audrey Yao, Camille Murray, Doyoung Kim, Lillian Feingold            |
-|Paper 3 |Jose Lopez, Oguz Eren, Raquel Davis, Tarini Goyal                    |
-|Paper 4 |Haiyi Chen, Korie Rice, Nicolle Wagner Gutierrez, Takhona Hlatshwako |
+In this phase, you meet with classmates who read the **same paper**.
+
+| Paper | Students |
+|:------|:---------|
+| Paper 1 | Audrey Yao, Cristina Lee, Oguz Eren, Takhona Hlatshwako |
+| Paper 2 | Aniruddhan Ganesaraman, Doyoung Kim, Lillian Feingold, Raquel Davis |
+| Paper 3 | Haiyi Chen, Jose Lopez, Mario Rojas, Yumeng Du |
+| Paper 4 | Camille Murray, Korie Rice, Nicolle Wagner Gutierrez, Tarini Goyal |
+
+---
 
 ## Teaching Groups (Phase 2)
 
-|Group   |Members (Paper Assignment)                                                           |
-|:-------|:------------------------------------------------------------------------------------|
-|Group A |Aniruddhan Ganesaraman (P1), Audrey Yao (P2), Jose Lopez (P3), Haiyi Chen (P4)       |
-|Group B |Cristina Lee (P1), Camille Murray (P2), Oguz Eren (P3), Korie Rice (P4)              |
-|Group C |Mario Rojas (P1), Doyoung Kim (P2), Raquel Davis (P3), Nicolle Wagner Gutierrez (P4) |
-|Group D |Yumeng Du (P1), Lillian Feingold (P2), Tarini Goyal (P3), Takhona Hlatshwako (P4)    |
+In this phase, groups reshuffle so each group has **one expert from each paper**.
 
+| Group | Members (Paper) |
+|:------|:----------------|
+| Group A | Audrey Yao (P1), Aniruddhan Ganesaraman (P2), Haiyi Chen (P3), Camille Murray (P4) |
+| Group B | Cristina Lee (P1), Doyoung Kim (P2), Jose Lopez (P3), Korie Rice (P4) |
+| Group C | Oguz Eren (P1), Lillian Feingold (P2), Mario Rojas (P3), Nicolle Wagner Gutierrez (P4) |
+| Group D | Takhona Hlatshwako (P1), Raquel Davis (P2), Yumeng Du (P3), Tarini Goyal (P4) |

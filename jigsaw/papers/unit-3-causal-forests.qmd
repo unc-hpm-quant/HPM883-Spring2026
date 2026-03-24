@@ -6,7 +6,7 @@ toc: true
 
 ## Overview
 
-These papers use causal forests and related methods to estimate heterogeneous treatment effects (HTE). Understanding who benefits most from interventions is central to precision medicine and targeted policy.
+These papers apply causal forests to real clinical and policy data across different health domains. Each demonstrates a different way heterogeneous treatment effects (HTE) change what we know about an intervention—and what we should do about it.
 
 ## Paper Assignments
 
@@ -27,73 +27,79 @@ If approved, your group reads and presents the alternative paper instead of the 
 
 ---
 
-## Paper 1: Causal Forests for Youth Employment
+## Paper 1: Medicaid and Cardiovascular Risk
 
-**Citation:** Davis, J. M., & Heller, S. B. (2017). Using causal forests to predict treatment heterogeneity: An application to summer jobs. *American Economic Review*, 107(5), 546-550.
+**Citation:** Inoue, K., Athey, S., Baicker, K., & Tsugawa, Y. (2024). Heterogeneous effects of Medicaid coverage on cardiovascular risk factors. *BMJ*, 386, e079377.
 
-**Why this paper?** This accessible paper applies causal forests to a youth summer jobs RCT, demonstrating how to identify which youth benefit most from employment programs.
+**DOI:** [https://doi.org/10.1136/bmj-2024-079377](https://doi.org/10.1136/bmj-2024-079377)
 
-**Key methodological features:**
-
-- Honest causal forests
-- Targeting based on predicted CATE
-- Policy implications of heterogeneity
-- Connection between HTE and program design
-
-[Access via UNC Libraries](https://www.aeaweb.org/articles?id=10.1257/aer.p20171000)
-
----
-
-## Paper 2: Precision Medicine with Causal Forests
-
-**Citation:** Athey, S., & Wager, S. (2019). Estimating treatment effects with causal forests: An application. *Observational Studies*, 5(2), 37-51.
-
-**Why this paper?** This paper demonstrates causal forests for identifying patient subgroups who benefit from surgical interventions, directly relevant to precision health economics.
+**Why this paper?** The Oregon Health Insurance Experiment is one of the most important RCTs in health economics—and its average null effect on cardiovascular risk has shaped policy debates for a decade. This paper uses IV causal forests to show that the null average hides real heterogeneity: some subgroups benefit substantially from Medicaid coverage.
 
 **Key methodological features:**
 
-- Variable importance for HTE drivers
-- Confidence intervals for CATEs
-- Best linear projection for interpretation
-- Subgroup analysis vs. continuous heterogeneity
+- Instrumental variable causal forests (lottery as instrument)
+- "Null average hides real effects" framing
+- Oregon HIE data students already know from HPM 881
+- Policy implications for Medicaid expansion targeting
 
-[Access via UNC Libraries](https://muse.jhu.edu/article/793358)
+[Access via DOI](https://doi.org/10.1136/bmj-2024-079377)
 
 ---
 
-## Paper 3: HTE in Health Insurance
+## Paper 2: TB Treatment Targeting in Kenya
 
-**Citation:** Basu, A., Heckman, J. J., Navarro-Lozano, S., & Urzua, S. (2007). Use of instrumental variables in the presence of heterogeneity and self-selection: An application to treatments of breast cancer patients. *Health Economics*, 16(11), 1133-1157.
+**Citation:** Boutilier, J. J., et al. (2022). Can digital adherence technologies reduce inequity in TB treatment success? *BMJ Global Health*, 7(12).
 
-**Supplementary:** Compare with modern causal forest approaches.
+**DOI:** [https://doi.org/10.1136/bmjgh-2022-010512](https://doi.org/10.1136/bmjgh-2022-010512)
 
-**Why this paper?** While predating causal forests, this paper on breast cancer treatment heterogeneity provides excellent context for why ML-based HTE methods matter in health.
+**Why this paper?** This paper takes CATEs from causal forests and converts them into actionable targeting rules: who should be enrolled in a digital adherence program? It connects heterogeneous effects directly to resource allocation and equity—exactly the bridge between methods and policy that matters for health economics.
 
 **Key methodological features:**
 
-- Essential vs. preference heterogeneity
-- Selection on gains
-- Implications for treatment guidelines
-- Welfare analysis with heterogeneous effects
+- Causal forests applied to an RCT
+- CATEs → targeting rules for program enrollment
+- Equity analysis of who benefits most
+- Resource allocation under constrained budgets
 
-[Access via UNC Libraries](https://pubmed.ncbi.nlm.nih.gov/17428697/)
+[Access via DOI](https://doi.org/10.1136/bmjgh-2022-010512)
 
 ---
 
-## Paper 4: Overfitting and Subgroup Hunting (Critical Analysis)
+## Paper 3: Diabetes Precision Medicine
 
-**Citation:** Athey, S., & Imbens, G. (2016). Recursive partitioning for heterogeneous causal effects. *Proceedings of the National Academy of Sciences*, 113(27), 7353-7360.
+**Citation:** Venkatasubramaniam, A., et al. (2023). Comparison of causal forest and regression-based approaches to evaluate treatment effect heterogeneity: An application for type 2 diabetes precision medicine. *BMC Medical Informatics and Decision Making*, 23, 110.
 
-**Why this paper?** The original "honest" causal trees paper—essential for understanding why sample splitting matters for valid inference on heterogeneity.
+**DOI:** [https://doi.org/10.1186/s12911-023-02207-2](https://doi.org/10.1186/s12911-023-02207-2)
 
-**Key methodological features (for critique):**
+**Why this paper?** This paper directly compares causal forests against penalized regression for detecting HTE in diabetes treatment—and finds that CF isn't always best. With external validation on 18,000 patients, it provides a healthy reality check on ML methods in precision medicine.
 
-- Dangers of "data dredging" for subgroups
-- Honest vs. adaptive estimation
-- Multiple testing concerns
-- When heterogeneity is real vs. spurious
+**Key methodological features:**
 
-[Access via UNC Libraries](https://www.pnas.org/doi/10.1073/pnas.1510489113)
+- Head-to-head comparison: causal forests vs. penalized regression
+- External validation cohort (18K patients)
+- Precision medicine framing for treatment selection
+- When simpler approaches outperform ML
+
+[Access via DOI](https://doi.org/10.1186/s12911-023-02207-2)
+
+---
+
+## Paper 4: Septic Shock and Methods Triangulation
+
+**Citation:** McCoy, C. E., et al. (2025). Application of causal forests to randomised controlled trial data to identify heterogeneous treatment effects: A case study. *BMC Medical Research Methodology*, 25, 47.
+
+**DOI:** [https://doi.org/10.1186/s12874-025-02489-2](https://doi.org/10.1186/s12874-025-02489-2)
+
+**Why this paper?** Rather than treating causal forests as a standalone method, this paper triangulates CF results with hierarchical LASSO and classical interaction tests on the same septic shock trial (VANISH, n=408). It shows how CF complements—rather than replaces—traditional subgroup analysis, and demonstrates what happens with small samples.
+
+**Key methodological features:**
+
+- Methods triangulation: CF + hierarchical LASSO + classical tests
+- Small trial setting (n=408)
+- Serum potassium identified as effect modifier
+- How CF complements traditional subgroup analysis
+
+[Access via DOI](https://doi.org/10.1186/s12874-025-02489-2)
 
 ---
 
@@ -101,9 +107,9 @@ If approved, your group reads and presents the alternative paper instead of the 
 
 For each paper, focus on:
 
-1. **Heterogeneity sources:** What variables drive treatment effect variation?
-2. **Policy implications:** How would you target the intervention based on HTE?
-3. **Inference:** How confident are we in the subgroup effects?
-4. **Overfitting risks:** Could the heterogeneity be spurious?
+1. **What drives heterogeneity?** What patient or population characteristics create treatment effect variation?
+2. **How do the authors validate their findings?** External data, sample splitting, triangulation with other methods?
+3. **What are the policy or clinical implications?** If heterogeneity is real, what should decision-makers do differently?
+4. **Could a simpler method have found the same thing?** When is the ML machinery worth the complexity?
 
-Be skeptical of dramatic subgroup findings—heterogeneity is often smaller than it first appears when properly evaluated.
+The best jigsaw discussions happen when you can explain not just *what* your paper found, but *why it matters* for how we target interventions.
