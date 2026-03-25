@@ -470,7 +470,11 @@ A causal forest is a **locally weighted doubly-robust estimator** where the weig
 ## Causal Forests in R
 
 ::: {.callout-note appearance="simple"}
-**Code-along notebook:** [Causal Forests Demo](causal-forests-demo.html) — full worked example with analysis pipeline
+**Code-along notebook:** Full worked example with the GRF analysis pipeline
+
+- [Open in Posit Cloud](causal-forests-demo.qmd) (recommended — R environment ready)
+- [Open in Google Colab](https://colab.research.google.com/github/unc-hpm-quant/HPM883-Spring2026/blob/main/unit-3/causal-forests-demo.ipynb) (requires R kernel setup)
+- [View as HTML](causal-forests-demo.html) (read-only reference)
 :::
 
 The `grf` package (Generalized Random Forests) makes this easy:
