@@ -12,6 +12,7 @@ format:
     progress: true
     chalkboard: true
     smaller: true
+    scrollable: true
     logo: ../images/logo.png
     footer: "HPM 883 | Session 3.0: Causal Random Forests"
     toc: true
@@ -61,6 +62,8 @@ Maybe. But what if:
 
 ::: fragment
 The **average** hides crucial variation. Policy needs to know **who benefits**.
+
+![](images/cate-distribution.png){fig-alt="Histogram showing bimodal distribution of individual treatment effects, with ATE line obscuring two distinct subpopulations" width="80%"}
 :::
 
 ------------------------------------------------------------------------
@@ -136,7 +139,7 @@ All heterogeneity analysis should be **theory-driven to some extent** — you ne
 
 ------------------------------------------------------------------------
 
-## Pitfalls of Purely Data-Driven Subgroup Analysis
+## Pitfalls of Traditional Subgroup Analysis
 
 Even when theory motivates your subgroups, the traditional approach has well-known pitfalls:
 
@@ -202,22 +205,52 @@ Random forests are excellent **prediction** machines. But prediction ≠ causal 
 
 ## From Prediction Forests to Causal Forests
 
+![](images/tree-comparison.png){fig-alt="Side-by-side comparison of a prediction tree (Y-bar in leaves) vs a causal tree (tau-hat in leaves)" width="90%"}
+
+:::: fragment
+::: smaller
 |   | Prediction Forest | Causal Forest |
 |------------------------|------------------------|------------------------|
-| **Goal** | Predict $Y$ | Predict $\tau(X) = E[Y(1) - Y(0) \mid X]$ |
-| **Split criterion** | Minimize prediction error | Maximize treatment effect heterogeneity |
-| **What's in a leaf** | $\bar{Y}$ (mean outcome) | $\hat\tau$ (estimated treatment effect) |
-| **Key innovation** | Bagging + feature subsampling | \+ Honest splitting + local centering |
+| **Goal** | Predict $Y$ | Predict $\tau(X)$ |
+| **Leaves contain** | $\bar{Y}$ (mean outcome) | $\hat\tau$ (treatment effect) |
+| **Splits optimize** | Prediction error | Treatment effect heterogeneity |
+| **Key addition** | Bagging + feature subsampling | \+ Honest splitting + local centering |
+:::
+::::
 
-::: fragment
-For **prediction** trees, the split criterion minimizes prediction error:
+------------------------------------------------------------------------
 
-$$\text{Split to minimize:} \quad \sum_{i \in \text{left}} (Y_i - \bar{Y}_L)^2 + \sum_{i \in \text{right}} (Y_i - \bar{Y}_R)^2$$
+## Comparing Split Criteria
+
+::::: columns
+::: {.column width="48%"}
+### Prediction Tree
+
+**Goal:** Group similar *outcomes*
+
+$$\text{Minimize:} \quad \sum_{i \in L} (Y_i - \bar{Y}_L)^2 + \sum_{i \in R} (Y_i - \bar{Y}_R)^2$$
+
+"Put observations with similar $Y$ values in the same leaf."
 :::
 
-::: fragment
-**Key idea for today:** What if, instead of predicting $Y$, we want to predict $\tau(X)$ — the *treatment effect*?
+::: {.column width="48%"}
+### Causal Tree
+
+**Goal:** Group similar *treatment effects*
+
+$$\text{Maximize:} \quad (\hat\tau_L - \hat\tau_R)^2$$
+
+where $\hat\tau_L = \bar{Y}_{L,1} - \bar{Y}_{L,0}$
+
+"Put observations with similar $\tau(x)$ in the same leaf."
 :::
+:::::
+
+:::: fragment
+::: {.callout-warning appearance="simple"}
+The causal tree criterion looks at **differences in treatment effects** across child nodes — not differences in outcomes. This is a fundamentally different objective.
+:::
+::::
 
 ------------------------------------------------------------------------
 
@@ -259,9 +292,9 @@ where $\hat\tau_L = \bar{Y}_{L,\text{treated}} - \bar{Y}_{L,\text{control}}$
 ::::
 
 ::: fragment
-Split your data into two halves:
+Split your data into two halves — use one to build the tree, the other to fill in the estimates:
 
-![](images/honest-split.png){fig-alt="Diagram showing the full sample split into a Splitting Half (builds tree structure) and an Estimation Half (computes leaf estimates)" width="85%"}
+![](images/honest-flow.png){fig-alt="Two-stage honest estimation: splitting sample builds tree structure with question marks in leaves, estimation sample passes through to fill leaves with unbiased treatment effect estimates" width="90%"}
 :::
 
 :::: fragment
@@ -276,7 +309,7 @@ The estimation sample never influenced the splits. So the leaf estimates are **u
 
 ## Honest Trees: Step by Step
 
-**Step 1:** Randomly split data 50/50 into splitting ($\mathcal{S}$) and estimation ($\mathcal{E}$) samples.
+**Step 1:** Randomly split the data into a splitting sample ($\mathcal{S}$) and an estimation sample ($\mathcal{E}$). (Typically 50/50, but the ratio is tunable.)
 
 ::: fragment
 **Step 2:** Using $\mathcal{S}$ only, grow a tree that maximizes treatment effect heterogeneity across leaves.
@@ -392,20 +425,16 @@ Now $\tilde{Y}$ is "outcome variation not explained by covariates" and $\tilde{D
 
 ## Local Centering = Orthogonalization from DML
 
-::: {.callout-tip appearance="simple"}
-## Unit 2 → Unit 3 Bridge
-
+::: {.callout-tip appearance="minimal"}
 This is the **same orthogonalization** from Double ML! In Unit 2, we partialled out confounders to estimate the ATE. Here, we partial out confounders so the forest can estimate *heterogeneous* effects.
 :::
 
 ::: fragment
-![](images/local-centering.png){fig-alt="Side-by-side comparison: raw data showing treated vs control, and residualized data after local centering" width="85%"}
+![](images/local-centering.png){fig-alt="Side-by-side comparison: raw data showing treated vs control, and residualized data after local centering" width="75%"}
 :::
 
-::: fragment
-**Left:** Raw data — hard to see treatment effects because baseline outcome variation dominates.
-
-**Right:** After local centering — the relationship between residualized treatment and residualized outcome reveals the treatment effect signal.
+::: {.fragment .smaller}
+**Left:** Raw data — baseline outcome variation dominates, hard to see treatment effects. **Right:** After local centering — residualized data reveals the treatment effect signal.
 :::
 
 ------------------------------------------------------------------------
@@ -472,9 +501,8 @@ A causal forest is a **locally weighted doubly-robust estimator** where the weig
 ::: {.callout-note appearance="simple"}
 **Code-along notebook:** Full worked example with the GRF analysis pipeline
 
-- [Open in Posit Cloud](causal-forests-demo.qmd) (recommended — R environment ready)
-- [Open in Google Colab](https://colab.research.google.com/github/unc-hpm-quant/HPM883-Spring2026/blob/main/unit-3/causal-forests-demo.ipynb) (requires R kernel setup)
-- [View as HTML](causal-forests-demo.html) (read-only reference)
+-   [View on course website](https://hpm883.ssylvia.io/unit-3/causal-forests-demo.html) (recommended — copy code into your Posit Cloud project)
+-   [Open in Google Colab](https://colab.research.google.com/github/unc-hpm-quant/HPM883-Spring2026/blob/main/unit-3/causal-forests-demo.ipynb) (Jupyter notebook with R kernel)
 :::
 
 The `grf` package (Generalized Random Forests) makes this easy:
@@ -503,7 +531,11 @@ ci$upper <- ci$predictions + 1.96 * sqrt(ci$variance.estimates)
 ```
 
 ::: fragment
-That's it. Under the hood, `grf` handles honesty, local centering, and forest-based inference automatically.
+![](images/cate-distribution.png){fig-alt="Histogram of estimated CATEs showing bimodal distribution with ATE reference line" width="70%"}
+:::
+
+::: fragment
+Under the hood, `grf` handles honesty, local centering, and forest-based inference automatically.
 :::
 
 ------------------------------------------------------------------------
@@ -519,8 +551,11 @@ That's it. Under the hood, `grf` handles honesty, local centering, and forest-ba
 | `variable_importance()`      | Which covariates drive HTE?             |
 | `best_linear_projection()`   | Project CATEs onto selected covariates  |
 
-::: fragment
-### Testing for Heterogeneity
+------------------------------------------------------------------------
+
+## Testing for Heterogeneity
+
+The first thing to do after fitting a causal forest: **is the heterogeneity real?**
 
 ```{r}
 #| eval: false
@@ -531,10 +566,15 @@ test_calibration(cf)
 # Reports: mean.forest.prediction (should ≈ ATE)
 #          differential.forest.prediction (>0 if real HTE)
 ```
-:::
 
 ::: fragment
-If the "differential" coefficient is significantly positive, the forest is detecting real treatment effect heterogeneity — not just noise.
+![](images/output-calibration.png){fig-alt="Example test_calibration output showing both coefficients significant with three stars" width="75%"}
+:::
+
+::: {.fragment .smaller}
+-   **mean.forest.prediction** near 1: ATE is well-calibrated
+-   **differential.forest.prediction** \> 0 with p \< 0.05: **real heterogeneity detected**
+-   If differential is not significant, the "heterogeneity" may be noise
 :::
 
 ------------------------------------------------------------------------
@@ -552,7 +592,11 @@ sort(vi, decreasing = TRUE)[1:5]
 ```
 
 ::: fragment
-**Interpretation:** Variables that appear more often in splits are more important for explaining *treatment effect variation* (not outcome prediction).
+![](images/output-varimp.png){fig-alt="Horizontal bar chart showing comorbidities and age as top drivers of treatment effect heterogeneity" width="65%"}
+:::
+
+::: {.fragment .smaller}
+Variables that appear more often in splits are more important for explaining *treatment effect variation* (not outcome prediction).
 :::
 
 :::: fragment
@@ -577,13 +621,11 @@ print(blp)
 ```
 
 ::: fragment
-This fits: $\hat\tau(x) \approx \beta_0 + \beta_1 \cdot \text{age} + \beta_2 \cdot \text{comorbidities}$
+![](images/output-blp.png){fig-alt="BLP output showing comorbidities and age as significant predictors of treatment effect heterogeneity" width="75%"}
 :::
 
-::: fragment
--   Gives you interpretable coefficients with standard errors
--   "Each additional comorbidity increases the treatment effect by 0.8 units (SE = 0.3)"
--   More robust than pre-specified subgroup analysis
+::: {.fragment .smaller}
+**Reading this:** Each additional comorbidity increases the treatment *benefit* by 0.76 fewer ER visits (p \< 0.001). Age also matters (p = 0.002). Being female does not significantly predict differential benefit.
 :::
 
 ------------------------------------------------------------------------
@@ -617,78 +659,44 @@ Steps 2-7 are the **Athey-Wager diagnostic framework**. Always do these before m
 
 ## Step 2: Is the Heterogeneity Real? (GATES)
 
-Rank individuals by predicted CATE, split into quintiles, estimate the ATE within each group using doubly-robust (AIPW) scores.
+Rank individuals by predicted CATE, split into quintiles, estimate the ATE within each group.
 
 ::: fragment
-```{r}
-#| eval: false
-#| echo: true
-
-# Create quintile rankings (K-fold to avoid overfitting)
-# Estimate AIPW-based ATE within each quintile
-ols <- lm(aipw.scores ~ 0 + factor(ranking))
-coeftest(ols, vcov = vcovHC(ols, "HC2"))
-```
+![](images/gates-example.png){fig-alt="GATES bar chart showing staircase pattern of increasing treatment effects from Q1 to Q5, with ATE reference line" width="75%"}
 :::
 
-::: fragment
-**If Group 5 \>\> Group 1:** Real heterogeneity — the forest identifies who benefits most.
-
-**If all groups ≈ equal:** Heterogeneity is weak or noise — proceed with caution.
+::: {.fragment .smaller}
+**Staircase = real heterogeneity.** Q5 benefits 3x more than Q1. If all bars were equal, heterogeneity is weak or noise.
 :::
 
 ------------------------------------------------------------------------
 
 ## Step 6: Who is in Each Group? (CLAN)
 
-Compare covariate means between the most-affected and least-affected groups.
+**CLAN** = **C**haracterization of **L**ocal **A**verage treatment effect by **N**eighborhood
+
+Compare covariate means between the most-affected (Q5) and least-affected (Q1) groups.
 
 ::: fragment
-```{r}
-#| eval: false
-#| echo: true
-
-# Compare top quintile (most benefit) vs bottom quintile (least benefit)
-mean_top    <- colMeans(X[ranking == 5, ])
-mean_bottom <- colMeans(X[ranking == 1, ])
-difference  <- mean_top - mean_bottom
-```
+![](images/output-clan.png){fig-alt="CLAN bar chart showing most-affected group has 1.8 more comorbidities and is 8.3 years older than least-affected" width="70%"}
 :::
 
-::: fragment
-This tells you what **characterizes** high-benefit individuals.
-
-Example: "Patients in the top group have 2.3 more comorbidities and are 12 years older on average."
+::: {.fragment .smaller}
+The most-benefited patients are older with more comorbidities — the CHW program helps the sickest patients most. **CLAN is descriptive, not causal.** It says *who* benefits, not *why*.
 :::
-
-:::: fragment
-::: {.callout-warning appearance="simple"}
-CLAN is **descriptive**, not causal. It says who benefits, not why.
-:::
-::::
 
 ------------------------------------------------------------------------
 
 ## Step 7: Does Targeting Work? (RATE/AUTOC)
 
-The **Rank-Average Treatment Effect** evaluates targeting quality.
+The **Rank-Average Treatment Effect (RATE)** evaluates targeting quality. **AUTOC** = **A**rea **U**nder the **T**argeting **O**perator **C**haracteristic.
 
 ::: fragment
-```{r}
-#| eval: false
-#| echo: true
-
-# Split-sample: train CATEs on one half, evaluate on the other
-rate <- rank_average_treatment_effect(cf.eval, tau.hat.test)
-plot(rate)  # TOC curve
-```
+![](images/output-toc.png){fig-alt="TOC curve showing declining excess benefit as fraction treated increases, with AUTOC shaded area and confidence band" width="70%"}
 :::
 
-::: fragment
-**TOC curve:** Treat individuals in order of predicted benefit (highest CATE first). The curve shows treatment effect advantage over random assignment.
-
--   **AUTOC \> 0** (p \< 0.05): Your targeting rule works
--   **Flat at zero:** No useful heterogeneity for targeting
+::: {.fragment .smaller}
+**Reading the TOC:** Treat in order of predicted benefit (highest CATE first). Curve above zero = targeting outperforms random assignment. **AUTOC \> 0** (p \< 0.05) = your targeting rule works. Flat at zero = no useful heterogeneity.
 :::
 
 ------------------------------------------------------------------------
