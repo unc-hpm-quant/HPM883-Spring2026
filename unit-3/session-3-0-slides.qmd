@@ -501,8 +501,8 @@ A causal forest is a **locally weighted doubly-robust estimator** where the weig
 ::: {.callout-note appearance="simple"}
 **Code-along notebook:** Full worked example with the GRF analysis pipeline
 
--   [View on course website](https://hpm883.ssylvia.io/unit-3/causal-forests-demo.html) (recommended — copy code into your Posit Cloud project)
--   [Open in Google Colab](https://colab.research.google.com/github/unc-hpm-quant/HPM883-Spring2026/blob/main/unit-3/causal-forests-demo.ipynb) (Jupyter notebook with R kernel)
+-   [View on course website](https://hpm883.ssylvia.io/unit-3/causal-forests-demo.html) (recommended — copy code into your local project)
+-   [Open corrected version in Google Colab](https://colab.research.google.com/drive/1N1RSV4LTA74N09QrwPTAtiolMxehqWbN) (instructor's corrected notebook)
 :::
 
 The `grf` package (Generalized Random Forests) makes this easy:

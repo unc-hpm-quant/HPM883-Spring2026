@@ -202,11 +202,11 @@ Your paper and group assignments are now posted:
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
 | 20 | Mon Mar 30 | **Jigsaw 3:** Causal Forest Applications | In-Person |
-| 21 | Wed Apr 1 | Lab: Causal Forests, Meta-Learners & CATEs | [Remote](https://zoom.us/j/93346316978) |
+| 21 | Wed Apr 1 | Lab 4: Causal Forests in Practice | [Remote](https://zoom.us/j/93346316978) |
 
 **Session 20 (Jigsaw 3):** Expert groups present on causal forest application papers — building intuition for HTE methods through real health economics examples.
 
-**Session 21 (Remote Lab):** Hands-on implementation of causal forests (`grf`), meta-learners (T/S/X/R/DR-learner), and CATE estimation. Includes CATE calibration and `test_calibration()`.
+**Session 21 (Remote Lab):** Hands-on implementation of the causal forest analysis pipeline (`grf`): estimate CATEs, test for real heterogeneity, GATES/CLAN analysis, RATE evaluation, and policy tree preview. [Lab 4](labs/lab-4-causal-forests.qmd)
 
 **Problem Set 3 assigned:** Heterogeneous Treatment Effects (due Apr 6)
 

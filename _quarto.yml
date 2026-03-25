@@ -185,6 +185,8 @@ website:
             text: "Lab 2: ML Regularization"
           - href: labs/lab-3-dml.qmd
             text: "Lab 3: DML Implementation"
+          - href: labs/lab-4-causal-forests.qmd
+            text: "Lab 4: Causal Forests"
       - section: "Problem Sets"
         contents:
           - href: problem-sets/st-nulls-hospital.qmd
@@ -195,6 +197,8 @@ website:
             text: "PS 2: Double Machine Learning"
           - href: problem-sets/ps-2-code-companion.qmd
             text: "↳ Code Companion"
+          - href: problem-sets/ps-3-causal-forests.qmd
+            text: "PS 3: Causal Forests & HTEs"
       - section: "Resources"
         contents:
           - href: resources.qmd
