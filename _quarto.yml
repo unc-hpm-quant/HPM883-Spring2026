@@ -171,6 +171,8 @@ website:
             text: "Session 3.0: Causal Forests"
           - href: unit-3/session-3-0-slides.qmd
             text: "↳ Slides: Causal Random Forests"
+          - href: unit-3/causal-forests-demo.qmd
+            text: "↳ Code-Along: GRF Analysis Pipeline"
       - section: "Labs"
         contents:
           - href: labs/index.qmd
