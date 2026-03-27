@@ -10,7 +10,7 @@ These papers apply causal forests to real clinical and policy data across differ
 
 ## Paper Assignments
 
-Your paper assignment will be posted on Canvas one week before the session.
+Your paper assignment is listed in the [Jigsaw 3 Groups](../groups/jigsaw-3-groups.qmd) page.
 
 ::: {.callout-tip}
 ## Finding Your Own Paper
