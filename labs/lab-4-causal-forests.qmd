@@ -13,34 +13,35 @@ format:
     code-tools: true
 editor: visual
 execute:
-  eval: false
+  eval: true
 ---
 
 ## Accept the Assignment
 
-[**Click here to accept Lab 4 on GitHub Classroom**](https://classroom.github.com/a/CeAUvyV9)
+[**Click here to accept Lab 4 on GitHub Classroom**](https://classroom.github.com/a/CDcZhKw9)
 
 This will create your personal repository for this lab.
 
 **To get started:**
 
-1. Accept the assignment using the link above
-2. Clone your repository locally: `git clone <your-repo-url>`
-3. Open `hpm883-lab.Rproj` in RStudio or Positron
-4. Run `renv::restore()` to install packages
-5. Open `lab-4-causal-forests.qmd` and follow along
+1.  Accept the assignment using the link above
+2.  Clone your repository locally: `git clone <your-repo-url>`
+3.  Open `hpm883-lab.Rproj` in RStudio or Positron
+4.  Run `renv::restore()` to install packages
+5.  Install the causal forest packages (not yet in renv): `install.packages(c("grf", "policytree", "DiagrammeR"))`
+6.  Open `lab-4-causal-forests.qmd` and follow along
 
 ::: callout-important
 ## Code-Along Session (Remote, Zoom)
 
-All code chunks have `eval: false` — run them yourself in RStudio or Positron. This is a **75-minute guided session**, not a rendering exercise.
+This is a **75-minute guided session**. Code chunks execute when rendered, but we recommend running them interactively in RStudio or Positron to explore the output step by step.
 :::
 
 ## Overview
 
 In Session 3.0, we introduced causal forests and the GRF analysis pipeline:
 
-```
+```         
 1. Estimate CATEs with causal_forest()
 2. Test whether heterogeneity is real (test_calibration)
 3. Screen which covariates drive heterogeneity (variable_importance)
@@ -53,11 +54,11 @@ In Session 3.0, we introduced causal forests and the GRF analysis pipeline:
 
 Today we implement this pipeline hands-on, including a **failure case** where we deliberately simulate data with no heterogeneity to see how the diagnostics catch it. By the end of this session, you will:
 
-1. Fit a causal forest and extract out-of-bag CATE predictions
-2. Use `test_calibration()` to distinguish real heterogeneity from noise
-3. Build GATES and CLAN analyses from AIPW scores
-4. Evaluate targeting quality with RATE/AUTOC
-5. Preview `policytree` for interpretable treatment rules
+1.  Fit a causal forest and extract out-of-bag CATE predictions
+2.  Use `test_calibration()` to distinguish real heterogeneity from noise
+3.  Build GATES and CLAN analyses from AIPW scores
+4.  Evaluate targeting quality with RATE/AUTOC
+5.  Preview `policytree` for interpretable treatment rules
 
 ------------------------------------------------------------------------
 
@@ -91,7 +92,7 @@ theme_set(theme_minimal(base_size = 14))
 `grf` (Generalized Random Forests) estimates heterogeneous treatment effects using a forest-based approach. The key insight: each tree splits the data to maximize treatment effect *heterogeneity* across leaves, not prediction accuracy.
 
 | Component | Function | Purpose |
-|-----------|----------|---------|
+|--------------------------|------------------------|----------------------|
 | **Estimation** | `causal_forest()` | Fit forest, estimate individual CATEs |
 | **Diagnostics** | `test_calibration()` | Test if heterogeneity is real |
 | **Screening** | `variable_importance()` | Which covariates drive heterogeneity |
@@ -169,12 +170,12 @@ cat("Fraction with large benefit (tau < -1):", mean(tau.true < -1), "\n")
 
 The true treatment effect has **four possible values** depending on comorbidities and age:
 
-| Comorbidities | Age | True $\tau(x)$ |
-|:---:|:---:|:---:|
-| < 2 | $\leq$ 55 | -0.5 |
-| $\geq$ 2 | $\leq$ 55 | -1.3 |
-| < 2 | > 55 | -1.1 |
-| $\geq$ 2 | > 55 | -1.9 |
+| Comorbidities |    Age    | True $\tau(x)$ |
+|:-------------:|:---------:|:--------------:|
+|     \< 2      | $\leq$ 55 |      -0.5      |
+|   $\geq$ 2    | $\leq$ 55 |      -1.3      |
+|     \< 2      |   \> 55   |      -1.1      |
+|   $\geq$ 2    |   \> 55   |      -1.9      |
 
 Everyone benefits (all effects are negative = fewer ER visits), but the benefit ranges from modest (-0.5) to substantial (-1.9). The four other covariates (`female`, `income_quartile`, `rural`, `prior_er_visits`) are **not** effect modifiers — they don't appear in the CATE function.
 :::
@@ -235,9 +236,9 @@ ggplot(data.frame(tau = tau.hat), aes(x = tau)) +
 
 Look at the histogram of estimated CATEs.
 
-1. The spread looks wider than you might expect from just four true values. Why? *(Hint: think about estimation noise in finite samples.)*
-2. How would you determine whether this spread reflects **real** heterogeneity vs. **estimation noise**?
-3. If someone showed you this histogram without any diagnostics, would you be confident the heterogeneity is real?
+1.  The spread looks wider than you might expect from just four true values. Why? *(Hint: think about estimation noise in finite samples.)*
+2.  How would you determine whether this spread reflects **real** heterogeneity vs. **estimation noise**?
+3.  If someone showed you this histogram without any diagnostics, would you be confident the heterogeneity is real?
 
 We'll answer question 2 formally in Exercise 2.
 :::
@@ -268,8 +269,8 @@ print(cal)
 
 The output has two rows:
 
-1. **mean.forest.prediction** — Tests whether the ATE estimate is calibrated. Coefficient $\approx 1$ means the forest's average prediction is on target.
-2. **differential.forest.prediction** — Tests whether heterogeneity is real. Coefficient > 0 with p < 0.05 means the forest detects **genuine** variation in treatment effects beyond noise.
+1.  **mean.forest.prediction** — Tests whether the ATE estimate is calibrated. Coefficient $\approx 1$ means the forest's average prediction is on target.
+2.  **differential.forest.prediction** — Tests whether heterogeneity is real. Coefficient \> 0 with p \< 0.05 means the forest detects **genuine** variation in treatment effects beyond noise.
 
 The differential coefficient is the one that matters most. If it's not significant, your "heterogeneity" may be an artifact.
 :::
@@ -396,9 +397,9 @@ cat("Failure case - differential coef:",
 
 Compare the two histograms and calibration test results.
 
-1. Both histograms show *spread* in estimated CATEs. Why does the constant-effect histogram still show variation? *(Hint: estimation noise.)*
-2. The calibration test catches the difference. What specifically changes between the success and failure case?
-3. If you only looked at histograms without running `test_calibration()`, would you have been fooled by the constant-effect case?
+1.  Both histograms show *spread* in estimated CATEs. Why does the constant-effect histogram still show variation? *(Hint: estimation noise.)*
+2.  The calibration test catches the difference. What specifically changes between the success and failure case?
+3.  If you only looked at histograms without running `test_calibration()`, would you have been fooled by the constant-effect case?
 
 **Key lesson:** Visual spread in CATE estimates is *necessary but not sufficient* evidence of heterogeneity. Always run formal tests.
 :::
@@ -575,13 +576,13 @@ plot(rate.result, las = 1,
 
 The TOC (Targeting Operator Characteristic) curve shows what happens if you treat individuals **in order of predicted benefit**:
 
-- **X-axis:** Fraction of population treated (starting with highest predicted CATE)
-- **Y-axis:** Treatment effect for the treated fraction *minus* the overall ATE
+-   **X-axis:** Fraction of population treated (starting with highest predicted CATE)
+-   **Y-axis:** Treatment effect for the treated fraction *minus* the overall ATE
 
 If the curve is above zero on the left, your targeting rule successfully identifies high-benefit individuals. The **area under the curve (AUTOC)** summarizes overall targeting quality.
 
-- AUTOC > 0 with p < 0.05: targeting works better than random assignment
-- AUTOC ≈ 0: no useful heterogeneity for targeting (treat everyone or no one)
+-   AUTOC \> 0 with p \< 0.05: targeting works better than random assignment
+-   AUTOC ≈ 0: no useful heterogeneity for targeting (treat everyone or no one)
 :::
 
 ::: callout-important
@@ -589,9 +590,9 @@ If the curve is above zero on the left, your targeting rule successfully identif
 
 Consider the GATES plot, CLAN results, and RATE output together.
 
-1. CLAN shows you *who* is in the top group. Is that enough to build a targeting rule? What's missing?
-2. The RATE/AUTOC test tells you *whether* targeting works. But does it tell you the optimal *threshold* — how many people to treat?
-3. How might a budget constraint change which analysis (GATES, CLAN, RATE, or policy tree) is most useful?
+1.  CLAN shows you *who* is in the top group. Is that enough to build a targeting rule? What's missing?
+2.  The RATE/AUTOC test tells you *whether* targeting works. But does it tell you the optimal *threshold* — how many people to treat?
+3.  How might a budget constraint change which analysis (GATES, CLAN, RATE, or policy tree) is most useful?
 
 **Preview:** Exercise 4 shows how `policytree` turns these insights into an explicit decision rule.
 :::
@@ -633,7 +634,7 @@ plot(ptree, leaf.labels = c("Don't Treat", "Treat"))
 
 The policy tree learns a simple decision rule that maximizes expected welfare. It takes the DR scores (which encode the causal information) and finds the best depth-2 tree that assigns patients to treatment or control.
 
-The result is an interpretable rule like: "Treat if comorbidities $\geq$ 2 AND age > 55." This is much simpler than the full causal forest — it trades some optimality for interpretability.
+The result is an interpretable rule like: "Treat if comorbidities $\geq$ 2 AND age \> 55." This is much simpler than the full causal forest — it trades some optimality for interpretability.
 :::
 
 ### Step 3: Evaluate the Policy
@@ -660,9 +661,9 @@ cat("Overall true ATE:",
 
 Compare the policy tree rule to the CLAN analysis:
 
-1. Does the policy tree use the same covariates that CLAN identified as important? Why or why not?
-2. A policy tree gives you an **explicit rule** (treat/don't treat). CLAN gives you **group descriptions** (who's in Q5 vs Q1). When would you prefer one over the other?
-3. This is a depth-2 tree. What happens if you increase depth? Is more complex always better?
+1.  Does the policy tree use the same covariates that CLAN identified as important? Why or why not?
+2.  A policy tree gives you an **explicit rule** (treat/don't treat). CLAN gives you **group descriptions** (who's in Q5 vs Q1). When would you prefer one over the other?
+3.  This is a depth-2 tree. What happens if you increase depth? Is more complex always better?
 
 **We'll formalize policy learning in Unit 4**, including welfare analysis, budget constraints, and optimal treatment rules.
 :::
@@ -673,22 +674,22 @@ Compare the policy tree rule to the CLAN analysis:
 
 ### Key Takeaways
 
-1. **Always test before interpreting.** CATE histograms *always* show spread — even when effects are constant. `test_calibration()` is the firewall between noise and signal.
+1.  **Always test before interpreting.** CATE histograms *always* show spread — even when effects are constant. `test_calibration()` is the firewall between noise and signal.
 
-2. **The pipeline has a logical order.** Estimate → Test → Summarize → Evaluate → Decide. Each step answers a distinct question; skipping steps leads to overconfident claims.
+2.  **The pipeline has a logical order.** Estimate → Test → Summarize → Evaluate → Decide. Each step answers a distinct question; skipping steps leads to overconfident claims.
 
-3. **Variable importance $\neq$ BLP $\neq$ CLAN.** Variable importance tells you *which* covariates drive heterogeneity (splitting frequency). BLP tells you *how* covariates relate to CATEs (linear projection). CLAN tells you *who* is in the top/bottom groups (covariate profiles). They're complementary, not redundant.
+3.  **Variable importance** $\neq$ BLP $\neq$ CLAN. Variable importance tells you *which* covariates drive heterogeneity (splitting frequency). BLP tells you *how* covariates relate to CATEs (linear projection). CLAN tells you *who* is in the top/bottom groups (covariate profiles). They're complementary, not redundant.
 
-4. **Split-sample evaluation is essential for RATE.** Using the same data to estimate CATEs and evaluate targeting quality is circular. The train/test split in the RATE analysis ensures honest evaluation.
+4.  **Split-sample evaluation is essential for RATE.** Using the same data to estimate CATEs and evaluate targeting quality is circular. The train/test split in the RATE analysis ensures honest evaluation.
 
-5. **Policy trees bridge estimation and action.** A CATE estimate tells you "this person's effect is -1.9." A policy tree tells you "treat everyone over 55 with 2+ comorbidities." The latter is what a program manager needs.
+5.  **Policy trees bridge estimation and action.** A CATE estimate tells you "this person's effect is -1.9." A policy tree tells you "treat everyone over 55 with 2+ comorbidities." The latter is what a program manager needs.
 
 ### Common Debugging Tips
 
 | Problem | Likely Cause | Fix |
-|---------|-------------|-----|
+|-----------------------|-------------------------------|------------------|
 | `causal_forest()` runs slowly | Too many trees or small `min.node.size` | Start with 2000 trees; increase if diagnostics are noisy |
-| `test_calibration()` p > 0.05 but you expected heterogeneity | Weak signal, small n, or noisy outcome | Increase n, reduce outcome noise, or try `tune.parameters = "all"` |
+| `test_calibration()` p \> 0.05 but you expected heterogeneity | Weak signal, small n, or noisy outcome | Increase n, reduce outcome noise, or try `tune.parameters = "all"` |
 | Variable importance ranks noise variables high | Small n or high outcome noise | Focus on BLP significance, not raw importance |
 | GATES confidence intervals all overlap | Forest can't distinguish groups precisely | This is a valid finding — heterogeneity may exist but isn't estimable at this sample size |
 | `policy_tree()` error about scores | Wrong input format | Use `double_robust_scores(cf)`, not raw predictions |
@@ -698,8 +699,8 @@ Compare the policy tree rule to the CLAN analysis:
 
 Problem Set 3 asks you to apply these tools to a **different dataset** (Patient Engagement App, n=5,000) and extends the analysis in two important ways:
 
-1. **Meta-learners** (T-learner, X-learner) — alternative approaches to CATE estimation that don't use forests
-2. **Independent analysis** — you choose which diagnostics to run and how to summarize heterogeneity
+1.  **Meta-learners** (T-learner, X-learner) — alternative approaches to CATE estimation that don't use forests
+2.  **Independent analysis** — you choose which diagnostics to run and how to summarize heterogeneity
 
 The core `grf` pipeline from today is your foundation. PS-3 builds on it.
 
@@ -707,15 +708,15 @@ The core `grf` pipeline from today is your foundation. PS-3 builds on it.
 
 The instructor's corrected version of the Session 3.0 code-along is available here:
 
-- [Open in Google Colab](https://colab.research.google.com/drive/1N1RSV4LTA74N09QrwPTAtiolMxehqWbN)
+-   [Open in Google Colab](https://colab.research.google.com/drive/1N1RSV4LTA74N09QrwPTAtiolMxehqWbN)
 
 ------------------------------------------------------------------------
 
 ## Additional Resources
 
-- [GRF Documentation](https://grf-labs.github.io/grf/)
-- [GRF Diagnostics Vignette](https://grf-labs.github.io/grf/articles/diagnostics.html)
-- [GRF RATE Vignette](https://grf-labs.github.io/grf/articles/rate.html)
-- Athey, S., Tibshirani, J., & Wager, S. (2019). Generalized Random Forests. *Annals of Statistics*, 47(2), 1148-1178.
-- Chernozhukov, V. et al. (2018). Generic Machine Learning Inference on Heterogeneous Treatment Effects. *Econometrica*, 86(6).
-- Wager, S. (2024). *Causal Inference: A Statistical Learning Approach*. Chapter 6.
+-   [GRF Documentation](https://grf-labs.github.io/grf/)
+-   [GRF Diagnostics Vignette](https://grf-labs.github.io/grf/articles/diagnostics.html)
+-   [GRF RATE Vignette](https://grf-labs.github.io/grf/articles/rate.html)
+-   Athey, S., Tibshirani, J., & Wager, S. (2019). Generalized Random Forests. *Annals of Statistics*, 47(2), 1148-1178.
+-   Chernozhukov, V. et al. (2018). Generic Machine Learning Inference on Heterogeneous Treatment Effects. *Econometrica*, 86(6).
+-   Wager, S. (2024). *Causal Inference: A Statistical Learning Approach*. Chapter 6.
