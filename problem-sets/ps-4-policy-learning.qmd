@@ -2,7 +2,7 @@
 title: "Problem Set 4"
 subtitle: "Policy Learning"
 author: "HPM 883: Advanced Quantitative Methods"
-date: "Due: April 8, 2026"
+date: "Due: April 13, 2026"
 slug: "ps-4"
 categories: [Problem Set, Policy Learning, Policy Trees, OPE]
 description: "Learn optimal treatment policies from CATE estimates, conduct off-policy evaluation, and optimize resource allocation under budget constraints."
@@ -15,6 +15,22 @@ editor: visual
 execute:
   eval: false
   echo: true
+---
+
+## Accept the Assignment
+
+[**Click here to accept PS 4 on GitHub Classroom**](https://classroom.github.com/a/PLACEHOLDER-PS4)
+
+This will create your personal repository with the data and starter QMD.
+
+**To get started:**
+
+1. Accept the assignment using the link above
+2. Clone your repository locally: `git clone <your-repo-url>`
+3. Open `hpm883-lab.Rproj` in RStudio or Positron
+4. Run `renv::restore()` to install packages
+5. Open `analysis.qmd` and complete the tasks
+
 ---
 
 ## Introduction
@@ -169,7 +185,7 @@ Use language appropriate for a hospital executive. Avoid technical jargon.
 
 ## Submission Requirements
 
-Push to your GitHub Classroom repository by **April 8, 2026 at 11:59 PM**:
+Push to your GitHub Classroom repository by **April 13, 2026 at 11:59 PM**:
 - Rendered HTML and source .qmd file
 
 ---
@@ -188,7 +204,7 @@ Push to your GitHub Classroom repository by **April 8, 2026 at 11:59 PM**:
 
 ## Hints
 
-- Use `grf::causal_forest()` to get doubly-robust scores via `get_scores()`
-- `policytree::policy_tree()` learns optimal trees from scores
+- Use `grf::causal_forest()` then `double_robust_scores()` to extract DR scores
+- `policytree::policy_tree()` learns optimal trees from DR scores
 - For OPE, remember the propensity is 0.5 in this RCT
 - The value of treating everyone is just the ATE

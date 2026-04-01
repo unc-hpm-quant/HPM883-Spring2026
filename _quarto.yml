@@ -199,6 +199,8 @@ website:
             text: "↳ Code Companion"
           - href: problem-sets/ps-3-causal-forests.qmd
             text: "PS 3: Causal Forests & HTEs"
+          - href: problem-sets/ps-4-policy-learning.qmd
+            text: "PS 4: Policy Learning"
       - section: "Resources"
         contents:
           - href: resources.qmd
