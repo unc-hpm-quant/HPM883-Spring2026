@@ -17,21 +17,44 @@ execute:
   echo: true
 ---
 
+::: {.callout-important}
 ## Accept the Assignment
 
-[**Click here to accept PS 4 on GitHub Classroom**](https://classroom.github.com/a/PLACEHOLDER-PS4)
+**[Click here to accept Problem Set 4 on GitHub Classroom](https://classroom.github.com/a/PLACEHOLDER-PS4)**
 
-This will create your personal repository with the data and starter QMD.
+This will create your personal repository for this problem set.
+:::
 
-**To get started:**
+::: {.callout-note}
+## Getting Started
 
-1. Accept the assignment using the link above
-2. Clone your repository locally: `git clone <your-repo-url>`
-3. Open `hpm883-lab.Rproj` in RStudio or Positron
-4. Run `renv::restore()` to install packages
-5. Open `analysis.qmd` and complete the tasks
+After accepting the assignment above:
 
----
+1. **Clone your repo** — on your repo page, click the green **Code** button, copy the URL, then:
+
+   ```bash
+   git clone <your-repo-url>
+   cd ps-4-policy-learning-<your-username>
+   ```
+
+2. **Open in your IDE** — open the folder in Positron (recommended), RStudio, or VS Code
+
+3. **Restore packages** — in the R console, run:
+
+   ```r
+   renv::restore()
+   ```
+
+   This installs the exact package versions needed (may take a few minutes the first time).
+
+4. **Start working** — open `analysis.qmd` and run chunks interactively
+
+**If you get stuck on a computational task for more than 45 minutes:**
+look for the progressive hints embedded in each task (collapsed callouts below).
+
+**Submission:** Source `.qmd` file is required. Rendered HTML is appreciated
+but not required — unrendered `.qmd` is accepted.
+:::
 
 ## Introduction
 
@@ -60,6 +83,23 @@ Use the same data from PS 3, with CATE estimates included:
 app_data <- read.csv("data/ps-4-policy-data.csv")
 ```
 
+```{r}
+#| label: setup
+#| eval: true
+
+library(grf)
+library(policytree)
+library(ggplot2)
+
+set.seed(883)
+theme_set(theme_minimal(base_size = 14))
+
+X <- as.matrix(app_data[, paste0("X", 1:20)])
+Y <- app_data$Y
+W <- app_data$W
+tau_hat <- app_data$tau_hat
+```
+
 The dataset contains the original RCT data plus:
 - `tau_hat`: CATE estimates from a causal forest
 - `Y`, `W`, `X1`-`X20`: Same as PS 3
@@ -68,19 +108,51 @@ The dataset contains the original RCT data plus:
 
 ## Task 1: Conceptual Foundation (20 points)
 
+*No code required for this task. Write clear, technical explanations.*
+
 ### 1.1 From CATEs to Policies (10 points)
 
 a) **Optimal policy:** Define the optimal treatment policy $\pi^*(x)$ in terms of the CATE $\tau(x)$. Under what condition should we treat an individual?
 
+::: {.callout-note}
+## Your Answer (1.1a)
+
+*Replace this with your response.*
+:::
+
 b) **Regret:** Define the policy regret $R(\pi)$. Why might minimizing regret be preferable to maximizing value?
 
+::: {.callout-note}
+## Your Answer (1.1b)
+
+*Replace this with your response.*
+:::
+
 c) **Budget constraints:** How does the optimal policy change when we can only treat a fraction $\alpha$ of the population? What additional information do we need?
+
+::: {.callout-note}
+## Your Answer (1.1c)
+
+*Replace this with your response.*
+:::
 
 ### 1.2 Policy Trees (10 points)
 
 d) **Interpretability vs. optimality:** Policy trees sacrifice some optimality for interpretability. Explain why a hospital administrator might prefer a depth-2 policy tree over a complex "treat if CATE > 0" rule.
 
+::: {.callout-note}
+## Your Answer (1.2d)
+
+*Replace this with your response.*
+:::
+
 e) **Doubly-robust policy learning:** The `policytree` package uses doubly-robust scores. Explain why this is important for valid policy learning from observational or experimental data.
+
+::: {.callout-note}
+## Your Answer (1.2e)
+
+*Replace this with your response.*
+:::
 
 ---
 
@@ -90,16 +162,69 @@ e) **Doubly-robust policy learning:** The `policytree` package uses doubly-robus
 
 ### 2.1 Learn Policy Trees (15 points)
 
-Using `policytree`, learn optimal policy trees with:
+Using `policytree`, learn optimal policy trees:
 
-a) **Depth-2 tree:** Learn a depth-2 policy tree using the doubly-robust scores from a causal forest.
+a) **Fit a causal forest** and extract doubly-robust scores using `double_robust_scores()`.
 
-b) **Depth-3 tree:** Learn a depth-3 policy tree.
+b) **Depth-2 tree:** Learn a depth-2 policy tree from the DR scores.
+
+c) **Depth-3 tree:** Learn a depth-3 policy tree.
 
 For each tree:
 - Visualize the tree structure
 - Report which covariates are used for splitting
 - Calculate the fraction of population recommended for treatment
+
+```{r}
+#| label: task-2-1-causal-forest
+#| eval: true
+
+# Fit a causal forest (W.hat = 0.5 for RCT)
+
+# Extract doubly-robust scores
+
+# Fit depth-2 policy tree
+
+# Visualize tree
+
+# Report: covariates used, fraction treated
+```
+
+::: {.callout-tip collapse="true"}
+## Hint: Fitting Policy Trees (Tier 1)
+
+1. `cf <- causal_forest(X, Y, W, W.hat = 0.5, num.trees = 2000, seed = 883)`
+2. `dr_scores <- double_robust_scores(cf)` — gives a matrix with columns for control/treatment
+3. `ptree <- policy_tree(X, dr_scores, depth = 2)`
+4. `plot(ptree, leaf.labels = c("Don't Treat", "Treat"))`
+5. `mean(predict(ptree, X) == 2)` — fraction assigned to treatment
+:::
+
+```{r}
+#| label: task-2-1-depth3
+#| eval: true
+
+# Fit depth-3 policy tree
+
+# Visualize tree
+
+# Report: covariates used, fraction treated
+```
+
+```{r}
+#| label: task-2-1-fallback
+#| eval: false
+
+# UNCOMMENT below ONLY if you could not get your code to run.
+# Include: (1) your attempted code, (2) the error, (3) what you think went wrong.
+# knitr::include_graphics("fallback/task-2-1-policy-trees.png")
+```
+
+::: {.callout-note}
+## Your Answer (2.1)
+
+*Describe the splitting variables and treatment fractions for each tree. How do the depth-2 and depth-3 trees differ?*
+:::
 
 ### 2.2 Policy Comparison (15 points)
 
@@ -110,9 +235,59 @@ Compare four policies:
 4. **Policy Tree (Depth-2):** Learned policy
 
 For each policy:
-- Calculate the expected value using doubly-robust estimation
+- Calculate the expected value using AIPW scores
 - Report 95% confidence intervals
 - Create a bar chart comparing policy values
+
+```{r}
+#| label: task-2-2-policy-comparison
+#| eval: true
+
+# Define each policy's assignments (vector of 1s and 2s, where 2 = treat)
+
+# For each policy, compute expected value using AIPW scores:
+#   value = mean(dr_scores[cbind(1:n, assignments)])
+
+# Collect results: Policy, Value, SE, CI_Lower, CI_Upper
+
+# Display comparison table
+```
+
+::: {.callout-tip collapse="true"}
+## Hint: Computing Policy Values (Tier 1)
+
+DR scores have 2 columns: column 1 = E[Y(control)], column 2 = E[Y(treatment)].
+For a given assignment vector `a` (1 = control, 2 = treatment):
+```r
+value <- mean(dr_scores[cbind(1:nrow(dr_scores), a)])
+se <- sd(dr_scores[cbind(1:nrow(dr_scores), a)]) / sqrt(nrow(dr_scores))
+```
+:::
+
+```{r}
+#| label: task-2-2-barplot
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5
+#| fig-alt: "Bar chart comparing expected value across four treatment policies"
+
+# Create bar chart with error bars comparing policy values
+```
+
+```{r}
+#| label: task-2-2-fallback
+#| eval: false
+
+# UNCOMMENT below ONLY if you could not get your code to run.
+# Include: (1) your attempted code, (2) the error, (3) what you think went wrong.
+# knitr::include_graphics("fallback/task-2-2-policy-comparison.png")
+```
+
+::: {.callout-note}
+## Your Answer (2.2)
+
+*Which policy achieves the highest value? Is the difference statistically significant?*
+:::
 
 ---
 
@@ -125,21 +300,111 @@ Implement the doubly-robust (DR) policy value estimator:
 $$\hat{V}_{DR}(\pi) = \frac{1}{n}\sum_{i=1}^{n} \left[ \hat{\mu}_{\pi(X_i)}(X_i) + \frac{\mathbb{1}(W_i = \pi(X_i))}{\hat{e}_{\pi(X_i)}(X_i)} (Y_i - \hat{\mu}_{\pi(X_i)}(X_i)) \right]$$
 
 Evaluate the depth-2 policy tree using:
-- Direct method (plug-in)
-- IPW method
-- Doubly-robust method
+- Direct method (plug-in): use only $\hat{\mu}_{\pi(X_i)}(X_i)$
+- IPW method: use only the weighting term
+- Doubly-robust method: use both
 
 Compare the three estimates. Which is most reliable and why?
+
+```{r}
+#| label: task-3-1-ope
+#| eval: true
+
+# Get policy assignments from depth-2 tree
+# assignments: 1 = control, 2 = treatment
+
+# Extract nuisance estimates from causal forest:
+# mu.hat.0, mu.hat.1, e.hat (= 0.5 for RCT)
+
+# Direct method: mean of mu.hat for assigned treatment
+
+# IPW method: weighted outcomes for those matching policy
+
+# DR method: combine both (the AIPW formula)
+
+# Compare estimates and SEs
+```
+
+::: {.callout-tip collapse="true"}
+## Hint: OPE Components (Tier 1)
+
+From the causal forest `cf`:
+- `cf$Y.hat` = marginal outcome prediction $\hat{m}(X)$
+- `cf$W.hat` = propensity (= 0.5 everywhere for RCT)
+- `predict(cf)$predictions` = CATE estimates $\hat{\tau}(X)$
+
+For the **direct** method with policy $\pi$:
+```r
+mu_pi <- ifelse(pi == 1, mu.hat.1, mu.hat.0)
+V_direct <- mean(mu_pi)
+```
+:::
+
+```{r}
+#| label: task-3-1-fallback
+#| eval: false
+
+# UNCOMMENT below ONLY if you could not get your code to run.
+# Include: (1) your attempted code, (2) the error, (3) what you think went wrong.
+# knitr::include_graphics("fallback/task-3-1-ope-comparison.png")
+```
+
+::: {.callout-note}
+## Your Answer (3.1)
+
+*Compare the three estimators. Why might they differ? Which is most reliable for this RCT setting?*
+:::
 
 ### 3.2 Policy Value Curve (10 points)
 
 Create a **policy value curve** showing expected value as the treatment budget varies:
 
-- X-axis: Fraction treated (0% to 100%)
+- X-axis: Fraction treated (0% to 100%, in steps of 10%)
 - Y-axis: Expected policy value
-- Compare: Random selection vs. CATE-based targeting
+- Compare: Random selection vs. CATE-based targeting (treat highest CATEs first)
 
 At what budget level do you achieve 90% of the maximum possible value?
+
+```{r}
+#| label: task-3-2-value-curve
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5
+#| fig-alt: "Line plot comparing policy value curves for random vs CATE-based targeting across budget levels"
+
+# For each budget level (10%, 20%, ..., 100%):
+#   Random: sample that fraction, compute mean AIPW score
+#   CATE-based: treat top fraction by tau_hat, compute mean AIPW score
+
+# Plot both curves
+```
+
+::: {.callout-tip collapse="true"}
+## Hint: Value Curve Construction (Tier 1)
+
+For CATE-based targeting at budget fraction `q`:
+```r
+threshold <- quantile(tau_hat, 1 - q)
+treated <- tau_hat >= threshold
+value <- mean(dr_scores[treated, 2])  # value for treated group
+```
+For random targeting, average over multiple random draws.
+:::
+
+```{r}
+#| label: task-3-2-fallback
+#| eval: false
+
+# UNCOMMENT below ONLY if you could not get your code to run.
+# Include: (1) your attempted code, (2) the error, (3) what you think went wrong.
+# knitr::include_graphics("fallback/task-3-2-value-curve.png")
+```
+
+::: {.callout-note}
+## Your Answer (3.2)
+
+*At what budget level do you achieve 90% of maximum value? What does this imply for program design?*
+:::
 
 ---
 
@@ -155,13 +420,75 @@ b) Characterize the selected patients: What are their average characteristics (a
 
 c) What is the expected average treatment effect among the selected patients?
 
+```{r}
+#| label: task-4-1-threshold
+#| eval: true
+
+# Find the 60th percentile of tau_hat (top 40% above this)
+
+# Create treatment indicator
+
+# Characterize: mean of key covariates for treated vs untreated
+
+# Expected ATE among treated (using AIPW scores)
+```
+
+::: {.callout-tip collapse="true"}
+## Hint: Threshold Selection (Tier 1)
+
+```r
+threshold <- quantile(tau_hat, 0.60)  # top 40% are above 60th percentile
+selected <- tau_hat >= threshold
+cat("Threshold:", threshold, "\n")
+cat("Fraction selected:", mean(selected), "\n")
+```
+:::
+
+```{r}
+#| label: task-4-1-fallback
+#| eval: false
+
+# UNCOMMENT below ONLY if you could not get your code to run.
+# Include: (1) your attempted code, (2) the error, (3) what you think went wrong.
+# knitr::include_graphics("fallback/task-4-1-threshold.png")
+```
+
+::: {.callout-note}
+## Your Answer (4.1)
+
+*Report the threshold, patient characteristics of the selected group, and expected ATE among treated.*
+:::
+
 ### 4.2 Sensitivity Analysis (5 points)
 
-How sensitive is the optimal policy to:
-- Budget constraints (30%, 40%, 50%)?
-- Uncertainty in CATE estimates?
+How sensitive is the optimal policy to budget constraints (30%, 40%, 50%)?
 
 Create a table showing expected policy value at different budget levels.
+
+```{r}
+#| label: task-4-2-sensitivity
+#| eval: true
+
+# For each budget level (30%, 40%, 50%):
+#   Find threshold, compute expected value, count treated
+
+# Display comparison table
+```
+
+```{r}
+#| label: task-4-2-fallback
+#| eval: false
+
+# UNCOMMENT below ONLY if you could not get your code to run.
+# Include: (1) your attempted code, (2) the error, (3) what you think went wrong.
+# knitr::include_graphics("fallback/task-4-2-sensitivity.png")
+```
+
+::: {.callout-note}
+## Your Answer (4.2)
+
+*How sensitive is the optimal policy value to the budget constraint?*
+:::
 
 ---
 
@@ -181,12 +508,36 @@ Write a 400-word recommendation to CEO Barnaby Beta that includes:
 
 Use language appropriate for a hospital executive. Avoid technical jargon.
 
+::: {.callout-note}
+## Your Recommendation (Task 5)
+
+*Replace this with your 400-word recommendation memo.*
+:::
+
 ---
 
 ## Submission Requirements
 
 Push to your GitHub Classroom repository by **April 13, 2026 at 11:59 PM**:
-- Rendered HTML and source .qmd file
+
+1. **Source .qmd file** (required)
+2. **Rendered HTML** of your completed .qmd file (if possible — unrendered `.qmd` accepted)
+
+Your submission should include:
+
+- All code with `eval: true` so results are visible (if rendering)
+- Clear written answers in the answer callout boxes
+- Well-formatted tables and visualizations
+
+::: {.callout-note}
+## If Using Fallback Outputs
+
+If you used any fallback outputs, uncomment the relevant `knitr::include_graphics()` line in the fallback code block for that task. Your submission must also include:
+
+- Your attempted code (even if it didn't run)
+- The error message you encountered
+- A brief explanation of what you think went wrong
+:::
 
 ---
 
@@ -208,3 +559,4 @@ Push to your GitHub Classroom repository by **April 13, 2026 at 11:59 PM**:
 - `policytree::policy_tree()` learns optimal trees from DR scores
 - For OPE, remember the propensity is 0.5 in this RCT
 - The value of treating everyone is just the ATE
+- `policytree` requires `DiagrammeR` for tree plots: `install.packages("DiagrammeR")`

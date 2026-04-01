@@ -2,7 +2,7 @@
 title: "Problem Set 3"
 subtitle: "Causal Forests & Heterogeneous Treatment Effects"
 author: "HPM 883: Advanced Quantitative Methods"
-date: "Due: April 6, 2026"
+date: "Due: April 8, 2026"
 slug: "ps-3"
 categories: [Problem Set, Causal Forests, HTEs, grf, Meta-learners]
 description: "Estimate heterogeneous treatment effects using causal forests and meta-learners, calibrate estimates, and identify who benefits most from treatment."
@@ -17,21 +17,44 @@ execute:
   echo: true
 ---
 
+::: {.callout-important}
 ## Accept the Assignment
 
-[**Click here to accept PS 3 on GitHub Classroom**](https://classroom.github.com/a/SU4xFrEB)
+**[Click here to accept Problem Set 3 on GitHub Classroom](https://classroom.github.com/a/SU4xFrEB)**
 
-This will create your personal repository with the data and starter QMD.
+This will create your personal repository for this problem set.
+:::
 
-**To get started:**
+::: {.callout-note}
+## Getting Started
 
-1. Accept the assignment using the link above
-2. Clone your repository locally: `git clone <your-repo-url>`
-3. Open `hpm883-lab.Rproj` in RStudio or Positron
-4. Run `renv::restore()` to install packages
-5. Open `analysis.qmd` and complete the tasks
+After accepting the assignment above:
 
----
+1. **Clone your repo** — on your repo page, click the green **Code** button, copy the URL, then:
+
+   ```bash
+   git clone <your-repo-url>
+   cd ps-3-causal-forests-<your-username>
+   ```
+
+2. **Open in your IDE** — open the folder in Positron (recommended), RStudio, or VS Code
+
+3. **Restore packages** — in the R console, run:
+
+   ```r
+   renv::restore()
+   ```
+
+   This installs the exact package versions needed (may take a few minutes the first time).
+
+4. **Start working** — open `analysis.qmd` and run chunks interactively
+
+**If you get stuck on a computational task for more than 45 minutes:**
+look for the progressive hints embedded in each task (collapsed callouts below).
+
+**Submission:** Source `.qmd` file is required. Rendered HTML is appreciated
+but not required — unrendered `.qmd` is accepted.
+:::
 
 ## Introduction
 
@@ -73,6 +96,22 @@ Load the provided RCT data:
 app_data <- read.csv("data/ps-3-app-rct.csv")
 ```
 
+```{r}
+#| label: setup
+#| eval: true
+
+library(grf)
+library(ggplot2)
+library(ranger)
+
+set.seed(883)
+theme_set(theme_minimal(base_size = 14))
+
+X <- as.matrix(app_data[, paste0("X", 1:20)])
+Y <- app_data$Y
+W <- app_data$W
+```
+
 The dataset contains:
 
 - `Y`: Quality-adjusted life days (outcome)
@@ -95,15 +134,45 @@ The dataset contains:
 
 a) **Honest splitting:** Explain what "honest" estimation means in the context of causal forests. Why is honest splitting important, and what problem does it solve compared to standard random forests?
 
+::: {.callout-note}
+## Your Answer (1.1a)
+
+*Replace this with your response.*
+:::
+
 b) **CATE estimation:** The causal forest estimates $\tau(x) = E[Y(1) - Y(0) | X = x]$. Explain the key insight of how causal forests use local weighting to estimate treatment effects at each point, and how this differs from simply running separate regressions in treated and control groups.
 
+::: {.callout-note}
+## Your Answer (1.1b)
+
+*Replace this with your response.*
+:::
+
 c) **Variance estimation:** Causal forests provide uncertainty quantification for CATE estimates. Briefly explain how the forest structure enables variance estimation through the infinitesimal jackknife.
+
+::: {.callout-note}
+## Your Answer (1.1c)
+
+*Replace this with your response.*
+:::
 
 ### 1.2 Meta-learners (10 points)
 
 d) **T-learner vs S-learner:** Explain the difference between T-learner and S-learner approaches. Under what conditions might the T-learner outperform the S-learner, and vice versa?
 
+::: {.callout-note}
+## Your Answer (1.2d)
+
+*Replace this with your response.*
+:::
+
 e) **X-learner:** The X-learner uses a two-stage procedure. Describe the two stages and explain why this approach might be preferable when treatment and control groups have very different sizes.
+
+::: {.callout-note}
+## Your Answer (1.2e)
+
+*Replace this with your response.*
+:::
 
 ---
 
@@ -111,7 +180,7 @@ e) **X-learner:** The X-learner uses a two-stage procedure. Describe the two sta
 
 Implement causal forest estimation using the `grf` package.
 
-**Packages:** `grf`, `ggplot2`, `data.table`
+**Packages:** `grf`, `ggplot2`
 
 ### 2.1 Basic Causal Forest (10 points)
 
@@ -120,7 +189,7 @@ Fit a causal forest using `grf::causal_forest()` with:
 - All 20 covariates as potential moderators
 - Honest splitting enabled
 - At least 2,000 trees
-- Tuning enabled for key parameters
+- `W.hat = 0.5` (known propensity from RCT)
 
 Report:
 - Estimated ATE (forest average of CATEs)
@@ -128,6 +197,44 @@ Report:
 - 95% confidence interval
 
 Compare the forest-based ATE to a simple difference-in-means estimate.
+
+```{r}
+#| label: task-2-1-causal-forest
+#| eval: true
+
+# Fit causal forest
+
+# Extract OOB CATE predictions
+
+# Forest-weighted ATE
+
+# Simple difference in means for comparison
+```
+
+::: {.callout-tip collapse="true"}
+## Hint: Fitting a Causal Forest (Tier 1)
+
+```r
+cf <- causal_forest(X, Y, W, W.hat = 0.5, num.trees = 2000, seed = 883)
+tau.hat <- predict(cf)$predictions
+average_treatment_effect(cf)
+```
+:::
+
+```{r}
+#| label: task-2-1-fallback
+#| eval: false
+
+# UNCOMMENT below ONLY if you could not get your code to run.
+# Include: (1) your attempted code, (2) the error, (3) what you think went wrong.
+# knitr::include_graphics("fallback/task-2-1-causal-forest.png")
+```
+
+::: {.callout-note}
+## Your Answer (2.1)
+
+*Report the ATE, SE, CI, and comparison to difference-in-means.*
+:::
 
 ### 2.2 CATE Distribution (10 points)
 
@@ -139,6 +246,38 @@ b) Report the 10th, 25th, 50th, 75th, and 90th percentiles of the CATE distribut
 
 c) What fraction of individuals have estimated treatment effects below zero? Above 5 days?
 
+```{r}
+#| label: task-2-2-histogram
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5
+#| fig-alt: "Histogram of estimated CATEs showing distribution of treatment effect heterogeneity"
+
+# Create CATE histogram with ATE reference line
+```
+
+```{r}
+#| label: task-2-2-quantiles
+#| eval: true
+
+# Report percentiles and fractions
+```
+
+```{r}
+#| label: task-2-2-fallback
+#| eval: false
+
+# UNCOMMENT below ONLY if you could not get your code to run.
+# Include: (1) your attempted code, (2) the error, (3) what you think went wrong.
+# knitr::include_graphics("fallback/task-2-2-cate-distribution.png")
+```
+
+::: {.callout-note}
+## Your Answer (2.2)
+
+*Report the percentiles and fractions. What does the distribution suggest about heterogeneity?*
+:::
+
 ### 2.3 Variable Importance (10 points)
 
 Assess which covariates drive treatment effect heterogeneity:
@@ -147,7 +286,53 @@ a) Extract and visualize variable importance from the causal forest.
 
 b) Identify the top 5 most important moderators.
 
-c) Create partial dependence plots for the top 2 moderators showing how the estimated CATE varies across their range.
+c) Create a Best Linear Projection (BLP) of the CATEs on the top 3 moderators.
+
+```{r}
+#| label: task-2-3-varimp
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5
+#| fig-alt: "Bar chart of variable importance scores for treatment effect heterogeneity"
+
+# Extract variable importance
+
+# Visualize as bar chart
+
+# Identify top 5
+```
+
+```{r}
+#| label: task-2-3-blp
+#| eval: true
+
+# Best Linear Projection on top 3 moderators
+```
+
+::: {.callout-tip collapse="true"}
+## Hint: Variable Importance and BLP (Tier 1)
+
+```r
+var.imp <- variable_importance(cf)
+# For BLP:
+best_linear_projection(cf, A = X[, top_3_columns])
+```
+:::
+
+```{r}
+#| label: task-2-3-fallback
+#| eval: false
+
+# UNCOMMENT below ONLY if you could not get your code to run.
+# Include: (1) your attempted code, (2) the error, (3) what you think went wrong.
+# knitr::include_graphics("fallback/task-2-3-varimp.png")
+```
+
+::: {.callout-note}
+## Your Answer (2.3)
+
+*List the top 5 moderators and interpret the BLP coefficients. Remember: variable importance ≠ effect direction.*
+:::
 
 ---
 
@@ -167,6 +352,71 @@ For each meta-learner:
 - Compute CATE predictions for all individuals
 - Report the correlation between meta-learner CATEs and causal forest CATEs
 
+```{r}
+#| label: task-3-1-tlearner
+#| eval: true
+
+# T-learner: fit separate models for treated and control
+
+# Predict CATEs: mu_1(x) - mu_0(x)
+
+# Correlation with causal forest CATEs
+```
+
+::: {.callout-tip collapse="true"}
+## Hint: T-learner Implementation (Tier 1)
+
+```r
+# Split data by treatment
+treated <- W == 1
+# Fit separate ranger models
+fit1 <- ranger(Y ~ ., data = data.frame(Y = Y[treated], X[treated, ]))
+fit0 <- ranger(Y ~ ., data = data.frame(Y = Y[!treated], X[!treated, ]))
+# Predict for everyone
+tau_t <- predict(fit1, data.frame(X))$predictions - predict(fit0, data.frame(X))$predictions
+```
+:::
+
+```{r}
+#| label: task-3-1-xlearner
+#| eval: true
+
+# X-learner Stage 1: fit mu_0 and mu_1
+
+# X-learner Stage 2: impute treatment effects, fit CATE models
+
+# Combine using propensity weights (0.5 for RCT)
+
+# Correlation with causal forest CATEs
+```
+
+::: {.callout-tip collapse="true"}
+## Hint: X-learner Stage 2 (Tier 1)
+
+Stage 2 imputes individual treatment effects:
+- For treated: $D_i^1 = Y_i - \hat{\mu}_0(X_i)$ (observed minus predicted control)
+- For control: $D_i^0 = \hat{\mu}_1(X_i) - Y_i$ (predicted treatment minus observed)
+
+Then fit two CATE models on these imputed effects and combine:
+$\hat{\tau}_X(x) = e(x) \cdot \hat{\tau}_0(x) + (1-e(x)) \cdot \hat{\tau}_1(x)$
+where $e(x) = 0.5$ for a balanced RCT.
+:::
+
+```{r}
+#| label: task-3-1-fallback
+#| eval: false
+
+# UNCOMMENT below ONLY if you could not get your code to run.
+# Include: (1) your attempted code, (2) the error, (3) what you think went wrong.
+# knitr::include_graphics("fallback/task-3-1-metalearners.png")
+```
+
+::: {.callout-note}
+## Your Answer (3.1)
+
+*Report the correlations between meta-learner and causal forest CATEs.*
+:::
+
 ### 3.2 Method Agreement (5 points)
 
 Create a scatter plot matrix comparing CATE estimates from:
@@ -176,27 +426,72 @@ Create a scatter plot matrix comparing CATE estimates from:
 
 Discuss: Do the methods agree on who benefits most? Where do they disagree most?
 
+```{r}
+#| label: task-3-2-scatter
+#| eval: true
+#| fig-width: 8
+#| fig-height: 8
+#| fig-alt: "Scatter plot matrix comparing CATE estimates from three methods"
+
+# Create scatter plot matrix (pairs plot or ggplot grid)
+```
+
+```{r}
+#| label: task-3-2-fallback
+#| eval: false
+
+# UNCOMMENT below ONLY if you could not get your code to run.
+# Include: (1) your attempted code, (2) the error, (3) what you think went wrong.
+# knitr::include_graphics("fallback/task-3-2-scatter.png")
+```
+
+::: {.callout-note}
+## Your Answer (3.2)
+
+*Discuss method agreement. Where and why do they disagree?*
+:::
+
 ---
 
 ## Task 4: Validation and Calibration (15 points)
 
 ### 4.1 BLP Calibration Test (10 points)
 
-Implement the Best Linear Predictor (BLP) test from Chernozhukov et al. (2020):
+Run the calibration test using `grf::test_calibration()`:
 
-Regress the "scores" on the forest predictions:
-$$Y_i - \hat{m}(X_i) = \alpha + \beta_1 \cdot (W_i - \hat{e}(X_i)) + \beta_2 \cdot (W_i - \hat{e}(X_i)) \cdot (\hat{\tau}(X_i) - \bar{\tau}) + \epsilon_i$$
+```{r}
+#| label: task-4-1-calibration
+#| eval: true
 
-Where:
-- $\hat{m}(X_i)$ is the marginal outcome prediction
-- $\hat{e}(X_i)$ is the propensity score (should be 0.5 in RCT)
-- $\hat{\tau}(X_i)$ is the CATE prediction
+# Run test_calibration on your causal forest
 
-Interpret:
-- $\beta_1$: Does the ATE differ from zero?
-- $\beta_2$: Is there detectable heterogeneity in the direction predicted by $\hat{\tau}$?
+# Interpret: mean.forest.prediction and differential.forest.prediction
+```
 
-*Hint: Use `grf::test_calibration()`*
+::: {.callout-tip collapse="true"}
+## Hint: Calibration Test (Tier 1)
+
+```r
+cal <- test_calibration(cf)
+print(cal)
+```
+The key row is `differential.forest.prediction`: coefficient > 0 with p < 0.05 means the forest detects genuine heterogeneity. See Lab 4 for a detailed explanation.
+:::
+
+```{r}
+#| label: task-4-1-fallback
+#| eval: false
+
+# UNCOMMENT below ONLY if you could not get your code to run.
+# Include: (1) your attempted code, (2) the error, (3) what you think went wrong.
+# knitr::include_graphics("fallback/task-4-1-calibration.png")
+```
+
+::: {.callout-note}
+## Your Answer (4.1)
+
+*Interpret both rows of the calibration test. Is there evidence of genuine heterogeneity?*
+:::
 
 ### 4.2 Calibration Plot (5 points)
 
@@ -207,6 +502,47 @@ Create a calibration plot:
 - Add a 45-degree reference line
 
 Is the causal forest well-calibrated?
+
+```{r}
+#| label: task-4-2-calibration-plot
+#| eval: true
+#| fig-width: 7
+#| fig-height: 6
+#| fig-alt: "Calibration plot comparing predicted vs actual ATE by CATE quintile"
+
+# Create CATE quintiles
+
+# For each quintile: compute predicted mean CATE and actual diff-in-means
+
+# Plot with 45-degree reference line
+```
+
+::: {.callout-tip collapse="true"}
+## Hint: Calibration Plot (Tier 1)
+
+For each quintile `q`:
+```r
+in_q <- quintile == q
+pred_ate <- mean(tau.hat[in_q])
+actual_ate <- mean(Y[in_q & W == 1]) - mean(Y[in_q & W == 0])
+```
+Plot `pred_ate` vs `actual_ate` with `geom_abline(slope = 1, intercept = 0)`.
+:::
+
+```{r}
+#| label: task-4-2-fallback
+#| eval: false
+
+# UNCOMMENT below ONLY if you could not get your code to run.
+# Include: (1) your attempted code, (2) the error, (3) what you think went wrong.
+# knitr::include_graphics("fallback/task-4-2-calibration-plot.png")
+```
+
+::: {.callout-note}
+## Your Answer (4.2)
+
+*Is the forest well-calibrated? Are points close to the 45-degree line?*
+:::
 
 ---
 
@@ -225,6 +561,52 @@ For each subgroup:
 - Report point estimates and 95% CIs
 - Create a forest plot comparing subgroup effects
 
+```{r}
+#| label: task-5-1-subgroups
+#| eval: true
+
+# Define subgroups
+
+# For each subgroup: average_treatment_effect(cf, subset = ...)
+
+# Collect results into a data frame
+```
+
+```{r}
+#| label: task-5-1-forest-plot
+#| eval: true
+#| fig-width: 8
+#| fig-height: 6
+#| fig-alt: "Forest plot comparing treatment effects across patient subgroups"
+
+# Create forest plot with ggplot + geom_pointrange
+```
+
+::: {.callout-tip collapse="true"}
+## Hint: Subgroup ATEs (Tier 1)
+
+```r
+young <- app_data$X1 < 40
+ate_young <- average_treatment_effect(cf, subset = young)
+# ate_young gives estimate and std.err
+```
+:::
+
+```{r}
+#| label: task-5-1-fallback
+#| eval: false
+
+# UNCOMMENT below ONLY if you could not get your code to run.
+# Include: (1) your attempted code, (2) the error, (3) what you think went wrong.
+# knitr::include_graphics("fallback/task-5-1-forest-plot.png")
+```
+
+::: {.callout-note}
+## Your Answer (5.1)
+
+*Summarize the subgroup effects. Which groups benefit most?*
+:::
+
 ### 5.2 Targeting Strategy (5 points)
 
 Given a budget constraint that allows treatment of only **40% of patients**, recommend a targeting strategy:
@@ -235,7 +617,33 @@ b) What is the expected average treatment effect among treated under your target
 
 c) How does this compare to the population ATE if everyone were treated?
 
+```{r}
+#| label: task-5-2-targeting
+#| eval: true
+
+# Find threshold for top 40%
+
+# Expected ATE among targeted patients
+
+# Compare to overall ATE
+```
+
+```{r}
+#| label: task-5-2-fallback
+#| eval: false
+
+# UNCOMMENT below ONLY if you could not get your code to run.
+# Include: (1) your attempted code, (2) the error, (3) what you think went wrong.
+# knitr::include_graphics("fallback/task-5-2-targeting.png")
+```
+
 Write a brief recommendation (200 words) for CEO Barnaby Beta explaining your targeting approach.
+
+::: {.callout-note}
+## Your Recommendation (5.2)
+
+*Replace this with your 200-word recommendation.*
+:::
 
 ---
 
@@ -243,14 +651,24 @@ Write a brief recommendation (200 words) for CEO Barnaby Beta explaining your ta
 
 Push to your GitHub Classroom repository by **April 8, 2026 at 11:59 PM**:
 
-1. **Rendered HTML** of your completed .qmd file
-2. **Source .qmd file**
+1. **Source .qmd file** (required)
+2. **Rendered HTML** of your completed .qmd file (if possible — unrendered `.qmd` accepted)
 
 Your submission should include:
 
-- All code with `eval: true` so results are visible
-- Clear written answers to conceptual questions
+- All code with `eval: true` so results are visible (if rendering)
+- Clear written answers in the answer callout boxes
 - Well-formatted tables and visualizations
+
+::: {.callout-note}
+## If Using Fallback Outputs
+
+If you used any fallback outputs, uncomment the relevant `knitr::include_graphics()` line in the fallback code block for that task. Your submission must also include:
+
+- Your attempted code (even if it didn't run)
+- The error message you encountered
+- A brief explanation of what you think went wrong
+:::
 
 ---
 
