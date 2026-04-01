@@ -250,7 +250,7 @@ Looking for data? Here are some options:
 
 Your capstone code should be hosted on GitHub using the capstone template:
 
-**[Accept the Capstone Assignment on GitHub Classroom](https://classroom.github.com/a/PLACEHOLDER)**
+**[Accept the Capstone Assignment on GitHub Classroom](https://classroom.github.com/a/a1ygU2DK)**
 
 This creates a private repository with the recommended project structure, `renv` setup, and README template.
 

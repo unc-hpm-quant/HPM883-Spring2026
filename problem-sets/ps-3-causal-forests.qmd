@@ -2,7 +2,7 @@
 title: "Problem Set 3"
 subtitle: "Causal Forests & Heterogeneous Treatment Effects"
 author: "HPM 883: Advanced Quantitative Methods"
-date: "Due: March 25, 2026"
+date: "Due: April 6, 2026"
 slug: "ps-3"
 categories: [Problem Set, Causal Forests, HTEs, grf, Meta-learners]
 description: "Estimate heterogeneous treatment effects using causal forests and meta-learners, calibrate estimates, and identify who benefits most from treatment."
@@ -15,6 +15,22 @@ editor: visual
 execute:
   eval: false
   echo: true
+---
+
+## Accept the Assignment
+
+[**Click here to accept PS 3 on GitHub Classroom**](https://classroom.github.com/a/SU4xFrEB)
+
+This will create your personal repository with the data and starter QMD.
+
+**To get started:**
+
+1. Accept the assignment using the link above
+2. Clone your repository locally: `git clone <your-repo-url>`
+3. Open `hpm883-lab.Rproj` in RStudio or Positron
+4. Run `renv::restore()` to install packages
+5. Open `analysis.qmd` and complete the tasks
+
 ---
 
 ## Introduction
@@ -225,7 +241,7 @@ Write a brief recommendation (200 words) for CEO Barnaby Beta explaining your ta
 
 ## Submission Requirements
 
-Push to your GitHub Classroom repository by **March 25, 2026 at 11:59 PM**:
+Push to your GitHub Classroom repository by **April 8, 2026 at 11:59 PM**:
 
 1. **Rendered HTML** of your completed .qmd file
 2. **Source .qmd file**
