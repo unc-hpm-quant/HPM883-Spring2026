@@ -1,5 +1,5 @@
 ---
-title: "Session 22: From CATEs to Treatment Rules"
+title: "Session 4.0: From CATEs to Treatment Rules"
 subtitle: "HPM 883: Advanced Quantitative Methods"
 date: "April 6, 2026"
 toc: true
@@ -58,7 +58,7 @@ Focus on: how causal ML estimates individualized treatment effects, the role of 
 
 None to install. The code-along runs entirely in Google Colab — a browser tab is all you need. Direct link:
 
-<https://colab.research.google.com/github/unc-hpm-quant/HPM883-Spring2026/blob/main/unit-4/session-22-policy-trees-demo.ipynb>
+<https://colab.research.google.com/github/unc-hpm-quant/HPM883-Spring2026/blob/main/unit-4/session-4-0-policy-trees-demo.ipynb>
 
 ## Connection to Prior Units
 
@@ -68,7 +68,7 @@ None to install. The code-along runs entirely in Google Colab — a browser tab 
 
 ## What's Next
 
-- **Wednesday Apr 8 — Session 23:** Off-policy evaluation preview + **Jigsaw 4**: Policy Learning Case Studies. Come having read your assigned paper.
+- **Wednesday Apr 8 — Session 4.1:** Off-policy evaluation preview + **Jigsaw 4**: Policy Learning Case Studies. Come having read your assigned paper.
 - **Monday Apr 13 — PS 4 due:** Full policy tree analysis of St. Null's Memorial Hospital data.
 - **Sunday Apr 12 — Draft paper for peer review:** Due on Canvas.
 

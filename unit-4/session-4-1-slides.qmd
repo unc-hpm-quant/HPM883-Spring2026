@@ -1,5 +1,5 @@
 ---
-title: "Session 23: Off-Policy Evaluation + Jigsaw 4"
+title: "Session 4.1: Off-Policy Evaluation + Jigsaw 4"
 subtitle: "HPM 883: Advanced Quantitative Methods"
 author: "Sean Sylvia"
 date: "April 8, 2026"
@@ -14,7 +14,7 @@ format:
     smaller: true
     scrollable: true
     logo: ../images/logo.png
-    footer: "HPM 883 | Session 23: OPE & Jigsaw 4"
+    footer: "HPM 883 | Session 4.1: OPE & Jigsaw 4"
     toc: true
     toc-depth: 1
     preview-links: auto
@@ -33,7 +33,7 @@ execute:
 ::: {.callout-note appearance="simple"}
 **Two parts, 75 minutes:**
 
-**Part 1 (15 min):** Quick recap of Session 22 + off-policy evaluation teaser
+**Part 1 (15 min):** Quick recap of Session 4.0 + off-policy evaluation teaser
 
 **Part 2 (55 min):** **Jigsaw 4** — Expert groups → Teaching groups → Synthesis
 
@@ -48,7 +48,7 @@ If not, use the first 10 minutes now. We'll wait.
 
 ---
 
-## Session 22 Recap
+## Session 4.0 Recap
 
 Three things we established Monday:
 
@@ -114,7 +114,7 @@ Uses only the propensity model. **Unbiased** if $\hat e$ is right. **High varian
 ## Doubly-Robust (AIPW)
 $$\hat V_{\text{DR}}(\pi) = \frac{1}{n}\sum_{i=1}^n \Gamma_{i,\pi(X_i)}$$
 
-where $\Gamma_{i,a}$ is the per-action DR score from Session 22. **Unbiased** if *either* $\hat\mu$ or $\hat e$ is right. **Lower variance** than pure IPW. **The default.**
+where $\Gamma_{i,a}$ is the per-action DR score from Session 4.0. **Unbiased** if *either* $\hat\mu$ or $\hat e$ is right. **Lower variance** than pure IPW. **The default.**
 :::
 
 ---

@@ -229,7 +229,7 @@ Your paper and group assignments are now posted:
 
 **Capstone presentations begin Apr 13**
 
-**Unit 4 Reading (Required for Session 22):**
+**Unit 4 Reading (Required for Session 4.0, Apr 6):**
 
 - Feuerriegel, S., Frauen, D., Melnychuk, V., et al. (2024). Causal machine learning for predicting treatment outcomes. *Nature Medicine*, 30, 958-968. [DOI](https://doi.org/10.1038/s41591-024-02902-1) — Accessible Nature Medicine perspective on individualized treatment effects and clinical deployment of causal ML. Read before Apr 6 to ground the week's methods in clinical applications.
 

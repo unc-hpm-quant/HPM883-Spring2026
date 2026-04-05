@@ -1,5 +1,5 @@
 ---
-title: "Session 23: Off-Policy Evaluation + Jigsaw 4"
+title: "Session 4.1: Off-Policy Evaluation + Jigsaw 4"
 subtitle: "HPM 883: Advanced Quantitative Methods"
 date: "April 8, 2026"
 toc: true
@@ -31,7 +31,7 @@ By the end of this session, you should be able to:
 
 | Time | Block | Format |
 |------|-------|--------|
-| 0:00–0:05 | Session 22 recap + Jigsaw orientation | Lecture |
+| 0:00–0:05 | Session 4.0 recap + Jigsaw orientation | Lecture |
 | 0:05–0:15 | Brief OPE teaser (3 estimators) | Lecture |
 | 0:15–0:35 | **Jigsaw Phase 1: Expert Groups** | Breakout rooms |
 | 0:35–1:00 | **Jigsaw Phase 2: Teaching Groups** | Breakout rooms |
@@ -66,7 +66,7 @@ By the end of this session, you should be able to:
 
 ## Connection to Prior Units and Problem Set 4
 
-- **Session 22 built the policy-learning machinery** — DR scores, policy trees, budget constraints. Today extends this with evaluation.
+- **Session 4.0 built the policy-learning machinery** — DR scores, policy trees, budget constraints. Today extends this with evaluation.
 - **PS 4 Task 3** asks you to compare direct, IPW, and DR estimators on St. Null's data. Today's 10-minute lecture gives you the conceptual scaffolding; PS 4 does the computation.
 - **PS 4 is due Monday Apr 13.**
 

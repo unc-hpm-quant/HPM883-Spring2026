@@ -175,15 +175,15 @@ website:
             text: "↳ Code-Along: GRF Analysis Pipeline"
       - section: "Unit 4: Policy Learning"
         contents:
-          - href: unit-4/session-22-overview.qmd
-            text: "Session 22: From CATEs to Policies"
-          - href: unit-4/session-22-slides.qmd
+          - href: unit-4/session-4-0-overview.qmd
+            text: "Session 4.0: From CATEs to Policies"
+          - href: unit-4/session-4-0-slides.qmd
             text: "↳ Slides: Policy Trees & Targeting"
           - text: "↳ Code-Along: Python Policy Trees (Colab)"
-            href: "https://colab.research.google.com/github/unc-hpm-quant/HPM883-Spring2026/blob/main/unit-4/session-22-policy-trees-demo.ipynb"
-          - href: unit-4/session-23-overview.qmd
-            text: "Session 23: OPE & Jigsaw 4"
-          - href: unit-4/session-23-slides.qmd
+            href: "https://colab.research.google.com/github/unc-hpm-quant/HPM883-Spring2026/blob/main/unit-4/session-4-0-policy-trees-demo.ipynb"
+          - href: unit-4/session-4-1-overview.qmd
+            text: "Session 4.1: OPE & Jigsaw 4"
+          - href: unit-4/session-4-1-slides.qmd
             text: "↳ Slides: Off-Policy Evaluation"
       - section: "Labs"
         contents:

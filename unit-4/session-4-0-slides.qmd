@@ -1,5 +1,5 @@
 ---
-title: "Session 22: From CATEs to Treatment Rules"
+title: "Session 4.0: From CATEs to Treatment Rules"
 subtitle: "HPM 883: Advanced Quantitative Methods"
 author: "Sean Sylvia"
 date: "April 6, 2026"
@@ -14,7 +14,7 @@ format:
     smaller: true
     scrollable: true
     logo: ../images/logo.png
-    footer: "HPM 883 | Session 22: Policy Trees & Optimal Targeting"
+    footer: "HPM 883 | Session 4.0: Policy Trees & Optimal Targeting"
     toc: true
     toc-depth: 1
     preview-links: auto
@@ -416,7 +416,7 @@ Athey & Wager (2021) show the regret of the estimated policy tree relative to th
 
 Open this link in a new tab now:
 
-[**colab.research.google.com/github/unc-hpm-quant/HPM883-Spring2026/blob/main/unit-4/session-22-policy-trees-demo.ipynb**](https://colab.research.google.com/github/unc-hpm-quant/HPM883-Spring2026/blob/main/unit-4/session-22-policy-trees-demo.ipynb)
+[**colab.research.google.com/github/unc-hpm-quant/HPM883-Spring2026/blob/main/unit-4/session-4-0-policy-trees-demo.ipynb**](https://colab.research.google.com/github/unc-hpm-quant/HPM883-Spring2026/blob/main/unit-4/session-4-0-policy-trees-demo.ipynb)
 
 Nothing to install — it runs in your browser.
 :::
