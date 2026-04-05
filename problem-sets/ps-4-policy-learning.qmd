@@ -77,7 +77,7 @@ Use the same data from PS 3, with CATE estimates included:
 
 ```{r}
 #| label: load-data
-#| eval: true
+#| eval: false
 
 # Load PS 3 data with CATE estimates
 app_data <- read.csv("data/ps-4-policy-data.csv")
@@ -85,7 +85,7 @@ app_data <- read.csv("data/ps-4-policy-data.csv")
 
 ```{r}
 #| label: setup
-#| eval: true
+#| eval: false
 
 library(grf)
 library(policytree)
@@ -177,7 +177,7 @@ For each tree:
 
 ```{r}
 #| label: task-2-1-causal-forest
-#| eval: true
+#| eval: false
 
 # Fit a causal forest (W.hat = 0.5 for RCT)
 
@@ -202,7 +202,7 @@ For each tree:
 
 ```{r}
 #| label: task-2-1-depth3
-#| eval: true
+#| eval: false
 
 # Fit depth-3 policy tree
 
@@ -241,7 +241,7 @@ For each policy:
 
 ```{r}
 #| label: task-2-2-policy-comparison
-#| eval: true
+#| eval: false
 
 # Define each policy's assignments (vector of 1s and 2s, where 2 = treat)
 
@@ -266,7 +266,7 @@ se <- sd(dr_scores[cbind(1:nrow(dr_scores), a)]) / sqrt(nrow(dr_scores))
 
 ```{r}
 #| label: task-2-2-barplot
-#| eval: true
+#| eval: false
 #| fig-width: 8
 #| fig-height: 5
 #| fig-alt: "Bar chart comparing expected value across four treatment policies"
@@ -308,7 +308,7 @@ Compare the three estimates. Which is most reliable and why?
 
 ```{r}
 #| label: task-3-1-ope
-#| eval: true
+#| eval: false
 
 # Get policy assignments from depth-2 tree
 # assignments: 1 = control, 2 = treatment
@@ -367,7 +367,7 @@ At what budget level do you achieve 90% of the maximum possible value?
 
 ```{r}
 #| label: task-3-2-value-curve
-#| eval: true
+#| eval: false
 #| fig-width: 8
 #| fig-height: 5
 #| fig-alt: "Line plot comparing policy value curves for random vs CATE-based targeting across budget levels"
@@ -422,7 +422,7 @@ c) What is the expected average treatment effect among the selected patients?
 
 ```{r}
 #| label: task-4-1-threshold
-#| eval: true
+#| eval: false
 
 # Find the 60th percentile of tau_hat (top 40% above this)
 
@@ -467,7 +467,7 @@ Create a table showing expected policy value at different budget levels.
 
 ```{r}
 #| label: task-4-2-sensitivity
-#| eval: true
+#| eval: false
 
 # For each budget level (30%, 40%, 50%):
 #   Find threshold, compute expected value, count treated

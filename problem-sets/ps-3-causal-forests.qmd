@@ -90,7 +90,7 @@ Load the provided RCT data:
 
 ```{r}
 #| label: load-data
-#| eval: true
+#| eval: false
 
 # Load the patient engagement app RCT data
 app_data <- read.csv("data/ps-3-app-rct.csv")
@@ -98,7 +98,7 @@ app_data <- read.csv("data/ps-3-app-rct.csv")
 
 ```{r}
 #| label: setup
-#| eval: true
+#| eval: false
 
 library(grf)
 library(ggplot2)
@@ -200,7 +200,7 @@ Compare the forest-based ATE to a simple difference-in-means estimate.
 
 ```{r}
 #| label: task-2-1-causal-forest
-#| eval: true
+#| eval: false
 
 # Fit causal forest
 
@@ -248,7 +248,7 @@ c) What fraction of individuals have estimated treatment effects below zero? Abo
 
 ```{r}
 #| label: task-2-2-histogram
-#| eval: true
+#| eval: false
 #| fig-width: 8
 #| fig-height: 5
 #| fig-alt: "Histogram of estimated CATEs showing distribution of treatment effect heterogeneity"
@@ -258,7 +258,7 @@ c) What fraction of individuals have estimated treatment effects below zero? Abo
 
 ```{r}
 #| label: task-2-2-quantiles
-#| eval: true
+#| eval: false
 
 # Report percentiles and fractions
 ```
@@ -290,7 +290,7 @@ c) Create a Best Linear Projection (BLP) of the CATEs on the top 3 moderators.
 
 ```{r}
 #| label: task-2-3-varimp
-#| eval: true
+#| eval: false
 #| fig-width: 8
 #| fig-height: 5
 #| fig-alt: "Bar chart of variable importance scores for treatment effect heterogeneity"
@@ -304,7 +304,7 @@ c) Create a Best Linear Projection (BLP) of the CATEs on the top 3 moderators.
 
 ```{r}
 #| label: task-2-3-blp
-#| eval: true
+#| eval: false
 
 # Best Linear Projection on top 3 moderators
 ```
@@ -354,7 +354,7 @@ For each meta-learner:
 
 ```{r}
 #| label: task-3-1-tlearner
-#| eval: true
+#| eval: false
 
 # T-learner: fit separate models for treated and control
 
@@ -379,7 +379,7 @@ tau_t <- predict(fit1, data.frame(X))$predictions - predict(fit0, data.frame(X))
 
 ```{r}
 #| label: task-3-1-xlearner
-#| eval: true
+#| eval: false
 
 # X-learner Stage 1: fit mu_0 and mu_1
 
@@ -428,7 +428,7 @@ Discuss: Do the methods agree on who benefits most? Where do they disagree most?
 
 ```{r}
 #| label: task-3-2-scatter
-#| eval: true
+#| eval: false
 #| fig-width: 8
 #| fig-height: 8
 #| fig-alt: "Scatter plot matrix comparing CATE estimates from three methods"
@@ -461,7 +461,7 @@ Run the calibration test using `grf::test_calibration()`:
 
 ```{r}
 #| label: task-4-1-calibration
-#| eval: true
+#| eval: false
 
 # Run test_calibration on your causal forest
 
@@ -505,7 +505,7 @@ Is the causal forest well-calibrated?
 
 ```{r}
 #| label: task-4-2-calibration-plot
-#| eval: true
+#| eval: false
 #| fig-width: 7
 #| fig-height: 6
 #| fig-alt: "Calibration plot comparing predicted vs actual ATE by CATE quintile"
@@ -563,7 +563,7 @@ For each subgroup:
 
 ```{r}
 #| label: task-5-1-subgroups
-#| eval: true
+#| eval: false
 
 # Define subgroups
 
@@ -574,7 +574,7 @@ For each subgroup:
 
 ```{r}
 #| label: task-5-1-forest-plot
-#| eval: true
+#| eval: false
 #| fig-width: 8
 #| fig-height: 6
 #| fig-alt: "Forest plot comparing treatment effects across patient subgroups"
@@ -619,7 +619,7 @@ c) How does this compare to the population ATE if everyone were treated?
 
 ```{r}
 #| label: task-5-2-targeting
-#| eval: true
+#| eval: false
 
 # Find threshold for top 40%
 
