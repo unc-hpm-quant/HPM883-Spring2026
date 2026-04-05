@@ -218,7 +218,7 @@ Your paper and group assignments are now posted:
 
 | Session | Date | Topic | Format |
 |---------|------|-------|--------|
-| 22 | Mon Apr 6 | From CATEs to Treatment Rules: Policy Trees & Optimal Targeting | In-Person |
+| 22 | Mon Apr 6 | From CATEs to Treatment Rules: Policy Trees & Optimal Targeting | [Remote](https://zoom.us/j/93346316978) |
 | 23 | Wed Apr 8 | Policy Learning & Off-Policy Evaluation + **Jigsaw 4** | [Remote](https://zoom.us/j/93346316978) |
 
 **Due:** Problem Set 3 (HTE, Apr 6)
@@ -228,6 +228,22 @@ Your paper and group assignments are now posted:
 **Problem Set 4 assigned:** Policy Learning (due Apr 13)
 
 **Capstone presentations begin Apr 13**
+
+**Unit 4 Reading (Required for Session 22):**
+
+- Feuerriegel, S., Frauen, D., Melnychuk, V., et al. (2024). Causal machine learning for predicting treatment outcomes. *Nature Medicine*, 30, 958-968. [DOI](https://doi.org/10.1038/s41591-024-02902-1) — Accessible Nature Medicine perspective on individualized treatment effects and clinical deployment of causal ML. Read before Apr 6 to ground the week's methods in clinical applications.
+
+::: {.callout-important}
+## Jigsaw 4: Policy Learning (Apr 8)
+
+Your paper and group assignments are now posted:
+
+- **[View Your Paper Assignment](jigsaw/groups/jigsaw-4-groups.qmd)** — Find your expert group and teaching group
+- **[Paper Details & Reading Tips](jigsaw/papers/unit-4-policy-learning.qmd)** — Full citations and what to focus on
+- **[Jigsaw Instructions](jigsaw/jigsaw-instructions.qmd)** — How the session works
+
+**Preparation:** Read your assigned paper before Apr 8. Complete the reading guide (60-90 min).
+:::
 
 ---
 

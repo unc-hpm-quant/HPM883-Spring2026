@@ -1,25 +1,42 @@
 ---
 title: "Jigsaw 4 Groups"
-subtitle: "Policy Learning (Mar 25)"
-date: "Generated: 2026-01-14 10:04:14.970971"
-draft: true
+subtitle: "Policy Learning (Apr 8)"
+date: "Generated: 2026-04-04"
+---
+
+## Paper Assignments
+
+| Paper | Title | Assigned Group |
+|-------|-------|----------------|
+| **Paper 1** | Bodory et al. (2024) — Oregon HIE policy trees, full pipeline | Lillian, Mario, Tarini, Yumeng |
+| **Paper 2** | Cerulli et al. (2024) — Anti-malaria subsidy targeting in Kenya, multi-outcome | Cristina, Korie, Nicolle, Raquel |
+| **Paper 3** | Stijven et al. (2025) — Depression treatment rules, practical challenges | Audrey, Haiyi, Jose, Takhona |
+| **Paper 4** | Viviano & Bradic (2024) — Fair policy targeting, equity constraints | Aniruddhan, Camille, Doyoung, Oguz |
+
+See [Paper Details](../papers/unit-4-policy-learning.qmd) for full citations and reading tips.
+
 ---
 
 ## Expert Groups (Phase 1)
 
-|Paper   |Students                                                         |
-|:-------|:----------------------------------------------------------------|
-|Paper 1 |Lillian Feingold, Mario Rojas, Tarini Goyal, Yumeng Du           |
-|Paper 2 |Cristina Lee, Korie Rice, Nicolle Wagner Gutierrez, Raquel Davis |
-|Paper 3 |Audrey Yao, Haiyi Chen, Jose Lopez, Takhona Hlatshwako           |
-|Paper 4 |Aniruddhan Ganesaraman, Camille Murray, Doyoung Kim, Oguz Eren   |
+In this phase, you meet with classmates who read the **same paper**.
+
+| Paper | Students |
+|:------|:---------|
+| Paper 1 | Lillian Feingold, Mario Rojas, Tarini Goyal, Yumeng Du |
+| Paper 2 | Cristina Lee, Korie Rice, Nicolle Wagner Gutierrez, Raquel Davis |
+| Paper 3 | Audrey Yao, Haiyi Chen, Jose Lopez, Takhona Hlatshwako |
+| Paper 4 | Aniruddhan Ganesaraman, Camille Murray, Doyoung Kim, Oguz Eren |
+
+---
 
 ## Teaching Groups (Phase 2)
 
-|Group   |Members (Paper Assignment)                                                             |
-|:-------|:--------------------------------------------------------------------------------------|
-|Group A |Lillian Feingold (P1), Cristina Lee (P2), Audrey Yao (P3), Aniruddhan Ganesaraman (P4) |
-|Group B |Mario Rojas (P1), Korie Rice (P2), Haiyi Chen (P3), Camille Murray (P4)                |
-|Group C |Tarini Goyal (P1), Nicolle Wagner Gutierrez (P2), Jose Lopez (P3), Doyoung Kim (P4)    |
-|Group D |Yumeng Du (P1), Raquel Davis (P2), Takhona Hlatshwako (P3), Oguz Eren (P4)             |
+In this phase, groups reshuffle so each group has **one expert from each paper**.
 
+| Group | Members (Paper) |
+|:------|:----------------|
+| Group A | Lillian Feingold (P1), Cristina Lee (P2), Audrey Yao (P3), Aniruddhan Ganesaraman (P4) |
+| Group B | Mario Rojas (P1), Korie Rice (P2), Haiyi Chen (P3), Camille Murray (P4) |
+| Group C | Tarini Goyal (P1), Nicolle Wagner Gutierrez (P2), Jose Lopez (P3), Doyoung Kim (P4) |
+| Group D | Yumeng Du (P1), Raquel Davis (P2), Takhona Hlatshwako (P3), Oguz Eren (P4) |

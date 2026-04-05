@@ -1,0 +1,79 @@
+---
+title: "Session 22: From CATEs to Treatment Rules"
+subtitle: "HPM 883: Advanced Quantitative Methods"
+date: "April 6, 2026"
+toc: true
+---
+
+## Overview
+
+This session shifts our core question from **"For whom does it work?"** to **"What should we do?"** Lab 4 showed how to estimate conditional average treatment effects (CATEs) and summarize them through GATES, CLAN, and RATE. Now we ask: how do you turn CATEs into an *actionable decision rule*? We formalize the optimal treatment policy, introduce doubly-robust policy scores and policy trees, and tackle budget constraints — the setup you'll need for Problem Set 4.
+
+::: {.callout-important}
+## Class is Remote Today
+
+Join via Zoom: <https://zoom.us/j/93346316978>
+
+All materials are on the course website. The code-along runs in Google Colab (browser only — nothing to install).
+:::
+
+## Where We Left Off (Session 21, Apr 1)
+
+Lab 4 covered Exercises 1–3: fitting causal forests, testing calibration, and the GATES/CLAN/RATE diagnostic pipeline. We began Exercise 4 (policy tree preview) but hit a notebook syntax error and deferred the full treatment — **"we'll go deeper in the next unit."** That's today.
+
+## Learning Objectives
+
+By the end of this session, you should be able to:
+
+1. Define the optimal treatment policy $\pi^*(x)$ and explain when treat-if-positive is first-best
+2. Distinguish **value** $V(\pi)$ from **regret** $R(\pi)$ and explain why regret has better sample properties for policy learning
+3. Explain why doubly-robust scores (not raw $\hat\tau$ estimates) are the right input for policy optimization
+4. Interpret a shallow policy tree and articulate the interpretability–optimality tradeoff
+5. Modify an optimal policy under a budget constraint $\alpha < 100\%$ and reason about top-$q$ CATE targeting
+6. Run a complete policy tree analysis in Python via the Colab code-along
+
+## Key Concepts
+
+- **Optimal policy:** $\pi^*(x) = \mathbb{1}\{\tau(x) > 0\}$ under no constraints and no cost
+- **Policy value:** $V(\pi) = \mathbb{E}[Y(\pi(X))]$ — the expected outcome if everyone is treated according to $\pi$
+- **Policy regret:** $R(\pi) = V(\pi^*) - V(\pi)$ — how much welfare you leave on the table by using $\pi$ instead of the best-in-class rule
+- **Doubly-robust score** for action $a$: $\Gamma_{ia} = \hat\mu_a(X_i) + \dfrac{\mathbb{1}(W_i = a)}{\hat e_a(X_i)}\bigl(Y_i - \hat\mu_a(X_i)\bigr)$
+- **Policy tree:** a shallow decision tree (typically depth 2–3) fit to maximize the welfare objective, constrained to an interpretable tree class
+- **Budget-constrained optimum:** when capacity is $\alpha$, treat the top $\alpha$ share ranked by $\hat\tau(x)$ (or equivalently by $\Gamma_{i1} - \Gamma_{i0}$)
+
+## Preparation
+
+**Required reading (done before class):**
+
+- Feuerriegel, S., Frauen, D., Melnychuk, V., et al. (2024). [Causal machine learning for predicting treatment outcomes](https://www.nature.com/articles/s41591-024-02902-1). *Nature Medicine*, 30, 958–968.
+
+Focus on: how causal ML estimates individualized treatment effects, the role of doubly-robust methods, and the authors' cautions about clinical deployment. This paper frames the "why should a clinician care?" question that motivates the methods we'll derive today.
+
+**Recommended reading:**
+
+- Wager (2024) — Chapter 8: Policy Learning (in the [free textbook](http://web.stanford.edu/~swager/causal_inf_book.pdf))
+- Athey, S., & Wager, S. (2021). "Policy learning with observational data." *Econometrica*, 89(1), 133–161.
+
+**Software:**
+
+None to install. The code-along runs entirely in Google Colab — a browser tab is all you need. Direct link:
+
+<https://colab.research.google.com/github/unc-hpm-quant/HPM883-Spring2026/blob/main/unit-4/session-22-policy-trees-demo.ipynb>
+
+## Connection to Prior Units
+
+- **Unit 2 (DML & AIPW):** The doubly-robust scores $\Gamma_{ia}$ are exactly the AIPW scores you built for estimating average treatment effects — we just use them differently here (evaluating policies instead of estimating means).
+- **Unit 3 (Causal Forests):** The CATEs $\hat\tau(x)$ you learned to estimate in Lab 4 are the input to policy learning. But we don't simply threshold them — doing so ignores the uncertainty in $\hat\tau$ and loses double-robustness. Policy trees score *actions directly*.
+- **Session 15 (Orthogonality):** The reason DR scores work for policy learning is the same reason they work for DML — Neyman orthogonality insulates the downstream estimand from errors in the nuisance estimates.
+
+## What's Next
+
+- **Wednesday Apr 8 — Session 23:** Off-policy evaluation preview + **Jigsaw 4**: Policy Learning Case Studies. Come having read your assigned paper.
+- **Monday Apr 13 — PS 4 due:** Full policy tree analysis of St. Null's Memorial Hospital data.
+- **Sunday Apr 12 — Draft paper for peer review:** Due on Canvas.
+
+## Assignments Today
+
+- **Due today:** PS 3 (HTE & Causal Forests)
+- **Assigned today:** PS 4 (Policy Learning) — due April 13
+- **GitHub Classroom link for PS 4:** <https://classroom.github.com/a/Z-cxQmiF>

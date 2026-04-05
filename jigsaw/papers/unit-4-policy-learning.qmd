@@ -1,16 +1,16 @@
 ---
 title: "Jigsaw 4: Policy Learning"
-subtitle: "Papers for March 25"
+subtitle: "Papers for April 8"
 toc: true
 ---
 
 ## Overview
 
-These papers move beyond estimating heterogeneous treatment effects to *learning optimal policies*—using HTE estimates to design targeting rules that maximize welfare or health outcomes.
+These papers move beyond estimating heterogeneous treatment effects to *learning optimal policies*—using HTE estimates to design targeting rules that maximize welfare or health outcomes. Each paper applies policy learning to a real dataset and grapples with a different practical challenge: building the full pipeline, handling multiple competing outcomes, navigating messy clinical data, or imposing fairness constraints on who gets treated.
 
 ## Paper Assignments
 
-Your paper assignment will be posted on Canvas one week before the session.
+Your paper assignment is listed in the [Jigsaw 4 Groups](../groups/jigsaw-4-groups.qmd) page.
 
 ::: {.callout-tip}
 ## Finding Your Own Paper
@@ -27,71 +27,83 @@ If approved, your group reads and presents the alternative paper instead of the 
 
 ---
 
-## Paper 1: Policy Trees for Treatment Assignment
+## Paper 1: Policy Trees on the Oregon Health Insurance Experiment
 
-**Citation:** Athey, S., & Wager, S. (2021). Policy learning with observational data. *Econometrica*, 89(1), 133-161.
+**Citation:** Bodory, H., Mascolo, F., & Lechner, M. (2024). Enabling decision making with the modified causal forest: Policy trees for treatment assignment. *Algorithms*, 17(7), 318.
 
-**Why this paper?** The foundational paper on policy learning with doubly-robust scores. Demonstrates how to learn interpretable decision trees for treatment assignment.
+**DOI:** [https://doi.org/10.3390/a17070318](https://doi.org/10.3390/a17070318)
 
-**Key methodological features:**
-
-- Doubly-robust policy evaluation
-- Policy tree estimation
-- Regret bounds and optimality
-- Interpretability vs. optimality tradeoffs
-
-[Access via UNC Libraries](https://onlinelibrary.wiley.com/doi/10.3982/ECTA15732)
-
----
-
-## Paper 2: Health Insurance Targeting in Indonesia
-
-**Citation:** Shah, V. (2023). Machine learning-based allocation rules for subsidised health insurance: Evidence from Indonesia. Working paper.
-
-**Why this paper?** This paper applies policy learning to health insurance targeting in a developing country, demonstrating real-world policy design with equity considerations.
+**Why this paper?** This paper walks through the **complete policy learning pipeline** on data you already know. Using the Oregon Health Insurance Experiment (from Jigsaw 3's Inoue et al.), the authors estimate treatment effects with modified causal forests, compute policy scores, and build interpretable policy trees for Medicaid enrollment targeting. The unconstrained policy tree improves primary care visit rates from 51.7% to 55.0%. A second application uses right heart catheterization data. You'll see every step from CATEs to implementable decision rules.
 
 **Key methodological features:**
 
-- Budget-constrained policy optimization
-- Super learner for policy selection
-- Comparison: learned rules vs. current allocation
-- Equity and efficiency tradeoffs
+- Full pipeline: modified causal forest → policy scores → policy tree
+- Oregon HIE application (familiar data from Jigsaw 3)
+- Constrained vs. unconstrained policy trees
+- Welfare comparison against baseline allocation
+- Python `mcf` package implementation
 
-[Access: Conference paper from iHEA 2023](https://healtheconomics.confex.com/healtheconomics/2023/meetingapp.cgi/Paper/9719)
+[Access via MDPI (Open Access)](https://www.mdpi.com/1999-4893/17/7/318)
 
 ---
 
-## Paper 3: Personalized Treatment Rules in Oncology
+## Paper 2: Anti-Malaria Subsidy Targeting in Kenya
 
-**Citation:** Zhao, Y., Zeng, D., Rush, A. J., & Kosorok, M. R. (2012). Estimating individualized treatment rules using outcome weighted learning. *Journal of the American Statistical Association*, 107(499), 1106-1118.
+**Citation:** Cerulli, G., Ferro, G., & Ferretti, C. (2024). Policy learning for many outcomes of interest: Combining optimal policy trees with multi-objective Bayesian optimisation. *Computational Economics*.
 
-**Why this paper?** This paper introduces outcome-weighted learning for personalized medicine, with applications to depression treatment sequencing.
+**DOI:** [https://doi.org/10.1007/s10614-024-10722-1](https://doi.org/10.1007/s10614-024-10722-1)
+
+**Why this paper?** Policy makers in Kenya want to subsidize ACT anti-malaria drugs to improve access—but high subsidies encourage **overuse** by people who don't actually have malaria, creating drug shortages and accelerating resistance. This paper tackles the multi-outcome problem head-on: how do you learn targeting rules when optimizing one objective (access) hurts another (overuse)? Using real RCT data from a Kenyan subsidy experiment, the authors build a Pareto frontier of policy trees that balance both objectives.
 
 **Key methodological features:**
 
-- Classification-based policy learning
-- Weighted classification formulation
-- Cross-validation for tuning
-- Sequential treatment decisions
+- Multi-Objective Policy Learning (MOPoL)
+- Optimal policy trees + multi-objective Bayesian optimization
+- Real RCT data from Kenyan anti-malaria subsidy experiment
+- Pareto frontier across access vs. overuse outcomes
+- Budget-constrained targeting in a global health setting
 
-[Access via UNC Libraries](https://www.tandfonline.com/doi/abs/10.1080/01621459.2012.695674)
+[Access via Springer](https://link.springer.com/article/10.1007/s10614-024-10722-1)
 
 ---
 
-## Paper 4: Fairness in Algorithmic Policy (Critical Analysis)
+## Paper 3: Optimal Treatment Rules for Depression — Practical Challenges
 
-**Citation:** Corbett-Davies, S., & Goel, S. (2018). The measure and mismeasure of fairness: A critical review of fair machine learning. *arXiv preprint arXiv:1808.00023*.
+**Citation:** Stijven, F., Tran, T. D., Driessen, E., Alonso Abad, A., Molenberghs, G., Verbeke, G., & Van Mechelen, I. (2025). Optimal treatment regime estimation in practice: Challenges and choices in a randomized clinical trial for depression. *Biometrics*, 81(1), ujaf026.
 
-**Why this paper?** Policy learning raises profound ethical questions about algorithmic fairness in healthcare. This paper critically examines competing fairness definitions.
+**DOI:** [https://doi.org/10.1093/biomtc/ujaf026](https://doi.org/10.1093/biomtc/ujaf026)
+
+**Why this paper?** Most policy learning papers showcase success on clean data. This paper does the opposite: it reanalyzes a real **RCT for dysthymic disorder** (chronic mild depression) and honestly documents every practical challenge that textbooks skip. Missing data requiring multiple imputation, too many candidate covariates, and a head-to-head comparison of Q-learning vs. value search methods that reveals how sensitive results are to analytic choices. This is a "what actually happens" paper.
+
+**Key methodological features:**
+
+- Real clinical trial data (dysthymic disorder treatment)
+- Q-learning vs. value search comparison
+- Multiple imputation for missing data
+- Sensitivity of optimal rules to analytic choices
+- Honest assessment of when policy learning is fragile
+
+[Access via Oxford Academic](https://academic.oup.com/biometrics/article/81/1/ujaf026/8087929)
+
+---
+
+## Paper 4: Fair Policy Targeting (Critical Analysis)
+
+**Citation:** Viviano, D., & Bradic, J. (2024). Fair policy targeting. *Journal of the American Statistical Association*, 119(545), 730-743.
+
+**DOI:** [https://doi.org/10.1080/01621459.2022.2142591](https://doi.org/10.1080/01621459.2022.2142591)
+
+**Why this paper?** When you optimize a treatment rule for efficiency, you may systematically exclude certain subgroups—by race, gender, or age. This paper adopts a "first, do no harm" framework: find the **fairest allocation on the Pareto frontier** of efficiency vs. equity. The authors formulate fair targeting as a mixed-integer linear program and derive regret bounds on unfairness. Applied to an entrepreneurship training RCT with gender fairness constraints. The equity question is directly relevant to health policy: who gets left out when algorithms decide who gets treatment?
 
 **Key methodological features (for critique):**
 
-- Impossibility results in fairness
-- Individual vs. group fairness
-- Disparate impact of optimized policies
-- When efficiency and equity conflict
+- Empirical welfare maximization with fairness constraints
+- Pareto frontier of efficiency vs. equity
+- Mixed-integer linear programming formulation
+- Regret bounds on unfairness
+- "First, do no harm" nonmaleficence framing
 
-[Access via arXiv](https://arxiv.org/abs/1808.00023)
+[Access via Taylor & Francis](https://www.tandfonline.com/doi/abs/10.1080/01621459.2022.2142591)
 
 ---
 
@@ -99,9 +111,9 @@ If approved, your group reads and presents the alternative paper instead of the 
 
 For each paper, focus on:
 
-1. **Objective function:** What is being maximized/minimized?
-2. **Constraints:** Budget, capacity, fairness constraints?
-3. **Interpretability:** Can practitioners understand and implement the rule?
-4. **Welfare analysis:** Who gains, who loses under the optimal policy?
+1. **The policy rule:** What treatment assignment rule does the paper learn? Can you describe it simply?
+2. **The objective:** What is being maximized? Welfare? Multiple outcomes? Fairness?
+3. **The challenge:** What practical problem does this paper grapple with that simpler approaches ignore?
+4. **The tradeoff:** What gets sacrificed when the policy is optimized? Who benefits, who loses?
 
-Policy learning is powerful but raises important ethical questions—be prepared to discuss both technical and normative dimensions.
+Policy learning is where causal inference meets decision-making—be prepared to discuss both the technical methods and the normative choices embedded in every targeting rule.

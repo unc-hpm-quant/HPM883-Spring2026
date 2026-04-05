@@ -1,0 +1,77 @@
+---
+title: "Session 23: Off-Policy Evaluation + Jigsaw 4"
+subtitle: "HPM 883: Advanced Quantitative Methods"
+date: "April 8, 2026"
+toc: true
+---
+
+## Overview
+
+This session has two parts. First, a brief introduction to **off-policy evaluation** (OPE) — how to estimate what a learned policy *would* have achieved using historical data, without deploying it. Second, **Jigsaw 4**, our structured discussion of four applied policy learning papers. Expert groups share what they learned, teaching groups synthesize across papers, and we close with a whole-class discussion on when policy learning actually works in practice — and when it fails.
+
+::: {.callout-important}
+## Class is Remote Today
+
+Join via Zoom: <https://zoom.us/j/93346316978>
+
+You should have already read your assigned Jigsaw 4 paper and completed the reading guide. If not, prioritize the reading guide during the first 10 minutes — we'll wait.
+:::
+
+## Learning Objectives
+
+By the end of this session, you should be able to:
+
+1. Define off-policy evaluation and explain why it's hard
+2. Distinguish the three main OPE estimators (direct, IPW, doubly-robust) and describe when each breaks
+3. Explain how the papers in Jigsaw 4 apply policy learning to real health settings
+4. Critique a published policy learning application — identify what the authors did well, what they glossed over, and what you'd push back on
+5. Articulate the recurring tensions in applied policy learning: interpretability vs. optimality, efficiency vs. equity, single-outcome vs. multi-outcome
+
+## Run of Show (75 min)
+
+| Time | Block | Format |
+|------|-------|--------|
+| 0:00–0:05 | Session 22 recap + Jigsaw orientation | Lecture |
+| 0:05–0:15 | Brief OPE teaser (3 estimators) | Lecture |
+| 0:15–0:35 | **Jigsaw Phase 1: Expert Groups** | Breakout rooms |
+| 0:35–1:00 | **Jigsaw Phase 2: Teaching Groups** | Breakout rooms |
+| 1:00–1:10 | **Jigsaw Phase 3: Whole-class Synthesis** | Full class |
+| 1:10–1:15 | PS 4 reminders and wrap | Lecture |
+
+## Jigsaw 4 Materials
+
+- **[Paper assignments and groups](../jigsaw/groups/jigsaw-4-groups.qmd)** — find your expert group and teaching group
+- **[Paper details and reading tips](../jigsaw/papers/unit-4-policy-learning.qmd)** — full citations, DOIs, what to focus on
+- **[Jigsaw instructions and rubric](../jigsaw/jigsaw-instructions.qmd)** — how the phases work, what's graded
+
+### The Four Papers
+
+1. **Bodory, Mascolo & Lechner (2024)** — Policy trees on the Oregon Health Insurance Experiment (applied, Medicaid)
+2. **Cerulli, Ferro & Ferretti (2024)** — Multi-outcome anti-malarial subsidy targeting in Kenya
+3. **Stijven et al. (2025)** — Optimal treatment regimes in a real depression RCT (practical challenges)
+4. **Viviano & Bradic (2024)** — Fair policy targeting and the efficiency–equity Pareto frontier
+
+## Preparation
+
+**Before class:**
+
+- Read your assigned paper carefully (60–90 min)
+- Complete the Jigsaw reading guide questions
+- Come ready to teach your paper to peers in 5–7 minutes
+
+**Optional background:**
+
+- Review the OPE section of Wager (2024) Chapter 8 if you want more depth on the direct/IPW/DR estimators
+- Skim the Feuerriegel *Nature Medicine* piece you read for Monday — it touches on OPE in clinical settings
+
+## Connection to Prior Units and Problem Set 4
+
+- **Session 22 built the policy-learning machinery** — DR scores, policy trees, budget constraints. Today extends this with evaluation.
+- **PS 4 Task 3** asks you to compare direct, IPW, and DR estimators on St. Null's data. Today's 10-minute lecture gives you the conceptual scaffolding; PS 4 does the computation.
+- **PS 4 is due Monday Apr 13.**
+
+## What's Next
+
+- **Mon Apr 13:** PS 4 due. Capstone presentations begin.
+- **Wed Apr 15:** Draft paper due on Canvas (for peer review).
+- **Mon Apr 20:** Peer review feedback due. Final capstone presentations.

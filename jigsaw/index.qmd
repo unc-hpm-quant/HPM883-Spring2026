@@ -14,10 +14,9 @@ In HPM 883, we use jigsaws to explore how methods from each unit are applied in 
 | Session | Date | Topic | Paper Assignment Posted |
 |---------|------|-------|------------------------|
 | Jigsaw 1 | Jan 28 | Experimental Design | Jan 21 |
-| Jigsaw 2 | Feb 18 | Double ML | Feb 11 |
-| Jigsaw 3 | Mar 11 | Causal Forests | Mar 4 |
-| Jigsaw 4 | Mar 25 | Policy Learning | Mar 18 |
-| Jigsaw 5 | Apr 8 | Quasi-Experimental ML | Apr 1 |
+| Jigsaw 2 | Mar 2 | Double ML | Feb 11 |
+| Jigsaw 3 | Mar 30 | Causal Forests | Mar 24 |
+| Jigsaw 4 | Apr 8 | Policy Learning | Apr 4 |
 
 ## How It Works
 
@@ -55,10 +54,9 @@ Whole-class discussion. Instructor highlights key insights and connects back to 
 - [Jigsaw 2: Double ML](papers/unit-2-dml.qmd)
 - [Jigsaw 3: Causal Forests](papers/unit-3-causal-forests.qmd)
 - [Jigsaw 4: Policy Learning](papers/unit-4-policy-learning.qmd)
-- [Jigsaw 5: Quasi-Experimental ML](papers/unit-5-quasi-experimental.qmd)
 
 ## Grading
 
-Jigsaws are worth **20% of your final grade** (5 sessions × 40 points each, scaled). You may drop your **2 lowest** scores.
+Jigsaws are worth **20% of your final grade** (4 sessions × 40 points each, scaled). You may drop your **1 lowest** score.
 
 See the [detailed rubric](jigsaw-instructions.qmd#grading) for evaluation criteria.
