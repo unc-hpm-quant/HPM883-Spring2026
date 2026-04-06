@@ -26,17 +26,50 @@ execute:
   message: false
 ---
 
-# Welcome Back
-
 ## Housekeeping
 
-- **Class is remote today** — welcome to Zoom
-- **PS 3 due today** at 11:15am (HTE & Causal Forests)
-- **PS 4 assigned today** — due Monday Apr 13
-- **Capstone draft paper** due Wed Apr 15 on Canvas (for peer review)
-- Fixing the PS 3 repo link issue some of you flagged Wednesday — email me if you still can't access the data
+-   **Class is remote today** — welcome to Zoom
+-   **PS 3 due today** (ok if need till end of week)
+-   **PS 4 assigned today** — due Monday Apr 13
+-   **Capstone draft paper** due Wed Apr 15 on Canvas (for peer review)
+-   Fixing the PS 3 repo link issue some of you flagged Wednesday — email me if you still can't access the data
 
----
+------------------------------------------------------------------------
+
+## Capstone Draft Paper — Coming Up
+
+Your **draft paper** is due **Wednesday April 15** on Canvas.
+
+::: fragment
+### What to submit
+
+-   A **complete draft** of your capstone paper (PDF or rendered Quarto)
+-   Does NOT need to be perfect — but should be complete enough for meaningful peer feedback
+-   Submit via the **"Capstone Draft"** assignment on Canvas
+:::
+
+::: fragment
+### What happens next
+
+-   Canvas **automatically assigns one peer reviewer** when you submit
+-   **Peer review due April 22** (1-2 pages of structured feedback)
+-   You'll incorporate feedback into your **final package** (due May 1)
+:::
+
+::: fragment
+### Your draft should include
+
+1.  **Introduction & research question**
+2.  **Data description** (simulated or real)
+3.  **Methods** — which causal ML tools and why
+4.  **Results** — (or anticipated)
+:::
+
+::: {.callout-tip appearance="simple"}
+See the [Capstone Project page](../capstone.qmd) for full requirements and rubric.
+:::
+
+------------------------------------------------------------------------
 
 ## Previously on HPM 883
 
@@ -61,10 +94,10 @@ In Lab 4 (Wednesday):
 ::: {.fragment .callout-note appearance="simple"}
 ## Today we pick up exactly there
 
-"We'll go deeper with policy trees in the next unit." — that's today.
+Today we'll go deeper with policy trees!
 :::
 
----
+------------------------------------------------------------------------
 
 ## The Arc of the Course
 
@@ -78,15 +111,13 @@ In Lab 4 (Wednesday):
 **Unit 3:** Causal Forests — *"For whom does it work?"*
 
 **→ Unit 4 (today):** Policy Learning — *"What should we do?"*
-
-**Unit 5 (next week):** Adaptive Experiments
 :::
 
 ::: fragment
 You now know how to estimate $\hat\tau(x)$ for every person in your data. The question today: **what do you do with it?**
 :::
 
----
+------------------------------------------------------------------------
 
 # Part 1: From CATEs to Policies {.center}
 
@@ -95,7 +126,7 @@ You now know how to estimate $\hat\tau(x)$ for every person in your data. The qu
 You're at St. Null's Memorial Hospital. You've estimated CATEs for a patient engagement app on 5,000 patients. Your CATE histogram looks like this:
 
 ::: fragment
-![](../images/cate-distribution.png){fig-alt="Histogram of estimated CATEs ranging from -0.3 to +0.9 with most patients near zero" width="70%"}
+![](../images/cate-distribution.png){fig-alt="Histogram of estimated CATEs ranging from -0.5 to 1.5 with a large mass near zero and a secondary mode near 1.0" width="70%"}
 :::
 
 ::: fragment
@@ -108,7 +139,7 @@ You're at St. Null's Memorial Hospital. You've estimated CATEs for a patient eng
 What do you say?
 :::
 
----
+------------------------------------------------------------------------
 
 ## First Attempt: "Treat if the Benefit is Positive"
 
@@ -124,7 +155,7 @@ $$\pi_{\text{naive}}(x) = \mathbb{1}\{\hat\tau(x) > 0\}$$
 This feels right. And under the right conditions, **it IS right**.
 :::
 
----
+------------------------------------------------------------------------
 
 ## The Optimal Policy (No Constraints)
 
@@ -150,7 +181,7 @@ To maximize $V(\pi)$, set $\pi(x) = 1$ exactly when $\tau(x) > 0$. Pointwise opt
 We picked $\pi$ pointwise — at each $x$ independently — because $\tau(x)$ doesn't depend on what we do at other values of $X$.
 :::
 
----
+------------------------------------------------------------------------
 
 ## So Why Is This Hard?
 
@@ -171,10 +202,10 @@ Noise in $\hat\tau$ means noise in the policy. Individuals near the $\tau(x) = 0
 ::: fragment
 ### 3. We may need an interpretable rule
 
-"Treat if the Medicare-trained XGBoost model outputs > 0" is not a policy a program manager can explain to a patient, a board, or a regulator.
+"Treat if the Medicare-trained XGBoost model outputs \> 0" is not a policy a program manager can explain to a patient, a board, or a regulator.
 :::
 
----
+------------------------------------------------------------------------
 
 # Part 2: Value and Regret {.center}
 
@@ -195,10 +226,10 @@ $$\hat\pi \in \arg\max_{\pi \in \Pi} \hat V(\pi)$$
 :::
 
 ::: fragment
-But $V(\pi)$ has a scale that depends on the outcome. And optimizing it directly has tricky sample properties — good lecture-hall math, bad finite-sample behavior.
+But $V(\pi)$ has a scale that depends on the outcome. And optimizing it directly has tricky sample properties — bad finite-sample behavior.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Regret: The Better Objective
 
@@ -222,7 +253,7 @@ Smaller regret = better policy. Zero regret = you found the best-in-class.
 Empirical Welfare Maximization (EWM) and policy trees both minimize sample regret, not sample value. The distinction matters theoretically even when the point estimates look similar.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Why Not Just Use $\hat\tau(x) > 0$?
 
@@ -248,7 +279,7 @@ An ML model output isn't interpretable, auditable, or portable. A clinic can't r
 Score actions *directly* with doubly-robust scores, then learn a policy from a small interpretable class (like depth-2 trees) that minimizes sample regret.
 :::
 
----
+------------------------------------------------------------------------
 
 # Part 3: Doubly-Robust Policy Scores {.center}
 
@@ -270,7 +301,7 @@ In Unit 3, causal forests use them **locally** to get CATEs.
 Today, we use them **per action**.
 :::
 
----
+------------------------------------------------------------------------
 
 ## DR Score for Each Action
 
@@ -281,14 +312,14 @@ $$\Gamma_{i,0} = \hat\mu_0(X_i) + \dfrac{\mathbb{1}\{W_i = 0\}}{1-\hat e(X_i)}\b
 $$\Gamma_{i,1} = \hat\mu_1(X_i) + \dfrac{\mathbb{1}\{W_i = 1\}}{\hat e(X_i)}\bigl(Y_i - \hat\mu_1(X_i)\bigr)$$
 
 ::: fragment
-Think of $\Gamma_{i,a}$ as an **unbiased estimate of $Y_i(a)$** for person $i$.
+Think of $\Gamma_{i,a}$ as an **unbiased estimate of** $Y_i(a)$ for person $i$.
 :::
 
 ::: fragment
 **Key property** (Neyman orthogonality): $\mathbb{E}[\Gamma_{i,a} \mid X_i] = \mu_a(X_i)$, even if $\hat\mu$ or $\hat e$ is wrong — as long as at least one is right.
 :::
 
----
+------------------------------------------------------------------------
 
 ## From DR Scores to Policy Value
 
@@ -316,7 +347,7 @@ $$\hat\pi = \arg\max_{\pi \in \Pi} \frac{1}{n}\sum_{i=1}^n \Gamma_{i,\pi(X_i)}$$
 Score actions (not individuals), then pick the action with the higher score, subject to policy class constraints.
 :::
 
----
+------------------------------------------------------------------------
 
 # Part 4: Policy Trees {.center}
 
@@ -331,7 +362,7 @@ A depth-2 tree has at most 4 leaves. Each leaf assigns one action to everyone in
 ::: fragment
 **Example output:**
 
-```
+```         
 if age > 55:
     if comorbidity_count > 2:
         treat
@@ -349,7 +380,7 @@ else:
 A program manager can read this. A board can approve it. A clinic can deploy it. Your causal forest cannot.
 :::
 
----
+------------------------------------------------------------------------
 
 ## How Policy Trees Are Fit
 
@@ -375,31 +406,31 @@ That's **exact tree search** — the approach used by `policytree` in R and by A
 Sounds expensive. With smart algorithms (Zhou, Athey & Wager, 2023), exact depth-2 search on $n$ observations with $p$ features runs in $O(n^2 p^2 \log n)$. Tractable for moderate data.
 :::
 
----
+------------------------------------------------------------------------
 
 ## The Interpretability–Optimality Tradeoff
 
-::: columns
+::::: columns
 ::: {.column width="48%"}
 ### Deep / complex policy
 
-- Many splits, many features
-- Closer to the first-best $\pi^*$
-- Higher estimated value
-- **Low interpretability**
-- Overfits the training sample
+-   Many splits, many features
+-   Closer to the first-best $\pi^*$
+-   Higher estimated value
+-   **Low interpretability**
+-   Overfits the training sample
 :::
 
 ::: {.column width="48%"}
 ### Shallow / simple policy
 
-- Depth 2–3, 3–7 variables
-- Value drops vs. first-best
-- Lower estimated value
-- **High interpretability**
-- Generalizes better
+-   Depth 2–3, 3–7 variables
+-   Value drops vs. first-best
+-   Lower estimated value
+-   **High interpretability**
+-   Generalizes better
 :::
-:::
+:::::
 
 ::: {.fragment .callout-warning appearance="simple"}
 ## Regret bounds tell you the price
@@ -407,7 +438,7 @@ Sounds expensive. With smart algorithms (Zhou, Athey & Wager, 2023), exact depth
 Athey & Wager (2021) show the regret of the estimated policy tree relative to the best-in-class tree is $O(n^{-1/2})$ under mild conditions. The hit from *restricting* to a tree class is a modeling choice — you pay in optimality, you gain in interpretability.
 :::
 
----
+------------------------------------------------------------------------
 
 ## 📓 Hands-On: Policy Trees in Python
 
@@ -423,15 +454,15 @@ Nothing to install — it runs in your browser.
 
 We'll walk through together:
 
-1. A synthetic diabetes mHealth adherence app dataset (n = 2000)
-2. Estimate CATEs with causal forests in Python
-3. Build DR scores per action
-4. Fit a depth-2 policy tree and visualize it
-5. Compare against the true optimal policy
-6. A failure case: constant treatment effect → spurious splits
-7. Budget-constrained version: what changes when $\alpha = 30\%$
+1.  A synthetic diabetes mHealth adherence app dataset (n = 2000)
+2.  Estimate CATEs with causal forests in Python
+3.  Build DR scores per action
+4.  Fit a depth-2 policy tree and visualize it
+5.  Compare against the true optimal policy
+6.  A failure case: constant treatment effect → spurious splits
+7.  Budget-constrained version: what changes when $\alpha = 30\%$
 
----
+------------------------------------------------------------------------
 
 ## What the Depth-2 Tree Should Find (Spoiler)
 
@@ -442,8 +473,8 @@ $$\tau(x) = 0.8 \cdot \mathbb{1}\{\text{age} > 50\} \cdot \mathbb{1}\{\text{digi
 ::: fragment
 So the true optimal policy is:
 
-- **Treat** if (age > 50 AND digital_literacy > 0.5) AND NOT (A1C < 7)
-- **Don't treat** otherwise
+-   **Treat** if (age \> 50 AND digital_literacy \> 0.5) AND NOT (A1C \< 7)
+-   **Don't treat** otherwise
 :::
 
 ::: fragment
@@ -454,7 +485,7 @@ Watch whether the depth-2 tree recovers this structure, misses the harm subgroup
 This is exactly the kind of nuance the naive "treat if $\hat\tau > 0$" rule would get wrong near the decision boundary.
 :::
 
----
+------------------------------------------------------------------------
 
 # Part 5: Budget Constraints {.center}
 
@@ -463,9 +494,9 @@ This is exactly the kind of nuance the naive "treat if $\hat\tau > 0$" rule woul
 Reality intrudes:
 
 ::: fragment
-- Clinic staff can only enroll 300 patients per month
-- The app has 500 free licenses
-- CEO Beta: *"We can only afford to provide this to 40% of patients."*
+-   Clinic staff can only enroll 300 patients per month
+-   The app has 500 free licenses
+-   CEO Beta: *"We can only afford to provide this to 40% of patients."*
 :::
 
 ::: fragment
@@ -482,16 +513,16 @@ $$\pi^*_\alpha(x) = \mathbb{1}\{\tau(x) > c_\alpha\}$$
 where $c_\alpha$ is the $(1-\alpha)$-quantile of $\tau(X)$.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Top-$q$ Targeting, in Practice
 
 With estimated CATEs $\hat\tau(X_i)$:
 
 ::: fragment
-1. **Rank** everyone by predicted benefit
-2. **Treat** the top $\lfloor \alpha n \rfloor$
-3. **Don't** treat the rest
+1.  **Rank** everyone by predicted benefit
+2.  **Treat** the top $\lfloor \alpha n \rfloor$
+3.  **Don't** treat the rest
 :::
 
 ::: fragment
@@ -502,7 +533,7 @@ With estimated CATEs $\hat\tau(X_i)$:
 At budget $\alpha$, CATE-based targeting dominates random allocation whenever there is real heterogeneity. The gap is AUTOC from Lab 4.
 :::
 
----
+------------------------------------------------------------------------
 
 ## What About an Interpretable Budget-Constrained Rule?
 
@@ -515,36 +546,36 @@ Top-$q$ by $\hat\tau$ is optimal but **not interpretable** — same ML-black-box
 ::: fragment
 Two approaches:
 
-- **Lagrangian:** add a penalty $-\lambda \cdot \mathbb{1}\{\text{treated}\}$ to the DR scores and re-fit
-- **Direct:** enumerate trees and pick the highest-value one whose treated fraction $\leq \alpha$
+-   **Lagrangian:** add a penalty $-\lambda \cdot \mathbb{1}\{\text{treated}\}$ to the DR scores and re-fit
+-   **Direct:** enumerate trees and pick the highest-value one whose treated fraction $\leq \alpha$
 :::
 
 ::: fragment
 In the Colab notebook, we do the direct approach for depth-2 trees. You'll see the tree simplify — often to a single split — when the budget tightens.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Foreshadowing Jigsaw 4
 
 Wednesday you'll read one of four papers that push this further:
 
 ::: fragment
-- **Bodory, Mascolo & Lechner (2024)** — the full policy tree pipeline on the Oregon Health Insurance Experiment
-- **Cerulli, Ferro & Ferretti (2024)** — multi-outcome tradeoffs in anti-malaria subsidy targeting (Kenya)
-- **Stijven et al. (2025)** — what actually breaks when you try this on a real depression RCT
-- **Viviano & Bradic (2024)** — fairness constraints and the "first do no harm" Pareto frontier
+-   **Bodory, Mascolo & Lechner (2024)** — the full policy tree pipeline on the Oregon Health Insurance Experiment
+-   **Cerulli, Ferro & Ferretti (2024)** — multi-outcome tradeoffs in anti-malaria subsidy targeting (Kenya)
+-   **Stijven et al. (2025)** — what actually breaks when you try this on a real depression RCT
+-   **Viviano & Bradic (2024)** — fairness constraints and the "first do no harm" Pareto frontier
 :::
 
 ::: fragment
 The last one especially: optimal targeting can systematically discriminate. What happens when efficiency and equity collide?
 :::
 
----
+------------------------------------------------------------------------
 
-# Part 6: Wrap & PS 4 {.center}
+# Part 6: Recap & PS 4 {.center}
 
-## The Recap in One Slide
+## Recap
 
 ::: fragment
 1.  **The optimal unconstrained policy is treat-if-positive** — but we rarely get to use it directly
@@ -566,21 +597,21 @@ The last one especially: optimal targeting can systematically discriminate. What
 5.  **Budget constraints** reduce to top-$q$ targeting in the unconstrained case, and to constrained tree search when the policy class is restricted
 :::
 
----
+------------------------------------------------------------------------
 
 ## Problem Set 4
 
 **Due Monday April 13, 11:15am.**
 
-::: columns
+::::: columns
 ::: {.column width="60%"}
 **Five tasks:**
 
-1. Conceptual foundations (treat-if-positive, regret, budgets, DR)
-2. Learn depth-2 and depth-3 policy trees on St. Null's data
-3. Doubly-robust off-policy evaluation (direct, IPW, DR — Wed)
-4. Policy value curves across budget levels
-5. Comparison and recommendation to CEO Beta
+1.  Conceptual foundations (treat-if-positive, regret, budgets, DR)
+2.  Learn depth-2 and depth-3 policy trees on St. Null's data
+3.  Doubly-robust off-policy evaluation (direct, IPW, DR — Wed)
+4.  Policy value curves across budget levels
+5.  Comparison and recommendation to CEO Beta
 :::
 
 ::: {.column width="40%"}
@@ -588,36 +619,34 @@ The last one especially: optimal targeting can systematically discriminate. What
 
 [Accept on GitHub Classroom](https://classroom.github.com/a/Z-cxQmiF)
 
-```bash
+``` bash
 git clone <your-repo-url>
 cd ps-4-policy-learning-<username>
 ```
 
 Then open `analysis.qmd` in Positron or RStudio.
 :::
-:::
+:::::
 
 ::: {.fragment .callout-tip appearance="simple"}
-**Heads up:** PS 4 is the shorter of the remaining two. The Wednesday lecture previews off-policy evaluation in detail — don't start Task 3 before then unless you're comfortable with AIPW.
+**Heads up:** The Wednesday lecture previews off-policy evaluation in detail — don't start Task 3 before then unless you're comfortable with AIPW.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Wednesday (Apr 8): Jigsaw 4
 
-- **Paper assignments already posted:** check the [Jigsaw 4 groups page](../jigsaw/groups/jigsaw-4-groups.qmd)
-- **Papers:** [reading list & tips](../jigsaw/papers/unit-4-policy-learning.qmd)
-- **Read your paper and complete the reading guide** (60–90 min) before Wednesday
-- **Format:** Remote via [Zoom](https://zoom.us/j/93346316978)
-- We'll do a brief off-policy evaluation lecture (~10 min), then Jigsaw 4 in full
+-   **Paper assignments already posted:** check the [Jigsaw 4 groups page](../jigsaw/groups/jigsaw-4-groups.qmd)
+-   **Papers:** [reading list & tips](../jigsaw/papers/unit-4-policy-learning.qmd)
+-   **Read your paper and complete the reading guide** (60–90 min) before Wednesday
+-   **Format:** Remote via [Zoom](https://zoom.us/j/93346316978)
+-   We'll do a brief off-policy evaluation lecture (\~10 min), then Jigsaw 4 in full
 
----
+------------------------------------------------------------------------
 
 ## Questions?
 
 **Office hours:** by appointment — email or Canvas message.
-
-**If you're still stuck on PS 3 repo access:** email me directly with your GitHub username so I can add you manually.
 
 ::: {.callout-note appearance="simple"}
 See you Wednesday on Zoom — Jigsaw 4.

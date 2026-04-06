@@ -386,7 +386,8 @@ For CATE-based targeting at budget fraction `q`:
 ```r
 threshold <- quantile(tau_hat, 1 - q)
 treated <- tau_hat >= threshold
-value <- mean(dr_scores[treated, 2])  # value for treated group
+# Full-population policy value: treated get action 2, untreated get action 1
+value <- mean(c(dr_scores[treated, 2], dr_scores[!treated, 1]))
 ```
 For random targeting, average over multiple random draws.
 :::
