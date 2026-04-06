@@ -46,22 +46,22 @@ execute:
 If not, use the first 10 minutes now. We'll wait.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Session 4.0 Recap
 
 Three things we established Monday:
 
 ::: fragment
-1. **Policy learning scores actions, not individuals** — via per-action doubly-robust scores $\Gamma_{i,0}, \Gamma_{i,1}$
+1.  **Policy learning scores actions, not individuals** — via per-action doubly-robust scores $\Gamma_{i,0}, \Gamma_{i,1}$
 :::
 
 ::: fragment
-2. **Policy trees trade optimality for interpretability** — depth-2 depth-3, fit to maximize sample DR value
+2.  **Policy trees trade optimality for interpretability** — depth-2 depth-3, fit to maximize sample DR value
 :::
 
 ::: fragment
-3. **Budget constraints turn the problem into top-$q$ targeting** (unconstrained) or constrained tree search (interpretable)
+3.  **Budget constraints turn the problem into top-**$q$ targeting (unconstrained) or constrained tree search (interpretable)
 :::
 
 ::: {.fragment .callout-tip appearance="simple"}
@@ -70,7 +70,7 @@ Three things we established Monday:
 You fit a policy. **How do you know it's any good without deploying it?**
 :::
 
----
+------------------------------------------------------------------------
 
 # Part 1: Off-Policy Evaluation {.center}
 
@@ -85,12 +85,12 @@ You fit a policy. **How do you know it's any good without deploying it?**
 ::: fragment
 **Three strategies:**
 
-1. **Direct (plug-in) method** — model the outcome, predict what would have happened
-2. **Inverse propensity weighting (IPW)** — reweight observations whose actual action matches $\pi(X_i)$
-3. **Doubly-robust (AIPW)** — combine both
+1.  **Direct (plug-in) method** — model the outcome, predict what would have happened
+2.  **Inverse propensity weighting (IPW)** — reweight observations whose actual action matches $\pi(X_i)$
+3.  **Doubly-robust (AIPW)** — combine both
 :::
 
----
+------------------------------------------------------------------------
 
 ## The Three Estimators
 
@@ -98,6 +98,7 @@ Given estimated nuisances $\hat\mu_a(x)$ (outcome model per action) and $\hat e_
 
 ::: {.callout-note appearance="minimal"}
 ## Direct
+
 $$\hat V_{\text{direct}}(\pi) = \frac{1}{n}\sum_{i=1}^n \hat\mu_{\pi(X_i)}(X_i)$$
 
 Uses only the outcome model. **Biased** if $\hat\mu$ is wrong. **Low variance** — no weighting blow-ups.
@@ -105,6 +106,7 @@ Uses only the outcome model. **Biased** if $\hat\mu$ is wrong. **Low variance** 
 
 ::: {.callout-note appearance="minimal"}
 ## IPW
+
 $$\hat V_{\text{IPW}}(\pi) = \frac{1}{n}\sum_{i=1}^n \frac{\mathbb{1}\{W_i = \pi(X_i)\}}{\hat e_{W_i}(X_i)} \cdot Y_i$$
 
 Uses only the propensity model. **Unbiased** if $\hat e$ is right. **High variance** — catastrophic if propensities are near 0.
@@ -112,22 +114,23 @@ Uses only the propensity model. **Unbiased** if $\hat e$ is right. **High varian
 
 ::: {.callout-note appearance="minimal"}
 ## Doubly-Robust (AIPW)
+
 $$\hat V_{\text{DR}}(\pi) = \frac{1}{n}\sum_{i=1}^n \Gamma_{i,\pi(X_i)}$$
 
 where $\Gamma_{i,a}$ is the per-action DR score from Session 4.0. **Unbiased** if *either* $\hat\mu$ or $\hat e$ is right. **Lower variance** than pure IPW. **The default.**
 :::
 
----
+------------------------------------------------------------------------
 
 ## When Each One Breaks
 
-::: columns
+:::::: columns
 ::: {.column width="33%"}
 ### Direct breaks when...
 
-- Your outcome model is misspecified in the target regions
-- The policy $\pi$ sends people to regions with little training data
-- You have strong nonlinearities the model can't capture
+-   Your outcome model is misspecified in the target regions
+-   The policy $\pi$ sends people to regions with little training data
+-   You have strong nonlinearities the model can't capture
 
 **Diagnostic:** cross-validated $R^2$ on held-out data.
 :::
@@ -135,9 +138,9 @@ where $\Gamma_{i,a}$ is the per-action DR score from Session 4.0. **Unbiased** i
 ::: {.column width="33%"}
 ### IPW breaks when...
 
-- Propensity scores are near 0 or 1
-- You have **positivity violations** — some subgroups never get action $a$
-- Effective sample size collapses under the reweighting
+-   Propensity scores are near 0 or 1
+-   You have **positivity violations** — some subgroups never get action $a$
+-   Effective sample size collapses under the reweighting
 
 **Diagnostic:** distribution of $1/\hat e(x)$. Clip or trim extreme weights.
 :::
@@ -145,13 +148,13 @@ where $\Gamma_{i,a}$ is the per-action DR score from Session 4.0. **Unbiased** i
 ::: {.column width="33%"}
 ### DR breaks when...
 
-- **Both** $\hat\mu$ and $\hat e$ are badly wrong
-- Nuisance models were fit on the same data used for evaluation (no cross-fitting)
-- Extreme propensities still blow up the correction term
+-   **Both** $\hat\mu$ and $\hat e$ are badly wrong
+-   Nuisance models were fit on the same data used for evaluation (no cross-fitting)
+-   Extreme propensities still blow up the correction term
 
 **Diagnostic:** compare DR value to direct and IPW — agreement is reassuring.
 :::
-:::
+::::::
 
 ::: {.fragment .callout-warning appearance="simple"}
 ## Key insight
@@ -159,17 +162,17 @@ where $\Gamma_{i,a}$ is the per-action DR score from Session 4.0. **Unbiased** i
 **No estimator saves you from bad data.** OPE works when overlap is decent, nuisances are well-estimated, and the policy class isn't pathological. When any of those breaks, all three estimators fail — sometimes silently.
 :::
 
----
+------------------------------------------------------------------------
 
 ## What You'll Do in PS 4 Task 3
 
 Implement all three on the St. Null's data:
 
-1. Fit the causal forest (already done in Task 2)
-2. Extract $\hat\mu_0$, $\hat\mu_1$, $\hat e$ from the forest
-3. Code the direct, IPW, and DR estimators as three separate functions
-4. Evaluate the depth-2 policy tree from Task 2 with all three
-5. Compare and explain any disagreement
+1.  Fit the causal forest (already done in Task 2)
+2.  Extract $\hat\mu_0$, $\hat\mu_1$, $\hat e$ from the forest
+3.  Code the direct, IPW, and DR estimators as three separate functions
+4.  Evaluate the depth-2 policy tree from Task 2 with all three
+5.  Compare and explain any disagreement
 
 ::: {.fragment .callout-note appearance="simple"}
 ## Preview
@@ -177,7 +180,7 @@ Implement all three on the St. Null's data:
 In an RCT (St. Null's is one), $\hat e = 0.5$ everywhere — so IPW won't blow up. Direct will be fine if your causal forest is well-calibrated. DR will be the most stable. But the interesting question is *how much* they disagree. In observational settings, the disagreement is often much larger — and always informative.
 :::
 
----
+------------------------------------------------------------------------
 
 # Part 2: Jigsaw 4 {.center}
 
@@ -209,7 +212,7 @@ Policy trees applied to the **Oregon Health Insurance Experiment**. Full pipelin
 **Fair policy targeting.** Formalizes the efficiency–equity Pareto frontier with a "first, do no harm" framework. Mixed-integer linear program with regret bounds on unfairness.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Phase 1: Expert Groups (20 min)
 
@@ -221,11 +224,11 @@ Meet with classmates assigned the **same paper**. Work through the Expert Group 
 
 **Focus on these questions:**
 
-1. What is the policy learning problem the paper solves? What's the treatment, outcome, and decision?
-2. What doubly-robust or policy tree machinery does the paper use?
-3. What's the headline finding? What would you tell a health policy audience in one sentence?
-4. What does the paper do well? What would you push back on?
-5. How does this paper illustrate concepts from Unit 4?
+1.  What is the policy learning problem the paper solves? What's the treatment, outcome, and decision?
+2.  What doubly-robust or policy tree machinery does the paper use?
+3.  What's the headline finding? What would you tell a health policy audience in one sentence?
+4.  What does the paper do well? What would you push back on?
+5.  How does this paper illustrate concepts from Unit 4?
 
 ::: fragment
 **Your expert group assignments:** [jigsaw/groups/jigsaw-4-groups.qmd](../jigsaw/groups/jigsaw-4-groups.qmd)
@@ -235,7 +238,7 @@ Meet with classmates assigned the **same paper**. Work through the Expert Group 
 You'll be in breakout rooms. I'll drop in to each.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Phase 2: Teaching Groups (25 min)
 
@@ -249,12 +252,12 @@ Each member teaches their paper in **5–7 minutes** using the template prompts.
 
 **Discussion prompts for after all 4 presentations:**
 
-1. **Methods:** Which papers use policy trees? Which use other approaches? Why different choices?
-2. **Settings:** RCT vs. observational? Single-outcome vs. multi-outcome? Resource-constrained or not?
-3. **Honesty:** Which papers are most candid about their method's limitations? Which glossed over them?
-4. **If you had to deploy one of these four policies tomorrow, which would you trust the most? Why?**
+1.  **Methods:** Which papers use policy trees? Which use other approaches? Why different choices?
+2.  **Settings:** RCT vs. observational? Single-outcome vs. multi-outcome? Resource-constrained or not?
+3.  **Honesty:** Which papers are most candid about their method's limitations? Which glossed over them?
+4.  **If you had to deploy one of these four policies tomorrow, which would you trust the most? Why?**
 
----
+------------------------------------------------------------------------
 
 ## Phase 3: Whole-Class Synthesis (10 min)
 
@@ -263,21 +266,21 @@ We'll bring everyone back together and discuss patterns across all four papers.
 ::: fragment
 **Seed questions:**
 
-1. What do applied policy learning papers actually look like? What's the workflow?
-2. Where do the methods work? Where do they struggle?
-3. What's the honest gap between "we learned a policy" and "we should deploy it"?
-4. How does the fairness question (Viviano & Bradic) reframe the other three papers?
+1.  What do applied policy learning papers actually look like? What's the workflow?
+2.  Where do the methods work? Where do they struggle?
+3.  What's the honest gap between "we learned a policy" and "we should deploy it"?
+4.  How does the fairness question (Viviano & Bradic) reframe the other three papers?
 :::
 
 ::: fragment
 **My three-bullet preview of what I want us to land on:**
 
-1. **Policy learning is method + judgment.** Nothing in the math tells you what to optimize for — that's a human decision.
-2. **Honest reporting is harder than learning.** Stijven et al. show what "it works on our data" leaves out.
-3. **Equity is not an afterthought.** Viviano & Bradic's framing forces every other paper to answer: *what would your optimal policy do to subgroups you didn't explicitly model?*
+1.  **Policy learning is method + judgment.** Nothing in the math tells you what to optimize for — that's a human decision.
+2.  **Honest reporting is harder than learning.** Stijven et al. show what "it works on our data" leaves out.
+3.  **Equity is not an afterthought.** Viviano & Bradic's framing forces every other paper to answer: *what would your optimal policy do to subgroups you didn't explicitly model?*
 :::
 
----
+------------------------------------------------------------------------
 
 # Wrap {.center}
 
@@ -286,15 +289,15 @@ We'll bring everyone back together and discuss patterns across all four papers.
 **Due Monday Apr 13, 11:15am.**
 
 ::: fragment
-- **Task 3 (off-policy evaluation)** — you have everything you need now. The 10 min at the top of class covered the concepts; the computation is straightforward.
+-   **Task 3 (off-policy evaluation)** — you have everything you need now. The 10 min at the top of class covered the concepts; the computation is straightforward.
 :::
 
 ::: fragment
-- **Task 2 (policy trees)** — you saw the full Python pipeline Monday. R syntax is different but the workflow is identical.
+-   **Task 2 (policy trees)** — you saw the full Python pipeline Monday. R syntax is different but the workflow is identical.
 :::
 
 ::: fragment
-- **Progressive hints** are embedded in the problem set — use them if stuck for more than 45 min.
+-   **Progressive hints** are embedded in the problem set — use them if stuck for more than 45 min.
 :::
 
 ::: {.fragment .callout-tip appearance="simple"}
@@ -303,21 +306,21 @@ We'll bring everyone back together and discuss patterns across all four papers.
 Office hours by appointment. Email with specific questions — include what you tried and where you got stuck.
 :::
 
----
+------------------------------------------------------------------------
 
 ## What's Next
 
-- **Mon Apr 13:** PS 4 due. **Capstone presentations begin** (Session 1)
-- **Wed Apr 15:** Capstone presentations continue. **Draft paper** due on Canvas for peer review.
-- **Mon Apr 20:** Final capstone presentations
-- **Wed Apr 22:** Course wrap-up + future directions
-- **Fri May 1:** Capstone project package due
+-   **Mon Apr 13:** PS 4 due. **Capstone presentations begin** (Session 1)
+-   **Wed Apr 15:** Capstone presentations continue. **Draft paper** due on Canvas for peer review.
+-   **Mon Apr 20:** Final capstone presentations
+-   **Wed Apr 22:** Course wrap-up + future directions
+-   **Fri May 1:** Capstone project package due
 
 ::: fragment
 One more month. Keep going.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Questions?
 

@@ -22,12 +22,12 @@ execute:
 
 This notebook walks through the **complete causal forest analysis pipeline** using the `grf` package:
 
-1. **Estimate** CATEs with `causal_forest()`
-2. **Test** whether heterogeneity is real with `test_calibration()`
-3. **Summarize** heterogeneity with `best_linear_projection()`
-4. **Visualize** who benefits most (sorted group analysis)
-5. **Evaluate** targeting quality with RATE/AUTOC
-6. **Preview** policy learning with `policytree`
+1.  **Estimate** CATEs with `causal_forest()`
+2.  **Test** whether heterogeneity is real with `test_calibration()`
+3.  **Summarize** heterogeneity with `best_linear_projection()`
+4.  **Visualize** who benefits most (sorted group analysis)
+5.  **Evaluate** targeting quality with RATE/AUTOC
+6.  **Preview** policy learning with `policytree`
 
 Based on the framework from Athey, Tibshirani & Wager (2019) and the [Stanford GSB ML-CI Tutorial](https://bookdown.org/stanfordgsbsilab/ml-ci-tutorial/hte-i-binary-treatment.html).
 
@@ -141,8 +141,9 @@ ggplot(data.frame(tau = tau.hat), aes(x = tau)) +
            color = "#E07C3E", fontface = "bold")
 ```
 
-::: {.callout-note}
+::: callout-note
 ## What are we looking at?
+
 The histogram shows the predicted treatment effect for each individual. If the distribution is tight around the ATE, there's little heterogeneity. A wide spread suggests meaningful variation in who benefits.
 :::
 
@@ -160,11 +161,12 @@ cal <- test_calibration(cf)
 print(cal)
 ```
 
-::: {.callout-tip}
+::: callout-tip
 ## How to read this
-- **mean.forest.prediction** ≈ 1: the forest's ATE estimate is well-calibrated
-- **differential.forest.prediction** > 0 with p < 0.05: **real heterogeneity detected**
-- If the differential coefficient is not significant, the "heterogeneity" may be noise
+
+-   **mean.forest.prediction** ≈ 1: the forest's ATE estimate is well-calibrated
+-   **differential.forest.prediction** \> 0 with p \< 0.05: **real heterogeneity detected**
+-   If the differential coefficient is not significant, the "heterogeneity" may be noise
 :::
 
 ### 3b. Variable Importance
@@ -191,8 +193,9 @@ ggplot(var.imp.df, aes(x = reorder(variable, importance), y = importance)) +
   )
 ```
 
-::: {.callout-warning}
+::: callout-warning
 ## Caution
+
 Variable importance tells you which variables the forest **splits on**, not the direction or magnitude of the effect. Use BLP (next step) for interpretable summaries.
 :::
 
@@ -213,8 +216,9 @@ blp <- best_linear_projection(
 print(blp)
 ```
 
-::: {.callout-note}
+::: callout-note
 ## Interpreting BLP
+
 Each coefficient tells you: "A one-unit increase in this covariate is associated with this much change in the treatment effect." For example, if the comorbidities coefficient is -0.7, each additional comorbidity increases the treatment *benefit* by 0.7 fewer ER visits.
 
 This is NOT a causal claim about the covariate — it's a summary of heterogeneity patterns.
@@ -285,8 +289,9 @@ ggplot(gates.df, aes(x = factor(group), y = ate)) +
            label = "Overall ATE", color = "#E07C3E", fontface = "italic")
 ```
 
-::: {.callout-note}
+::: callout-note
 ## What are GATES telling us?
+
 If the bars are roughly equal across groups, there's little heterogeneity. If Group 5 (highest predicted CATE) has a much larger effect than Group 1, the forest is successfully identifying who benefits most.
 :::
 
@@ -324,8 +329,9 @@ ggplot(clan.results, aes(x = reorder(variable, difference), y = difference)) +
   )
 ```
 
-::: {.callout-note}
+::: callout-note
 ## Interpreting CLAN
+
 This tells you what **characterizes** the people who benefit most. For example, if comorbidities are higher in the top group, it suggests the intervention is most beneficial for sicker patients. This is descriptive, not causal.
 :::
 
@@ -376,12 +382,13 @@ plot(rate.result, las = 1,
      ylab = "Treatment effect advantage")
 ```
 
-::: {.callout-tip}
+::: callout-tip
 ## How to read the TOC curve
+
 The TOC curve shows what happens if you treat individuals **in order of predicted benefit** (highest CATE first). The y-axis is the treatment effect for the treated fraction minus the ATE. If the curve is above zero on the left, your targeting rule successfully identifies high-benefit individuals.
 
-- **Area under the curve (AUTOC)** > 0 with p < 0.05: targeting works
-- If the curve is flat at zero: no useful heterogeneity for targeting
+-   **Area under the curve (AUTOC)** \> 0 with p \< 0.05: targeting works
+-   If the curve is flat at zero: no useful heterogeneity for targeting
 :::
 
 ## 6. Preview: Policy Learning
@@ -403,9 +410,10 @@ ptree <- policy_tree(as.matrix(X), dr.scores, depth = 2)
 plot(ptree, leaf.labels = c("Don't Treat", "Treat"))
 ```
 
-::: {.callout-note}
+::: callout-note
 ## What is this?
-The policy tree learns a simple decision rule: "Treat if comorbidities > X AND age > Y." It maximizes expected welfare under the learned rule. We'll formalize this in **Unit 4: Policy Learning**.
+
+The policy tree learns a simple decision rule: "Treat if comorbidities \> X AND age \> Y." It maximizes expected welfare under the learned rule. We'll formalize this in **Unit 4: Policy Learning**.
 :::
 
 ## 7. Putting It All Together
@@ -413,22 +421,22 @@ The policy tree learns a simple decision rule: "Treat if comorbidities > X AND a
 Here's the recommended analysis workflow:
 
 | Step | Function | Question Answered |
-|------|----------|-------------------|
-| 1. Estimate | `causal_forest()` + `predict()` | What is each person's treatment effect? |
-| 2. Test | `test_calibration()` | Is the heterogeneity real or noise? |
-| 3. Screen | `variable_importance()` | Which covariates drive heterogeneity? |
-| 4. Summarize | `best_linear_projection()` | How do covariates relate to CATEs? |
-| 5. Visualize | Sorted group analysis (GATES) | How do ATEs vary across CATE quintiles? |
-| 6. Characterize | CLAN analysis | Who is in the high-benefit group? |
-| 7. Evaluate | `rank_average_treatment_effect()` | Can we target effectively? |
-| 8. Decide | `policy_tree()` | What's the optimal treatment rule? |
+|-----------------|-------------------|-------------------------------------|
+| 1\. Estimate | `causal_forest()` + `predict()` | What is each person's treatment effect? |
+| 2\. Test | `test_calibration()` | Is the heterogeneity real or noise? |
+| 3\. Screen | `variable_importance()` | Which covariates drive heterogeneity? |
+| 4\. Summarize | `best_linear_projection()` | How do covariates relate to CATEs? |
+| 5\. Visualize | Sorted group analysis (GATES) | How do ATEs vary across CATE quintiles? |
+| 6\. Characterize | CLAN analysis | Who is in the high-benefit group? |
+| 7\. Evaluate | `rank_average_treatment_effect()` | Can we target effectively? |
+| 8\. Decide | `policy_tree()` | What's the optimal treatment rule? |
 
 ## References
 
-- Athey, S., Tibshirani, J., & Wager, S. (2019). Generalized Random Forests. *Annals of Statistics*, 47(2), 1148-1178.
-- Wager, S. (2024). *Causal Inference: A Statistical Learning Approach*. Chapter 6.
-- Chernozhukov, V. et al. (2025). *Applied Causal Inference Powered by ML and AI*. Chapter 8.
-- [Stanford GSB ML-CI Tutorial](https://bookdown.org/stanfordgsbsilab/ml-ci-tutorial/hte-i-binary-treatment.html)
-- [GRF Documentation](https://grf-labs.github.io/grf/)
-- [GRF Diagnostics Vignette](https://grf-labs.github.io/grf/articles/diagnostics.html)
-- [GRF RATE Vignette](https://grf-labs.github.io/grf/articles/rate.html)
+-   Athey, S., Tibshirani, J., & Wager, S. (2019). Generalized Random Forests. *Annals of Statistics*, 47(2), 1148-1178.
+-   Wager, S. (2024). *Causal Inference: A Statistical Learning Approach*. Chapter 6.
+-   Chernozhukov, V. et al. (2025). *Applied Causal Inference Powered by ML and AI*. Chapter 8.
+-   [Stanford GSB ML-CI Tutorial](https://bookdown.org/stanfordgsbsilab/ml-ci-tutorial/hte-i-binary-treatment.html)
+-   [GRF Documentation](https://grf-labs.github.io/grf/)
+-   [GRF Diagnostics Vignette](https://grf-labs.github.io/grf/articles/diagnostics.html)
+-   [GRF RATE Vignette](https://grf-labs.github.io/grf/articles/rate.html)
