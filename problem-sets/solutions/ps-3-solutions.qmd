@@ -1,0 +1,278 @@
+---
+title: "PS 3: Causal Forests & HTEs — Solutions"
+subtitle: "Solutions"
+author: "HPM 883 Teaching Team"
+date: today
+draft: false
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: false
+execute:
+  echo: true
+  eval: false
+  warning: false
+  cache: true
+---
+
+## Setup
+
+```{r}
+#| label: setup
+#| cache: false
+
+library(grf)
+library(ggplot2)
+library(ranger)
+
+set.seed(883)
+theme_set(theme_minimal(base_size = 14))
+
+app_data <- read.csv("../data/ps-3-app-rct.csv")
+X <- as.matrix(app_data[, paste0("X", 1:20)])
+Y <- app_data$Y
+W <- app_data$W
+```
+
+---
+
+## Task 1: Conceptual Foundation (20 points)
+
+### 1.1a Honest Splitting (4 pts)
+
+**Target response (≈150 words):**
+
+Honest causal forests split the data used within each tree into two disjoint halves: one half chooses the splits (the "splitting" sample), the other estimates leaf treatment effects (the "estimation" sample). Standard random forests reuse the same observations for both decisions, which induces a finite-sample bias: splits are chosen to capture idiosyncratic variation in the outcome, and then the same observations drive the within-leaf estimate — effectively, the tree overfits to the data that defined its structure. For causal estimation this is especially harmful because the bias contaminates the CATE estimate with split-selection noise and invalidates the central-limit-theorem approximation Wager & Athey (2018) rely on. Honesty ensures that within-leaf treatment-effect estimators are asymptotically normal, so the forest delivers valid pointwise standard errors and confidence intervals.
+
+**Full credit (4):** Names sample-splitting, identifies the bias (selection/overfitting), connects to valid inference.
+**Partial (2–3):** Right intuition, missing inference connection, or conflates with cross-validation.
+**Minimal (1):** "Avoids overfitting" with no mechanism.
+
+### 1.1b CATE via Local Weighting (4 pts)
+
+**Target response:**
+
+Causal forests estimate $\tau(x)$ by computing a data-adaptive weighted average of residuals around the target point $x$. Each tree partitions the covariate space; observations landing in the same leaf as $x$ get a non-zero weight, others get zero. Averaged across trees, this produces a kernel-like weighting scheme $\alpha_i(x)$ that is adaptive — the neighborhood defining "similar to $x$" is learned from data, not fixed by a bandwidth. The CATE is then obtained by solving a weighted moment condition on the residualized outcome and treatment (the R-learner representation). This differs from fitting two separate regressions (the T-learner approach): separate regressions estimate conditional means, then subtract; causal forests directly target the treatment-effect moment using residuals, avoiding regularization bias on the treatment effect itself.
+
+**Full credit (4):** Adaptive weights + residual-on-residual framing + contrast with separate regressions.
+**Partial (2–3):** Adaptive weights named, contrast weak.
+**Minimal (1):** "It's a local regression" without the weighting mechanism.
+
+### 1.1c Variance / Infinitesimal Jackknife (2 pts)
+
+**Target response:**
+
+The IJ estimates $\text{Var}(\hat{\tau}(x))$ by exploiting the randomness of subsample selection: across B trees, each trained on a random half-sample, the covariance between a tree's prediction at $x$ and its indicator of which observations were in its subsample yields a consistent variance estimate. Concretely, $\hat{V}_{IJ}(x) = \sum_i \text{Cov}(N_i, \hat{\tau}_b(x))^2$ over trees — large covariances mean a given observation strongly moved the prediction, and those contributions sum to the variance.
+
+**Full credit (2):** Names subsample-based variance; mentions half-sampling or tree-level resampling.
+**Partial (1):** "Uses bootstrap across trees" — close enough.
+
+### 1.2d T-learner vs S-learner (5 pts)
+
+**Target response:**
+
+S-learner fits one model with treatment as a covariate: $\hat{\mu}(x, w)$, then $\hat\tau(x) = \hat{\mu}(x, 1) - \hat{\mu}(x, 0)$. T-learner fits two separate models, $\hat{\mu}_1$ on treated and $\hat{\mu}_0$ on controls, and takes the difference. **S wins when the conditional means share structure and the treatment effect is small** — the shared model borrows strength across arms and the regularizer doesn't shrink the estimated effect to zero. **T wins when treatment effects are large and heterogeneous**, because separate models fit each arm's response surface without being forced to share structure; with S, regularization on the unified model can zero out the treatment-effect dimension. T also wins when the two arms require very different functional forms. T's weakness is small N per arm; it wastes data when arms could share information.
+
+**Full credit (5):** Both learners defined; condition for S preferred + condition for T preferred; mentions regularization shrinkage.
+**Partial (3–4):** Both defined; one condition right.
+**Minimal (2):** Just defines both, no conditions.
+
+### 1.2e X-learner (5 pts)
+
+**Target response:**
+
+Stage 1: fit $\hat{\mu}_0(x)$ on controls and $\hat{\mu}_1(x)$ on treated. Stage 2: impute individual treatment effects — for treated observations, $D_i^{1} = Y_i - \hat{\mu}_0(X_i)$; for controls, $D_i^{0} = \hat{\mu}_1(X_i) - Y_i$. Fit two models on these imputed effects: $\hat{\tau}_1(x)$ from treated, $\hat{\tau}_0(x)$ from controls. Combine with propensity weights: $\hat{\tau}_X(x) = e(x)\hat{\tau}_0(x) + (1-e(x))\hat{\tau}_1(x)$.
+
+**Why it helps under arm imbalance:** the model fit on the larger arm has better response-surface estimation and is used to impute effects for the smaller arm (where data are scarce). The propensity weights upweight the imputed-effect model that was estimated on the arm with *more* outcome information, which is the opposite of standard IPW — it transfers information from data-rich to data-poor arms. In a 90/10 imbalanced trial, $\hat{\mu}_1$ (fit on 90% treated) is trustworthy; use it to predict $Y(1)$ for the scarce controls.
+
+**Full credit (5):** Two stages clearly described + imbalance argument with direction of information flow.
+**Partial (3–4):** Stages right, imbalance hand-wavy.
+**Minimal (2):** Says "two-stage" without specifying what happens in each.
+
+---
+
+## Task 2: Causal Forest Estimation (30 points)
+
+### 2.1 Basic Causal Forest (10 pts)
+
+```{r}
+cf <- causal_forest(X, Y, W, W.hat = 0.5, num.trees = 2000, seed = 883)
+ate <- average_treatment_effect(cf)
+# ate: estimate ~3.08, std.err ~0.15
+# 95% CI: ~[2.78, 3.38]
+
+dim <- mean(Y[W == 1]) - mean(Y[W == 0])
+# dim ~ 3.00
+```
+
+**Expected output:**
+
+- Forest ATE: **~3.08 (SE ~0.15, 95% CI [2.78, 3.38])**
+- Diff-in-means: **~3.00**
+- Interpretation: Forest ATE ≈ DiM ≈ 3 days, as expected in an RCT. Slight difference is finite-sample noise, not bias.
+
+### 2.2 CATE Distribution (10 pts)
+
+```{r}
+tau.hat <- predict(cf)$predictions
+quantile(tau.hat, probs = c(0.10, 0.25, 0.50, 0.75, 0.90))
+# ~1.90, 2.35, 3.08, 3.81, 4.43
+
+mean(tau.hat < 0)   # ~0
+mean(tau.hat > 5)   # ~0.02
+```
+
+**Expected output:**
+
+- Percentiles (10/25/50/75/90): **~1.9, 2.4, 3.1, 3.8, 4.4**
+- Fraction < 0: **~0%** (unimodal positive distribution)
+- Fraction > 5: **~2%**
+- Histogram: roughly bell-shaped, centered near 3, right-shoulder around 4–5
+- **Key interpretation:** heterogeneity is *modest and all-positive* — no "losers," but targeting top 40% still roughly doubles per-patient benefit (see 5.2)
+
+### 2.3 Variable Importance + BLP (10 pts)
+
+```{r}
+var.imp <- variable_importance(cf)
+# Top 5: X1 (~0.64), X2 (~0.06), X3 (~0.05), X7 (~0.04), X9 (~0.03)
+# X1 dominates by an order of magnitude.
+
+top3 <- order(var.imp, decreasing = TRUE)[1:3]
+# top3 = c(1, 2, 3) → X1, X2, X3
+best_linear_projection(cf, A = X[, top3])
+# Intercept ~ -10.7, X1 ~ +0.11***, X2 ~ +0.05**, X3 ~ +1.10***
+```
+
+**Expected output:**
+
+- Top 5 by importance: **X1 (~0.64) dominates**, then X2, X3, plus two noise variables (X7, X9, X6 — pick two)
+- Top 3 for BLP: X1, X2, X3 — all three signed positive, all significant
+- Interpretation:
+  - X1 coefficient ~0.11 ≈ the DGP's 0.1 — age adds ~0.1 CATE per year
+  - X3 coefficient ~1.10 — aligns with the tech-literacy bump (1.5 for tech ≥4)
+  - **Variable importance ≠ direction** — importance just says "this variable drives splits"; BLP gives the sign and magnitude
+
+## Task 3: Meta-learner Comparison (20 points)
+
+### 3.1 T-learner + X-learner (15 pts)
+
+```{r}
+# T-learner
+set.seed(883)
+treated <- W == 1
+fit1 <- ranger(Y ~ ., data = data.frame(Y = Y[treated], X[treated, ]), seed = 883)
+fit0 <- ranger(Y ~ ., data = data.frame(Y = Y[!treated], X[!treated, ]), seed = 883)
+tau_t <- predict(fit1, data.frame(X))$predictions - predict(fit0, data.frame(X))$predictions
+cor(tau_t, tau.hat)   # ~0.39
+
+# X-learner
+D1 <- Y[treated]  - predict(fit0, data.frame(X[treated, ]))$predictions
+D0 <- predict(fit1, data.frame(X[!treated, ]))$predictions - Y[!treated]
+fit_tau1 <- ranger(D1 ~ ., data = data.frame(D1 = D1, X[treated, ]), seed = 883)
+fit_tau0 <- ranger(D0 ~ ., data = data.frame(D0 = D0, X[!treated, ]), seed = 883)
+tau_x <- 0.5 * predict(fit_tau0, data.frame(X))$predictions +
+         0.5 * predict(fit_tau1, data.frame(X))$predictions
+cor(tau_x, tau.hat)   # ~0.59
+```
+
+**Expected output:**
+
+- T-learner mean CATE: **~3.1**, correlation with CF: **~0.4**
+- X-learner mean CATE: **~3.1**, correlation with CF: **~0.6**
+- T vs X correlation: **~0.94** (they agree with each other more than with CF)
+- **Interpretation:** CF's orthogonalization (residual-on-residual) produces CATEs that differ meaningfully from ranger-based meta-learners. Meta-learners inherit the base-learner's regularization profile; CF's moment-based estimator doesn't.
+
+### 3.2 Method Agreement (5 pts)
+
+**Expected output:**
+
+Scatter matrix (or 3-panel) showing CF vs T, CF vs X, T vs X. Agreement is strongest T-vs-X (~0.94), weakest CF-vs-T (~0.4). Biggest disagreements are in the CATE tails — CF's adaptive weighting produces a tighter distribution; ranger-based T-learner spreads it out.
+
+## Task 4: Validation and Calibration (15 points)
+
+### 4.1 BLP Calibration Test (10 pts)
+
+```{r}
+test_calibration(cf)
+```
+
+**Expected output:**
+
+```
+                               Estimate Std.Err t-stat p-value
+mean.forest.prediction          ~1.00    ~0.05    ~20    < 0.001
+differential.forest.prediction  ~1.45    ~0.16    ~9     < 0.001
+```
+
+**Interpretation (both rows required):**
+
+- `mean.forest.prediction ≈ 1.0, p < 0.001` → the forest's **average** predicted treatment effect equals the true average (well-calibrated mean). Coefficient ≈ 1 is what you want.
+- `differential.forest.prediction ≈ 1.45, p < 0.001` → there is **genuine heterogeneity** that the forest is detecting. Coefficient > 0 and statistically significant means CATEs carry information about individual-level effects, not just noise.
+
+### 4.2 Calibration Plot (5 pts)
+
+**Expected output:**
+
+| Quintile | Predicted ATE | Actual ATE (diff-in-means) | N |
+|----------|---------------|---------------------------|---|
+| 1 | ~1.74 | ~1.25 | 1000 |
+| 2 | ~2.49 | ~2.17 | 1000 |
+| 3 | ~3.07 | ~2.83 | 1000 |
+| 4 | ~3.66 | ~3.83 | 1000 |
+| 5 | ~4.49 | ~4.84 | 1000 |
+
+Points should fall close to the 45° line — predictions track actuals across the CATE distribution. Slight under-prediction at the top end and over-prediction at the bottom (regression to the mean is a known CF property).
+
+## Task 5: Targeting Recommendations (15 points)
+
+### 5.1 Subgroup Analysis (10 pts)
+
+```{r}
+# Use DR estimator from grf, NOT subgroup means of tau.hat
+ate_young <- average_treatment_effect(cf, subset = app_data$X1 < 40)
+# est ~1.46, se ~0.29
+```
+
+**Expected output:**
+
+| Subgroup | N | Est (95% CI) |
+|---|---|---|
+| Young (<40) | 1399 | 1.46 (0.89, 2.03) |
+| Middle (40–60) | 2120 | 3.05 (2.59, 3.51) |
+| Older (>60) | 1481 | 4.65 (4.12, 5.19) |
+| Mild (sev=1) | 1983 | 3.35 (2.88, 3.82) |
+| Moderate (sev=2) | 2054 | 3.36 (2.90, 3.82) |
+| Severe (sev=3) | 963 | 1.93 (1.23, 2.62) |
+| Low tech (1–2) | 589 | 2.65 (1.81, 3.49) |
+| Medium tech (3) | 1861 | 2.40 (1.90, 2.90) |
+| High tech (4–5) | 2550 | 3.68 (3.26, 4.09) |
+
+**Forest plot** with zero reference line; subgroup estimate with CI.
+
+**Interpretation highlights:**
+
+- Strong age gradient: older patients benefit ~3x more than young
+- Severity reverses benefit: severe cases see ~half the effect of mild/moderate
+- Tech literacy: modest gradient (not as steep as DGP's threshold effect would suggest, because the importance is captured by the forest's continuous weighting)
+
+### 5.2 Targeting Strategy (5 pts)
+
+```{r}
+cutoff <- quantile(tau.hat, 0.60)  # ~3.35
+top40 <- tau.hat >= cutoff
+mean(tau.hat[top40])   # ~4.07
+mean(tau.hat)          # ~3.09 (universal)
+# OR the DR-weighted version:
+average_treatment_effect(cf, subset = top40)  # ~4.45 (SE ~0.23)
+```
+
+**Expected output:**
+
+- Threshold: CATE ≈ **3.35**
+- Expected ATE among targeted: **~4.0** (universal-rollout ATE ≈ 3.1)
+- Uplift vs universal: **~1 day per targeted patient**
+- **200-word memo for CEO Barnaby Beta:** Should be non-technical, state the uplift in plain language, name the trade-off (40% of patients get nothing), note equity concerns if the targeted group is systematically healthier/wealthier, and recommend piloting the targeting rule before full rollout.
+
+---
+

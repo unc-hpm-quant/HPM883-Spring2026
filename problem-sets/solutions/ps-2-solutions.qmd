@@ -1,0 +1,756 @@
+---
+title: "PS 2: Double Machine Learning — Solutions"
+subtitle: "Solutions"
+author: "HPM 883 Teaching Team"
+date: today
+draft: false
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: false
+execute:
+  echo: true
+  eval: false
+  warning: false
+  cache: true
+---
+
+---
+
+## Setup
+
+```{r}
+#| label: setup
+#| cache: false
+
+library(DoubleML)
+library(mlr3)
+library(mlr3learners)
+library(data.table)
+library(ggplot2)
+library(gridExtra)
+library(grid)
+library(ranger)
+library(cobalt)
+
+# Load data
+medicaid_data <- read.csv("../data/ps-2-medicaid.csv")
+
+# Covariate columns (include pre-treatment outcome)
+X_cols <- c(paste0("X", 1:50), "Y_pre")
+
+# Create fallback directory for pre-rendered outputs
+dir.create("../fallback", showWarnings = FALSE)
+
+set.seed(883)
+
+# Helper: save a data frame as a table image
+save_table_png <- function(df, filename, title = NULL) {
+  tt <- ttheme_minimal(
+    core = list(fg_params = list(fontsize = 11)),
+    colhead = list(fg_params = list(fontsize = 12, fontface = "bold"))
+  )
+  g <- tableGrob(df, rows = NULL, theme = tt)
+  if (!is.null(title)) {
+    title_grob <- textGrob(title,
+      gp = gpar(fontsize = 14, fontface = "bold"),
+      just = "left", x = unit(0.05, "npc")
+    )
+    g <- arrangeGrob(title_grob, g, heights = c(1, 4))
+  }
+  ggsave(filename, g,
+    width = 8, height = max(2, 0.6 * nrow(df) + 1.2),
+    bg = "white", dpi = 150
+  )
+}
+
+# Helper: safely extract CI from DoubleML object
+get_ci <- function(dml_obj) {
+  ci <- dml_obj$confint()
+  if (is.matrix(ci)) return(c(ci[1, 1], ci[1, 2]))
+  return(c(ci[1], ci[2]))
+}
+```
+
+---
+
+## Task 1: Conceptual Foundation (20 points)
+
+*No code required. Grade based on written explanations.*
+
+### 1.1 The Problem with Naive ML (8 points)
+
+**a) Regularization bias (4 pts)**
+
+When we use a regularized ML model (like Lasso) to predict $Y$ from $(D, X)$ and extract the coefficient on $D$, we get a biased estimate because:
+
+1. **Regularization penalizes all coefficients**, including $D$'s coefficient. The penalty shrinks the treatment effect estimate toward zero ("regularization bias").
+2. The shrinkage is not zero-centered around the true effect — it's biased toward zero regardless of the true effect size.
+3. This bias does not vanish with sample size for a fixed penalty, and even with cross-validated penalty selection, the bias converges at the slow ML rate ($n^{-1/4}$), not the parametric rate ($n^{-1/2}$).
+
+**b) Overfitting bias (4 pts)**
+
+Using the same data to (1) fit the ML model and (2) estimate the treatment effect creates overfitting bias because:
+
+1. The ML model adapts to the particular sample noise, not just the true signal.
+2. When we evaluate the fitted model on the same data used for training, residuals are systematically too small.
+3. This makes standard errors too small and CIs too narrow — inference is invalid even if the point estimate is close.
+4. The overfitting bias does not vanish with sample size because the ML model's complexity grows with $n$.
+
+### 1.2 The DML Solution (8 points)
+
+**c) Neyman orthogonality (4 pts)**
+
+The orthogonal score function $\psi(W; \tau, \eta) = (Y - \ell(X) - \tau(D - m(X)))(D - m(X))$ satisfies Neyman orthogonality because its derivative with respect to the nuisance parameter $\eta = (\ell, m)$, evaluated at the true $\eta_0$, equals zero:
+
+$$\partial_\eta E[\psi(W; \tau_0, \eta)] \big|_{\eta = \eta_0} = 0$$
+
+This means that small errors in estimating $\ell(X)$ and $m(X)$ have only second-order effects on the treatment effect estimate. The bias from nuisance estimation enters as a product of errors: $O(\|\hat{\ell} - \ell_0\| \cdot \|\hat{m} - m_0\|)$, which is $o(n^{-1/2})$ if each nuisance converges at $n^{-1/4}$ or faster.
+
+**d) Cross-fitting (4 pts)**
+
+Cross-fitting uses K-fold sample splitting:
+
+1. Split data into K folds
+2. For each fold $k$: fit nuisance models on all data *except* fold $k$, then predict on fold $k$
+3. Combine the fold-specific estimates
+
+**Why sample splitting?** It eliminates the overfitting bias by ensuring predictions are always made on held-out data.
+
+**Why K-fold rather than single split?** A single 50/50 split wastes half the data for each step. K-fold cross-fitting uses all observations for both estimation and prediction, achieving the same efficiency as using the full sample while maintaining the sample-splitting guarantee.
+
+### 1.3 Double Robustness (4 points)
+
+**e) AIPW double robustness (4 pts)**
+
+The AIPW estimator is "doubly robust" because it yields consistent estimates of the ATE if **either** of these conditions holds:
+
+1. The **outcome model** $(\hat{\mu}_1, \hat{\mu}_0)$ is correctly specified, OR
+2. The **propensity score model** $\hat{e}(X)$ is correctly specified
+
+Only one needs to be correct — not both. This provides insurance against model misspecification: you get two chances to get it right.
+
+The intuition: when the propensity model is correct, the IPW terms $D(Y - \hat{\mu}_1)/\hat{e}$ and $(1-D)(Y - \hat{\mu}_0)/(1-\hat{e})$ debias any errors in $\hat{\mu}$. When the outcome model is correct, the $\hat{\mu}_1 - \hat{\mu}_0$ term provides the correct estimate and the IPW terms average to zero.
+
+---
+
+## Task 2: DML Implementation (30 points)
+
+### 2.1 Partially Linear Model with Lasso (10 points)
+
+```{r}
+#| label: task-2-1-plr-lasso
+
+# Create DoubleML data backend
+dml_data <- DoubleMLData$new(
+  data = as.data.table(medicaid_data),
+  y_col = "Y",
+  d_cols = "D",
+  x_cols = X_cols
+)
+
+# Lasso learners for outcome and treatment models
+ml_l <- lrn("regr.cv_glmnet")
+ml_m <- lrn("regr.cv_glmnet")
+
+# Fit PLR with 5-fold cross-fitting
+set.seed(883)
+dml_plr_lasso <- DoubleMLPLR$new(
+  data = dml_data,
+  ml_l = ml_l,
+  ml_m = ml_m,
+  n_folds = 5,
+  score = "partialling out"
+)
+dml_plr_lasso$fit()
+dml_plr_lasso$summary()
+```
+
+```{r}
+#| label: task-2-1-fallback
+
+# Extract results
+plr_ci <- get_ci(dml_plr_lasso)
+
+plr_results <- data.frame(
+  Metric = c("ATE Estimate", "Standard Error", "95% CI Lower", "95% CI Upper"),
+  Value = round(c(
+    as.numeric(dml_plr_lasso$coef),
+    as.numeric(dml_plr_lasso$se),
+    plr_ci[1], plr_ci[2]
+  ), 4)
+)
+
+knitr::kable(plr_results, caption = "PLR with Lasso: ATE Estimate")
+
+# Save fallback
+save_table_png(plr_results, "../fallback/task-2-1-plr-results.png",
+  "PLR with Lasso: ATE Estimate")
+```
+
+### 2.2 Learner Comparison (10 points)
+
+```{r}
+#| label: task-2-2-learner-comparison
+
+# Define learner pairs
+learner_specs <- list(
+  Lasso = list(
+    ml_l = lrn("regr.cv_glmnet"),
+    ml_m = lrn("regr.cv_glmnet")
+  ),
+  `Random Forest` = list(
+    ml_l = lrn("regr.ranger", num.trees = 500),
+    ml_m = lrn("regr.ranger", num.trees = 500)
+  ),
+  XGBoost = list(
+    ml_l = lrn("regr.xgboost", nrounds = 100, verbose = 0),
+    ml_m = lrn("regr.xgboost", nrounds = 100, verbose = 0)
+  )
+)
+
+# Fit each learner
+comparison_results <- lapply(names(learner_specs), function(name) {
+  set.seed(883)
+  dml_obj <- DoubleMLPLR$new(
+    data = dml_data,
+    ml_l = learner_specs[[name]]$ml_l,
+    ml_m = learner_specs[[name]]$ml_m,
+    n_folds = 5,
+    score = "partialling out"
+  )
+  dml_obj$fit()
+  ci <- get_ci(dml_obj)
+  data.frame(
+    Learner = name,
+    Estimate = as.numeric(dml_obj$coef),
+    SE = as.numeric(dml_obj$se),
+    CI_Lower = ci[1],
+    CI_Upper = ci[2]
+  )
+})
+
+comparison_df <- do.call(rbind, comparison_results)
+knitr::kable(comparison_df, digits = 4, caption = "DML-PLR: Learner Comparison")
+```
+
+```{r}
+#| label: task-2-2-forest-plot
+#| fig-cap: "Forest Plot: DML Learner Comparison"
+#| fig-width: 8
+#| fig-height: 4
+
+p_forest <- ggplot(comparison_df, aes(x = Estimate, y = Learner)) +
+  geom_pointrange(aes(xmin = CI_Lower, xmax = CI_Upper), size = 0.8) +
+  geom_vline(xintercept = 0.6, linetype = "dashed", color = "red", alpha = 0.7) +
+  labs(
+    x = "ATE Estimate",
+    y = "",
+    title = "DML-PLR: Learner Comparison",
+    caption = "Dashed line = True ATE (0.6)"
+  ) +
+  theme_minimal(base_size = 13)
+
+print(p_forest)
+ggsave("../fallback/task-2-2-forest-plot.png", p_forest,
+  width = 8, height = 4, dpi = 150, bg = "white")
+```
+
+**Interpretation:** All three learners should produce estimates close to 0.6. If RF/XGBoost estimates are slightly closer to 0.6 than Lasso, this suggests the DGP has nonlinear confounding that tree-based methods capture better. However, the differences should be modest — DML's orthogonal score ensures robustness to nuisance estimation, so even a less flexible learner gives reasonable estimates.
+
+### 2.3 Interactive Regression Model (10 points)
+
+```{r}
+#| label: task-2-3-irm
+
+# IRM requires classification learner for treatment model
+ml_g <- lrn("regr.cv_glmnet")
+ml_m_classif <- lrn("classif.cv_glmnet", predict_type = "prob")
+
+set.seed(883)
+dml_irm <- DoubleMLIRM$new(
+  data = dml_data,
+  ml_g = ml_g,
+  ml_m = ml_m_classif,
+  n_folds = 5,
+  score = "ATE"
+)
+dml_irm$fit()
+dml_irm$summary()
+```
+
+```{r}
+#| label: task-2-3-comparison
+
+irm_ci <- get_ci(dml_irm)
+plr_ci <- get_ci(dml_plr_lasso)
+
+irm_vs_plm <- data.frame(
+  Model = c("PLR (Lasso)", "IRM (Lasso)"),
+  Estimate = round(c(as.numeric(dml_plr_lasso$coef), as.numeric(dml_irm$coef)), 4),
+  SE = round(c(as.numeric(dml_plr_lasso$se), as.numeric(dml_irm$se)), 4),
+  CI_Lower = round(c(plr_ci[1], irm_ci[1]), 4),
+  CI_Upper = round(c(plr_ci[2], irm_ci[2]), 4)
+)
+
+knitr::kable(irm_vs_plm, caption = "PLR vs IRM Comparison")
+
+save_table_png(irm_vs_plm, "../fallback/task-2-3-irm-comparison.png",
+  "PLR vs IRM Comparison")
+```
+
+**Interpretation:** Since the true DGP has a **constant treatment effect** (ATE = 0.6 for everyone), PLR and IRM should give similar estimates. The PLR assumes a partially linear structure (constant effect), which matches the truth. The IRM is more flexible (allows heterogeneous effects), so it may have slightly larger SEs. If they give substantially different estimates, it could suggest treatment effect heterogeneity.
+
+---
+
+## Task 3: Diagnostics (25 points)
+
+### 3.1 Propensity Score Overlap (15 points)
+
+First, fit a propensity model with cross-fitting to extract individual-level scores:
+
+```{r}
+#| label: task-3-propensity-setup
+
+# Cross-fitted propensity scores using Random Forest
+n <- nrow(medicaid_data)
+K <- 5
+set.seed(883)
+folds <- sample(rep(1:K, length.out = n))
+
+X_mat <- medicaid_data[, X_cols]
+e_hat <- numeric(n)
+
+for (k in 1:K) {
+  train_idx <- which(folds != k)
+  test_idx <- which(folds == k)
+
+  train_df <- data.frame(
+    D = factor(medicaid_data$D[train_idx]),
+    X_mat[train_idx, ]
+  )
+  test_df <- data.frame(X_mat[test_idx, ])
+
+  fit_ps <- ranger(D ~ ., data = train_df,
+    probability = TRUE, num.trees = 500)
+  e_hat[test_idx] <- predict(fit_ps, data = test_df)$predictions[, "1"]
+}
+
+cat(sprintf("Propensity score range: [%.3f, %.3f]\n", min(e_hat), max(e_hat)))
+cat(sprintf("Mean propensity: %.3f\n", mean(e_hat)))
+```
+
+#### a) Histogram (5 pts)
+
+```{r}
+#| label: task-3-1a-histogram
+#| fig-cap: "Propensity Score Distribution by Treatment Status"
+#| fig-width: 8
+#| fig-height: 5
+
+ps_df <- data.frame(
+  e_hat = e_hat,
+  D = factor(medicaid_data$D, labels = c("Control", "Treated"))
+)
+
+p_hist <- ggplot(ps_df, aes(x = e_hat, fill = D)) +
+  geom_histogram(alpha = 0.5, position = "identity", bins = 50) +
+  scale_fill_manual(values = c("Control" = "#3498DB", "Treated" = "#E74C3C")) +
+  labs(
+    x = "Estimated Propensity Score",
+    y = "Count",
+    title = "Propensity Score Distribution by Treatment Status",
+    fill = "Group"
+  ) +
+  theme_minimal(base_size = 13)
+
+print(p_hist)
+ggsave("../fallback/task-3-1a-propensity-histogram.png", p_hist,
+  width = 8, height = 5, dpi = 150, bg = "white")
+```
+
+#### b) Trimming (3 pts)
+
+```{r}
+#| label: task-3-1b-trimming
+
+# Apply trimming
+trim_lower <- 0.05
+trim_upper <- 0.95
+keep <- e_hat >= trim_lower & e_hat <= trim_upper
+n_dropped <- sum(!keep)
+
+cat(sprintf("Observations dropped: %d (%.1f%%)\n", n_dropped, 100 * n_dropped / n))
+
+# Re-fit DML on trimmed data
+trimmed_data <- medicaid_data[keep, ]
+dml_data_trimmed <- DoubleMLData$new(
+  data = as.data.table(trimmed_data),
+  y_col = "Y", d_cols = "D", x_cols = X_cols
+)
+
+set.seed(883)
+dml_plr_trimmed <- DoubleMLPLR$new(
+  dml_data_trimmed,
+  lrn("regr.cv_glmnet"), lrn("regr.cv_glmnet"),
+  n_folds = 5
+)
+dml_plr_trimmed$fit()
+
+trimmed_ci <- get_ci(dml_plr_trimmed)
+
+trimming_results <- data.frame(
+  Method = c("Full Sample", "Trimmed (0.05–0.95)"),
+  N = c(n, sum(keep)),
+  Estimate = round(c(as.numeric(dml_plr_lasso$coef),
+                     as.numeric(dml_plr_trimmed$coef)), 4),
+  SE = round(c(as.numeric(dml_plr_lasso$se),
+               as.numeric(dml_plr_trimmed$se)), 4)
+)
+
+knitr::kable(trimming_results, caption = "Effect of Propensity Score Trimming")
+
+save_table_png(trimming_results, "../fallback/task-3-1b-trimming-results.png",
+  "Effect of Propensity Score Trimming")
+```
+
+#### c) Overlap weighting (3 pts)
+
+```{r}
+#| label: task-3-1c-overlap
+
+# Overlap weights: w_i = e_i(1 - e_i)
+w_overlap <- e_hat * (1 - e_hat)
+
+D_vec <- medicaid_data$D
+Y_vec <- medicaid_data$Y
+
+# Overlap-weighted ATE (Hajek-style)
+ate_overlap <- sum(w_overlap * D_vec * Y_vec) / sum(w_overlap * D_vec) -
+  sum(w_overlap * (1 - D_vec) * Y_vec) / sum(w_overlap * (1 - D_vec))
+
+# Bootstrap SE
+set.seed(883)
+boot_ates <- replicate(500, {
+  idx <- sample(n, replace = TRUE)
+  w_b <- e_hat[idx] * (1 - e_hat[idx])
+  D_b <- D_vec[idx]
+  Y_b <- Y_vec[idx]
+  sum(w_b * D_b * Y_b) / sum(w_b * D_b) -
+    sum(w_b * (1 - D_b) * Y_b) / sum(w_b * (1 - D_b))
+})
+
+overlap_results <- data.frame(
+  Method = c("DML PLR (Full)", "DML PLR (Trimmed)", "Overlap Weighted"),
+  Estimate = round(c(as.numeric(dml_plr_lasso$coef),
+                     as.numeric(dml_plr_trimmed$coef),
+                     ate_overlap), 4),
+  SE = round(c(as.numeric(dml_plr_lasso$se),
+               as.numeric(dml_plr_trimmed$se),
+               sd(boot_ates)), 4)
+)
+
+knitr::kable(overlap_results, caption = "Overlap Weighting vs Trimming")
+
+save_table_png(overlap_results, "../fallback/task-3-1c-overlap-weights.png",
+  "Overlap Weighting vs Trimming")
+```
+
+#### d) Dimensionality and Overlap (4 pts)
+
+```{r}
+#| label: task-3-1d-dimensionality
+
+# Get variable importance from full propensity model
+fit_full <- ranger(
+  factor(D) ~ .,
+  data = data.frame(D = factor(medicaid_data$D), X_mat),
+  probability = TRUE, importance = "impurity", num.trees = 500
+)
+
+imp <- sort(fit_full$variable.importance, decreasing = TRUE)
+top10 <- names(imp)[1:10]
+
+cat("Top 10 most important covariates:\n")
+print(round(imp[1:10], 2))
+
+# Re-fit propensity with top 10 only
+e_hat_10 <- numeric(n)
+for (k in 1:K) {
+  train_idx <- which(folds != k)
+  test_idx <- which(folds == k)
+
+  train_df <- data.frame(
+    D = factor(medicaid_data$D[train_idx]),
+    X_mat[train_idx, top10]
+  )
+  test_df <- data.frame(X_mat[test_idx, top10])
+
+  fit_ps_10 <- ranger(D ~ ., data = train_df,
+    probability = TRUE, num.trees = 500)
+  e_hat_10[test_idx] <- predict(fit_ps_10, data = test_df)$predictions[, "1"]
+}
+```
+
+```{r}
+#| label: task-3-1d-comparison-plot
+#| fig-cap: "Propensity Score Distributions: 50 vs 10 Covariates"
+#| fig-width: 8
+#| fig-height: 7
+
+ps_compare <- data.frame(
+  ps = c(e_hat, e_hat_10),
+  Covariates = rep(c("All 51 Covariates", "Top 10 Covariates"), each = n),
+  D = factor(rep(medicaid_data$D, 2), labels = c("Control", "Treated"))
+)
+
+p_dim <- ggplot(ps_compare, aes(x = ps, fill = D)) +
+  geom_histogram(alpha = 0.5, position = "identity", bins = 50) +
+  facet_wrap(~ Covariates, nrow = 2) +
+  scale_fill_manual(values = c("Control" = "#3498DB", "Treated" = "#E74C3C")) +
+  labs(
+    x = "Estimated Propensity Score",
+    y = "Count",
+    title = "Overlap Improves with Fewer Covariates",
+    subtitle = "D'Amour et al. (2021): curse of dimensionality for overlap",
+    fill = "Group"
+  ) +
+  theme_minimal(base_size = 12)
+
+print(p_dim)
+ggsave("../fallback/task-3-1d-dimensionality.png", p_dim,
+  width = 8, height = 7, dpi = 150, bg = "white")
+```
+
+**Interpretation:** With all 50+ covariates, propensity scores may be more spread out (closer to 0 and 1), reflecting D'Amour et al.'s theoretical result: as the number of covariates grows, propensity scores converge to 0 and 1, destroying overlap. With only 10 covariates, the distributions should be more concentrated and overlap better. This illustrates the tension between reducing confounding bias (more covariates) and maintaining overlap (fewer covariates).
+
+### 3.2 Covariate Balance (10 points)
+
+```{r}
+#| label: task-3-2-balance
+
+# IPW weights for balance assessment
+ipw_weights <- ifelse(D_vec == 1, 1 / e_hat, 1 / (1 - e_hat))
+
+# Focus on top 10 covariates for readability
+bal_covs <- medicaid_data[, top10]
+```
+
+```{r}
+#| label: task-3-2-love-plot
+#| fig-cap: "Love Plot: Covariate Balance Before and After IPW"
+#| fig-width: 8
+#| fig-height: 6
+
+# Balance assessment with cobalt
+p_love <- love.plot(
+  bal_covs,
+  treat = medicaid_data$D,
+  weights = ipw_weights,
+  method = "weighting",
+  un = TRUE,
+  threshold = 0.1,
+  abs = TRUE,
+  var.order = "unadjusted",
+  title = "Covariate Balance: Unadjusted vs IPW"
+) +
+  theme_minimal()
+
+print(p_love)
+ggsave("../fallback/task-3-2-love-plot.png", p_love,
+  width = 8, height = 6, dpi = 150, bg = "white")
+```
+
+```{r}
+#| label: task-3-2-balance-table
+
+# Balance table
+bal_tab <- bal.tab(
+  bal_covs,
+  treat = medicaid_data$D,
+  weights = ipw_weights,
+  method = "weighting",
+  un = TRUE,
+  stats = c("m", "v"),
+  disp = c("means", "sds")
+)
+print(bal_tab)
+```
+
+---
+
+## Task 4: AIPW Implementation (15 points)
+
+### 4.1 Manual AIPW (10 points)
+
+```{r}
+#| label: task-4-1-manual-aipw
+
+# Manual AIPW with cross-fitting
+set.seed(883)
+mu1_hat <- numeric(n)
+mu0_hat <- numeric(n)
+e_hat_aipw <- numeric(n)
+
+for (k in 1:K) {
+  train_idx <- which(folds != k)
+  test_idx <- which(folds == k)
+
+  # Separate training data by treatment status
+  train_1 <- train_idx[medicaid_data$D[train_idx] == 1]
+  train_0 <- train_idx[medicaid_data$D[train_idx] == 0]
+
+  # Outcome model under treatment
+  fit_1 <- ranger(
+    Y ~ ., num.trees = 500,
+    data = data.frame(Y = medicaid_data$Y[train_1], X_mat[train_1, ])
+  )
+  mu1_hat[test_idx] <- predict(fit_1,
+    data = data.frame(X_mat[test_idx, ]))$predictions
+
+  # Outcome model under control
+  fit_0 <- ranger(
+    Y ~ ., num.trees = 500,
+    data = data.frame(Y = medicaid_data$Y[train_0], X_mat[train_0, ])
+  )
+  mu0_hat[test_idx] <- predict(fit_0,
+    data = data.frame(X_mat[test_idx, ]))$predictions
+
+  # Propensity model
+  fit_e <- ranger(
+    D ~ ., probability = TRUE, num.trees = 500,
+    data = data.frame(D = factor(medicaid_data$D[train_idx]), X_mat[train_idx, ])
+  )
+  e_hat_aipw[test_idx] <- predict(fit_e,
+    data = data.frame(X_mat[test_idx, ]))$predictions[, "1"]
+}
+
+# Clip propensity to avoid extreme weights
+e_hat_aipw <- pmax(0.01, pmin(0.99, e_hat_aipw))
+
+# AIPW influence function
+Y <- medicaid_data$Y
+D <- medicaid_data$D
+
+psi <- mu1_hat - mu0_hat +
+  D * (Y - mu1_hat) / e_hat_aipw -
+  (1 - D) * (Y - mu0_hat) / (1 - e_hat_aipw)
+
+tau_aipw <- mean(psi)
+se_aipw <- sd(psi) / sqrt(n)
+ci_aipw <- tau_aipw + c(-1.96, 1.96) * se_aipw
+
+cat(sprintf("Manual AIPW Estimate: %.4f\n", tau_aipw))
+cat(sprintf("Standard Error (IF): %.4f\n", se_aipw))
+cat(sprintf("95%% CI: [%.4f, %.4f]\n", ci_aipw[1], ci_aipw[2]))
+```
+
+### 4.2 Comparison (5 points)
+
+```{r}
+#| label: task-4-2-comparison
+
+final_comparison <- data.frame(
+  Method = c("DML-PLR (Lasso)", "DML-IRM (Lasso)", "Manual AIPW (RF)"),
+  Estimate = round(c(
+    as.numeric(dml_plr_lasso$coef),
+    as.numeric(dml_irm$coef),
+    tau_aipw
+  ), 4),
+  SE = round(c(
+    as.numeric(dml_plr_lasso$se),
+    as.numeric(dml_irm$se),
+    se_aipw
+  ), 4),
+  CI_Lower = round(c(plr_ci[1], irm_ci[1], ci_aipw[1]), 4),
+  CI_Upper = round(c(plr_ci[2], irm_ci[2], ci_aipw[2]), 4)
+)
+
+knitr::kable(final_comparison,
+  caption = "Comparison of All Estimation Methods")
+
+save_table_png(final_comparison, "../fallback/task-4-aipw-results.png",
+  "Comparison of All Estimation Methods")
+```
+
+**Expected:** All three estimates should be close to 0.6. Minor differences arise from:
+
+1. **Different nuisance learners**: Lasso (parametric) vs RF (nonparametric)
+2. **Different model assumptions**: PLR assumes constant effect; IRM and AIPW allow heterogeneity
+3. **Different score functions**: Partialling-out (PLR) vs AIPW (IRM and manual)
+
+Agreement across methods strengthens confidence in the estimate.
+
+---
+
+## Task 5: Policy Memo (15 points)
+
+::: {.callout-note}
+## Example Response
+
+This is a sample response at the level expected for full credit. Your own framing may differ.
+:::
+
+---
+
+**MEMORANDUM**
+
+**To:** Commissioner, State Health Department
+
+**From:** Health Policy Research Division
+
+**Re:** Impact of Medicaid Expansion on Hospital Utilization
+
+**Date:** February 2026
+
+---
+
+**Research Question**
+
+You asked us to evaluate whether Medicaid expansion has increased hospital utilization among newly enrolled individuals. We analyzed administrative claims data covering 10,000 individuals from 2019–2021.
+
+**Key Finding**
+
+Medicaid expansion is associated with approximately **0.6 additional hospital visits per person per year** (95% confidence interval: roughly 0.5 to 0.7). This estimate is highly robust — we tested it using four different statistical methods and three different modeling approaches, all producing consistent results.
+
+**Why This Matters for the Department**
+
+A simple comparison of Medicaid enrollees to non-enrollees would suggest an increase of about 0.8 visits — which overstates the true effect by roughly 30%. The overestimate occurs because individuals who enrolled in Medicaid tended to be sicker to begin with (more chronic conditions, lower socioeconomic status). Our advanced methods account for these pre-existing differences to isolate the causal effect of the program itself.
+
+**How Confident Should We Be?**
+
+Our confidence is high for several reasons:
+
+- **Multiple methods agree.** We used three different analytical approaches, each relying on different assumptions. All produced estimates between 0.55 and 0.65 additional visits.
+- **Robust to modeling choices.** Whether we used simple or complex prediction models for the underlying health status, the results were stable.
+- **Statistical precision is strong.** The confidence interval is narrow enough to rule out both "no effect" and "large effect" scenarios.
+
+**Assumptions and Limitations**
+
+Our analysis assumes that, after accounting for the 50+ observed health and socioeconomic variables, there are no remaining unmeasured factors that jointly predict both Medicaid enrollment and hospital use. This is plausible given the richness of the data, but cannot be verified directly.
+
+We found modest overlap concerns: about 3% of individuals have health profiles making them extremely likely or unlikely to enroll. Results are virtually unchanged when we exclude these cases.
+
+**Implications for Planning**
+
+1. **Budget projections** should plan for approximately 0.6 additional visits per new enrollee — not the 0.8 that naive comparisons suggest.
+2. **Capacity planning**: For every 1,000 new Medicaid enrollees, expect roughly 600 additional hospital visits annually.
+3. **Further analysis**: We recommend examining whether the effect differs across demographic groups or geographic regions, which could inform targeted outreach.
+
+---
+
+---
+
+## Session Info
+
+```{r}
+#| label: session-info
+#| cache: false
+
+sessionInfo()
+```
+
+---
+
+*Last updated: `r Sys.Date()`*
